@@ -1,0 +1,25 @@
+{
+    "id": "2602192022",
+    "scrim_name": "1",
+    "video_url": "1",
+    "date": "2026-02-19",
+    "start_time": "20",
+    "end_time": "22",
+    "matches": [
+        {
+            "id": "aff90fad-dbd4-4b0d-8978-7923ba00a078",
+            "match_index": 1,
+            "map_name": "왕의길 ",
+            "result": "Unknown",
+            "video_offset": 720,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        }
+    ]
+}

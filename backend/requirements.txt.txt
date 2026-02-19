@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+python-multipart
+opencv-python-headless
+easyocr
+numpy
+pandas
+requests
+jinja2
