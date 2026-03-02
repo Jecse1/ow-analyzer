@@ -139,8 +139,11 @@ class MatchSegment(BaseModel):
         allow_population_by_field_name = True
         extra = "ignore" 
 
+# 💡 ScrimManualInput에 team1Name, team2Name 필드 추가
 class ScrimManualInput(BaseModel):
     scrim_name: str = Field(alias="scrimName")
+    team1_name: str = Field(default="1팀", alias="team1Name")
+    team2_name: str = Field(default="2팀", alias="team2Name")
     video_url: str = Field(alias="videoUrl")
     date: str
     start_time: str = Field(alias="startHour")
@@ -199,15 +202,12 @@ def save_data(data):
 # --- 분석 로직 ---
 
 def get_role_score(hero_name: str) -> int:
-    if hero_name in TANKS:
-        return 0
-    if hero_name in SUPPORTS:
-        return 2
+    if hero_name in TANKS: return 0
+    if hero_name in SUPPORTS: return 2
     return 1
 
 def get_player_role_score(player_name: str, hero_name: str) -> int:
-    if player_name in PLAYER_ROLE_OVERRIDES:
-        return PLAYER_ROLE_OVERRIDES[player_name]
+    if player_name in PLAYER_ROLE_OVERRIDES: return PLAYER_ROLE_OVERRIDES[player_name]
     return get_role_score(hero_name)
 
 def build_fight_summaries(kill_events: List[Dict[str, Any]], team1: str, team2: str, quiet_gap_sec: int = FIGHT_QUIET_GAP_SEC):
@@ -217,8 +217,7 @@ def build_fight_summaries(kill_events: List[Dict[str, Any]], team1: str, team2: 
         kills.append((gt, ev))
     kills.sort(key=lambda x: x[0])
 
-    if not kills:
-        return []
+    if not kills: return []
 
     n_team1 = normalize_team_name(team1)
     n_team2 = normalize_team_name(team2)
@@ -293,14 +292,9 @@ def compute_fight_metrics(fights: List[Dict[str, Any]], team1: str, team2: str):
             "avg_team1_deaths": 0, "avg_team2_deaths": 0, "avg_total_deaths": 0,
             "first_pick_advantage_rate": None
         }
-
     n = len(fights)
-    sum_dur = 0.0
-    sum_t1 = 0.0
-    sum_t2 = 0.0
-    fp_cnt = 0
-    fp_adv = 0
-
+    sum_dur = 0.0; sum_t1 = 0.0; sum_t2 = 0.0
+    fp_cnt = 0; fp_adv = 0
     n_team1 = normalize_team_name(team1)
     n_team2 = normalize_team_name(team2)
 
@@ -327,7 +321,30 @@ def compute_fight_metrics(fights: List[Dict[str, Any]], team1: str, team2: str):
         "first_pick_advantage_rate": (fp_adv / fp_cnt) if fp_cnt > 0 else None
     }
 
-def parse_overwatch_log(log_text: str):
+# 💡 [핵심] 커스텀 팀 이름을 받아서 로그 해석 중에 바꿔치기 하는 매직 로직!
+def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = None):
+    log_t1 = "1팀"
+    log_t2 = "2팀"
+    
+    for line in log_text.splitlines():
+        if ",match_start," in line:
+            parts = line.strip().split(',')
+            try:
+                base_idx = parts.index("match_start")
+                log_t1 = parts[base_idx + 4].strip()
+                log_t2 = parts[base_idx + 5].strip()
+            except: pass
+            break
+
+    # 로그에 박혀있는 구린 이름을, 코치님이 UI에서 입력한 멋진 팀명(FLC 등)으로 변환하는 함수
+    def map_team(t_raw):
+        t = t_raw.strip()
+        if custom_t1 and t == log_t1: return custom_t1
+        if custom_t2 and t == log_t2: return custom_t2
+        if custom_t1 and t in ["Team 1", "1팀"]: return custom_t1
+        if custom_t2 and t in ["Team 2", "2팀"]: return custom_t2
+        return t
+
     raw_rounds_map = {}
     events = []
     team_names = set()
@@ -350,19 +367,17 @@ def parse_overwatch_log(log_text: str):
         clean_line = line.strip()
         real_timestamp = parse_log_timestamp(clean_line)
         play_timestamp = max(0, real_timestamp - 8)
-
         parts = clean_line.split(',')
         
-        # 1. 경기 시작
         if ",match_start," in clean_line:
             try:
                 base_idx = parts.index("match_start")
                 game_time = float(parts[0].replace('[', '').replace(']', '')) if parts[0].startswith('[') else 0.0
-
                 map_name = parts[base_idx + 2].strip()
                 game_mode = parts[base_idx + 3].strip()
-                first_team_name = parts[base_idx + 4].strip()
-                second_team_name = parts[base_idx + 5].strip()
+                # 💡 강제 치환 적용
+                first_team_name = map_team(parts[base_idx + 4])
+                second_team_name = map_team(parts[base_idx + 5])
 
                 events.append({
                     "event_type": "match_start",
@@ -372,7 +387,6 @@ def parse_overwatch_log(log_text: str):
                 })
             except: pass
 
-        # 2. 경기 종료
         elif ",match_end," in clean_line:
             try:
                 base_idx = parts.index("match_end")
@@ -389,12 +403,11 @@ def parse_overwatch_log(log_text: str):
                     n1 = normalize_team_name(first_team_name)
                     n2 = normalize_team_name(second_team_name)
                     for t in tail:
-                        nt = normalize_team_name(t)
+                        nt = normalize_team_name(map_team(t)) # 💡 강제 치환 적용
                         if nt == n1: match_end_winner = first_team_name; break
                         if nt == n2: match_end_winner = second_team_name; break
                 
-                if len(tail) > 0:
-                    match_end_game_time = safe_float(tail[0], None)
+                if len(tail) > 0: match_end_game_time = safe_float(tail[0], None)
 
                 events.append({
                     "event_type": "match_end",
@@ -406,13 +419,12 @@ def parse_overwatch_log(log_text: str):
                 })
             except: pass
 
-        # 3. 라운드 시작
         elif ",round_start," in clean_line:
             try:
                 base_idx = parts.index("round_start")
                 game_time = float(parts[base_idx + 1])
                 r_num = int(float(parts[base_idx + 2]))
-                attacker_name = parts[base_idx + 3].strip()
+                attacker_name = map_team(parts[base_idx + 3]) # 💡 강제 치환 적용
                 round_attackers[r_num] = attacker_name
 
                 events.append({
@@ -424,13 +436,12 @@ def parse_overwatch_log(log_text: str):
                 })
             except: continue
 
-        # 4. 라운드 종료
         elif ",round_end," in clean_line:
             try:
                 base_idx = parts.index("round_end")
                 game_time = float(parts[base_idx + 1])
                 r_num = int(float(parts[base_idx + 2]))
-                winner = parts[base_idx + 3].strip()
+                winner = map_team(parts[base_idx + 3]) # 💡 강제 치환 적용
                 s1 = int(float(parts[base_idx + 4]))
                 s2 = int(float(parts[base_idx + 5]))
                 round_scores[r_num] = {"t1": s1, "t2": s2, "winner": winner}
@@ -444,14 +455,13 @@ def parse_overwatch_log(log_text: str):
                 })
             except: continue
 
-        # 5. 거점 점령
         elif ",objective_captured," in clean_line or ",point_captured," in clean_line:
             try:
                 try: base_idx = parts.index("objective_captured")
                 except ValueError: base_idx = parts.index("point_captured")
                 
                 game_time = float(parts[base_idx + 1])
-                capturing_team = parts[base_idx + 3].strip()
+                capturing_team = map_team(parts[base_idx + 3]) # 💡 강제 치환 적용
 
                 events.append({
                     "event_type": "objective_captured",
@@ -461,13 +471,12 @@ def parse_overwatch_log(log_text: str):
                 })
             except: continue
 
-        # 6. 화물 진행
         elif ",payload_progress," in clean_line:
             try:
                 base_idx = parts.index("payload_progress")
                 game_time = float(parts[base_idx + 1])
                 round_num = int(float(parts[base_idx + 2]))
-                team_name = parts[base_idx + 3].strip()
+                team_name = map_team(parts[base_idx + 3]) # 💡 강제 치환 적용
                 
                 events.append({
                     "event_type": "payload_progress",
@@ -478,7 +487,6 @@ def parse_overwatch_log(log_text: str):
                 })
             except: continue
 
-        # 7. 목표 업데이트
         elif ",objective_updated," in clean_line:
             try:
                 base_idx = parts.index("objective_updated")
@@ -486,7 +494,6 @@ def parse_overwatch_log(log_text: str):
                 round_num = int(float(parts[base_idx + 2]))
                 old_idx = int(float(parts[base_idx + 3]))
                 new_idx = int(float(parts[base_idx + 4]))
-
                 events.append({
                     "event_type": "objective_updated",
                     "timestamp": play_timestamp,
@@ -497,7 +504,6 @@ def parse_overwatch_log(log_text: str):
                 })
             except: continue
 
-        # 8. 플레이어 스탯
         elif ",player_stat," in clean_line:
             try:
                 base_idx = parts.index("player_stat")
@@ -505,7 +511,7 @@ def parse_overwatch_log(log_text: str):
                 if current_round not in raw_rounds_map:
                     raw_rounds_map[current_round] = {}
 
-                p_team = parts[base_idx + 3].strip()
+                p_team = map_team(parts[base_idx + 3]) # 💡 강제 치환 적용
                 p_name = parts[base_idx + 4].strip()
                 p_hero_kr = parts[base_idx + 5].strip()
                 p_hero_en = KOREAN_HERO_MAP.get(p_hero_kr, p_hero_kr)
@@ -535,7 +541,6 @@ def parse_overwatch_log(log_text: str):
                     raw_rounds_map[current_round][key] = stat_entry
             except: continue
 
-        # 9. 킬 로그
         elif ",kill," in clean_line:
             try:
                 base_idx = parts.index("kill")
@@ -554,17 +559,16 @@ def parse_overwatch_log(log_text: str):
                     "event_type": "kill",
                     "timestamp": play_timestamp,
                     "game_timestamp": game_time,
-                    "player_team": parts[base_idx + 2].strip(),
+                    "player_team": map_team(parts[base_idx + 2]), # 💡 강제 치환 적용
                     "player_name": p_name, "player_hero": p_hero,
                     "player_hero_img": KOREAN_HERO_MAP.get(p_hero, p_hero),
-                    "target_team": parts[base_idx + 5].strip(),
+                    "target_team": map_team(parts[base_idx + 5]), # 💡 강제 치환 적용
                     "target_name": t_name, "target_hero": t_hero,
                     "target_hero_img": KOREAN_HERO_MAP.get(t_hero, t_hero),
                     "ability": ability
                 })
             except: continue
 
-        # 10. 궁극기 사용
         elif ",ultimate_start," in clean_line:
             try:
                 base_idx = parts.index("ultimate_start")
@@ -580,14 +584,13 @@ def parse_overwatch_log(log_text: str):
                     "event_type": "ultimate_start",
                     "timestamp": play_timestamp,
                     "game_timestamp": game_time,
-                    "player_team": parts[base_idx + 2].strip(),
+                    "player_team": map_team(parts[base_idx + 2]), # 💡 강제 치환 적용
                     "player_name": p_name, "player_hero": p_hero,
                     "player_hero_img": KOREAN_HERO_MAP.get(p_hero, p_hero),
                     "ability": "Ultimate"
                 })
             except: continue
 
-    # 후처리
     if (game_mode == "Unknown" or game_mode == "") and map_name != "Unknown":
         game_mode = MAP_TYPE_DATA.get(map_name, "Unknown")
     if (game_mode == "Unknown" or game_mode == "") and is_control_map(map_name):
@@ -726,13 +729,9 @@ def calculate_pure_stats(parsed, target_match):
     n_team1 = normalize_team_name(team1)
     n_team2 = normalize_team_name(team2)
 
-    # --------------------------------------------------------------------
-    # [스코어 판독 로직 - 초강력 하이브리드 (문자열 의존도 0%)]
-    # --------------------------------------------------------------------
     final_t1_score = 0
     final_t2_score = 0
     
-    # 1. 모든 경로의 점수 가능성 전부 긁어오기
     score_match_end_t1 = parsed.get("match_end_score_t1") or 0
     score_match_end_t2 = parsed.get("match_end_score_t2") or 0
     
@@ -763,12 +762,10 @@ def calculate_pure_stats(parsed, target_match):
         if attacker == n_team1: score_obj_t1 += max_idx
         elif attacker == n_team2: score_obj_t2 += max_idx
 
-    # 2. 맵의 이벤트 성질(DNA)로 맵 종류 자동 파악 (텍스트 깨짐 완벽 방어)
     is_push = any(k in map_name for k in ["밀기", "Push", "에스페란사", "이스페란사", "뉴 퀸", "콜로세오", "룬아사피", "루나사피"])
     has_payload = any(e.get("event_type") == "payload_progress" for e in parsed["events"])
     is_hybrid_escort = has_payload or any(k in game_mode for k in ["Escort", "화물", "Hybrid", "혼합"])
 
-    # 3. 맵 성질에 맞는 최적의 진짜 점수 채택
     if is_push:
         final_t1_score = 0
         final_t2_score = 0
@@ -776,7 +773,6 @@ def calculate_pure_stats(parsed, target_match):
         final_t1_score = score_obj_t1
         final_t2_score = score_obj_t2
     else:
-        # 쟁탈, 플래시포인트는 3가지 루트 중 가장 정상적인 숫자를 뽑아냅니다.
         if score_match_end_t1 > 0 or score_match_end_t2 > 0:
             final_t1_score = score_match_end_t1
             final_t2_score = score_match_end_t2
@@ -787,13 +783,9 @@ def calculate_pure_stats(parsed, target_match):
             final_t1_score = score_round_wins_t1
             final_t2_score = score_round_wins_t2
 
-    # --------------------------------------------------------------------
-    # [최종 승패 확정 및 디버깅 텍스트 부착]
-    # --------------------------------------------------------------------
     target_match["score_t1"] = final_t1_score
     target_match["score_t2"] = final_t2_score
 
-    # 코치님이 원인을 한눈에 볼 수 있도록 결과에 괄호로 스코어를 직접 적어줍니다!
     if final_t1_score > final_t2_score:
         match_winner = team1
         target_match["result"] = f"{team1} 승 ({final_t1_score} : {final_t2_score})"
@@ -806,7 +798,6 @@ def calculate_pure_stats(parsed, target_match):
         
     target_match["winner"] = match_winner
 
-    # --- 이하 통계 및 라운드 계산 로직 ---
     round_end_times = {}
     for r in range(1, total_rounds + 1):
         max_t = 0
@@ -1010,9 +1001,12 @@ async def register_scrim_manual(request: Request):
             "fights": [], "fight_metrics": {}
         })
 
+    # 💡 1팀, 2팀 이름을 메타데이터에 함께 저장
     new_scrim = {
         "id": new_scrim_id,
         "scrim_name": data.scrim_name,
+        "team1_name": data.team1_name, 
+        "team2_name": data.team2_name,
         "video_url": data.video_url,
         "date": data.date,
         "start_time": data.start_time,
@@ -1035,7 +1029,6 @@ async def upload_match_log(scrim_id: str = Form(...), match_index: int = Form(..
     with open(f"{ROW_DATA_DIR}/{scrim_id}_{match_index}.txt", "w", encoding="utf-8") as f:
         f.write(log_text)
 
-    parsed = parse_overwatch_log(log_text)
     all_data = load_data()
     target_scrim = next((s for s in all_data if s['id'] == scrim_id), None)
     if target_scrim:
@@ -1044,6 +1037,11 @@ async def upload_match_log(scrim_id: str = Form(...), match_index: int = Form(..
             offset_save = target_match.get("video_offset", 0)
             pauses_save = target_match.get("pauses", [])
             
+            # 💡 저장해둔 커스텀 팀 이름을 꺼내서 파서에 넘김
+            c_t1 = target_scrim.get("team1_name", "")
+            c_t2 = target_scrim.get("team2_name", "")
+            
+            parsed = parse_overwatch_log(log_text, custom_t1=c_t1, custom_t2=c_t2)
             calculate_pure_stats(parsed, target_match)
             
             target_match["video_offset"] = offset_save
@@ -1064,6 +1062,11 @@ async def rebuild_database():
             with open(meta_path, "r", encoding="utf-8") as f:
                 scrim_obj = json.load(f)
             scrim_id = scrim_obj["id"]
+            
+            # 💡 기존 메타데이터에서 이름 추출
+            c_t1 = scrim_obj.get("team1_name", "")
+            c_t2 = scrim_obj.get("team2_name", "")
+
             log_files = glob.glob(f"{ROW_DATA_DIR}/{scrim_id}_*.txt")
             
             if not log_files:
@@ -1081,7 +1084,8 @@ async def rebuild_database():
                     offset_save = target_match.get("video_offset", 0)
                     pauses_save = target_match.get("pauses", [])
                     
-                    parsed = parse_overwatch_log(log_text)
+                    # 💡 Rebuild 시에도 치환된 이름으로 덮어쓰기
+                    parsed = parse_overwatch_log(log_text, custom_t1=c_t1, custom_t2=c_t2)
                     calculate_pure_stats(parsed, target_match)
                     
                     target_match["video_offset"] = offset_save

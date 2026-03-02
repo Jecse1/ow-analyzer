@@ -87,13 +87,13 @@ function MainApp() {
 
             playerMap[pName] = {
               id: pName, name: pName, role: role, 
-              team: stat.team_name, // 💡 팀명 기록 (동적 팀 필터링용)
+              team: stat.team_name, // 동적 팀 필터링
               _raw: { elims: 0, deaths: 0, fb: 0, heroDmg: 0, heal: 0, ultUsed: 0, playTime: 0, matchCount: 0, wins: 0 },
               overview: { kd: 0, damagePer10: 0, healPer10: 0, ultUsedPerMatch: 0, winRate: 0 },
               heroPool: {}, recentTrend: [] 
             };
           } else {
-             playerMap[pName].team = stat.team_name; // 최근 소속 팀으로 업데이트
+             playerMap[pName].team = stat.team_name; 
           }
 
           const p = playerMap[pName];
@@ -172,8 +172,11 @@ function MainApp() {
     setUploading(true);
     setError(null);
     try {
+      // 💡 여기서 team1Name과 team2Name을 페이로드에 담아 전송
       const payload = {
         scrimName: scrimData.scrimName || "이름 없는 스크림",
+        team1Name: scrimData.team1Name || "1팀",
+        team2Name: scrimData.team2Name || "2팀",
         videoUrl: scrimData.videoUrl || "",
         date: scrimData.date,
         startHour: scrimData.startHour || "00",

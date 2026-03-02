@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
-import { X, Upload, Plus, Trash2, Calendar, Youtube, Map, Clock, PauseCircle, AlertCircle } from 'lucide-react';
-// [중요] ThemeContext, LanguageContext 적용
+import { X, Upload, Plus, Trash2, Calendar, Youtube, Map, Clock, PauseCircle, AlertCircle, Users } from 'lucide-react';
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
 
 const HOURS = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0'));
 
 const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
-  const { theme } = useTheme(); // [테마 훅]
-  const { t } = useLanguage();  // [언어 훅]
+  const { theme } = useTheme();
+  const { t } = useLanguage();
 
   const [step, setStep] = useState(1);
   const [scrimData, setScrimData] = useState({
     scrimName: '',
+    team1Name: '1팀', // 💡 기본값 1팀
+    team2Name: '2팀', // 💡 기본값 2팀
     videoUrl: '',
     date: new Date().toISOString().split('T')[0],
     startHour: '20',
@@ -51,7 +52,6 @@ const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
         }
     }
 
-    console.log("🚀 [Frontend Submit] 전송할 데이터:", JSON.stringify(scrimData, null, 2));
     onSubmit(scrimData);
   };
 
@@ -138,7 +138,7 @@ const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
   const overlayStyle = { position: 'fixed', inset: 0, backgroundColor: 'rgba(0, 0, 0, 0.75)', backdropFilter: 'blur(4px)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000, padding: '20px' };
   
   const modalStyle = { 
-      backgroundColor: theme.bg, // 테마 배경
+      backgroundColor: theme.bg,
       border: `1px solid ${theme.border}`, 
       borderRadius: '20px', 
       width: '100%', 
@@ -147,7 +147,7 @@ const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
       overflowY: 'auto', 
       display: 'flex', 
       flexDirection: 'column', 
-      color: theme.text, // 테마 텍스트
+      color: theme.text,
       boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)' 
   };
 
@@ -159,7 +159,7 @@ const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
   
   const inputStyle = { 
       padding: '16px 20px', 
-      backgroundColor: theme.surfaceHighlight, // 입력창 배경
+      backgroundColor: theme.surfaceHighlight,
       border: `1px solid ${theme.borderHighlight}`, 
       borderRadius: '12px', 
       color: theme.text, 
@@ -170,9 +170,7 @@ const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
   };
   
   const selectStyle = { ...inputStyle, appearance: 'none', cursor: 'pointer', textAlign: 'center' };
-  
   const footerStyle = { padding: '32px', borderTop: `1px solid ${theme.border}`, display: 'flex', justifyContent: 'flex-end', gap: '16px', position: 'sticky', bottom: 0, backgroundColor: theme.bg, zIndex: 10 };
-  
   const btnStyle = (variant) => ({ 
       padding: '14px 28px', 
       borderRadius: '12px', 
@@ -180,7 +178,7 @@ const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
       fontWeight: '600', 
       cursor: 'pointer', 
       border: variant === 'primary' ? 'none' : `1px solid ${theme.borderHighlight}`, 
-      backgroundColor: variant === 'primary' ? theme.text : theme.surfaceHighlight, // 반전 효과
+      backgroundColor: variant === 'primary' ? theme.text : theme.surfaceHighlight,
       color: variant === 'primary' ? theme.bg : theme.text 
   });
 
@@ -205,6 +203,19 @@ const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
                 <label style={labelStyle}>{t.scrimName}</label>
                 <input type="text" placeholder={t.scrimNamePlace} value={scrimData.scrimName} onChange={e => setScrimData({ ...scrimData, scrimName: e.target.value })} style={inputStyle} />
               </div>
+
+              {/* 💡 1팀 / 2팀 이름 입력란 추가 */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                  <div style={inputGroupStyle}>
+                    <label style={labelStyle}><Users size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> 1팀 이름 (왼쪽)</label>
+                    <input type="text" placeholder="ex: FLC" value={scrimData.team1Name} onChange={e => setScrimData({ ...scrimData, team1Name: e.target.value })} style={inputStyle} />
+                  </div>
+                  <div style={inputGroupStyle}>
+                    <label style={labelStyle}><Users size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> 2팀 이름 (오른쪽)</label>
+                    <input type="text" placeholder="ex: RC" value={scrimData.team2Name} onChange={e => setScrimData({ ...scrimData, team2Name: e.target.value })} style={inputStyle} />
+                  </div>
+              </div>
+
               <div style={inputGroupStyle}>
                 <label style={labelStyle}><Youtube size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> {t.videoUrl}</label>
                 <input type="text" placeholder="https://youtu.be/..." value={scrimData.videoUrl} onChange={e => setScrimData({ ...scrimData, videoUrl: e.target.value })} style={inputStyle} />
