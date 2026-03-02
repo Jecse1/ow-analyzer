@@ -51,7 +51,7 @@ KOREAN_HERO_MAP = {
     '윈스턴': 'Winston', '레킹볼': 'Wrecking Ball', '자리야': 'Zarya', '해저드': 'Hazard', '도미나': 'Domina',
     '애쉬': 'Ashe', '바스티온': 'Bastion', '캐서디': 'Cassidy', '에코': 'Echo', '겐지': 'Genji',
     '한조': 'Hanzo', '정크랫': 'Junkrat', '메이': 'Mei', '파라': 'Pharah', '리퍼': 'Reaper',
-    '소전': 'Sojourn', '솔저: 76': 'Soldier: 76', '솔저76': 'Soldier: 76', '솜브라': 'Sombra',
+    '소전': 'Sojourn', '솔저: 76': 'Soldier: 76', '솔저 76': 'Soldier: 76', '솜브라': 'Sombra',
     '시메트라': 'Symmetra', '토르비욘': 'Torbjorn', '트레이서': 'Tracer', '벤처': 'Venture',
     '위도우메이커': 'Widowmaker', '안란': 'Anran', '엠레': 'Emre',
     '아나': 'Ana', '바티스트': 'Baptiste', '브리기테': 'Brigitte', '일리아리': 'Illari', '주노': 'Juno',
@@ -73,7 +73,7 @@ MAP_TYPE_DATA = {
     "왕의 길": "혼합", "King's Row": "Hybrid", "파라이소": "혼합", "Paraíso": "Hybrid",
     "할리우드": "혼합", "Hollywood": "Hybrid",
     "뉴 퀸 스트리트": "밀기", "New Queen Street": "Push", "콜로세오": "밀기", "Colosseo": "Push",
-    "에스페란사": "밀기", "Esperança": "Push", "룬아사피": "밀기", "Runasapi": "Push",
+    "에스페란사": "밀기", "Esperança": "Push", "이스페란사": "밀기", "룬아사피": "밀기", "루나사피": "밀기", "Runasapi": "Push",
     "뉴 정크 시티": "플래시포인트", "New Junk City": "Flashpoint", "수라바사": "플래시포인트", "Suravasa": "Flashpoint",
     "하나오카": "격돌", "Hanaoka": "Clash", "아누비스의 왕좌": "격돌", "Throne of Anubis": "Clash"
 }
@@ -120,7 +120,7 @@ def safe_int(x: Any, default: int = 0) -> int:
         return default
 
 # ---------------------------------------------------------
-# [데이터 모델 정의] - Pydantic V2 호환성 및 Alias 설정
+# [데이터 모델 정의]
 # ---------------------------------------------------------
 class PauseInput(BaseModel):
     start: str
@@ -131,13 +131,13 @@ class MatchSegment(BaseModel):
     start_time: str = Field(alias="start_time") 
     end_time: str = Field(alias="end_time")
     result: str
-    has_pause: bool = Field(default=False, alias="hasPause") # 프론트엔드의 hasPause 처리
+    has_pause: bool = Field(default=False, alias="hasPause")
     pauses: List[PauseInput] = []
 
     class Config:
         populate_by_name = True
         allow_population_by_field_name = True
-        extra = "ignore" # 정의되지 않은 필드 무시
+        extra = "ignore" 
 
 class ScrimManualInput(BaseModel):
     scrim_name: str = Field(alias="scrimName")
@@ -146,7 +146,7 @@ class ScrimManualInput(BaseModel):
     start_time: str = Field(alias="startHour")
     end_time: str = Field(alias="endHour")
     matches: List[MatchSegment]
-    files: Optional[List[Any]] = None # 422 에러 방지를 위해 files 필드 추가
+    files: Optional[List[Any]] = None 
 
     class Config:
         populate_by_name = True
@@ -726,64 +726,87 @@ def calculate_pure_stats(parsed, target_match):
     n_team1 = normalize_team_name(team1)
     n_team2 = normalize_team_name(team2)
 
-    # [수정됨] 스코어 계산 로직 전면 재작성 (이벤트 누적 방식)
-    current_score = {n_team1: 0, n_team2: 0}
-    last_active_team = None # 마지막으로 화물을 밀거나 거점을 터치한 팀
+    # --------------------------------------------------------------------
+    # [스코어 판독 로직 - 초강력 하이브리드 (문자열 의존도 0%)]
+    # --------------------------------------------------------------------
+    final_t1_score = 0
+    final_t2_score = 0
     
-    # 시간 순으로 이벤트를 정렬해서 처리
-    sorted_events = sorted(parsed["events"], key=lambda x: x.get("game_timestamp", 0))
+    # 1. 모든 경로의 점수 가능성 전부 긁어오기
+    score_match_end_t1 = parsed.get("match_end_score_t1") or 0
+    score_match_end_t2 = parsed.get("match_end_score_t2") or 0
     
-    # 중복 점수 부여 방지를 위한 세트
-    scored_events = set() 
-
-    for event in sorted_events:
-        e_type = event.get("event_type")
+    score_round_end_t1 = 0
+    score_round_end_t2 = 0
+    if round_scores:
+        max_r = max(round_scores.keys())
+        score_round_end_t1 = round_scores[max_r].get("t1", 0)
+        score_round_end_t2 = round_scores[max_r].get("t2", 0)
         
-        # 1. 화물 진행 이벤트 -> 활동 팀 갱신
-        if e_type == "payload_progress":
-            t_name = normalize_team_name(event.get("team", ""))
-            if t_name in [n_team1, n_team2]:
-                last_active_team = t_name
+    score_round_wins_t1 = 0
+    score_round_wins_t2 = 0
+    for r_data in round_scores.values():
+        r_w = normalize_team_name(r_data.get("winner", ""))
+        if r_w == n_team1: score_round_wins_t1 += 1
+        elif r_w == n_team2: score_round_wins_t2 += 1
         
-        # 2. 거점 점령 (명확한 득점)
-        elif e_type == "objective_captured":
-            t_name = normalize_team_name(event.get("capturing_team", ""))
-            # 타임스탬프 + 라운드를 조합해 고유 키 생성 (중복 방지)
-            event_id = f"{event.get('game_timestamp')}_{event.get('capturing_team')}"
-            
-            if t_name in current_score and event_id not in scored_events:
-                current_score[t_name] += 1
-                scored_events.add(event_id)
-                last_active_team = t_name # 점령했으니 활동 팀도 갱신
+    score_obj_t1 = 0
+    score_obj_t2 = 0
+    for r_num in range(1, total_rounds + 1):
+        attacker = normalize_team_name(round_attackers.get(r_num, ""))
+        max_idx = 0
+        for ev in parsed["events"]:
+            if ev.get("event_type") == "objective_updated" and ev.get("round") == r_num:
+                idx = ev.get("new_index", 0)
+                if idx > max_idx:
+                    max_idx = idx
+        if attacker == n_team1: score_obj_t1 += max_idx
+        elif attacker == n_team2: score_obj_t2 += max_idx
 
-        # 3. 목표 인덱스 업데이트 (점령 로그 누락 보정 - Hybrid Map 완주 등)
-        elif e_type == "objective_updated":
-            # 예: 왕의 길에서 2 -> 3 (완주) 되었는데 captured 로그가 없는 경우
-            new_idx = event.get("new_index", 0)
-            old_idx = event.get("old_index", 0)
-            
-            # 인덱스가 증가했다면 뭔가 달성한 것
-            if new_idx > old_idx:
-                # 마지막으로 활동했던 팀에게 점수 부여 (단, 이미 점수가 충분하다면 스킵)
-                if last_active_team:
-                    # 해당 팀의 현재 점수가 new_idx보다 작다면 (즉, 점수 반영이 안 됐다면) 강제 +1
-                    if current_score[last_active_team] < new_idx:
-                        current_score[last_active_team] += 1
+    # 2. 맵의 이벤트 성질(DNA)로 맵 종류 자동 파악 (텍스트 깨짐 완벽 방어)
+    is_push = any(k in map_name for k in ["밀기", "Push", "에스페란사", "이스페란사", "뉴 퀸", "콜로세오", "룬아사피", "루나사피"])
+    has_payload = any(e.get("event_type") == "payload_progress" for e in parsed["events"])
+    is_hybrid_escort = has_payload or any(k in game_mode for k in ["Escort", "화물", "Hybrid", "혼합"])
 
-    # 최종 점수 할당
-    final_t1_score = current_score[n_team1]
-    final_t2_score = current_score[n_team2]
+    # 3. 맵 성질에 맞는 최적의 진짜 점수 채택
+    if is_push:
+        final_t1_score = 0
+        final_t2_score = 0
+    elif is_hybrid_escort:
+        final_t1_score = score_obj_t1
+        final_t2_score = score_obj_t2
+    else:
+        # 쟁탈, 플래시포인트는 3가지 루트 중 가장 정상적인 숫자를 뽑아냅니다.
+        if score_match_end_t1 > 0 or score_match_end_t2 > 0:
+            final_t1_score = score_match_end_t1
+            final_t2_score = score_match_end_t2
+        elif score_round_end_t1 > 0 or score_round_end_t2 > 0:
+            final_t1_score = score_round_end_t1
+            final_t2_score = score_round_end_t2
+        else:
+            final_t1_score = score_round_wins_t1
+            final_t2_score = score_round_wins_t2
 
-    # 승자 결정
-    match_winner = "Draw"
+    # --------------------------------------------------------------------
+    # [최종 승패 확정 및 디버깅 텍스트 부착]
+    # --------------------------------------------------------------------
+    target_match["score_t1"] = final_t1_score
+    target_match["score_t2"] = final_t2_score
+
+    # 코치님이 원인을 한눈에 볼 수 있도록 결과에 괄호로 스코어를 직접 적어줍니다!
     if final_t1_score > final_t2_score:
         match_winner = team1
+        target_match["result"] = f"{team1} 승 ({final_t1_score} : {final_t2_score})"
     elif final_t2_score > final_t1_score:
         match_winner = team2
+        target_match["result"] = f"{team2} 승 ({final_t1_score} : {final_t2_score})"
     else:
         match_winner = "Draw"
+        target_match["result"] = f"무승부 ({final_t1_score} : {final_t2_score})"
+        
+    target_match["winner"] = match_winner
 
-    # --- 이하 통계/라운드 처리 로직은 기존 유지 ---
+    # --- 이하 통계 및 라운드 계산 로직 ---
     round_end_times = {}
     for r in range(1, total_rounds + 1):
         max_t = 0
@@ -921,17 +944,6 @@ def calculate_pure_stats(parsed, target_match):
     target_match["total_final_blows_t2"] = sum(r["final_blows_t2"] for r in actual_rounds)
     target_match["timeline"] = {"duration_sec": round_end_times.get(total_rounds, 0)}
 
-    target_match["score_t1"] = final_t1_score
-    target_match["score_t2"] = final_t2_score
-    target_match["winner"] = match_winner
-    
-    if match_winner == "Draw":
-        target_match["result"] = "무승부"
-    elif match_winner == team1 or match_winner == team2:
-        target_match["result"] = f"{match_winner} 승"
-    else:
-        target_match["result"] = "Unknown"
-
     match_kills = [e for e in parsed["events"] if e.get("event_type") == "kill"]
     fights = build_fight_summaries(match_kills, team1, team2)
     target_match["fights"] = fights
@@ -940,16 +952,12 @@ def calculate_pure_stats(parsed, target_match):
     return target_match
 
 # ------------------------------------------------------------------
-# [API Endpoints] - Raw Body 파싱 및 로직 개선
+# [API Endpoints]
 # ------------------------------------------------------------------
 @app.post("/api/scrim/manual-register")
 async def register_scrim_manual(request: Request):
-    # [1] Raw Body 받아서 디버깅
     try:
         raw_body = await request.json()
-        print("📥 [DEBUG-RAW] Received Body:", json.dumps(raw_body, indent=2, ensure_ascii=False))
-        
-        # [2] 수동으로 모델 검증 (files 필드 에러 방지)
         data = ScrimManualInput(**raw_body)
     except Exception as e:
         print(f"❌ [DEBUG] Validation Error: {e}")
@@ -970,20 +978,15 @@ async def register_scrim_manual(request: Request):
 
     processed_matches = []
     
-    # [3] 데이터 처리 로직
     for idx, match in enumerate(data.matches):
         video_offset = time_str_to_seconds(match.start_time)
-        
-        # [핵심] 퍼즈 데이터 처리 (has_pause Flag와 무관하게 pauses 데이터가 있으면 처리)
         processed_pauses = []
         if match.pauses and len(match.pauses) > 0:
             for p in match.pauses:
                 s_sec = time_str_to_seconds(p.start)
                 e_sec = time_str_to_seconds(p.end)
                 
-                # 유효성 검사 (서로 다르고 0보다 커야 함)
                 if s_sec > 0 and e_sec > 0 and s_sec != e_sec:
-                    # 시작 > 종료일 경우 자동 스왑
                     if s_sec > e_sec:
                         s_sec, e_sec = e_sec, s_sec
                     
@@ -992,9 +995,6 @@ async def register_scrim_manual(request: Request):
                         "end_sec": e_sec,
                         "duration": e_sec - s_sec
                     })
-                    print(f"✅ [DEBUG] Processed Pause: {s_sec}s ~ {e_sec}s (duration: {e_sec - s_sec}s)")
-                else:
-                    print(f"⚠️ [DEBUG] Invalid Pause Skipped: {p.start} ~ {p.end}")
         
         processed_pauses.sort(key=lambda x: x["start_sec"])
 
@@ -1004,7 +1004,6 @@ async def register_scrim_manual(request: Request):
             "map_name": match.map_name,
             "result": match.result,
             "video_offset": video_offset,
-            # [저장] 처리된 퍼즈 데이터 저장
             "pauses": processed_pauses, 
             "timeline": {"duration_sec": 0},
             "rounds": [], "stats": [],
@@ -1043,7 +1042,6 @@ async def upload_match_log(scrim_id: str = Form(...), match_index: int = Form(..
         target_match = next((m for m in target_scrim['matches'] if m['match_index'] == match_index), None)
         if target_match:
             offset_save = target_match.get("video_offset", 0)
-            # [보존] 기존 퍼즈 데이터 유지
             pauses_save = target_match.get("pauses", [])
             
             calculate_pure_stats(parsed, target_match)
@@ -1067,6 +1065,10 @@ async def rebuild_database():
                 scrim_obj = json.load(f)
             scrim_id = scrim_obj["id"]
             log_files = glob.glob(f"{ROW_DATA_DIR}/{scrim_id}_*.txt")
+            
+            if not log_files:
+                print(f"⚠️ 경고: {scrim_id}의 로그(.txt) 파일이 로컬에 없습니다. 계산을 건너뜁니다.")
+            
             for log_path in log_files:
                 base_name = os.path.basename(log_path)
                 try: match_index = int(base_name.replace(f"{scrim_id}_", "").replace(".txt", ""))
@@ -1077,7 +1079,6 @@ async def rebuild_database():
                 target_match = next((m for m in scrim_obj['matches'] if m['match_index'] == match_index), None)
                 if target_match:
                     offset_save = target_match.get("video_offset", 0)
-                    # [보존] 리빌드 시에도 기존 퍼즈 데이터 유지
                     pauses_save = target_match.get("pauses", [])
                     
                     parsed = parse_overwatch_log(log_text)

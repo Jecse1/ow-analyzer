@@ -84,7 +84,6 @@ const HERO_SKILL_MAP = {
     '엠레': { 'Ability 1': '사이펀 블라스터', 'Ability 2': '사이퍼 파편 수류탄', 'Ultimate': '오버라이드 프로토콜' },
     '미즈키': { 'Ability 1': '종이 인형 분신술', 'Ability 2': '속박 사슬', 'Ultimate': '결계 성역' },
     '제트팩 캣': { 'Ability 1': '생명줄', 'Ability 2': '골골대기', 'Ultimate': '납치한다냥' },
-
 };
 
 const getDisplayHeroName = (rawName) => {
@@ -93,10 +92,29 @@ const getDisplayHeroName = (rawName) => {
     return HERO_ALIAS_MAP[clean] || clean;
 };
 
+// 💡 [수정] 영웅 이미지 완벽 매핑 (띄어쓰기 및 대소문자 방어)
 const getHeroImageSrc = (heroName) => {
   if (!heroName || heroName === 'Unknown') return null;
+
+  const exactFileNames = {
+    'D.Va': 'D.Va',
+    '디바': 'D.Va',
+    '솔저: 76': 'Soldier76',
+    '솔저 76': 'Soldier76',
+    '솔져: 76': 'Soldier76',
+    '솔져 76': 'Soldier76',
+    'Soldier: 76': 'Soldier76',
+    '제트팩 캣': 'JetpackCat',
+    'Jetpack Cat': 'JetpackCat'
+  };
+
   const displayName = getDisplayHeroName(heroName);
-  const fileName = displayName.replace(/[\s.:]/g, ''); 
+  let fileName = exactFileNames[heroName] || exactFileNames[displayName];
+  
+  if (!fileName) {
+    fileName = displayName.replace(/[\s.:]/g, ''); 
+  }
+
   return `/heroes/${fileName}.png`;
 };
 
@@ -164,7 +182,8 @@ const FightSurvivorsChart = ({ fights, team1Name, team2Name, theme, t }) => {
 
   return (
     <div style={{ width: '100%', height: 250 }}>
-      <ResponsiveContainer>
+      {/* 💡 [수정] Recharts Warning 방지 속성 추가 */}
+      <ResponsiveContainer width="100%" height="100%" minWidth={0}>
         <BarChart data={data} barGap={2} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" stroke={theme.border} vertical={false} />
           <XAxis dataKey="name" stroke={theme.textSub} fontSize={11} tickLine={false} axisLine={false} />
@@ -205,7 +224,8 @@ const AverageSurvivorsChart = ({ fights, team1Name, team2Name, theme, t }) => {
     return (
         <div style={{ width: '100%', height: 250, display:'flex', flexDirection:'column', alignItems:'center' }}>
             <div style={{ fontSize:'12px', color: theme.textSub, marginBottom:'10px' }}>{t.avgSurvivors}</div>
-            <ResponsiveContainer>
+            {/* 💡 [수정] Recharts Warning 방지 속성 추가 */}
+            <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                 <BarChart data={data} margin={{ top: 10, right: 0, left: -25, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke={theme.border} vertical={false} />
                     <XAxis dataKey="name" stroke={theme.textSub} fontSize={10} tickLine={false} axisLine={false} interval={0} tickFormatter={(val) => val.length > 5 ? val.substring(0,5)+'..' : val} />
@@ -678,7 +698,8 @@ const ChartView = ({ matchData, rounds, fights }) => {
             <div style={{ ...cardStyle, marginBottom: 0 }}>
                 <div style={titleStyle}><Zap size={18}/> {t.ultsPerFight}</div>
                 <div style={{ width: '100%', height: 300 }}>
-                    <ResponsiveContainer>
+                    {/* 💡 [수정] Recharts Warning 방지 속성 추가 */}
+                    <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                         <BarChart data={ultsPerFightData}>
                             <CartesianGrid strokeDasharray="3 3" stroke={theme.border} vertical={false} />
                             <XAxis dataKey="name" stroke={theme.textSub} fontSize={12} tickLine={false} axisLine={false} />
@@ -695,7 +716,8 @@ const ChartView = ({ matchData, rounds, fights }) => {
             <div style={{ ...cardStyle, marginBottom: 0 }}>
                 <div style={titleStyle}><Crosshair size={18}/> {t.fbByRole}</div>
                 <div style={{ width: '100%', height: 300 }}>
-                    <ResponsiveContainer>
+                    {/* 💡 [수정] Recharts Warning 방지 속성 추가 */}
+                    <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                         <BarChart data={roleFinalBlowsData}>
                             <CartesianGrid strokeDasharray="3 3" stroke={theme.border} vertical={false} />
                             <XAxis dataKey="roleDisplay" stroke={theme.textSub} fontSize={12} tickLine={false} axisLine={false} />
@@ -714,7 +736,8 @@ const ChartView = ({ matchData, rounds, fights }) => {
             <div style={{ ...cardStyle, marginBottom: 0 }}>
                 <div style={titleStyle}><Zap size={18}/> {t.cumulativeDmg}</div>
                 <div style={{ width: '100%', height: 280 }}>
-                    <ResponsiveContainer>
+                    {/* 💡 [수정] Recharts Warning 방지 속성 추가 */}
+                    <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                         <AreaChart data={cumulativeDamageData}>
                             <defs>
                                 <linearGradient id="colorTeam1" x1="0" y1="0" x2="0" y2="1">
@@ -742,7 +765,8 @@ const ChartView = ({ matchData, rounds, fights }) => {
         <div style={cardStyle}>
             <div style={titleStyle}><Crosshair size={18}/> {t.dmgEfficiency}</div>
             <div style={{ width: '100%', height: 350 }}>
-                <ResponsiveContainer>
+                {/* 💡 [수정] Recharts Warning 방지 속성 추가 */}
+                <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                     <ScatterChart margin={{ top: 20, right: 20, bottom: 50, left: 20 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke={theme.border} />
                         <XAxis type="number" dataKey="x" name="딜량" stroke={theme.textSub} fontSize={12} label={{ value: t.heroDmgDealt, position: 'insideBottom', offset: -30, fill: theme.textSub }} />

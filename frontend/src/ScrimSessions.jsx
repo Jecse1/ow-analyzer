@@ -1,17 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
-import { Calendar, ChevronRight, Clock, RefreshCw } from 'lucide-react';
-// [중요] ThemeContext, LanguageContext 적용
+import { Calendar, ChevronRight, Clock, RefreshCw, Filter } from 'lucide-react';
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
 
 const ScrimSessions = ({ onSelectScrim }) => {
-  const { theme } = useTheme(); // [테마 훅]
-  const { t } = useLanguage();  // [언어 훅]
+  const { theme } = useTheme();
+  const { t } = useLanguage();
 
   const [scrims, setScrims] = useState([]);
   const [loading, setLoading] = useState(true);
   const [rebuilding, setRebuilding] = useState(false); 
+  
+  // 날짜 필터 상태
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   const fetchScrims = async () => {
     try {
@@ -24,16 +27,11 @@ const ScrimSessions = ({ onSelectScrim }) => {
     }
   };
 
-  useEffect(() => {
-    fetchScrims();
-  }, []);
+  useEffect(() => { fetchScrims(); }, []);
 
   const handleRebuildDB = async (e) => {
     e.stopPropagation();
-    // (선택) confirm 메시지도 다국어 처리가 필요하다면 LanguageContext에 추가 가능
-    // 여기서는 간단히 하드코딩 유지하거나 context에 추가하여 사용
     if (!window.confirm("DB를 복구하시겠습니까? (Rebuild DB?)")) return;
-
     setRebuilding(true);
     try {
       const res = await axios.post('/api/admin/rebuild-db');
@@ -47,57 +45,75 @@ const ScrimSessions = ({ onSelectScrim }) => {
     }
   };
 
+  // 날짜 필터링 적용
+  const filteredScrims = useMemo(() => {
+      return scrims.filter(s => {
+          if (!startDate && !endDate) return true;
+          if (startDate && s.date < startDate) return false;
+          if (endDate && s.date > endDate) return false;
+          return true;
+      });
+  }, [scrims, startDate, endDate]);
+
   if (loading) return <div style={{padding:'40px', color: theme.textSub, textAlign:'center'}}>{t.loading}</div>;
 
   return (
     <div style={{ padding: '40px', maxWidth: '1200px', margin: '0 auto', color: theme.text }}>
       
-      {/* 헤더 영역 */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
         <div>
             <h2 style={{ fontSize: '24px', fontWeight: '800', margin: 0 }}>{t.sessions}</h2>
             <p style={{ color: theme.textSub, fontSize: '14px', marginTop: '4px' }}>{t.viewHistory}</p>
         </div>
         
-        {/* DB 복구 버튼 */}
         <button 
             onClick={handleRebuildDB} 
             disabled={rebuilding}
             style={{ 
-                background: theme.surface, 
-                border: `1px solid ${theme.border}`, 
-                color: theme.textSub, 
+                background: theme.surface, border: `1px solid ${theme.border}`, color: theme.textSub, 
                 padding: '10px 16px', borderRadius: '8px', cursor: rebuilding ? 'wait' : 'pointer',
-                display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', fontWeight: '600',
-                transition: 'all 0.2s'
+                display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', fontWeight: '600'
             }}
-            onMouseOver={e => !rebuilding && (e.currentTarget.style.borderColor = theme.text, e.currentTarget.style.color = theme.text)}
-            onMouseOut={e => !rebuilding && (e.currentTarget.style.borderColor = theme.border, e.currentTarget.style.color = theme.textSub)}
         >
             <RefreshCw size={16} className={rebuilding ? "spin-anim" : ""} /> 
             {rebuilding ? "Rebuilding..." : "Rebuild DB"}
         </button>
       </div>
 
-      {/* 목록 영역 */}
+      {/* 날짜 필터 바 */}
+      <div style={{ display: 'flex', gap: '16px', alignItems: 'center', marginBottom: '24px', background: theme.surface, padding: '16px', borderRadius: '12px', border: `1px solid ${theme.border}` }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', color: theme.textSub }}>
+              <Filter size={18}/> {t.dateFilter}
+          </div>
+          <input 
+              type="date" value={startDate} onChange={e => setStartDate(e.target.value)}
+              style={{ background: theme.bg, color: theme.text, border: `1px solid ${theme.border}`, padding: '8px 12px', borderRadius: '8px', colorScheme: theme.mode === 'dark' ? 'dark' : 'light' }} 
+          />
+          <span style={{ color: theme.textSub }}>~</span>
+          <input 
+              type="date" value={endDate} onChange={e => setEndDate(e.target.value)}
+              style={{ background: theme.bg, color: theme.text, border: `1px solid ${theme.border}`, padding: '8px 12px', borderRadius: '8px', colorScheme: theme.mode === 'dark' ? 'dark' : 'light' }} 
+          />
+          {(startDate || endDate) && (
+              <button onClick={() => { setStartDate(""); setEndDate(""); }} style={{ background: 'transparent', border: 'none', color: theme.danger, cursor: 'pointer', fontWeight: 'bold', marginLeft: 'auto' }}>
+                  초기화
+              </button>
+          )}
+      </div>
+
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        {scrims.length === 0 ? (
+        {filteredScrims.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '60px', background: theme.surface, borderRadius: '12px', border: `1px dashed ${theme.border}`, color: theme.textSub }}>
             <p>{t.noData}</p>
           </div>
         ) : (
-          scrims.map((scrim) => (
+          filteredScrims.map((scrim) => (
             <div 
-              key={scrim.id} 
-              onClick={() => onSelectScrim(scrim.id)}
+              key={scrim.id} onClick={() => onSelectScrim(scrim.id)}
               style={{ 
-                background: theme.surface, 
-                border: `1px solid ${theme.border}`, 
-                borderRadius: '12px', padding: '24px', 
-                cursor: 'pointer', transition: 'transform 0.2s', display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+                background: theme.surface, border: `1px solid ${theme.border}`, 
+                borderRadius: '12px', padding: '24px', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center'
               }}
-              onMouseOver={e => e.currentTarget.style.borderColor = theme.borderHighlight}
-              onMouseOut={e => e.currentTarget.style.borderColor = theme.border}
             >
               <div>
                 <h3 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px', color: theme.text }}>{scrim.scrim_name}</h3>
@@ -112,10 +128,7 @@ const ScrimSessions = ({ onSelectScrim }) => {
         )}
       </div>
       
-      <style>{`
-        .spin-anim { animation: spin 1s linear infinite; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-      `}</style>
+      <style>{` .spin-anim { animation: spin 1s linear infinite; } @keyframes spin { 100% { transform: rotate(360deg); } } `}</style>
     </div>
   );
 };

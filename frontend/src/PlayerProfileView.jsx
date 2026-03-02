@@ -1,14 +1,28 @@
 import React, { useState, useMemo } from 'react';
-import { User, Zap, Target, Crosshair, Shield, Activity, BarChart2, TrendingUp } from 'lucide-react';
-import { 
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell,
-  LineChart, Line
-} from 'recharts';
+import { User, Zap, Target, Crosshair, Shield, Activity, BarChart2, TrendingUp, Users } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, LineChart, Line } from 'recharts';
 
-// [헬퍼] 영웅 이름 및 이미지 처리 (기존 코드와 동일하게 맞춰주시면 됩니다)
+// 💡 영웅 이미지 예외 처리 (디바, 솔저, 제트팩 캣 등)
 const getHeroImageSrc = (heroName) => {
   if (!heroName || heroName === 'Unknown') return null;
-  const fileName = heroName.replace(/[\s.:]/g, ''); 
+
+  const exactFileNames = {
+    'D.Va': 'D.Va',
+    '디바': 'D.Va',
+    '솔저: 76': 'Soldier76',
+    '솔저 76': 'Soldier76',
+    '솔져: 76': 'Soldier76',
+    '솔져 76': 'Soldier76',
+    'Soldier: 76': 'Soldier76',
+    '제트팩 캣': 'JetpackCat',
+    'Jetpack Cat': 'JetpackCat'
+  };
+
+  let fileName = exactFileNames[heroName];
+  if (!fileName) {
+    fileName = heroName.replace(/[\s.:]/g, ''); 
+  }
+
   return `/heroes/${fileName}.png`;
 };
 
@@ -19,154 +33,132 @@ const getRoleIconSrc = (roleLabel) => {
     return null;
 };
 
-// --- [샘플 데이터] 프론트엔드 테스트용 (추후 백엔드 API와 연결) ---
-const MOCK_PLAYERS = [
-  {
-    id: 'p1', name: '안란 (Anran)', role: '딜러',
-    overview: { kd: 3.2, damagePer10: 10500, healPer10: 0, ultUsedPerMatch: 4.5, winRate: 65 },
-    heroPool: [
-      { hero: '트레이서', playTime: 120, winRate: 70, kd: 3.5 },
-      { hero: '에코', playTime: 80, winRate: 60, kd: 2.8 },
-      { hero: '소전', playTime: 45, winRate: 50, kd: 2.5 }
-    ],
-    recentTrend: [ { match: '1', kd: 2.5 }, { match: '2', kd: 3.0 }, { match: '3', kd: 2.8 }, { match: '4', kd: 4.1 }, { match: '5', kd: 3.6 } ]
-  },
-  {
-    id: 'p2', name: '우양 (Wooyang)', role: '지원',
-    overview: { kd: 1.8, damagePer10: 4200, healPer10: 11200, ultUsedPerMatch: 5.2, winRate: 58 },
-    heroPool: [
-      { hero: '아나', playTime: 150, winRate: 60, kd: 1.5 },
-      { hero: '키리코', playTime: 90, winRate: 55, kd: 2.1 }
-    ],
-    recentTrend: [ { match: '1', kd: 1.2 }, { match: '2', kd: 1.8 }, { match: '3', kd: 1.5 }, { match: '4', kd: 2.2 }, { match: '5', kd: 2.0 } ]
-  },
-  {
-    id: 'p3', name: '도미나 (Domina)', role: '탱크',
-    overview: { kd: 2.5, damagePer10: 8500, healPer10: 0, ultUsedPerMatch: 3.8, winRate: 62 },
-    heroPool: [
-      { hero: '디바', playTime: 180, winRate: 65, kd: 2.7 },
-      { hero: '윈스턴', playTime: 60, winRate: 50, kd: 2.0 }
-    ],
-    recentTrend: [ { match: '1', kd: 2.0 }, { match: '2', kd: 2.2 }, { match: '3', kd: 3.1 }, { match: '4', kd: 2.4 }, { match: '5', kd: 2.8 } ]
+export default function PlayerProfileView({ playersData = [] }) {
+  const [selectedRole, setSelectedRole] = useState('All');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedTeam, setSelectedTeam] = useState('All');
+
+  const availableTeams = useMemo(() => {
+      const teams = new Set(playersData.map(p => p.team));
+      return [...teams].filter(Boolean);
+  }, [playersData]);
+
+  const filteredPlayers = useMemo(() => {
+    return playersData.filter(p => {
+      if (selectedTeam !== 'All' && p.team !== selectedTeam) return false;
+      if (selectedRole !== 'All' && p.role !== selectedRole) return false;
+      if (searchTerm && !p.name.toLowerCase().includes(searchTerm.toLowerCase())) return false;
+      return true;
+    });
+  }, [playersData, selectedRole, searchTerm, selectedTeam]);
+
+  const [selectedPlayer, setSelectedPlayer] = useState(null);
+
+  React.useEffect(() => {
+    if (filteredPlayers.length > 0 && (!selectedPlayer || !filteredPlayers.find(p => p.id === selectedPlayer.id))) {
+      setSelectedPlayer(filteredPlayers[0]);
+    }
+  }, [filteredPlayers]);
+
+  const cardStyle = { background: '#18181b', borderRadius: '16px', border: '1px solid #27272a', padding: '24px' };
+
+  if (!playersData || playersData.length === 0) {
+      return <div style={{textAlign:'center', padding:'60px', color:'#a1a1aa'}}>데이터가 없습니다.</div>;
   }
-];
-
-const PlayerProfileView = ({ playersData = MOCK_PLAYERS }) => {
-  const [selectedPlayerId, setSelectedPlayerId] = useState(playersData[0]?.id);
-  
-  const selectedPlayer = useMemo(() => {
-    return playersData.find(p => p.id === selectedPlayerId) || playersData[0];
-  }, [selectedPlayerId, playersData]);
-
-  // --- 공통 스타일 정의 ---
-  const cardStyle = { background: '#18181b', border: '1px solid #27272a', borderRadius: '16px', padding: '24px' };
-  const statBoxStyle = { background: '#09090b', border: '1px solid #27272a', borderRadius: '12px', padding: '16px', flex: 1 };
 
   return (
-    <div style={{ display: 'flex', gap: '24px', maxWidth: '1400px', margin: '0 auto', color: '#fff', fontSize: '14px', boxSizing: 'border-box' }}>
+    <div style={{ display: 'flex', gap: '24px', color: '#fff', maxWidth: '1400px', margin: '0 auto' }}>
       
-      {/* 1. 왼쪽 사이드바: 선수 목록 */}
-      <div style={{ width: '280px', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        <div style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '12px', paddingLeft: '8px' }}>선수 명단</div>
-        {playersData.map(player => {
-          const isSelected = player.id === selectedPlayerId;
-          const roleIcon = getRoleIconSrc(player.role);
-          
-          return (
-            <div 
-              key={player.id}
-              onClick={() => setSelectedPlayerId(player.id)}
-              style={{
-                display: 'flex', alignItems: 'center', gap: '12px', padding: '16px',
-                background: isSelected ? '#27272a' : '#18181b',
-                border: `1px solid ${isSelected ? '#52525b' : '#27272a'}`,
-                borderRadius: '12px', cursor: 'pointer', transition: 'all 0.2s'
-              }}
-            >
-              <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#09090b', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                {roleIcon ? <img src={roleIcon} style={{ width: '20px', filter: 'invert(1)' }} alt="role" /> : <User size={20} color="#a1a1aa" />}
-              </div>
-              <div>
-                <div style={{ fontWeight: 'bold', fontSize: '15px' }}>{player.name}</div>
-                <div style={{ fontSize: '12px', color: '#a1a1aa', marginTop: '4px' }}>{player.role}</div>
-              </div>
-            </div>
-          );
-        })}
+      <div style={{ width: '320px', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <h2 style={{ fontSize: '20px', fontWeight: '900', display:'flex', alignItems:'center', gap:'8px' }}>
+            <Users size={20} /> 선수단 목록
+        </h2>
+        
+        <input 
+            type="text" placeholder="선수 검색..." value={searchTerm} onChange={(e)=>setSearchTerm(e.target.value)}
+            style={{ width: '100%', padding: '12px', background: '#18181b', border: '1px solid #27272a', borderRadius: '8px', color: '#fff', outline: 'none' }}
+        />
+        
+        <select value={selectedTeam} onChange={(e) => setSelectedTeam(e.target.value)} style={{ width: '100%', padding: '10px', background: '#27272a', border: 'none', borderRadius: '8px', color: '#fff', cursor: 'pointer', outline: 'none' }}>
+            <option value="All">전체 팀 (All Teams)</option>
+            {availableTeams.map(team => <option key={team} value={team}>{team}</option>)}
+        </select>
+
+        <div style={{ display: 'flex', gap: '8px' }}>
+            {['All', '탱크', '딜러', '지원'].map(role => (
+                <button 
+                    key={role} onClick={() => setSelectedRole(role)}
+                    style={{ flex: 1, padding: '8px', background: selectedRole === role ? '#3b82f6' : '#27272a', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer', fontSize: '12px', fontWeight: 'bold' }}>
+                    {role === 'All' ? '전체' : role}
+                </button>
+            ))}
+        </div>
+
+        <div style={{ ...cardStyle, flex: 1, padding: '12px', overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
+            {filteredPlayers.map(p => (
+                <div 
+                    key={p.id} onClick={() => setSelectedPlayer(p)}
+                    style={{ padding: '12px', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '12px', background: selectedPlayer?.id === p.id ? '#27272a' : 'transparent', borderBottom: '1px solid #27272a', transition: 'all 0.2s' }}>
+                    <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#3f3f46', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        {getRoleIconSrc(p.role) ? <img src={getRoleIconSrc(p.role)} style={{width:18, filter:'invert(1)'}}/> : <User size={18}/>}
+                    </div>
+                    <div>
+                        <div style={{ fontWeight: 'bold', fontSize: '15px' }}>{p.name}</div>
+                        <div style={{ fontSize: '12px', color: '#a1a1aa' }}>{p.team || "Unknown"} · {p.role}</div>
+                    </div>
+                </div>
+            ))}
+        </div>
       </div>
 
-      {/* 2. 오른쪽 메인 패널: 선수 상세 통계 */}
-      {selectedPlayer && (
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          
-          {/* 헤더 프로필 */}
-          <div style={{ ...cardStyle, display: 'flex', alignItems: 'center', gap: '24px' }}>
-            <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: '#27272a', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-               <User size={40} color="#71717a" />
-            </div>
-            <div>
-              <h2 style={{ margin: 0, fontSize: '28px', fontWeight: 800 }}>{selectedPlayer.name}</h2>
-              <div style={{ display: 'flex', gap: '12px', marginTop: '8px', color: '#a1a1aa', alignItems: 'center' }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Shield size={16}/> {selectedPlayer.role}</span>
-                <span>•</span>
-                <span>스크림 승률 <strong style={{ color: '#4ade80' }}>{selectedPlayer.overview.winRate}%</strong></span>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        {selectedPlayer ? (
+          <>
+            <div style={{ ...cardStyle, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <div style={{ fontSize: '14px', color: '#a1a1aa', marginBottom: '4px', fontWeight: 'bold' }}>{selectedPlayer.team || "소속 불명"} · {selectedPlayer.role}</div>
+                <h1 style={{ fontSize: '32px', fontWeight: '900', margin: 0 }}>{selectedPlayer.name}</h1>
+              </div>
+              <div style={{ textAlign: 'right' }}>
+                <div style={{ fontSize: '14px', color: '#a1a1aa' }}>평균 승률</div>
+                <div style={{ fontSize: '28px', fontWeight: '900', color: selectedPlayer.overview.winRate >= 50 ? '#4ade80' : '#f87171' }}>{selectedPlayer.overview.winRate}%</div>
               </div>
             </div>
-          </div>
 
-          {/* 주요 스탯 요약 (요청하신 궁극기 사용량 포함) */}
-          <div style={{ display: 'flex', gap: '16px' }}>
-            <div style={statBoxStyle}>
-              <div style={{ fontSize: '12px', color: '#a1a1aa', marginBottom: '8px', display:'flex', alignItems:'center', gap:'6px' }}><Target size={16}/> 평균 K/D</div>
-              <div style={{ fontSize: '24px', fontWeight: 800 }}>{selectedPlayer.overview.kd.toFixed(2)}</div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+                {[
+                    { label: '종합 K/D', value: selectedPlayer.overview.kd.toFixed(2), icon: Target, color: '#3b82f6' },
+                    { label: '10분당 딜량', value: selectedPlayer.overview.damagePer10.toLocaleString(), icon: Crosshair, color: '#f59e0b' },
+                    { label: '10분당 힐량', value: selectedPlayer.overview.healPer10.toLocaleString(), icon: Shield, color: '#10b981' },
+                    { label: '경기당 궁극기', value: selectedPlayer.overview.ultUsedPerMatch, icon: Zap, color: '#8b5cf6' }
+                ].map((stat, idx) => (
+                    <div key={idx} style={{ background: '#18181b', border: '1px solid #27272a', borderRadius: '12px', padding: '16px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#a1a1aa', fontSize: '13px', fontWeight: 'bold', marginBottom: '8px' }}><stat.icon size={16} color={stat.color}/> {stat.label}</div>
+                        <div style={{ fontSize: '24px', fontWeight: '900' }}>{stat.value}</div>
+                    </div>
+                ))}
             </div>
-            <div style={statBoxStyle}>
-              <div style={{ fontSize: '12px', color: '#a1a1aa', marginBottom: '8px', display:'flex', alignItems:'center', gap:'6px' }}><Crosshair size={16}/> 10분당 피해량</div>
-              <div style={{ fontSize: '24px', fontWeight: 800 }}>{selectedPlayer.overview.damagePer10.toLocaleString()}</div>
-            </div>
-            <div style={statBoxStyle}>
-              <div style={{ fontSize: '12px', color: '#a1a1aa', marginBottom: '8px', display:'flex', alignItems:'center', gap:'6px' }}><Activity size={16}/> 10분당 치유량</div>
-              <div style={{ fontSize: '24px', fontWeight: 800, color: selectedPlayer.overview.healPer10 > 0 ? '#4ade80' : '#fff' }}>
-                {selectedPlayer.overview.healPer10 > 0 ? selectedPlayer.overview.healPer10.toLocaleString() : '-'}
-              </div>
-            </div>
-            <div style={statBoxStyle}>
-              <div style={{ fontSize: '12px', color: '#a1a1aa', marginBottom: '8px', display:'flex', alignItems:'center', gap:'6px' }}><Zap size={16}/> 경기당 궁극기 사용</div>
-              <div style={{ fontSize: '24px', fontWeight: 800, color: '#60a5fa' }}>{selectedPlayer.overview.ultUsedPerMatch}회</div>
-            </div>
-          </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
-            {/* 모스트 영웅 (Hero Pool) */}
             <div style={cardStyle}>
               <div style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '20px', display:'flex', alignItems:'center', gap:'8px' }}>
-                <BarChart2 size={18}/> 모스트 영웅 (플레이 시간 순)
+                <Activity size={18}/> 모스트 영웅 풀
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                {selectedPlayer.heroPool.map((hero, idx) => (
-                  <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                    <img 
-                      src={getHeroImageSrc(hero.hero)} 
-                      alt={hero.hero} 
-                      style={{ width: '40px', height: '40px', borderRadius: '8px', background: '#27272a' }} 
-                      onError={(e) => { e.currentTarget.style.display = 'none'; }} 
-                    />
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px' }}>
+                {selectedPlayer.heroPool.map((h, i) => (
+                  <div key={i} style={{ background: '#27272a', borderRadius: '12px', padding: '16px', display: 'flex', alignItems: 'center', gap: '16px' }}>
+                    <img src={getHeroImageSrc(h.hero)} style={{ width: '48px', height: '48px', borderRadius: '8px', background: '#000' }} />
                     <div style={{ flex: 1 }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
-                        <span style={{ fontWeight: 'bold' }}>{hero.hero}</span>
-                        <span style={{ fontSize: '12px', color: '#a1a1aa' }}>승률 {hero.winRate}% (K/D {hero.kd})</span>
-                      </div>
-                      {/* 프로그레스 바 */}
-                      <div style={{ width: '100%', height: '8px', background: '#27272a', borderRadius: '4px', overflow: 'hidden' }}>
-                        <div style={{ width: `${(hero.playTime / selectedPlayer.heroPool[0].playTime) * 100}%`, height: '100%', background: '#60a5fa' }}></div>
-                      </div>
+                        <div style={{ fontWeight: 'bold', fontSize: '15px', marginBottom: '4px' }}>{h.hero}</div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#a1a1aa' }}>
+                            <span>승률 <span style={{color: h.winRate >= 50 ? '#4ade80' : '#f87171'}}>{h.winRate}%</span></span>
+                            <span>K/D <strong>{h.kd}</strong></span>
+                        </div>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* 최근 스크림 K/D 트렌드 */}
             <div style={cardStyle}>
               <div style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '20px', display:'flex', alignItems:'center', gap:'8px' }}>
                 <TrendingUp size={18}/> 최근 K/D 폼 (Form)
@@ -183,12 +175,13 @@ const PlayerProfileView = ({ playersData = MOCK_PLAYERS }) => {
                 </ResponsiveContainer>
               </div>
             </div>
-          </div>
-
-        </div>
-      )}
+          </>
+        ) : (
+            <div style={{ ...cardStyle, flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#a1a1aa' }}>
+                선수를 선택해주세요.
+            </div>
+        )}
+      </div>
     </div>
   );
-};
-
-export default PlayerProfileView;
+}

@@ -1,0 +1,25 @@
+{
+    "id": "2603022022_1",
+    "scrim_name": "2",
+    "video_url": "",
+    "date": "2026-03-02",
+    "start_time": "20",
+    "end_time": "22",
+    "matches": [
+        {
+            "id": "1f0bf2d7-14be-43d7-9234-43f9437a47ba",
+            "match_index": 1,
+            "map_name": "사모아",
+            "result": "Unknown",
+            "video_offset": 0,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        }
+    ]
+}
