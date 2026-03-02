@@ -2,20 +2,20 @@ import React, { useState, useMemo } from 'react';
 import { User, Zap, Target, Crosshair, Shield, Activity, BarChart2, TrendingUp, Users } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, LineChart, Line } from 'recharts';
 
-// 💡 영웅 이미지 예외 처리 (디바, 솔저, 제트팩 캣 등)
+// 💡 영웅 이미지 예외 처리 (무조건 소문자 파일 매핑)
 const getHeroImageSrc = (heroName) => {
   if (!heroName || heroName === 'Unknown') return null;
 
   const exactFileNames = {
-    'D.Va': 'D.Va',
-    '디바': 'D.Va',
-    '솔저: 76': 'Soldier76',
-    '솔저 76': 'Soldier76',
-    '솔져: 76': 'Soldier76',
-    '솔져 76': 'Soldier76',
-    'Soldier: 76': 'Soldier76',
-    '제트팩 캣': 'JetpackCat',
-    'Jetpack Cat': 'JetpackCat'
+    'D.Va': 'dva',
+    '디바': 'dva',
+    '솔저: 76': 'soldier76',
+    '솔저 76': 'soldier76',
+    '솔져: 76': 'soldier76',
+    '솔져 76': 'soldier76',
+    'Soldier: 76': 'soldier76',
+    '제트팩 캣': 'jetpackcat',
+    'Jetpack Cat': 'jetpackcat'
   };
 
   let fileName = exactFileNames[heroName];
@@ -121,7 +121,14 @@ export default function PlayerProfileView({ playersData = [] }) {
               </div>
               <div style={{ textAlign: 'right' }}>
                 <div style={{ fontSize: '14px', color: '#a1a1aa' }}>평균 승률</div>
-                <div style={{ fontSize: '28px', fontWeight: '900', color: selectedPlayer.overview.winRate >= 50 ? '#4ade80' : '#f87171' }}>{selectedPlayer.overview.winRate}%</div>
+                <div style={{ 
+                    fontSize: '28px', 
+                    fontWeight: '900', 
+                    color: selectedPlayer.overview.winRate >= 50 ? '#39FF14' : '#f87171',
+                    textShadow: selectedPlayer.overview.winRate >= 50 ? '0 0 15px rgba(57, 255, 20, 0.5)' : 'none'
+                }}>
+                    {selectedPlayer.overview.winRate}%
+                </div>
               </div>
             </div>
 
@@ -150,7 +157,10 @@ export default function PlayerProfileView({ playersData = [] }) {
                     <div style={{ flex: 1 }}>
                         <div style={{ fontWeight: 'bold', fontSize: '15px', marginBottom: '4px' }}>{h.hero}</div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#a1a1aa' }}>
-                            <span>승률 <span style={{color: h.winRate >= 50 ? '#4ade80' : '#f87171'}}>{h.winRate}%</span></span>
+                            <span>승률 <span style={{
+                                color: h.winRate >= 50 ? '#39FF14' : '#f87171',
+                                textShadow: h.winRate >= 50 ? '0 0 8px rgba(57, 255, 20, 0.4)' : 'none'
+                            }}>{h.winRate}%</span></span>
                             <span>K/D <strong>{h.kd}</strong></span>
                         </div>
                     </div>
@@ -164,7 +174,7 @@ export default function PlayerProfileView({ playersData = [] }) {
                 <TrendingUp size={18}/> 최근 K/D 폼 (Form)
               </div>
               <div style={{ width: '100%', height: '220px' }}>
-                <ResponsiveContainer>
+                <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                   <LineChart data={selectedPlayer.recentTrend}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#27272a" vertical={false} />
                     <XAxis dataKey="match" stroke="#71717a" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(val) => `${val}세트`} />

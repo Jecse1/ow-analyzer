@@ -6,27 +6,38 @@ import {
   BarChart, Bar, AreaChart, Area, ComposedChart, ScatterChart, Scatter, ZAxis, Brush, Cell, ReferenceArea, ReferenceLine
 } from 'recharts';
 
-// [중요] ThemeContext, LanguageContext 가져오기
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
 
 // --- 색상 및 상수 ---
 const COLOR_TEAM1 = '#60a5fa'; 
 const COLOR_TEAM2 = '#f87171'; 
+const NEON_GREEN = '#39FF14'; 
 
 // [헬퍼] 이름 정규화
 const normalizeName = (name) => (name ? name.trim() : "");
 
-// [헬퍼] 팀 구분 로직
-const getTeamColor = (teamName) => {
-    if (!teamName) return '#9ca3af'; 
-    if (teamName.includes('1') || teamName.toLowerCase().includes('one')) return COLOR_TEAM1;
-    if (teamName.includes('2') || teamName.toLowerCase().includes('two')) return COLOR_TEAM2;
-    return '#9ca3af';
+// 💡 [핵심 버그 수정] 어떤 팀 이름(T1, O2 등 숫자가 포함된 이름)이 들어와도 정확히 매칭되도록 로직 수정
+const checkIsTeam1 = (teamName, t1Name) => {
+    if (!teamName) return false;
+    if (teamName === t1Name) return true;
+    // 과거 데이터(팀명 입력 안 한 옛날 스크림) 호환용
+    return teamName === '1팀' || teamName === 'Team 1';
 };
 
-const isTeam1 = (teamName) => teamName && (teamName.includes('1') || teamName.toLowerCase().includes('one'));
-const isTeam2 = (teamName) => teamName && (teamName.includes('2') || teamName.toLowerCase().includes('two'));
+const checkIsTeam2 = (teamName, t2Name) => {
+    if (!teamName) return false;
+    if (teamName === t2Name) return true;
+    // 과거 데이터 호환용
+    return teamName === '2팀' || teamName === 'Team 2';
+};
+
+const resolveTeamColor = (teamName, t1Name, t2Name) => {
+    if (!teamName) return '#9ca3af'; 
+    if (checkIsTeam1(teamName, t1Name)) return COLOR_TEAM1;
+    if (checkIsTeam2(teamName, t2Name)) return COLOR_TEAM2;
+    return '#9ca3af';
+};
 
 const HERO_ALIAS_MAP = {
     '솔저: 76': '솔저76', '솔저 : 76': '솔저76', 'D.Va': '디바', 'Widowmaker': '위도우메이커', 'Tracer': '트레이서', 'Sojourn': '소전'
@@ -66,7 +77,6 @@ const HERO_SKILL_MAP = {
     '위도우메이커': { 'Ability 1': '갈고리 발사', 'Ability 2': '맹독 지뢰', 'Ultimate': '적외선 투시' },
     '벤처': { 'Ability 1': '잠복', 'Ability 2': '드릴 돌진', 'Ultimate': '지각 충격' },
     '벤데타': { 'Ability 1': '소용돌이 질주', 'Ability 2': '치솟는 베기', 'Ultimate': '갈라내는 칼날' },
-    '프레야': { 'Ability 1': '기술 1', 'Ability 2': '기술 2', 'Ultimate': '프레야 궁' },
     '아나': { 'Ability 1': '수면총', 'Ability 2': '생체 수류탄', 'Ultimate': '나노 강화제' },
     '바티스트': { 'Ability 1': '치유 파동', 'Ability 2': '불사 장치', 'Ultimate': '증폭 매트릭스' },
     '브리기테': { 'Ability 1': '방패 밀쳐내기', 'Ability 2': '도리깨 투척', 'Ultimate': '집결' },
@@ -80,8 +90,6 @@ const HERO_SKILL_MAP = {
     '젠야타': { 'Ability 1': '조화의 구슬', 'Ability 2': '부조화의 구슬', 'Ultimate': '초월' },
     '우양': { 'Ability 1': '격류', 'Ability 2': '수호의 파도', 'Ultimate': '해일 폭발' },
     '도미나': { 'Ability 1': '소닉 리펄서', 'Ability 2': '수정 발사', 'Ultimate': '판옵티콘' },
-    '안란': { 'Ability 1': '맹염 질주', 'Ability 2': '춤추는 불꽃', 'Ultimate': '불사조 승천' },
-    '엠레': { 'Ability 1': '사이펀 블라스터', 'Ability 2': '사이퍼 파편 수류탄', 'Ultimate': '오버라이드 프로토콜' },
     '미즈키': { 'Ability 1': '종이 인형 분신술', 'Ability 2': '속박 사슬', 'Ultimate': '결계 성역' },
     '제트팩 캣': { 'Ability 1': '생명줄', 'Ability 2': '골골대기', 'Ultimate': '납치한다냥' },
 };
@@ -92,20 +100,19 @@ const getDisplayHeroName = (rawName) => {
     return HERO_ALIAS_MAP[clean] || clean;
 };
 
-// 💡 [수정] 영웅 이미지 완벽 매핑 (띄어쓰기 및 대소문자 방어)
 const getHeroImageSrc = (heroName) => {
   if (!heroName || heroName === 'Unknown') return null;
 
   const exactFileNames = {
-    'D.Va': 'D.Va',
-    '디바': 'D.Va',
-    '솔저: 76': 'Soldier76',
-    '솔저 76': 'Soldier76',
-    '솔져: 76': 'Soldier76',
-    '솔져 76': 'Soldier76',
-    'Soldier: 76': 'Soldier76',
-    '제트팩 캣': 'JetpackCat',
-    'Jetpack Cat': 'JetpackCat'
+    'D.Va': 'dva',
+    '디바': 'dva',
+    '솔저: 76': 'soldier76',
+    '솔저 76': 'soldier76',
+    '솔져: 76': 'soldier76',
+    '솔져 76': 'soldier76',
+    'Soldier: 76': 'soldier76',
+    '제트팩 캣': 'jetpackcat',
+    'Jetpack Cat': 'jetpackcat'
   };
 
   const displayName = getDisplayHeroName(heroName);
@@ -120,8 +127,8 @@ const getHeroImageSrc = (heroName) => {
 
 const getRoleInfo = (heroName) => {
     const name = getDisplayHeroName(heroName);
-    const tanks = ['디바', '둠피스트', '정커퀸', '마우가', '오리사', '라마트라', '라인하르트', '로드호그', '시그마', '윈스턴', '레킹볼', '자리야', '해저드'];
-    const supports = ['아나', '바티스트', '브리기테', '일리아리', '키리코', '라이프위버', '루시우', '메르시', '모이라', '젠야타', '주노', '우양'];
+    const tanks = ['디바', '둠피스트', '정커퀸', '마우가', '오리사', '라마트라', '라인하르트', '로드호그', '시그마', '윈스턴', '레킹볼', '자리야', '해저드', '도미나'];
+    const supports = ['아나', '바티스트', '브리기테', '일리아리', '키리코', '라이프위버', '루시우', '메르시', '모이라', '젠야타', '주노', '우양', '미즈키', '제트팩 캣'];
     
     if (tanks.includes(name) || tanks.includes(heroName)) return { label: 'tank', order: 1 };
     if (supports.includes(name) || supports.includes(heroName)) return { label: 'support', order: 3 };
@@ -182,7 +189,6 @@ const FightSurvivorsChart = ({ fights, team1Name, team2Name, theme, t }) => {
 
   return (
     <div style={{ width: '100%', height: 250 }}>
-      {/* 💡 [수정] Recharts Warning 방지 속성 추가 */}
       <ResponsiveContainer width="100%" height="100%" minWidth={0}>
         <BarChart data={data} barGap={2} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" stroke={theme.border} vertical={false} />
@@ -224,7 +230,6 @@ const AverageSurvivorsChart = ({ fights, team1Name, team2Name, theme, t }) => {
     return (
         <div style={{ width: '100%', height: 250, display:'flex', flexDirection:'column', alignItems:'center' }}>
             <div style={{ fontSize:'12px', color: theme.textSub, marginBottom:'10px' }}>{t.avgSurvivors}</div>
-            {/* 💡 [수정] Recharts Warning 방지 속성 추가 */}
             <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                 <BarChart data={data} margin={{ top: 10, right: 0, left: -25, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke={theme.border} vertical={false} />
@@ -245,7 +250,7 @@ const AverageSurvivorsChart = ({ fights, team1Name, team2Name, theme, t }) => {
 // =================================================================================
 // [1] 스텟 뷰 (StatsView)
 // =================================================================================
-const StatsView = ({ activeRoundTab, setActiveRoundTab, displayStats, rounds }) => {
+const StatsView = ({ activeRoundTab, setActiveRoundTab, displayStats, rounds, t1Name, t2Name }) => {
   const { theme } = useTheme();
   const { t } = useLanguage();
 
@@ -339,7 +344,7 @@ const StatsView = ({ activeRoundTab, setActiveRoundTab, displayStats, rounds }) 
           </thead>
           <tbody>
             {processedStats.map((row, idx) => {
-              const teamColor = getTeamColor(row.team_name);
+              const teamColor = resolveTeamColor(row.team_name, t1Name, t2Name);
               const isTeamChange = sortConfig.key === 'default' && idx > 0 && (row.team_name || "") !== (processedStats[idx-1]?.team_name || "");
               const roleIconSrc = getRoleIconSrc(row.role_label);
               let dhColor = theme.textSub;
@@ -366,7 +371,7 @@ const StatsView = ({ activeRoundTab, setActiveRoundTab, displayStats, rounds }) 
                     <td style={{...tdStyle, fontWeight:'bold', color: theme.text}}>{row.eliminations}</td>
                     <td style={{...tdStyle, color: theme.textSub}}>{row.final_blows}</td>
                     <td style={{...tdStyle, color: theme.danger}}>{row.deaths}</td>
-                    <td style={{...tdStyle, color: row.kd >= 3 ? theme.success : theme.textSub}}>{fmtDec(row.kd)}</td>
+                    <td style={{...tdStyle, color: row.kd >= 3 ? NEON_GREEN : theme.textSub, fontWeight: row.kd >= 3 ? 'bold' : 'normal', textShadow: row.kd >= 3 ? `0 0 8px ${NEON_GREEN}40` : 'none'}}>{fmtDec(row.kd)}</td>
                     <td style={tdStyle}>{row.assists}</td>
                     <td style={tdStyle}>{fmt(row.hero_damage_dealt)}</td>
                     <td style={{...tdStyle, color: theme.textSub}}>{fmt(row.barrier_damage_dealt)}</td>
@@ -395,7 +400,7 @@ const StatsView = ({ activeRoundTab, setActiveRoundTab, displayStats, rounds }) 
 // =================================================================================
 // [2] 킬 로그 뷰 (KillLogView)
 // =================================================================================
-const KillLogView = ({ fights, activeRoundTab }) => {
+const KillLogView = ({ fights, activeRoundTab, t1Name, t2Name }) => {
   const { theme } = useTheme();
   const { t } = useLanguage();
 
@@ -471,7 +476,7 @@ const KillLogView = ({ fights, activeRoundTab }) => {
                 </div>
                 <div style={{ fontSize: '14px' }}>
                   <span style={{ color: theme.textSub }}>{t.win}: </span>
-                  <span style={{ color: getTeamColor(fight.winner), fontWeight: 'bold' }}>
+                  <span style={{ color: resolveTeamColor(fight.winner, t1Name, t2Name), fontWeight: 'bold' }}>
                     {fight.winner} ({fight.t1Kills} vs {fight.t2Kills})
                   </span>
                 </div>
@@ -480,8 +485,8 @@ const KillLogView = ({ fights, activeRoundTab }) => {
                   <tbody>
                   {fight.events.map((ev, idx) => {
                       if (ev.event_type !== 'kill') return null;
-                      const killerTeamColor = isTeam1(ev.player_team) ? COLOR_TEAM1 : COLOR_TEAM2;
-                      const victimTeamColor = isTeam1(ev.target_team) ? COLOR_TEAM1 : COLOR_TEAM2;
+                      const killerTeamColor = checkIsTeam1(ev.player_team, t1Name) ? COLOR_TEAM1 : COLOR_TEAM2;
+                      const victimTeamColor = checkIsTeam1(ev.target_team, t1Name) ? COLOR_TEAM1 : COLOR_TEAM2;
                       return (
                           <tr key={idx} style={{ borderBottom: idx !== fight.events.length - 1 ? `1px solid ${theme.border}` : 'none' }}>
                             <td style={{ padding: '12px 24px', color: theme.textSub, fontSize: '13px', width: '80px', whiteSpace: 'nowrap' }}>{formatTime(ev.timestamp)}</td>
@@ -511,22 +516,22 @@ const KillLogView = ({ fights, activeRoundTab }) => {
 // =================================================================================
 // [3] 차트 뷰 (ChartView)
 // =================================================================================
-const ChartView = ({ matchData, rounds, fights }) => { 
+const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => { 
   const { theme } = useTheme();
   const { t } = useLanguage();
 
-  const team1Name = matchData?.team_1_name || '1팀';
-  const team2Name = matchData?.team_2_name || '2팀';
+  const team1Name = t1Name;
+  const team2Name = t2Name;
 
   const [fbTargetTeam, setFbTargetTeam] = useState(team1Name);
 
   useEffect(() => {
-      if (matchData?.team_1_name) {
-          if (fbTargetTeam !== matchData.team_1_name && fbTargetTeam !== matchData.team_2_name) {
-              setFbTargetTeam(matchData.team_1_name);
+      if (team1Name) {
+          if (fbTargetTeam !== team1Name && fbTargetTeam !== team2Name) {
+              setFbTargetTeam(team1Name);
           }
       }
-  }, [matchData]);
+  }, [team1Name, team2Name, fbTargetTeam]);
 
   const firstBloodStats = useMemo(() => {
     if (!fights || fights.length === 0) return null;
@@ -555,10 +560,10 @@ const ChartView = ({ matchData, rounds, fights }) => {
     if (!rounds) return [];
     return rounds.map((round, idx) => ({
         name: `R${idx + 1}`,
-        t1: round.stats.reduce((sum, stat) => sum + (isTeam1(stat.team_name) ? (stat.ultimates_used || 0) : 0), 0),
-        t2: round.stats.reduce((sum, stat) => sum + (isTeam2(stat.team_name) ? (stat.ultimates_used || 0) : 0), 0)
+        t1: round.stats.reduce((sum, stat) => sum + (checkIsTeam1(stat.team_name, t1Name) ? (stat.ultimates_used || 0) : 0), 0),
+        t2: round.stats.reduce((sum, stat) => sum + (checkIsTeam2(stat.team_name, t2Name) ? (stat.ultimates_used || 0) : 0), 0)
     }));
-  }, [rounds]);
+  }, [rounds, t1Name, t2Name]);
 
   const roleFinalBlowsData = useMemo(() => {
     if (!matchData || !matchData.stats) return [];
@@ -566,23 +571,22 @@ const ChartView = ({ matchData, rounds, fights }) => {
     (matchData.stats || []).forEach(stat => {
         const role = getRoleInfo(stat.hero_name).label;
         const entry = data.find(d => d.role === t[role] || d.role === role) || data.find(d => d.role === '탱크' && role === 'tank') || data.find(d => d.role === '딜러' && role === 'dps') || data.find(d => d.role === '지원' && role === 'support');
-        if (entry) { if (isTeam1(stat.team_name)) entry.t1 += (stat.final_blows || 0); else entry.t2 += (stat.final_blows || 0); }
+        if (entry) { if (checkIsTeam1(stat.team_name, t1Name)) entry.t1 += (stat.final_blows || 0); else entry.t2 += (stat.final_blows || 0); }
     });
-    // Translate labels for display
     return data.map(d => ({ ...d, roleDisplay: d.role === '탱크' ? t.tank : (d.role === '딜러' ? t.dps : t.support) }));
-  }, [matchData, t]);
+  }, [matchData, t, t1Name, t2Name]);
 
   const cumulativeDamageData = useMemo(() => {
     if (!matchData || !matchData.rounds) return [];
     return matchData.rounds.map((round, idx) => {
         let t1RoundDmg = 0; let t2RoundDmg = 0;
         (round.stats || []).forEach(stat => { 
-            if(isTeam1(stat.team_name)) t1RoundDmg += Math.round(Number(stat.hero_damage_dealt) || 0); 
+            if(checkIsTeam1(stat.team_name, t1Name)) t1RoundDmg += Math.round(Number(stat.hero_damage_dealt) || 0); 
             else t2RoundDmg += Math.round(Number(stat.hero_damage_dealt) || 0); 
         });
         return { name: `${t.round} ${idx + 1}`, t1: t1RoundDmg, t2: t2RoundDmg };
     });
-  }, [matchData, t]);
+  }, [matchData, t, t1Name, t2Name]);
 
   const scatterData = useMemo(() => {
     if (!matchData || !matchData.stats) return [];
@@ -599,11 +603,11 @@ const ChartView = ({ matchData, rounds, fights }) => {
             name: normalizeName(item.player_name),
             hero: item.hero_name,
             hero_image: item.hero_image,
-            fill: getTeamColor(item.team_name) 
+            fill: resolveTeamColor(item.team_name, t1Name, t2Name) 
         });
     });
     return processed;
-  }, [matchData]);
+  }, [matchData, t1Name, t2Name]);
 
   const ScatterTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
@@ -656,7 +660,7 @@ const ChartView = ({ matchData, rounds, fights }) => {
                             <td style={{ padding: '16px', fontWeight: 'bold', color: theme.success }}>{t.fbSecured}</td>
                             <td style={{ padding: '16px', textAlign: 'center' }}>{firstBloodStats?.secured.total}</td>
                             <td style={{ padding: '16px', textAlign: 'center' }}>{firstBloodStats?.secured.wins}</td>
-                            <td style={{ padding: '16px', textAlign: 'right', fontWeight: 'bold' }}>{firstBloodStats?.secured.rate}%</td>
+                            <td style={{ padding: '16px', textAlign: 'right', fontWeight: 'bold', color: NEON_GREEN }}>{firstBloodStats?.secured.rate}%</td>
                         </tr>
                         <tr>
                             <td style={{ padding: '16px', fontWeight: 'bold', color: theme.danger }}>{t.fbSuffered}</td>
@@ -698,7 +702,6 @@ const ChartView = ({ matchData, rounds, fights }) => {
             <div style={{ ...cardStyle, marginBottom: 0 }}>
                 <div style={titleStyle}><Zap size={18}/> {t.ultsPerFight}</div>
                 <div style={{ width: '100%', height: 300 }}>
-                    {/* 💡 [수정] Recharts Warning 방지 속성 추가 */}
                     <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                         <BarChart data={ultsPerFightData}>
                             <CartesianGrid strokeDasharray="3 3" stroke={theme.border} vertical={false} />
@@ -706,7 +709,7 @@ const ChartView = ({ matchData, rounds, fights }) => {
                             <YAxis stroke={theme.textSub} fontSize={12} tickLine={false} axisLine={false} width={30}/>
                             <Tooltip cursor={{fill: 'transparent'}} contentStyle={{ backgroundColor: theme.surface, border: 'none', borderRadius: '8px', color: theme.text, fontSize:'13px' }} />
                             <Legend verticalAlign="top" height={36} wrapperStyle={{fontSize:'12px'}}/>
-                            <Bar dataKey="t1" name={team1Name} fill={COLOR_TEAM1} radius={[4, 4, 0, 0]} barSize={32} />
+                            <Bar dataKey="t1" name={team1Name} fill={NEON_GREEN} radius={[4, 4, 0, 0]} barSize={32} />
                             <Bar dataKey="t2" name={team2Name} fill={COLOR_TEAM2} radius={[4, 4, 0, 0]} barSize={32} />
                         </BarChart>
                     </ResponsiveContainer>
@@ -716,7 +719,6 @@ const ChartView = ({ matchData, rounds, fights }) => {
             <div style={{ ...cardStyle, marginBottom: 0 }}>
                 <div style={titleStyle}><Crosshair size={18}/> {t.fbByRole}</div>
                 <div style={{ width: '100%', height: 300 }}>
-                    {/* 💡 [수정] Recharts Warning 방지 속성 추가 */}
                     <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                         <BarChart data={roleFinalBlowsData}>
                             <CartesianGrid strokeDasharray="3 3" stroke={theme.border} vertical={false} />
@@ -724,7 +726,7 @@ const ChartView = ({ matchData, rounds, fights }) => {
                             <YAxis stroke={theme.textSub} fontSize={12} tickLine={false} axisLine={false} width={30}/>
                             <Tooltip cursor={{fill: 'transparent'}} contentStyle={{ backgroundColor: theme.surface, border: 'none', borderRadius: '8px', color: theme.text, fontSize:'13px' }} />
                             <Legend verticalAlign="top" height={36} wrapperStyle={{fontSize:'12px'}}/>
-                            <Bar dataKey="t1" name={team1Name} fill={COLOR_TEAM1} radius={[4, 4, 0, 0]} barSize={36} />
+                            <Bar dataKey="t1" name={team1Name} fill={NEON_GREEN} radius={[4, 4, 0, 0]} barSize={36} />
                             <Bar dataKey="t2" name={team2Name} fill={COLOR_TEAM2} radius={[4, 4, 0, 0]} barSize={36} />
                         </BarChart>
                     </ResponsiveContainer>
@@ -736,13 +738,12 @@ const ChartView = ({ matchData, rounds, fights }) => {
             <div style={{ ...cardStyle, marginBottom: 0 }}>
                 <div style={titleStyle}><Zap size={18}/> {t.cumulativeDmg}</div>
                 <div style={{ width: '100%', height: 280 }}>
-                    {/* 💡 [수정] Recharts Warning 방지 속성 추가 */}
                     <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                         <AreaChart data={cumulativeDamageData}>
                             <defs>
                                 <linearGradient id="colorTeam1" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="5%" stopColor={COLOR_TEAM1} stopOpacity={0.3}/>
-                                    <stop offset="95%" stopColor={COLOR_TEAM1} stopOpacity={0}/>
+                                    <stop offset="5%" stopColor={NEON_GREEN} stopOpacity={0.3}/>
+                                    <stop offset="95%" stopColor={NEON_GREEN} stopOpacity={0}/>
                                 </linearGradient>
                                 <linearGradient id="colorTeam2" x1="0" y1="0" x2="0" y2="1">
                                     <stop offset="5%" stopColor={COLOR_TEAM2} stopOpacity={0.3}/>
@@ -754,7 +755,7 @@ const ChartView = ({ matchData, rounds, fights }) => {
                             <YAxis stroke={theme.textSub} fontSize={12} tickLine={false} axisLine={false} width={40}/>
                             <Tooltip contentStyle={{ backgroundColor: theme.surface, border: 'none', borderRadius: '8px', color: theme.text, fontSize:'13px' }} />
                             <Legend verticalAlign="top" height={36} wrapperStyle={{fontSize:'12px'}}/>
-                            <Area type="monotone" dataKey="t1" name={team1Name} stroke={COLOR_TEAM1} fillOpacity={1} fill="url(#colorTeam1)" />
+                            <Area type="monotone" dataKey="t1" name={team1Name} stroke={NEON_GREEN} fillOpacity={1} fill="url(#colorTeam1)" />
                             <Area type="monotone" dataKey="t2" name={team2Name} stroke={COLOR_TEAM2} fillOpacity={1} fill="url(#colorTeam2)" />
                         </AreaChart>
                     </ResponsiveContainer>
@@ -765,7 +766,6 @@ const ChartView = ({ matchData, rounds, fights }) => {
         <div style={cardStyle}>
             <div style={titleStyle}><Crosshair size={18}/> {t.dmgEfficiency}</div>
             <div style={{ width: '100%', height: 350 }}>
-                {/* 💡 [수정] Recharts Warning 방지 속성 추가 */}
                 <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                     <ScatterChart margin={{ top: 20, right: 20, bottom: 50, left: 20 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke={theme.border} />
@@ -800,7 +800,7 @@ const ChartView = ({ matchData, rounds, fights }) => {
 // =================================================================================
 // [4] 이벤트 뷰 (EventsView)
 // =================================================================================
-const EventsView = ({ matchData }) => {
+const EventsView = ({ matchData, t1Name, t2Name }) => {
   const { theme } = useTheme();
   const { t } = useLanguage();
 
@@ -886,7 +886,7 @@ const EventsView = ({ matchData }) => {
             finalGeneral.push({ ...ev, displayTime, realTimestamp: ev.timestamp, label: t.round, desc: `${t.round} ${ev.round_number || '?'} ${t.matchEnd}` });
         } else if (ev.event_type === 'objective_captured') {
             const team = ev.capturing_team || ev.player_team || 'Unknown Team';
-            finalGeneral.push({ ...ev, displayTime, realTimestamp: ev.timestamp, label: t.events, desc: `${team}: ${t.events}`, color: getTeamColor(team) });
+            finalGeneral.push({ ...ev, displayTime, realTimestamp: ev.timestamp, label: t.events, desc: `${team}: ${t.events}`, color: resolveTeamColor(team, t1Name, t2Name) });
         }
         
         if (ev.event_type === 'kill') {
@@ -897,13 +897,13 @@ const EventsView = ({ matchData }) => {
             const killerName = ev.player_name;
             const recentKills = killsBuffer.filter(k => k.player_name === killerName);
             if (recentKills.length === 3) {
-                 finalGeneral.push({ ...ev, displayTime, realTimestamp: ev.timestamp, label: 'Multi Kill', desc: `${killerName} Multi Kill`, color: getTeamColor(ev.player_team), hero: ev.player_hero });
+                 finalGeneral.push({ ...ev, displayTime, realTimestamp: ev.timestamp, label: 'Multi Kill', desc: `${killerName} Multi Kill`, color: resolveTeamColor(ev.player_team, t1Name, t2Name), hero: ev.player_hero });
             }
             if (recentKills.length === 4) {
-                 finalGeneral.push({ ...ev, displayTime, realTimestamp: ev.timestamp, label: 'Multi Kill', desc: `${killerName} 4 Kills!`, color: getTeamColor(ev.player_team), hero: ev.player_hero });
+                 finalGeneral.push({ ...ev, displayTime, realTimestamp: ev.timestamp, label: 'Multi Kill', desc: `${killerName} 4 Kills!`, color: resolveTeamColor(ev.player_team, t1Name, t2Name), hero: ev.player_hero });
             }
             if (recentKills.length >= 5) {
-                 finalGeneral.push({ ...ev, displayTime, realTimestamp: ev.timestamp, label: 'Team Kill', desc: `${killerName} Team Kill!`, color: getTeamColor(ev.player_team), hero: ev.player_hero });
+                 finalGeneral.push({ ...ev, displayTime, realTimestamp: ev.timestamp, label: 'Team Kill', desc: `${killerName} Team Kill!`, color: resolveTeamColor(ev.player_team, t1Name, t2Name), hero: ev.player_hero });
             }
         }
     });
@@ -918,7 +918,7 @@ const EventsView = ({ matchData }) => {
     }));
 
     return { general: finalGeneral, ultimates };
-  }, [matchData, setupStartTime, theme, t]);
+  }, [matchData, setupStartTime, theme, t, t1Name, t2Name]);
 
   const EventItem = ({ time, displayTime, label, desc, color, hero, url }) => (
     <a 
@@ -978,7 +978,7 @@ const EventsView = ({ matchData }) => {
                         time={ev.timestamp} 
                         displayTime={ev.displayTime}
                         desc={ev.desc} 
-                        color={getTeamColor(ev.player_team)} 
+                        color={resolveTeamColor(ev.player_team, t1Name, t2Name)} 
                         hero={ev.player_hero} 
                         url={getYouTubeLink(ev.realTimestamp)}
                     />
@@ -992,12 +992,12 @@ const EventsView = ({ matchData }) => {
 // =================================================================================
 // [5] 플레이어 통계 뷰 (PlayerStatsView)
 // =================================================================================
-const PlayerStatsView = ({ matchData }) => {
+const PlayerStatsView = ({ matchData, t1Name, t2Name }) => {
     const { theme } = useTheme();
     const { t } = useLanguage();
 
-    const [selP1, setSelP1] = useState(normalizeName(matchData?.stats?.filter(p => isTeam1(p.team_name))[0]?.player_name));
-    const [selP2, setSelP2] = useState(normalizeName(matchData?.stats?.filter(p => isTeam2(p.team_name))[0]?.player_name));
+    const [selP1, setSelP1] = useState(normalizeName(matchData?.stats?.filter(p => checkIsTeam1(p.team_name, t1Name))[0]?.player_name));
+    const [selP2, setSelP2] = useState(normalizeName(matchData?.stats?.filter(p => checkIsTeam2(p.team_name, t2Name))[0]?.player_name));
 
     const getPlayerHeroStats = (playerName, teamCheckFn) => {
         const heroMap = {};
@@ -1147,13 +1147,13 @@ const PlayerStatsView = ({ matchData }) => {
         return Array.from(pMap.values()).sort((a,b) => getRoleInfo(a.hero_name).order - getRoleInfo(b.hero_name).order);
     };
 
-    const t1Players = getUniquePlayers(isTeam1);
-    const t2Players = getUniquePlayers(isTeam2);
+    const t1Players = getUniquePlayers((name) => checkIsTeam1(name, t1Name));
+    const t2Players = getUniquePlayers((name) => checkIsTeam2(name, t2Name));
 
     return (
         <div style={{ display: 'flex', gap: '32px', width: '100%', paddingBottom: '60px' }}>
-            <PlayerSection teamLabel="TEAM 1" teamColor={COLOR_TEAM1} selPlayerName={selP1} setSelPlayerName={setSelP1} players={t1Players} teamCheckFn={isTeam1} />
-            <PlayerSection teamLabel="TEAM 2" teamColor={COLOR_TEAM2} selPlayerName={selP2} setSelPlayerName={setSelP2} players={t2Players} teamCheckFn={isTeam2} />
+            <PlayerSection teamLabel={t1Name} teamColor={COLOR_TEAM1} selPlayerName={selP1} setSelPlayerName={setSelP1} players={t1Players} teamCheckFn={(name) => checkIsTeam1(name, t1Name)} />
+            <PlayerSection teamLabel={t2Name} teamColor={COLOR_TEAM2} selPlayerName={selP2} setSelPlayerName={setSelP2} players={t2Players} teamCheckFn={(name) => checkIsTeam2(name, t2Name)} />
         </div>
     );
 };
@@ -1183,39 +1183,25 @@ const MatchStats = ({ matchId, onBack, matchData: initialMatchData }) => {
   const dataSummary = useMemo(() => {
     if (!fetchedMatchData) return null;
     const rounds = fetchedMatchData.rounds || [];
-    const t1Name = fetchedMatchData.team_1_name;
-    const t2Name = fetchedMatchData.team_2_name;
-
-    const isControl = fetchedMatchData.map_name && 
-        ['네팔','리장','부산','오아시스','일리오스','남극','사모아','Nepal','Lijiang','Busan','Oasis','Ilios','Antarctic','Samoa']
-        .some(m => fetchedMatchData.map_name.includes(m));
     
-    let t1Score = 0, t2Score = 0;
+    // 💡 백엔드에서 받아온 진짜 팀 이름을 최우선으로 사용! (동적 할당)
+    const t1Name = fetchedMatchData.team_1_name || "1팀";
+    const t2Name = fetchedMatchData.team_2_name || "2팀";
+
+    const isControl = fetchedMatchData.game_mode === 'Control' || fetchedMatchData.game_mode === '쟁탈';
     
-    if (isControl) {
-        rounds.forEach(r => {
-            const isT1Win = r.winner === t1Name || String(r.winner) === "0" || r.winner === 0;
-            const isT2Win = r.winner === t2Name || String(r.winner) === "1" || r.winner === 1;
-            if (isT1Win) t1Score++;
-            else if (isT2Win) t2Score++;
-        });
-    } else {
-        t1Score = fetchedMatchData.score_t1 ?? 0;
-        t2Score = fetchedMatchData.score_t2 ?? 0;
-    }
+    let t1Score = isControl ? rounds.filter(r => r.winner === t1Name).length : (fetchedMatchData.score_t1 || 0);
+    let t2Score = isControl ? rounds.filter(r => r.winner === t2Name).length : (fetchedMatchData.score_t2 || 0);
 
-    const displayStats = activeRoundTab === 'overview' 
-        ? (fetchedMatchData.stats || []) 
-        : (rounds.find(r => r.round_number.toString() === activeRoundTab)?.stats || []);
-
+    const displayStats = activeRoundTab === 'overview' ? (fetchedMatchData.stats || []) : (rounds.find(r => r.round_number.toString() === activeRoundTab)?.stats || []);
+    
     const targetEvents = activeRoundTab === 'overview' ? rounds.flatMap(r => r.events || []) : (rounds.find(r => r.round_number.toString() === activeRoundTab)?.events || []);
-    targetEvents.sort((a,b)=>a.timestamp-b.timestamp);
     
     const fights = []; 
     let curF = null;
     const FIGHT_DURATION_LIMIT = 20;
     
-    targetEvents.forEach(ev => {
+    targetEvents.sort((a,b)=>a.timestamp-b.timestamp).forEach(ev => {
         if (ev.event_type !== 'kill' && ev.event_type !== 'ultimate_start') return;
         
         if (!curF || ev.timestamp > curF.fixedEndTime) {
@@ -1234,12 +1220,13 @@ const MatchStats = ({ matchId, onBack, matchData: initialMatchData }) => {
             curF.events.push(ev);
         }
 
+        // 💡 1팀, 2팀 문자열 하드코딩 완전 제거 (동적 팀명 체크 로직 적용)
         if (ev.event_type === 'kill') { 
-            if (isTeam1(ev.player_team)) curF.t1Kills++; 
-            else curF.t2Kills++; 
+            if (checkIsTeam1(ev.player_team, t1Name)) curF.t1Kills++; 
+            else if (checkIsTeam2(ev.player_team, t2Name)) curF.t2Kills++; 
             
-            if (isTeam1(ev.target_team)) curF.team1_deaths++;
-            else if (isTeam2(ev.target_team)) curF.team2_deaths++;
+            if (checkIsTeam1(ev.target_team, t1Name)) curF.team1_deaths++;
+            else if (checkIsTeam2(ev.target_team, t2Name)) curF.team2_deaths++;
         }
     });
     
@@ -1256,12 +1243,12 @@ const MatchStats = ({ matchId, onBack, matchData: initialMatchData }) => {
         else f.winner = 'Draw';
     });
 
-    return { t1Score, t2Score, displayStats, rounds, fights };
+    return { t1Score, t2Score, displayStats, rounds, fights, t1Name, t2Name };
   }, [fetchedMatchData, activeRoundTab]);
 
   if (loading || !dataSummary) return <div style={{ padding: '60px', color: theme.textSub, textAlign: 'center' }}>{t.loading}</div>;
 
-  const btnStyle = (isActive) => ({ padding: '12px 24px', background: 'transparent', border: 'none', borderBottom: isActive ? `3px solid ${theme.text}` : '3px solid transparent', color: isActive ? theme.text : theme.textSub, fontWeight: 700, fontSize: '14px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' });
+  const btnStyle = (isActive) => ({ padding: '12px 24px', background: 'transparent', border: 'none', borderBottom: isActive ? `3px solid ${NEON_GREEN}` : '3px solid transparent', color: isActive ? NEON_GREEN : theme.textSub, fontWeight: 700, fontSize: '14px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' });
 
   return (
     <div style={{ padding: '24px', maxWidth: '1600px', margin: '0 auto', color: theme.text, boxSizing: 'border-box' }}>
@@ -1280,7 +1267,7 @@ const MatchStats = ({ matchId, onBack, matchData: initialMatchData }) => {
                     <span style={{ color: COLOR_TEAM1 }}>{dataSummary.t1Score}</span> : <span style={{ color: COLOR_TEAM2 }}>{dataSummary.t2Score}</span>
                 </div>
                 <div style={{ fontSize: '11px', color: theme.textSub, marginTop: '2px' }}>
-                    {dataSummary.t1Score === dataSummary.t2Score ? t.draw : (dataSummary.t1Score > dataSummary.t2Score ? `${fetchedMatchData.team_1_name} ${t.win}` : `${fetchedMatchData.team_2_name} ${t.win}`)}
+                    {dataSummary.t1Score === dataSummary.t2Score ? t.draw : (dataSummary.t1Score > dataSummary.t2Score ? `${dataSummary.t1Name} ${t.win}` : `${dataSummary.t2Name} ${t.win}`)}
                 </div>
             </div>
             <div style={{ background: theme.surface, padding: '16px', borderRadius: '12px', border: `1px solid ${theme.border}` }}>
@@ -1288,21 +1275,21 @@ const MatchStats = ({ matchId, onBack, matchData: initialMatchData }) => {
                 <div style={{ fontSize: '24px', fontWeight: '800' }}>
                     <span style={{color:COLOR_TEAM1}}>{fetchedMatchData.total_final_blows_t1}</span> <span style={{color: theme.textSub, fontSize:'18px', margin:'0 4px'}}>vs</span> <span style={{color:COLOR_TEAM2}}>{fetchedMatchData.total_final_blows_t2}</span>
                 </div>
-                <div style={{fontSize:'11px', color: theme.textSub, marginTop:2}}>{fetchedMatchData.team_1_name} vs {fetchedMatchData.team_2_name}</div>
+                <div style={{fontSize:'11px', color: theme.textSub, marginTop:2}}>{dataSummary.t1Name} vs {dataSummary.t2Name}</div>
             </div>
             <div style={{ background: theme.surface, padding: '16px', borderRadius: '12px', border: `1px solid ${theme.border}` }}>
                 <div style={{ fontSize: '12px', color: theme.textSub }}><Sword size={14} style={{display:'inline', marginRight:4}}/> {t.fightWins}</div>
                 <div style={{ fontSize: '24px', fontWeight: '800' }}>
-                    <span style={{color:COLOR_TEAM1}}>{dataSummary.fights.filter(f=>f.winner===fetchedMatchData.team_1_name).length}</span> <span style={{color: theme.textSub, fontSize:'18px', margin:'0 4px'}}>vs</span> <span style={{color:COLOR_TEAM2}}>{dataSummary.fights.filter(f=>f.winner===fetchedMatchData.team_2_name).length}</span>
+                    <span style={{color:COLOR_TEAM1}}>{dataSummary.fights.filter(f=>f.winner===dataSummary.t1Name).length}</span> <span style={{color: theme.textSub, fontSize:'18px', margin:'0 4px'}}>vs</span> <span style={{color:COLOR_TEAM2}}>{dataSummary.fights.filter(f=>f.winner===dataSummary.t2Name).length}</span>
                 </div>
-                <div style={{fontSize:'11px', color: theme.textSub, marginTop:2}}>{dataSummary.fights.filter(f=>f.winner===fetchedMatchData.team_1_name).length > dataSummary.fights.filter(f=>f.winner===fetchedMatchData.team_2_name).length ? `${fetchedMatchData.team_1_name} ${t.lead}` : (dataSummary.fights.filter(f=>f.winner===fetchedMatchData.team_1_name).length < dataSummary.fights.filter(f=>f.winner===fetchedMatchData.team_2_name).length ? `${fetchedMatchData.team_2_name} ${t.lead}` : t.draw)}</div>
+                <div style={{fontSize:'11px', color: theme.textSub, marginTop:2}}>{dataSummary.fights.filter(f=>f.winner===dataSummary.t1Name).length > dataSummary.fights.filter(f=>f.winner===dataSummary.t2Name).length ? `${dataSummary.t1Name} ${t.lead}` : (dataSummary.fights.filter(f=>f.winner===dataSummary.t1Name).length < dataSummary.fights.filter(f=>f.winner===dataSummary.t2Name).length ? `${dataSummary.t2Name} ${t.lead}` : t.draw)}</div>
             </div>
             <div style={{ background: theme.surface, padding: '16px', borderRadius: '12px', border: `1px solid ${theme.border}` }}>
                 <div style={{ fontSize: '12px', color: theme.textSub }}><Zap size={14} style={{display:'inline', marginRight:4}}/> {t.ultEconomy}</div>
                 <div style={{ fontSize: '24px', fontWeight: '800' }}>
-                    <span style={{color:COLOR_TEAM1}}>{(dataSummary.fights.filter(f=>f.winner===fetchedMatchData.team_1_name).length ? ((fetchedMatchData.stats?.reduce((acc,s)=>acc+(isTeam1(s.team_name)?s.ultimates_used:0),0) || 0) / dataSummary.fights.filter(f=>f.winner===fetchedMatchData.team_1_name).length).toFixed(2) : "0.00")}</span>
+                    <span style={{color:COLOR_TEAM1}}>{(dataSummary.fights.filter(f=>f.winner===dataSummary.t1Name).length ? ((fetchedMatchData.stats?.reduce((acc,s)=>acc+(checkIsTeam1(s.team_name, dataSummary.t1Name)?s.ultimates_used:0),0) || 0) / dataSummary.fights.filter(f=>f.winner===dataSummary.t1Name).length).toFixed(2) : "0.00")}</span>
                     <span style={{color: theme.textSub, fontSize:'18px', margin:'0 4px'}}>vs</span>
-                    <span style={{color:COLOR_TEAM2}}>{(dataSummary.fights.filter(f=>f.winner===fetchedMatchData.team_2_name).length ? ((fetchedMatchData.stats?.reduce((acc,s)=>acc+(isTeam2(s.team_name)?s.ultimates_used:0),0) || 0) / dataSummary.fights.filter(f=>f.winner===fetchedMatchData.team_2_name).length).toFixed(2) : "0.00")}</span>
+                    <span style={{color:COLOR_TEAM2}}>{(dataSummary.fights.filter(f=>f.winner===dataSummary.t2Name).length ? ((fetchedMatchData.stats?.reduce((acc,s)=>acc+(checkIsTeam2(s.team_name, dataSummary.t2Name)?s.ultimates_used:0),0) || 0) / dataSummary.fights.filter(f=>f.winner===dataSummary.t2Name).length).toFixed(2) : "0.00")}</span>
                 </div>
                 <div style={{fontSize:'11px', color: theme.textSub, marginTop:2}}>{t.lowerBetter}</div>
             </div>
@@ -1324,11 +1311,11 @@ const MatchStats = ({ matchId, onBack, matchData: initialMatchData }) => {
         <button onClick={() => setActiveMainTab('compare')} style={btnStyle(activeMainTab === 'compare')}><User size={18}/> {t.tabPlayer}</button>
       </div>
 
-      {activeMainTab === 'stats' && <StatsView activeRoundTab={activeRoundTab} setActiveRoundTab={setActiveRoundTab} displayStats={dataSummary.displayStats} rounds={dataSummary.rounds} />}
-      {activeMainTab === 'kill' && <KillLogView fights={dataSummary.fights} activeRoundTab={activeRoundTab} />}
-      {activeMainTab === 'chart' && <ChartView matchData={fetchedMatchData} rounds={dataSummary.rounds} fights={dataSummary.fights} />}
-      {activeMainTab === 'event' && <EventsView matchData={fetchedMatchData} />}
-      {activeMainTab === 'compare' && <PlayerStatsView matchData={fetchedMatchData} />}
+      {activeMainTab === 'stats' && <StatsView activeRoundTab={activeRoundTab} setActiveRoundTab={setActiveRoundTab} displayStats={dataSummary.displayStats} rounds={dataSummary.rounds} t1Name={dataSummary.t1Name} t2Name={dataSummary.t2Name} />}
+      {activeMainTab === 'kill' && <KillLogView fights={dataSummary.fights} activeRoundTab={activeRoundTab} t1Name={dataSummary.t1Name} t2Name={dataSummary.t2Name} />}
+      {activeMainTab === 'chart' && <ChartView matchData={fetchedMatchData} rounds={dataSummary.rounds} fights={dataSummary.fights} t1Name={dataSummary.t1Name} t2Name={dataSummary.t2Name} />}
+      {activeMainTab === 'event' && <EventsView matchData={fetchedMatchData} t1Name={dataSummary.t1Name} t2Name={dataSummary.t2Name} />}
+      {activeMainTab === 'compare' && <PlayerStatsView matchData={fetchedMatchData} t1Name={dataSummary.t1Name} t2Name={dataSummary.t2Name} />}
     </div>
   );
 };

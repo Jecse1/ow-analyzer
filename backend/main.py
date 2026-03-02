@@ -128,6 +128,8 @@ class PauseInput(BaseModel):
 
 class MatchSegment(BaseModel):
     map_name: str
+    team1Name: str = Field(default="1팀") # 💡 맵 단위로 이름 저장
+    team2Name: str = Field(default="2팀") 
     start_time: str = Field(alias="start_time") 
     end_time: str = Field(alias="end_time")
     result: str
@@ -139,11 +141,8 @@ class MatchSegment(BaseModel):
         allow_population_by_field_name = True
         extra = "ignore" 
 
-# 💡 ScrimManualInput에 team1Name, team2Name 필드 추가
 class ScrimManualInput(BaseModel):
     scrim_name: str = Field(alias="scrimName")
-    team1_name: str = Field(default="1팀", alias="team1Name")
-    team2_name: str = Field(default="2팀", alias="team2Name")
     video_url: str = Field(alias="videoUrl")
     date: str
     start_time: str = Field(alias="startHour")
@@ -321,7 +320,7 @@ def compute_fight_metrics(fights: List[Dict[str, Any]], team1: str, team2: str):
         "first_pick_advantage_rate": (fp_adv / fp_cnt) if fp_cnt > 0 else None
     }
 
-# 💡 [핵심] 커스텀 팀 이름을 받아서 로그 해석 중에 바꿔치기 하는 매직 로직!
+# 💡 [핵심] 커스텀 팀 이름을 받아서 로그 해석 중에 바꿔치기 하는 로직
 def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = None):
     log_t1 = "1팀"
     log_t2 = "2팀"
@@ -336,7 +335,6 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
             except: pass
             break
 
-    # 로그에 박혀있는 구린 이름을, 코치님이 UI에서 입력한 멋진 팀명(FLC 등)으로 변환하는 함수
     def map_team(t_raw):
         t = t_raw.strip()
         if custom_t1 and t == log_t1: return custom_t1
@@ -375,7 +373,6 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
                 game_time = float(parts[0].replace('[', '').replace(']', '')) if parts[0].startswith('[') else 0.0
                 map_name = parts[base_idx + 2].strip()
                 game_mode = parts[base_idx + 3].strip()
-                # 💡 강제 치환 적용
                 first_team_name = map_team(parts[base_idx + 4])
                 second_team_name = map_team(parts[base_idx + 5])
 
@@ -403,7 +400,7 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
                     n1 = normalize_team_name(first_team_name)
                     n2 = normalize_team_name(second_team_name)
                     for t in tail:
-                        nt = normalize_team_name(map_team(t)) # 💡 강제 치환 적용
+                        nt = normalize_team_name(map_team(t))
                         if nt == n1: match_end_winner = first_team_name; break
                         if nt == n2: match_end_winner = second_team_name; break
                 
@@ -424,7 +421,7 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
                 base_idx = parts.index("round_start")
                 game_time = float(parts[base_idx + 1])
                 r_num = int(float(parts[base_idx + 2]))
-                attacker_name = map_team(parts[base_idx + 3]) # 💡 강제 치환 적용
+                attacker_name = map_team(parts[base_idx + 3])
                 round_attackers[r_num] = attacker_name
 
                 events.append({
@@ -441,7 +438,7 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
                 base_idx = parts.index("round_end")
                 game_time = float(parts[base_idx + 1])
                 r_num = int(float(parts[base_idx + 2]))
-                winner = map_team(parts[base_idx + 3]) # 💡 강제 치환 적용
+                winner = map_team(parts[base_idx + 3])
                 s1 = int(float(parts[base_idx + 4]))
                 s2 = int(float(parts[base_idx + 5]))
                 round_scores[r_num] = {"t1": s1, "t2": s2, "winner": winner}
@@ -461,7 +458,7 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
                 except ValueError: base_idx = parts.index("point_captured")
                 
                 game_time = float(parts[base_idx + 1])
-                capturing_team = map_team(parts[base_idx + 3]) # 💡 강제 치환 적용
+                capturing_team = map_team(parts[base_idx + 3])
 
                 events.append({
                     "event_type": "objective_captured",
@@ -476,7 +473,7 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
                 base_idx = parts.index("payload_progress")
                 game_time = float(parts[base_idx + 1])
                 round_num = int(float(parts[base_idx + 2]))
-                team_name = map_team(parts[base_idx + 3]) # 💡 강제 치환 적용
+                team_name = map_team(parts[base_idx + 3])
                 
                 events.append({
                     "event_type": "payload_progress",
@@ -511,7 +508,7 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
                 if current_round not in raw_rounds_map:
                     raw_rounds_map[current_round] = {}
 
-                p_team = map_team(parts[base_idx + 3]) # 💡 강제 치환 적용
+                p_team = map_team(parts[base_idx + 3])
                 p_name = parts[base_idx + 4].strip()
                 p_hero_kr = parts[base_idx + 5].strip()
                 p_hero_en = KOREAN_HERO_MAP.get(p_hero_kr, p_hero_kr)
@@ -559,10 +556,10 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
                     "event_type": "kill",
                     "timestamp": play_timestamp,
                     "game_timestamp": game_time,
-                    "player_team": map_team(parts[base_idx + 2]), # 💡 강제 치환 적용
+                    "player_team": map_team(parts[base_idx + 2]),
                     "player_name": p_name, "player_hero": p_hero,
                     "player_hero_img": KOREAN_HERO_MAP.get(p_hero, p_hero),
-                    "target_team": map_team(parts[base_idx + 5]), # 💡 강제 치환 적용
+                    "target_team": map_team(parts[base_idx + 5]),
                     "target_name": t_name, "target_hero": t_hero,
                     "target_hero_img": KOREAN_HERO_MAP.get(t_hero, t_hero),
                     "ability": ability
@@ -584,7 +581,7 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
                     "event_type": "ultimate_start",
                     "timestamp": play_timestamp,
                     "game_timestamp": game_time,
-                    "player_team": map_team(parts[base_idx + 2]), # 💡 강제 치환 적용
+                    "player_team": map_team(parts[base_idx + 2]),
                     "player_name": p_name, "player_hero": p_hero,
                     "player_hero_img": KOREAN_HERO_MAP.get(p_hero, p_hero),
                     "ability": "Ultimate"
@@ -993,6 +990,8 @@ async def register_scrim_manual(request: Request):
             "id": str(uuid.uuid4()),
             "match_index": idx + 1,
             "map_name": match.map_name,
+            "team1_name": match.team1Name, # 💡 맵 단위 이름 저장
+            "team2_name": match.team2Name,
             "result": match.result,
             "video_offset": video_offset,
             "pauses": processed_pauses, 
@@ -1001,12 +1000,9 @@ async def register_scrim_manual(request: Request):
             "fights": [], "fight_metrics": {}
         })
 
-    # 💡 1팀, 2팀 이름을 메타데이터에 함께 저장
     new_scrim = {
         "id": new_scrim_id,
         "scrim_name": data.scrim_name,
-        "team1_name": data.team1_name, 
-        "team2_name": data.team2_name,
         "video_url": data.video_url,
         "date": data.date,
         "start_time": data.start_time,
@@ -1037,9 +1033,9 @@ async def upload_match_log(scrim_id: str = Form(...), match_index: int = Form(..
             offset_save = target_match.get("video_offset", 0)
             pauses_save = target_match.get("pauses", [])
             
-            # 💡 저장해둔 커스텀 팀 이름을 꺼내서 파서에 넘김
-            c_t1 = target_scrim.get("team1_name", "")
-            c_t2 = target_scrim.get("team2_name", "")
+            # 💡 각 맵(Match)에 저장된 팀 이름을 가져옴
+            c_t1 = target_match.get("team1_name", "1팀")
+            c_t2 = target_match.get("team2_name", "2팀")
             
             parsed = parse_overwatch_log(log_text, custom_t1=c_t1, custom_t2=c_t2)
             calculate_pure_stats(parsed, target_match)
@@ -1062,10 +1058,6 @@ async def rebuild_database():
             with open(meta_path, "r", encoding="utf-8") as f:
                 scrim_obj = json.load(f)
             scrim_id = scrim_obj["id"]
-            
-            # 💡 기존 메타데이터에서 이름 추출
-            c_t1 = scrim_obj.get("team1_name", "")
-            c_t2 = scrim_obj.get("team2_name", "")
 
             log_files = glob.glob(f"{ROW_DATA_DIR}/{scrim_id}_*.txt")
             
@@ -1084,7 +1076,10 @@ async def rebuild_database():
                     offset_save = target_match.get("video_offset", 0)
                     pauses_save = target_match.get("pauses", [])
                     
-                    # 💡 Rebuild 시에도 치환된 이름으로 덮어쓰기
+                    # 💡 각 맵(Match)에 저장된 팀 이름을 가져옴
+                    c_t1 = target_match.get("team1_name", "1팀")
+                    c_t2 = target_match.get("team2_name", "2팀")
+                    
                     parsed = parse_overwatch_log(log_text, custom_t1=c_t1, custom_t2=c_t2)
                     calculate_pure_stats(parsed, target_match)
                     

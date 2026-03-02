@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Upload, Plus, Trash2, Calendar, Youtube, Map, Clock, PauseCircle, AlertCircle, Users } from 'lucide-react';
+// [중요] ThemeContext, LanguageContext 적용
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
 
@@ -12,14 +13,14 @@ const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
   const [step, setStep] = useState(1);
   const [scrimData, setScrimData] = useState({
     scrimName: '',
-    team1Name: '1팀', // 💡 기본값 1팀
-    team2Name: '2팀', // 💡 기본값 2팀
     videoUrl: '',
     date: new Date().toISOString().split('T')[0],
     startHour: '20',
     endHour: '22',
     matches: [{ 
       map_name: '', 
+      team1Name: '1팀', // 💡 각 맵마다 팀명 저장
+      team2Name: '2팀',
       start_time: '', 
       end_time: '', 
       result: '', 
@@ -112,7 +113,7 @@ const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
   const addMatch = () => {
     setScrimData(prev => ({
       ...prev,
-      matches: [...prev.matches, { map_name: '', start_time: '', end_time: '', result: '', has_pause: false, pauses: [] }],
+      matches: [...prev.matches, { map_name: '', team1Name: '1팀', team2Name: '2팀', start_time: '', end_time: '', result: '', has_pause: false, pauses: [] }],
       files: [...prev.files, null]
     }));
   };
@@ -134,53 +135,16 @@ const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
     });
   };
 
-  // [스타일 정의 (테마 적용)]
   const overlayStyle = { position: 'fixed', inset: 0, backgroundColor: 'rgba(0, 0, 0, 0.75)', backdropFilter: 'blur(4px)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000, padding: '20px' };
-  
-  const modalStyle = { 
-      backgroundColor: theme.bg,
-      border: `1px solid ${theme.border}`, 
-      borderRadius: '20px', 
-      width: '100%', 
-      maxWidth: '900px', 
-      maxHeight: '90vh', 
-      overflowY: 'auto', 
-      display: 'flex', 
-      flexDirection: 'column', 
-      color: theme.text,
-      boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)' 
-  };
-
+  const modalStyle = { backgroundColor: theme.bg, border: `1px solid ${theme.border}`, borderRadius: '20px', width: '100%', maxWidth: '900px', maxHeight: '90vh', overflowY: 'auto', display: 'flex', flexDirection: 'column', color: theme.text, boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)' };
   const headerStyle = { padding: '32px', borderBottom: `1px solid ${theme.border}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, backgroundColor: theme.bg, zIndex: 10 };
   const bodyStyle = { padding: '32px', display: 'flex', flexDirection: 'column', gap: '32px' };
-  
   const inputGroupStyle = { display: 'flex', flexDirection: 'column', gap: '10px' };
   const labelStyle = { fontSize: '15px', fontWeight: '600', color: theme.textSub };
-  
-  const inputStyle = { 
-      padding: '16px 20px', 
-      backgroundColor: theme.surfaceHighlight,
-      border: `1px solid ${theme.borderHighlight}`, 
-      borderRadius: '12px', 
-      color: theme.text, 
-      fontSize: '16px', 
-      outline: 'none', 
-      width: '100%', 
-      boxSizing: 'border-box' 
-  };
-  
+  const inputStyle = { padding: '16px 20px', backgroundColor: theme.surfaceHighlight, border: `1px solid ${theme.borderHighlight}`, borderRadius: '12px', color: theme.text, fontSize: '16px', outline: 'none', width: '100%', boxSizing: 'border-box' };
   const selectStyle = { ...inputStyle, appearance: 'none', cursor: 'pointer', textAlign: 'center' };
   const footerStyle = { padding: '32px', borderTop: `1px solid ${theme.border}`, display: 'flex', justifyContent: 'flex-end', gap: '16px', position: 'sticky', bottom: 0, backgroundColor: theme.bg, zIndex: 10 };
-  const btnStyle = (variant) => ({ 
-      padding: '14px 28px', 
-      borderRadius: '12px', 
-      fontSize: '16px', 
-      fontWeight: '600', 
-      cursor: 'pointer', 
-      border: variant === 'primary' ? 'none' : `1px solid ${theme.borderHighlight}`, 
-      backgroundColor: variant === 'primary' ? theme.text : theme.surfaceHighlight,
-      color: variant === 'primary' ? theme.bg : theme.text 
-  });
+  const btnStyle = (variant) => ({ padding: '14px 28px', borderRadius: '12px', fontSize: '16px', fontWeight: '600', cursor: 'pointer', border: variant === 'primary' ? 'none' : `1px solid ${theme.borderHighlight}`, backgroundColor: variant === 'primary' ? theme.text : theme.surfaceHighlight, color: variant === 'primary' ? theme.bg : theme.text });
 
   return (
     <div style={overlayStyle} onClick={onClose}>
@@ -203,19 +167,6 @@ const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
                 <label style={labelStyle}>{t.scrimName}</label>
                 <input type="text" placeholder={t.scrimNamePlace} value={scrimData.scrimName} onChange={e => setScrimData({ ...scrimData, scrimName: e.target.value })} style={inputStyle} />
               </div>
-
-              {/* 💡 1팀 / 2팀 이름 입력란 추가 */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                  <div style={inputGroupStyle}>
-                    <label style={labelStyle}><Users size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> 1팀 이름 (왼쪽)</label>
-                    <input type="text" placeholder="ex: FLC" value={scrimData.team1Name} onChange={e => setScrimData({ ...scrimData, team1Name: e.target.value })} style={inputStyle} />
-                  </div>
-                  <div style={inputGroupStyle}>
-                    <label style={labelStyle}><Users size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> 2팀 이름 (오른쪽)</label>
-                    <input type="text" placeholder="ex: RC" value={scrimData.team2Name} onChange={e => setScrimData({ ...scrimData, team2Name: e.target.value })} style={inputStyle} />
-                  </div>
-              </div>
-
               <div style={inputGroupStyle}>
                 <label style={labelStyle}><Youtube size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> {t.videoUrl}</label>
                 <input type="text" placeholder="https://youtu.be/..." value={scrimData.videoUrl} onChange={e => setScrimData({ ...scrimData, videoUrl: e.target.value })} style={inputStyle} />
@@ -257,21 +208,34 @@ const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
                     )}
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px', marginBottom: '20px' }}>
-                    <div style={inputGroupStyle}>
-                      <label style={labelStyle}><Map size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> {t.mapName}</label>
-                      <input type="text" placeholder="ex: King's Row" value={match.map_name} onChange={e => updateMatch(idx, 'map_name', e.target.value)} style={inputStyle} />
-                    </div>
-                    <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'16px' }}>
-                        <div style={inputGroupStyle}>
-                            <label style={labelStyle}><Clock size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> {t.matchStart} (MM:SS)</label>
-                            <input type="text" placeholder="00:00" value={match.start_time} onChange={e => updateMatch(idx, 'start_time', e.target.value)} style={{...inputStyle, textAlign:'center'}} />
-                        </div>
-                        <div style={inputGroupStyle}>
-                            <label style={labelStyle}><Clock size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> {t.matchEnd} (MM:SS)</label>
-                            <input type="text" placeholder="10:00" value={match.end_time} onChange={e => updateMatch(idx, 'end_time', e.target.value)} style={{...inputStyle, textAlign:'center'}} />
-                        </div>
-                    </div>
+                  {/* 💡 맵 이름 및 팀 이름 입력 (SET별 적용) */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginBottom: '20px' }}>
+                      <div style={inputGroupStyle}>
+                        <label style={labelStyle}><Map size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> {t.mapName}</label>
+                        <input type="text" placeholder="ex: King's Row" value={match.map_name} onChange={e => updateMatch(idx, 'map_name', e.target.value)} style={inputStyle} />
+                      </div>
+                      
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                          <div style={inputGroupStyle}>
+                              <label style={labelStyle}><Users size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> 1팀 이름 (왼쪽)</label>
+                              <input type="text" placeholder="ex: FLC" value={match.team1Name} onChange={e => updateMatch(idx, 'team1Name', e.target.value)} style={inputStyle} />
+                          </div>
+                          <div style={inputGroupStyle}>
+                              <label style={labelStyle}><Users size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> 2팀 이름 (오른쪽)</label>
+                              <input type="text" placeholder="ex: RC" value={match.team2Name} onChange={e => updateMatch(idx, 'team2Name', e.target.value)} style={inputStyle} />
+                          </div>
+                      </div>
+
+                      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'16px' }}>
+                          <div style={inputGroupStyle}>
+                              <label style={labelStyle}><Clock size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> {t.matchStart} (MM:SS)</label>
+                              <input type="text" placeholder="00:00" value={match.start_time} onChange={e => updateMatch(idx, 'start_time', e.target.value)} style={{...inputStyle, textAlign:'center'}} />
+                          </div>
+                          <div style={inputGroupStyle}>
+                              <label style={labelStyle}><Clock size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> {t.matchEnd} (MM:SS)</label>
+                              <input type="text" placeholder="10:00" value={match.end_time} onChange={e => updateMatch(idx, 'end_time', e.target.value)} style={{...inputStyle, textAlign:'center'}} />
+                          </div>
+                      </div>
                   </div>
 
                   {/* 퍼즈 입력 섹션 */}

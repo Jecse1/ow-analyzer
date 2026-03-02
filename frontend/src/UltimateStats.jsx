@@ -4,23 +4,22 @@ import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGri
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
 
-// 💡 전역 초록 형광색 상수
 const NEON_GREEN = '#39FF14';
 
-// 영웅 이미지 예외 처리
+// 💡 영웅 이미지 예외 처리 (무조건 소문자 파일 매핑)
 const getHeroImageSrc = (heroName) => {
     if (!heroName || heroName === 'Unknown') return null;
     
     const exactFileNames = {
-        'D.Va': 'D.Va',
-        '디바': 'D.Va',
-        '솔저: 76': 'Soldier76',
-        '솔저 76': 'Soldier76',
-        '솔져: 76': 'Soldier76',
-        '솔져 76': 'Soldier76',
-        'Soldier: 76': 'Soldier76',
-        '제트팩 캣': '제트팩 캣',
-        'Jetpack Cat': 'Jetpack Cat'
+        'D.Va': 'dva',
+        '디바': 'dva',
+        '솔저: 76': 'soldier76',
+        '솔저 76': 'soldier76',
+        '솔져: 76': 'soldier76',
+        '솔져 76': 'soldier76',
+        'Soldier: 76': 'soldier76',
+        '제트팩 캣': 'jetpackcat',
+        'Jetpack Cat': 'jetpackcat'
     };
 
     let fileName = exactFileNames[heroName];
@@ -59,8 +58,8 @@ export default function UltimateStats({ allScrims }) {
             if (endDate && scrim.date > endDate) return;
 
             (scrim.matches || []).forEach(match => {
-                const t1Name = match.team_1_name;
-                const t2Name = match.team_2_name;
+                const t1Name = match.team_1_name || "1팀";
+                const t2Name = match.team_2_name || "2팀";
 
                 (match.rounds || []).forEach(round => {
                     const events = round.events || [];
@@ -130,7 +129,7 @@ export default function UltimateStats({ allScrims }) {
 
         const heroStats = Object.entries(heroUltMap)
             .map(([hero, data]) => ({ hero, uses: data.uses, winRate: data.uses > 0 ? Math.round((data.wins / data.uses) * 100) : 0 }))
-            .filter(h => h.uses >= 5) 
+            .filter(h => h.uses >= 1) 
             .sort((a, b) => b.winRate - a.winRate);
 
         return { countStats, heroStats };
@@ -176,7 +175,6 @@ export default function UltimateStats({ allScrims }) {
                                 <Tooltip cursor={{fill: 'transparent'}} contentStyle={{ backgroundColor: theme.surfaceHighlight, border: 'none', borderRadius: '8px', color: theme.text }} formatter={(value, name) => [name === 'winRate' ? `${value}%` : value, name === 'winRate' ? t.winRate : t.fightCount]} />
                                 <Legend />
                                 <Bar dataKey="winRate" name={t.winRate} radius={[6, 6, 0, 0]} barSize={40}>
-                                    {/* 💡 승률이 50% 이상이면 형광색, 아니면 빨간색 적용 */}
                                     {ultAnalysis.countStats.map((entry, index) => (
                                         <Cell key={`cell-${index}`} fill={entry.winRate >= 50 ? NEON_GREEN : theme.danger} />
                                     ))}

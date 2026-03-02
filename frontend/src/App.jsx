@@ -172,18 +172,21 @@ function MainApp() {
     setUploading(true);
     setError(null);
     try {
-      // 💡 여기서 team1Name과 team2Name을 페이로드에 담아 전송
       const payload = {
         scrimName: scrimData.scrimName || "이름 없는 스크림",
-        team1Name: scrimData.team1Name || "1팀",
-        team2Name: scrimData.team2Name || "2팀",
         videoUrl: scrimData.videoUrl || "",
         date: scrimData.date,
         startHour: scrimData.startHour || "00",
         endHour: scrimData.endHour || "00",
         matches: scrimData.matches.map((m) => ({
-          map_name: m.map_name, start_time: m.start_time, end_time: m.end_time,
-          result: m.result || "Unknown", hasPause: m.has_pause, pauses: m.pauses || []
+          map_name: m.map_name,
+          team1Name: m.team1Name || "1팀",
+          team2Name: m.team2Name || "2팀",
+          start_time: m.start_time,
+          end_time: m.end_time,
+          result: m.result || "Unknown",
+          hasPause: m.has_pause,
+          pauses: m.pauses || []
         })),
         files: [] 
       };
