@@ -76,7 +76,7 @@ function MainApp() {
   // 💡 전체 스크림 데이터를 저장할 State (개인 통계 계산용)
   const [allScrims, setAllScrims] = useState([]); 
 
-  const API_BASE = "http://127.0.0.1:8000";
+  const API_BASE = "";
 
   // --- API: 모든 스크림 데이터 불러오기 (개인 통계용) ---
   useEffect(() => {

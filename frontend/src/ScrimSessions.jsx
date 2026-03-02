@@ -15,7 +15,7 @@ const ScrimSessions = ({ onSelectScrim }) => {
 
   const fetchScrims = async () => {
     try {
-      const res = await axios.get('http://127.0.0.1:8000/api/scrims');
+      const res = await axios.get('/api/scrims');
       setScrims(res.data);
     } catch (err) {
       console.error(err);
@@ -36,7 +36,7 @@ const ScrimSessions = ({ onSelectScrim }) => {
 
     setRebuilding(true);
     try {
-      const res = await axios.post('http://127.0.0.1:8000/api/admin/rebuild-db');
+      const res = await axios.post('/api/admin/rebuild-db');
       alert(`Done! ${res.data.count} scrims restored.`);
       fetchScrims(); 
     } catch (err) {

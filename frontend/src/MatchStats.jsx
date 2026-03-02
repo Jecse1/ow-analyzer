@@ -1150,7 +1150,7 @@ const MatchStats = ({ matchId, onBack, matchData: initialMatchData }) => {
   useEffect(() => {
     if (initialMatchData) { setFetchedMatchData(initialMatchData); setLoading(false); return; }
     if (matchId) {
-        axios.get(`http://127.0.0.1:8000/api/matches/${matchId}`)
+        axios.get(`/api/matches/${matchId}`)
             .then(res => setFetchedMatchData(res.data))
             .finally(() => setLoading(false));
     }

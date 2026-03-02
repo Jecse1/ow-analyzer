@@ -1,0 +1,61 @@
+{
+    "id": "2602202021",
+    "scrim_name": "인섹팀",
+    "video_url": "https://youtu.be/m_lq3CeGdp8",
+    "date": "2026-02-20",
+    "start_time": "20",
+    "end_time": "21",
+    "matches": [
+        {
+            "id": "2421b74a-c236-4d7d-ba28-20ee54936fbb",
+            "match_index": 1,
+            "map_name": "네팔",
+            "result": "Unknown",
+            "video_offset": 596,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "58fdaa63-56e7-4d5d-a197-8ebf41bf83ca",
+            "match_index": 2,
+            "map_name": "사모아",
+            "result": "Unknown",
+            "video_offset": 1918,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "d7dda78d-549c-49bd-bd6f-a721661111a1",
+            "match_index": 3,
+            "map_name": "도라도",
+            "result": "Unknown",
+            "video_offset": 2615,
+            "pauses": [
+                {
+                    "start_sec": 2625,
+                    "end_sec": 2757,
+                    "duration": 132
+                }
+            ],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        }
+    ]
+}

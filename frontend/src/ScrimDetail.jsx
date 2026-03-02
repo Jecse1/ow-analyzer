@@ -6,7 +6,7 @@ import { ChevronLeft, BarChart3 } from "lucide-react";
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
 
-const API_BASE = import.meta.env.PROD ? "" : "http://127.0.0.1:8000";
+const API_BASE = import.meta.env.PROD ? "" : "";
 
 export default function ScrimDetail({ scrimId, onSelectMatch, onBack, onGoOverall }) {
   const { theme } = useTheme(); // [테마 훅]

@@ -1,0 +1,85 @@
+{
+    "id": "2602210102",
+    "scrim_name": "댕균",
+    "video_url": "https://youtu.be/zMVsE8esfKM",
+    "date": "2026-02-21",
+    "start_time": "01",
+    "end_time": "02",
+    "matches": [
+        {
+            "id": "4d793702-82b4-4f5f-89ae-b8ce577f1987",
+            "match_index": 1,
+            "map_name": "왕의길",
+            "result": "Unknown",
+            "video_offset": 808,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "872ee895-ed3e-43b3-988d-b0e9e8ea002c",
+            "match_index": 2,
+            "map_name": "이스페란사",
+            "result": "Unknown",
+            "video_offset": 2001,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "53f4d883-0dce-482f-aa72-d6634a546498",
+            "match_index": 3,
+            "map_name": "눔바니",
+            "result": "Unknown",
+            "video_offset": 3121,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "0446a55c-f052-46a0-9dbc-0c796c5807b4",
+            "match_index": 4,
+            "map_name": "도라도",
+            "result": "Unknown",
+            "video_offset": 3999,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "958b25bb-0652-4c56-8136-a14209af9237",
+            "match_index": 5,
+            "map_name": "지브롤터",
+            "result": "Unknown",
+            "video_offset": 5208,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        }
+    ]
+}
