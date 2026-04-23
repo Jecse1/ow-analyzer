@@ -56,7 +56,8 @@ KOREAN_HERO_MAP = {
     '위도우메이커': 'Widowmaker', '안란': 'Anran', '엠레': 'Emre',
     '아나': 'Ana', '바티스트': 'Baptiste', '브리기테': 'Brigitte', '일리아리': 'Illari', '주노': 'Juno',
     '키리코': 'Kiriko', '라이프위버': 'Lifeweaver', '루시우': 'Lucio', '메르시': 'Mercy',
-    '모이라': 'Moira', '젠야타': 'Zenyatta', '미즈키': 'Mizuki', '제트팩 캣': 'Jetpack Cat'
+    '모이라': 'Moira', '젠야타': 'Zenyatta', '미즈키': 'Mizuki', '제트팩 캣': 'Jetpack Cat',
+    '시에라': 'Sierra'
 }
 
 MAP_TYPE_DATA = {
@@ -113,22 +114,13 @@ def safe_float(x: Any, default: float = 0.0) -> float:
     except:
         return default
 
-def safe_int(x: Any, default: int = 0) -> int:
-    try:
-        return int(float(x))
-    except:
-        return default
-
-# ---------------------------------------------------------
-# [데이터 모델 정의]
-# ---------------------------------------------------------
 class PauseInput(BaseModel):
     start: str
     end: str
 
 class MatchSegment(BaseModel):
     map_name: str
-    team1Name: str = Field(default="1팀") # 💡 맵 단위로 이름 저장
+    team1Name: str = Field(default="1팀") 
     team2Name: str = Field(default="2팀") 
     start_time: str = Field(alias="start_time") 
     end_time: str = Field(alias="end_time")
@@ -197,8 +189,6 @@ def load_data():
 def save_data(data):
     with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
-
-# --- 분석 로직 ---
 
 def get_role_score(hero_name: str) -> int:
     if hero_name in TANKS: return 0
@@ -320,7 +310,6 @@ def compute_fight_metrics(fights: List[Dict[str, Any]], team1: str, team2: str):
         "first_pick_advantage_rate": (fp_adv / fp_cnt) if fp_cnt > 0 else None
     }
 
-# 💡 [핵심] 커스텀 팀 이름을 받아서 로그 해석 중에 바꿔치기 하는 로직
 def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = None):
     log_t1 = "1팀"
     log_t2 = "2팀"
@@ -344,6 +333,8 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
         return t
 
     raw_rounds_map = {}
+    stat_clumps = [] 
+    
     events = []
     team_names = set()
     processed_events = set()
@@ -504,9 +495,7 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
         elif ",player_stat," in clean_line:
             try:
                 base_idx = parts.index("player_stat")
-                current_round = int(float(parts[base_idx + 2]))
-                if current_round not in raw_rounds_map:
-                    raw_rounds_map[current_round] = {}
+                game_time = float(parts[base_idx + 1])
 
                 p_team = map_team(parts[base_idx + 3])
                 p_name = parts[base_idx + 4].strip()
@@ -530,12 +519,25 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
                 }
 
                 key = (p_team, p_name, p_hero_kr)
-                if key in raw_rounds_map[current_round]:
-                    existing = raw_rounds_map[current_round][key]
+
+                # 💡 중복 스텟 생성 방지 로직: 45초 이내에 연속으로 들어온 스텟 로그는 단일 뭉치(라운드)로 합칩니다.
+                matched_clump = None
+                for c in stat_clumps:
+                    if abs(c["time"] - game_time) < 45.0:
+                        matched_clump = c
+                        break
+                
+                if not matched_clump:
+                    matched_clump = {"time": game_time, "stats": {}}
+                    stat_clumps.append(matched_clump)
+                
+                if key in matched_clump["stats"]:
+                    existing = matched_clump["stats"][key]
                     if stat_entry["hero_time_played"] >= existing["hero_time_played"]:
-                        raw_rounds_map[current_round][key] = stat_entry
+                        matched_clump["stats"][key] = stat_entry
                 else:
-                    raw_rounds_map[current_round][key] = stat_entry
+                    matched_clump["stats"][key] = stat_entry
+
             except: continue
 
         elif ",kill," in clean_line:
@@ -588,6 +590,12 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
                 })
             except: continue
 
+    valid_clumps = [c for c in stat_clumps if c["time"] > 5.0]
+    valid_clumps.sort(key=lambda x: x["time"])
+    
+    for idx, c in enumerate(valid_clumps):
+        raw_rounds_map[idx + 1] = c["stats"]
+
     if (game_mode == "Unknown" or game_mode == "") and map_name != "Unknown":
         game_mode = MAP_TYPE_DATA.get(map_name, "Unknown")
     if (game_mode == "Unknown" or game_mode == "") and is_control_map(map_name):
@@ -600,13 +608,8 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
         t1 = sorted_teams[0] if len(sorted_teams) > 0 else "Team 1"
         t2 = sorted_teams[1] if len(sorted_teams) > 1 else "Team 2"
 
-    valid_round_nums = sorted([r for r in raw_rounds_map.keys() if len(raw_rounds_map[r]) > 0])
-    max_round_stats = max(valid_round_nums) if valid_round_nums else 0
-    max_round_scores = max(round_scores.keys()) if round_scores else 0
-    max_round_matchend = 0
-    if match_end_score_t1 is not None and match_end_score_t2 is not None:
-        max_round_matchend = max(match_end_score_t1, match_end_score_t2)
-    total_rounds_count = max(max_round_stats, max_round_scores, max_round_matchend)
+    valid_round_nums = sorted(list(raw_rounds_map.keys()))
+    total_rounds_count = len(valid_round_nums) 
 
     clean_rounds_map = assign_persistent_slots(raw_rounds_map, valid_round_nums)
 
@@ -819,7 +822,7 @@ def calculate_pure_stats(parsed, target_match):
                 player_snapshots[r][p_key] = {}
             player_snapshots[r][p_key][h_name] = log_stat.copy()
 
-    actual_rounds = []
+    actual_rounds_temp = []
     for r in range(1, total_rounds + 1):
         pure_round_stats = []
         r_fb_t1, r_fb_t2 = 0, 0
@@ -887,7 +890,7 @@ def calculate_pure_stats(parsed, target_match):
                 else:
                     r_fb_t2 += final_entry["final_blows"]
 
-        actual_rounds.append({
+        actual_rounds_temp.append({
             "round_number": r,
             "stats": pure_round_stats,
             "events": round_events,
@@ -898,6 +901,14 @@ def calculate_pure_stats(parsed, target_match):
             "fights": round_fights
         })
 
+    # 💡 [핵심 버그 수정] 라운드 진행 시간이 15초 미만인 것은 중복/유령 라운드로 판단하여 제거합니다!
+    actual_rounds = []
+    for r_data in actual_rounds_temp:
+        if r_data["duration_sec"] < 15.0 and len(actual_rounds) >= 1:
+            continue
+        r_data["round_number"] = len(actual_rounds) + 1
+        actual_rounds.append(r_data)
+        
     target_match["rounds"] = actual_rounds
 
     total_stats_map = {}
@@ -939,9 +950,6 @@ def calculate_pure_stats(parsed, target_match):
 
     return target_match
 
-# ------------------------------------------------------------------
-# [API Endpoints]
-# ------------------------------------------------------------------
 @app.post("/api/scrim/manual-register")
 async def register_scrim_manual(request: Request):
     try:
@@ -990,7 +998,7 @@ async def register_scrim_manual(request: Request):
             "id": str(uuid.uuid4()),
             "match_index": idx + 1,
             "map_name": match.map_name,
-            "team1_name": match.team1Name, # 💡 맵 단위 이름 저장
+            "team1_name": match.team1Name, 
             "team2_name": match.team2Name,
             "result": match.result,
             "video_offset": video_offset,
@@ -1033,7 +1041,6 @@ async def upload_match_log(scrim_id: str = Form(...), match_index: int = Form(..
             offset_save = target_match.get("video_offset", 0)
             pauses_save = target_match.get("pauses", [])
             
-            # 💡 각 맵(Match)에 저장된 팀 이름을 가져옴
             c_t1 = target_match.get("team1_name", "1팀")
             c_t2 = target_match.get("team2_name", "2팀")
             
@@ -1076,7 +1083,6 @@ async def rebuild_database():
                     offset_save = target_match.get("video_offset", 0)
                     pauses_save = target_match.get("pauses", [])
                     
-                    # 💡 각 맵(Match)에 저장된 팀 이름을 가져옴
                     c_t1 = target_match.get("team1_name", "1팀")
                     c_t2 = target_match.get("team2_name", "2팀")
                     

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import {
-  LayoutDashboard, History, Users, BarChart3, Moon, Sun, Upload, AlertCircle, Globe, User, Zap 
-} from "lucide-react";
+  LayoutDashboard, History, Users, BarChart3, Moon, Sun, Upload, AlertCircle, Globe, User, Zap, Skull, Crosshair 
+} from "lucide-react"; 
 
 import { ThemeProvider, useTheme } from "./ThemeContext";
 import { LanguageProvider, useLanguage } from "./LanguageContext";
@@ -14,6 +14,8 @@ import ScrimModal from "./ScrimModal";
 import OverallStats from "./OverallStats";
 import PlayerProfileView from "./PlayerProfileView"; 
 import UltimateStats from "./UltimateStats";
+import FirstDeathStats from "./FirstDeathStats"; 
+import FirstKillStats from "./FirstKillStats"; 
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -78,8 +80,8 @@ function MainApp() {
           if (!pName || pName === "Unknown") return;
 
           if (!playerMap[pName]) {
-            const tanks = ['디바', '둠피스트', '정커퀸', '마우가', '오리사', '라마트라', '라인하르트', '로드호그', '시그마', '윈스턴', '레킹볼', '자리야', '해저드', '도미나'];
-            const supports = ['아나', '바티스트', '브리기테', '일리아리', '키리코', '라이프위버', '루시우', '메르시', '모이라', '젠야타', '주노', '미즈키', '제트팩 캣'];
+            const tanks = ['디바', 'D.Va', '둠피스트', 'Doomfist', '정커퀸', 'Junker Queen', '마우가', 'Mauga', '오리사', 'Orisa', '라마트라', 'Ramattra', '라인하르트', 'Reinhardt', '로드호그', 'Roadhog', '시그마', 'Sigma', '윈스턴', 'Winston', '레킹볼', 'Wrecking Ball', '자리야', 'Zarya', '해저드', 'Hazard', '도미나', 'Domina'];
+            const supports = ['아나', 'Ana', '바티스트', 'Baptiste', '브리기테', 'Brigitte', '일리아리', 'Illari', '키리코', 'Kiriko', '라이프위버', 'Lifeweaver', '루시우', 'Lucio', '메르시', 'Mercy', '모이라', 'Moira', '젠야타', 'Zenyatta', '주노', 'Juno', '미즈키', 'Mizuki', '제트팩 캣', 'Jetpack Cat', '우양', 'Wuyang'];
             
             let role = '딜러';
             if (tanks.includes(stat.hero_name)) role = '탱크';
@@ -162,6 +164,8 @@ function MainApp() {
   const goSessions = () => { setCurrentView("sessions"); setActiveScrimId(null); setActiveMatchId(null); };
   const goOverall = () => { setCurrentView("overall"); setActiveScrimId(null); setActiveMatchId(null); };
   const goUltimates = () => { setCurrentView("ultimates"); setActiveScrimId(null); setActiveMatchId(null); }; 
+  const goFirstKill = () => { setCurrentView("firstkill"); setActiveScrimId(null); setActiveMatchId(null); }; 
+  const goFirstDeath = () => { setCurrentView("firstdeath"); setActiveScrimId(null); setActiveMatchId(null); }; 
   const goPersonal = () => { setCurrentView("personal"); setActiveScrimId(null); setActiveMatchId(null); }; 
 
   const goToScrim = (scrimId) => { setActiveScrimId(scrimId); setCurrentView("scrim"); };
@@ -235,6 +239,10 @@ function MainApp() {
           <button onClick={goSessions} style={navButtonStyle(["sessions", "scrim", "match"].includes(currentView))}> <History size={16} /> {t.sessions} </button>
           <button onClick={goOverall} style={navButtonStyle(currentView === "overall")}> <BarChart3 size={16} /> {t.overall} </button>
           <button onClick={goUltimates} style={navButtonStyle(currentView === "ultimates")}> <Zap size={16} /> 궁극기 통계 </button>
+          
+          <button onClick={goFirstKill} style={navButtonStyle(currentView === "firstkill")}> <Crosshair size={16} /> 퍼킬 통계 </button>
+          <button onClick={goFirstDeath} style={navButtonStyle(currentView === "firstdeath")}> <Skull size={16} /> 퍼뎃 통계 </button>
+          
           <button onClick={goPersonal} style={navButtonStyle(currentView === "personal")}> <User size={16} /> 개인 통계 </button>
           <button style={{ ...navButtonStyle(false), cursor: "not-allowed", opacity: 0.5 }}> <Users size={16} /> {t.teamManage} </button>
         </nav>
@@ -271,6 +279,8 @@ function MainApp() {
     if (currentView === "match") return <MatchStats matchId={activeMatchId} onBack={() => goToScrim(activeScrimId)} />;
     if (currentView === "overall") return <OverallStats onBack={goHome} onGoSessions={goSessions} />;
     if (currentView === "ultimates") return <UltimateStats allScrims={allScrims} />;
+    if (currentView === "firstkill") return <FirstKillStats allScrims={allScrims} />; 
+    if (currentView === "firstdeath") return <FirstDeathStats allScrims={allScrims} />; 
     if (currentView === "personal") return <div style={{ padding: '24px' }}><PlayerProfileView playersData={dynamicPlayersData} /></div>;
 
     return <div>404 Not Found</div>;

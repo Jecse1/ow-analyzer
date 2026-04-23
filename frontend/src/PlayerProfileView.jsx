@@ -1,197 +1,215 @@
-import React, { useState, useMemo } from 'react';
-import { User, Zap, Target, Crosshair, Shield, Activity, BarChart2, TrendingUp, Users } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, LineChart, Line } from 'recharts';
+import React, { useState, useMemo, useEffect } from 'react';
+import { Users, Search, Activity, Crosshair, Zap, Sword, PlusCircle } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { useTheme } from "./ThemeContext";
 
-// 💡 영웅 이미지 예외 처리 (무조건 소문자 파일 매핑)
-const getHeroImageSrc = (heroName) => {
-  if (!heroName || heroName === 'Unknown') return null;
-
-  const exactFileNames = {
-    'D.Va': 'dva',
-    '디바': 'dva',
-    '솔저: 76': 'soldier76',
-    '솔저 76': 'soldier76',
-    '솔져: 76': 'soldier76',
-    '솔져 76': 'soldier76',
-    'Soldier: 76': 'soldier76',
-    '제트팩 캣': 'jetpackcat',
-    'Jetpack Cat': 'jetpackcat'
-  };
-
-  let fileName = exactFileNames[heroName];
-  if (!fileName) {
-    fileName = heroName.replace(/[\s.:]/g, ''); 
-  }
-
-  return `/heroes/${fileName}.png`;
+const HERO_ALIAS_MAP = {
+    '솔저: 76': '솔저76', '솔저 : 76': '솔저76', 'D.Va': '디바', 'Widowmaker': '위도우메이커', 'Tracer': '트레이서', 'Sojourn': '소전', 'Sierra': '시에라'
 };
 
+const getDisplayHeroName = (rawName) => {
+    if (!rawName) return "";
+    return HERO_ALIAS_MAP[rawName.trim()] || rawName.trim();
+};
+
+const getHeroImageSrc = (heroName) => {
+    if (!heroName || heroName === 'Unknown') return null;
+    const exactFileNames = {
+        'D.Va': 'dva', '디바': 'dva', '솔저: 76': 'soldier76', '솔저 76': 'soldier76', '제트팩 캣': 'jetpackcat', '시에라': 'sierra'
+    };
+    const displayName = getDisplayHeroName(heroName);
+    let fileName = exactFileNames[heroName] || exactFileNames[displayName] || displayName.replace(/[\s.:]/g, '');
+    return `/heroes/${fileName}.png`;
+};
+
+// 💡 스크림 세션 역할군 아이콘 적용
 const getRoleIconSrc = (roleLabel) => {
-    if (roleLabel === '탱크') return '/roles/tank.png';
+    if (roleLabel === '탱크' || roleLabel === '탱커') return '/roles/tank.png';
     if (roleLabel === '딜러') return '/roles/damage.png';
-    if (roleLabel === '지원') return '/roles/support.png';
+    if (roleLabel === '지원' || roleLabel === '힐러') return '/roles/support.png';
     return null;
 };
 
-export default function PlayerProfileView({ playersData = [] }) {
-  const [selectedRole, setSelectedRole] = useState('All');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedTeam, setSelectedTeam] = useState('All');
+export default function PlayerProfileView({ playersData }) {
+    const { theme } = useTheme();
 
-  const availableTeams = useMemo(() => {
-      const teams = new Set(playersData.map(p => p.team));
-      return [...teams].filter(Boolean);
-  }, [playersData]);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [selectedTeam, setSelectedTeam] = useState("All");
+    const [selectedRole, setSelectedRole] = useState("All");
+    const [selectedPlayerId, setSelectedPlayerId] = useState(null);
 
-  const filteredPlayers = useMemo(() => {
-    return playersData.filter(p => {
-      if (selectedTeam !== 'All' && p.team !== selectedTeam) return false;
-      if (selectedRole !== 'All' && p.role !== selectedRole) return false;
-      if (searchTerm && !p.name.toLowerCase().includes(searchTerm.toLowerCase())) return false;
-      return true;
-    });
-  }, [playersData, selectedRole, searchTerm, selectedTeam]);
+    const filteredPlayers = useMemo(() => {
+        if (!playersData) return [];
+        return playersData.filter(p => {
+            const matchName = p.name.toLowerCase().includes(searchTerm.toLowerCase());
+            const matchTeam = selectedTeam === "All" || p.team === selectedTeam;
+            const matchRole = selectedRole === "All" || p.role === selectedRole;
+            return matchName && matchTeam && matchRole;
+        });
+    }, [playersData, searchTerm, selectedTeam, selectedRole]);
 
-  const [selectedPlayer, setSelectedPlayer] = useState(null);
+    useEffect(() => {
+        if (filteredPlayers.length > 0) {
+            if (!selectedPlayerId || !filteredPlayers.find(p => p.id === selectedPlayerId)) {
+                setSelectedPlayerId(filteredPlayers[0].id);
+            }
+        } else {
+            setSelectedPlayerId(null);
+        }
+    }, [filteredPlayers, selectedPlayerId]);
 
-  React.useEffect(() => {
-    if (filteredPlayers.length > 0 && (!selectedPlayer || !filteredPlayers.find(p => p.id === selectedPlayer.id))) {
-      setSelectedPlayer(filteredPlayers[0]);
+    const activePlayer = useMemo(() => {
+        return playersData?.find(p => p.id === selectedPlayerId) || null;
+    }, [playersData, selectedPlayerId]);
+
+    const teamList = useMemo(() => {
+        if (!playersData) return ["All"];
+        const teams = new Set(playersData.map(p => p.team));
+        return ["All", ...Array.from(teams).filter(Boolean)];
+    }, [playersData]);
+
+    if (!playersData || playersData.length === 0) {
+        return <div style={{ padding: '60px', textAlign: 'center', color: theme.textSub }}>집계된 선수 데이터가 없습니다.</div>;
     }
-  }, [filteredPlayers]);
 
-  const cardStyle = { background: '#18181b', borderRadius: '16px', border: '1px solid #27272a', padding: '24px' };
+    return (
+        <div style={{ display: 'flex', gap: '32px', alignItems: 'flex-start', width: '100%', maxWidth: '1600px', margin: '0 auto', color: theme.text }}>
+            
+            {/* ⬅️ 왼쪽 사이드바 (선수단 목록) */}
+            <div style={{ width: '280px', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <h2 style={{ fontSize: '18px', fontWeight: '900', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <Users size={20} /> 선수단 목록
+                </h2>
 
-  if (!playersData || playersData.length === 0) {
-      return <div style={{textAlign:'center', padding:'60px', color:'#a1a1aa'}}>데이터가 없습니다.</div>;
-  }
-
-  return (
-    <div style={{ display: 'flex', gap: '24px', color: '#fff', maxWidth: '1400px', margin: '0 auto' }}>
-      
-      <div style={{ width: '320px', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <h2 style={{ fontSize: '20px', fontWeight: '900', display:'flex', alignItems:'center', gap:'8px' }}>
-            <Users size={20} /> 선수단 목록
-        </h2>
-        
-        <input 
-            type="text" placeholder="선수 검색..." value={searchTerm} onChange={(e)=>setSearchTerm(e.target.value)}
-            style={{ width: '100%', padding: '12px', background: '#18181b', border: '1px solid #27272a', borderRadius: '8px', color: '#fff', outline: 'none' }}
-        />
-        
-        <select value={selectedTeam} onChange={(e) => setSelectedTeam(e.target.value)} style={{ width: '100%', padding: '10px', background: '#27272a', border: 'none', borderRadius: '8px', color: '#fff', cursor: 'pointer', outline: 'none' }}>
-            <option value="All">전체 팀 (All Teams)</option>
-            {availableTeams.map(team => <option key={team} value={team}>{team}</option>)}
-        </select>
-
-        <div style={{ display: 'flex', gap: '8px' }}>
-            {['All', '탱크', '딜러', '지원'].map(role => (
-                <button 
-                    key={role} onClick={() => setSelectedRole(role)}
-                    style={{ flex: 1, padding: '8px', background: selectedRole === role ? '#3b82f6' : '#27272a', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer', fontSize: '12px', fontWeight: 'bold' }}>
-                    {role === 'All' ? '전체' : role}
-                </button>
-            ))}
-        </div>
-
-        <div style={{ ...cardStyle, flex: 1, padding: '12px', overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
-            {filteredPlayers.map(p => (
-                <div 
-                    key={p.id} onClick={() => setSelectedPlayer(p)}
-                    style={{ padding: '12px', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '12px', background: selectedPlayer?.id === p.id ? '#27272a' : 'transparent', borderBottom: '1px solid #27272a', transition: 'all 0.2s' }}>
-                    <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#3f3f46', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        {getRoleIconSrc(p.role) ? <img src={getRoleIconSrc(p.role)} style={{width:18, filter:'invert(1)'}}/> : <User size={18}/>}
-                    </div>
-                    <div>
-                        <div style={{ fontWeight: 'bold', fontSize: '15px' }}>{p.name}</div>
-                        <div style={{ fontSize: '12px', color: '#a1a1aa' }}>{p.team || "Unknown"} · {p.role}</div>
-                    </div>
+                <div style={{ position: 'relative' }}>
+                    <input 
+                        type="text" 
+                        placeholder="선수 검색..." 
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        style={{ width: '100%', padding: '10px 10px 10px 36px', borderRadius: '8px', border: `1px solid ${theme.border}`, background: theme.surface, color: theme.text, boxSizing: 'border-box', outline: 'none' }}
+                    />
+                    <Search size={16} color={theme.textSub} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
                 </div>
-            ))}
-        </div>
-      </div>
 
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '24px' }}>
-        {selectedPlayer ? (
-          <>
-            <div style={{ ...cardStyle, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div>
-                <div style={{ fontSize: '14px', color: '#a1a1aa', marginBottom: '4px', fontWeight: 'bold' }}>{selectedPlayer.team || "소속 불명"} · {selectedPlayer.role}</div>
-                <h1 style={{ fontSize: '32px', fontWeight: '900', margin: 0 }}>{selectedPlayer.name}</h1>
-              </div>
-              <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: '14px', color: '#a1a1aa' }}>평균 승률</div>
-                <div style={{ 
-                    fontSize: '28px', 
-                    fontWeight: '900', 
-                    color: selectedPlayer.overview.winRate >= 50 ? '#39FF14' : '#f87171',
-                    textShadow: selectedPlayer.overview.winRate >= 50 ? '0 0 15px rgba(57, 255, 20, 0.5)' : 'none'
-                }}>
-                    {selectedPlayer.overview.winRate}%
+                <select 
+                    value={selectedTeam} 
+                    onChange={(e) => setSelectedTeam(e.target.value)}
+                    style={{ width: '100%', padding: '10px', borderRadius: '8px', border: `1px solid ${theme.border}`, background: theme.surface, color: theme.text, outline: 'none', cursor: 'pointer' }}
+                >
+                    <option value="All">전체 팀 (All Teams)</option>
+                    {teamList.filter(t => t !== "All").map(t => <option key={t} value={t}>{t}</option>)}
+                </select>
+
+                <div style={{ display: 'flex', gap: '4px', background: theme.surface, padding: '4px', borderRadius: '8px', border: `1px solid ${theme.border}` }}>
+                    {['All', '탱크', '딜러', '지원'].map(role => (
+                        <button key={role} onClick={() => setSelectedRole(role)}
+                            style={{ flex: 1, padding: '8px 0', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold', fontSize: '12px', background: selectedRole === role ? '#3b82f6' : 'transparent', color: selectedRole === role ? '#fff' : theme.textSub, transition: 'all 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+                            {role !== 'All' && <img src={getRoleIconSrc(role)} alt={role} style={{ width: 14, height: 14, filter: 'invert(1)', opacity: selectedRole === role ? 1 : 0.6 }} />}
+                            {role === 'All' ? '전체' : role}
+                        </button>
+                    ))}
                 </div>
-              </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', overflowY: 'auto', maxHeight: 'calc(100vh - 280px)', paddingRight: '4px' }}>
+                    {filteredPlayers.map(p => {
+                        const isActive = p.id === selectedPlayerId;
+                        return (
+                            <div key={p.id} onClick={() => setSelectedPlayerId(p.id)}
+                                style={{ padding: '12px', borderRadius: '12px', cursor: 'pointer', background: isActive ? theme.surfaceHighlight : theme.surface, border: `1px solid ${isActive ? '#3b82f6' : theme.border}`, display: 'flex', alignItems: 'center', gap: '12px', transition: 'all 0.2s' }}>
+                                <div style={{ width: 36, height: 36, borderRadius: '50%', background: theme.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', color: isActive ? '#3b82f6' : theme.textSub }}>
+                                    <img src={getRoleIconSrc(p.role)} alt={p.role} style={{ width: 20, height: 20, filter: 'invert(1)', opacity: isActive ? 1 : 0.5 }} />
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <span style={{ fontWeight: '900', fontSize: '15px', color: isActive ? '#3b82f6' : theme.text }}>{p.name}</span>
+                                    <span style={{ fontSize: '11px', color: theme.textSub }}>{p.team} · {p.role}</span>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
-                {[
-                    { label: '종합 K/D', value: selectedPlayer.overview.kd.toFixed(2), icon: Target, color: '#3b82f6' },
-                    { label: '10분당 딜량', value: selectedPlayer.overview.damagePer10.toLocaleString(), icon: Crosshair, color: '#f59e0b' },
-                    { label: '10분당 힐량', value: selectedPlayer.overview.healPer10.toLocaleString(), icon: Shield, color: '#10b981' },
-                    { label: '경기당 궁극기', value: selectedPlayer.overview.ultUsedPerMatch, icon: Zap, color: '#8b5cf6' }
-                ].map((stat, idx) => (
-                    <div key={idx} style={{ background: '#18181b', border: '1px solid #27272a', borderRadius: '12px', padding: '16px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#a1a1aa', fontSize: '13px', fontWeight: 'bold', marginBottom: '8px' }}><stat.icon size={16} color={stat.color}/> {stat.label}</div>
-                        <div style={{ fontSize: '24px', fontWeight: '900' }}>{stat.value}</div>
-                    </div>
-                ))}
-            </div>
-
-            <div style={cardStyle}>
-              <div style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '20px', display:'flex', alignItems:'center', gap:'8px' }}>
-                <Activity size={18}/> 모스트 영웅 풀
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px' }}>
-                {selectedPlayer.heroPool.map((h, i) => (
-                  <div key={i} style={{ background: '#27272a', borderRadius: '12px', padding: '16px', display: 'flex', alignItems: 'center', gap: '16px' }}>
-                    <img src={getHeroImageSrc(h.hero)} style={{ width: '48px', height: '48px', borderRadius: '8px', background: '#000' }} />
-                    <div style={{ flex: 1 }}>
-                        <div style={{ fontWeight: 'bold', fontSize: '15px', marginBottom: '4px' }}>{h.hero}</div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#a1a1aa' }}>
-                            <span>승률 <span style={{
-                                color: h.winRate >= 50 ? '#39FF14' : '#f87171',
-                                textShadow: h.winRate >= 50 ? '0 0 8px rgba(57, 255, 20, 0.4)' : 'none'
-                            }}>{h.winRate}%</span></span>
-                            <span>K/D <strong>{h.kd}</strong></span>
+            {/* ➡️ 오른쪽 메인 컨텐츠 (선수 개인 통계) */}
+            {activePlayer ? (
+                <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                    
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', paddingBottom: '16px', borderBottom: `1px solid ${theme.border}` }}>
+                        <div>
+                            <div style={{ fontSize: '13px', color: theme.textSub, fontWeight: 'bold', marginBottom: '4px' }}>{activePlayer.team} · {activePlayer.role}</div>
+                            <h1 style={{ fontSize: '36px', fontWeight: '900', margin: 0 }}>{activePlayer.name}</h1>
+                        </div>
+                        <div style={{ textAlign: 'right' }}>
+                            <div style={{ fontSize: '13px', color: theme.textSub, fontWeight: 'bold', marginBottom: '4px' }}>평균 승률</div>
+                            <div style={{ fontSize: '32px', fontWeight: '900', color: activePlayer.overview.winRate >= 50 ? theme.success : theme.danger }}>
+                                {activePlayer.overview.winRate}%
+                            </div>
                         </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </div>
 
-            <div style={cardStyle}>
-              <div style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '20px', display:'flex', alignItems:'center', gap:'8px' }}>
-                <TrendingUp size={18}/> 최근 K/D 폼 (Form)
-              </div>
-              <div style={{ width: '100%', height: '220px' }}>
-                <ResponsiveContainer width="100%" height="100%" minWidth={0}>
-                  <LineChart data={selectedPlayer.recentTrend}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#27272a" vertical={false} />
-                    <XAxis dataKey="match" stroke="#71717a" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(val) => `${val}세트`} />
-                    <YAxis stroke="#71717a" fontSize={12} tickLine={false} axisLine={false} domain={['dataMin - 0.5', 'dataMax + 0.5']} />
-                    <Tooltip contentStyle={{ backgroundColor: '#27272a', border: 'none', borderRadius: '8px', color:'#fff' }} />
-                    <Line type="monotone" dataKey="kd" name="K/D" stroke="#f87171" strokeWidth={3} dot={{ r: 4, fill: '#18181b', strokeWidth: 2 }} activeDot={{ r: 6 }} />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-          </>
-        ) : (
-            <div style={{ ...cardStyle, flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#a1a1aa' }}>
-                선수를 선택해주세요.
-            </div>
-        )}
-      </div>
-    </div>
-  );
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+                        <div style={{ background: theme.surface, padding: '20px', borderRadius: '12px', border: `1px solid ${theme.border}` }}>
+                            <div style={{ fontSize: '12px', color: theme.textSub, display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}><Crosshair size={14}/> 종합 K/D</div>
+                            <div style={{ fontSize: '24px', fontWeight: '900' }}>{activePlayer.overview.kd.toFixed(2)}</div>
+                        </div>
+                        <div style={{ background: theme.surface, padding: '20px', borderRadius: '12px', border: `1px solid ${theme.border}` }}>
+                            <div style={{ fontSize: '12px', color: theme.textSub, display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}><Sword size={14}/> 10분당 딜량</div>
+                            <div style={{ fontSize: '24px', fontWeight: '900' }}>{activePlayer.overview.damagePer10.toLocaleString()}</div>
+                        </div>
+                        <div style={{ background: theme.surface, padding: '20px', borderRadius: '12px', border: `1px solid ${theme.border}` }}>
+                            <div style={{ fontSize: '12px', color: theme.textSub, display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}><PlusCircle size={14}/> 10분당 힐량</div>
+                            <div style={{ fontSize: '24px', fontWeight: '900' }}>{activePlayer.overview.healPer10.toLocaleString()}</div>
+                        </div>
+                        <div style={{ background: theme.surface, padding: '20px', borderRadius: '12px', border: `1px solid ${theme.border}` }}>
+                            <div style={{ fontSize: '12px', color: theme.textSub, display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}><Zap size={14}/> 경기당 궁극기</div>
+                            <div style={{ fontSize: '24px', fontWeight: '900' }}>{activePlayer.overview.ultUsedPerMatch}</div>
+                        </div>
+                    </div>
+
+                    <div style={{ background: theme.surface, padding: '24px', borderRadius: '16px', border: `1px solid ${theme.border}` }}>
+                        <h3 style={{ fontSize: '16px', fontWeight: '900', margin: '0 0 20px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <Activity size={18}/> 모스트 영웅 풀
+                        </h3>
+                        <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+                            {activePlayer.heroPool.map((h, i) => (
+                                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '12px', background: theme.bg, padding: '12px', borderRadius: '12px', border: `1px solid ${theme.border}`, minWidth: '180px' }}>
+                                    <img src={getHeroImageSrc(h.hero)} alt={h.hero} style={{ width: 40, height: 40, borderRadius: '8px', background: '#000' }} onError={e=>e.currentTarget.style.display='none'}/>
+                                    <div>
+                                        <div style={{ fontWeight: 'bold', fontSize: '14px', marginBottom: '4px' }}>{h.hero}</div>
+                                        <div style={{ display: 'flex', gap: '12px', fontSize: '11px', color: theme.textSub }}>
+                                            <span>승률 <strong style={{ color: h.winRate >= 50 ? theme.success : theme.danger }}>{h.winRate}%</strong></span>
+                                            <span>K/D <strong>{h.kd}</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                            {activePlayer.heroPool.length === 0 && <div style={{ fontSize: '13px', color: theme.textSub }}>영웅 플레이 기록이 없습니다.</div>}
+                        </div>
+                    </div>
+
+                    <div style={{ background: theme.surface, padding: '24px', borderRadius: '16px', border: `1px solid ${theme.border}` }}>
+                        <h3 style={{ fontSize: '16px', fontWeight: '900', margin: '0 0 20px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <Activity size={18}/> 최근 K/D 폼 (Form)
+                        </h3>
+                        <div style={{ width: '100%', height: 250 }}>
+                            <ResponsiveContainer width="100%" height="100%" minWidth={0}>
+                                <LineChart data={activePlayer.recentTrend}>
+                                    <CartesianGrid strokeDasharray="3 3" stroke={theme.border} vertical={false} />
+                                    <XAxis dataKey="match" stroke={theme.textSub} fontSize={11} tickLine={false} axisLine={false} tickFormatter={(val) => val.length > 10 ? val.substring(0, 10)+'...' : val}/>
+                                    <YAxis stroke={theme.textSub} fontSize={11} tickLine={false} axisLine={false} width={30} domain={['dataMin - 0.5', 'dataMax + 0.5']}/>
+                                    <Tooltip contentStyle={{ backgroundColor: theme.surface, border: 'none', borderRadius: '8px', color: theme.text, fontSize:'12px' }} />
+                                    <Line type="monotone" dataKey="kd" stroke="#ef4444" strokeWidth={3} dot={{ r: 4, fill: theme.surface, strokeWidth: 2 }} activeDot={{ r: 6 }} animationDuration={1000} />
+                                </LineChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </div>
+
+                </div>
+            ) : (
+                <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: theme.textSub, background: theme.surface, borderRadius: '16px', border: `1px dashed ${theme.border}` }}>
+                    왼쪽 목록에서 선수를 선택해주세요.
+                </div>
+            )}
+        </div>
+    );
 }

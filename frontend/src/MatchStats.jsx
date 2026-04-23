@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
-import { Clock, ChevronLeft, Trophy, Zap, Crosshair, Sword, List, BarChart2, Skull, Activity, Target, PlayCircle, User, ChevronDown } from 'lucide-react';
+import { Clock, ChevronLeft, Trophy, Zap, Crosshair, Sword, List, BarChart2, Skull, Activity, Target, PlayCircle, User, ChevronDown, AlertOctagon } from 'lucide-react';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
-  BarChart, Bar, AreaChart, Area, ComposedChart, ScatterChart, Scatter, ZAxis, Brush, Cell, ReferenceArea, ReferenceLine
+  BarChart, Bar, AreaChart, Area, ScatterChart, Scatter, ZAxis, Cell, ReferenceLine
 } from 'recharts';
 
 import { useTheme } from "./ThemeContext";
@@ -14,21 +14,17 @@ const COLOR_TEAM1 = '#60a5fa';
 const COLOR_TEAM2 = '#f87171'; 
 const NEON_GREEN = '#39FF14'; 
 
-// [헬퍼] 이름 정규화
 const normalizeName = (name) => (name ? name.trim() : "");
 
-// 💡 [핵심 버그 수정] 어떤 팀 이름(T1, O2 등 숫자가 포함된 이름)이 들어와도 정확히 매칭되도록 로직 수정
 const checkIsTeam1 = (teamName, t1Name) => {
     if (!teamName) return false;
     if (teamName === t1Name) return true;
-    // 과거 데이터(팀명 입력 안 한 옛날 스크림) 호환용
     return teamName === '1팀' || teamName === 'Team 1';
 };
 
 const checkIsTeam2 = (teamName, t2Name) => {
     if (!teamName) return false;
     if (teamName === t2Name) return true;
-    // 과거 데이터 호환용
     return teamName === '2팀' || teamName === 'Team 2';
 };
 
@@ -40,7 +36,7 @@ const resolveTeamColor = (teamName, t1Name, t2Name) => {
 };
 
 const HERO_ALIAS_MAP = {
-    '솔저: 76': '솔저76', '솔저 : 76': '솔저76', 'D.Va': '디바', 'Widowmaker': '위도우메이커', 'Tracer': '트레이서', 'Sojourn': '소전'
+    '솔저: 76': '솔저76', '솔저 : 76': '솔저76', 'D.Va': '디바', 'Widowmaker': '위도우메이커', 'Tracer': '트레이서', 'Sojourn': '소전', 'Sierra': '시에라'
 };
 
 const HERO_SKILL_MAP = {
@@ -92,6 +88,7 @@ const HERO_SKILL_MAP = {
     '도미나': { 'Ability 1': '소닉 리펄서', 'Ability 2': '수정 발사', 'Ultimate': '판옵티콘' },
     '미즈키': { 'Ability 1': '종이 인형 분신술', 'Ability 2': '속박 사슬', 'Ultimate': '결계 성역' },
     '제트팩 캣': { 'Ability 1': '생명줄', 'Ability 2': '골골대기', 'Ultimate': '납치한다냥' },
+    '시에라': { 'Ability 1': '앵커 드론', 'Ability 2': '진동 폭약', 'Ultimate': '개척자' },
 };
 
 const getDisplayHeroName = (rawName) => {
@@ -102,33 +99,21 @@ const getDisplayHeroName = (rawName) => {
 
 const getHeroImageSrc = (heroName) => {
   if (!heroName || heroName === 'Unknown') return null;
-
   const exactFileNames = {
-    'D.Va': 'dva',
-    '디바': 'dva',
-    '솔저: 76': 'soldier76',
-    '솔저 76': 'soldier76',
-    '솔져: 76': 'soldier76',
-    '솔져 76': 'soldier76',
-    'Soldier: 76': 'soldier76',
-    '제트팩 캣': 'jetpackcat',
-    'Jetpack Cat': 'jetpackcat'
+    'D.Va': 'dva', '디바': 'dva',
+    '솔저: 76': 'soldier76', '솔저 76': 'soldier76', 'Soldier: 76': 'soldier76',
+    '제트팩 캣': 'jetpackcat', 'Jetpack Cat': 'jetpackcat', '시에라': 'sierra'
   };
-
   const displayName = getDisplayHeroName(heroName);
   let fileName = exactFileNames[heroName] || exactFileNames[displayName];
-  
-  if (!fileName) {
-    fileName = displayName.replace(/[\s.:]/g, ''); 
-  }
-
+  if (!fileName) { fileName = displayName.replace(/[\s.:]/g, ''); }
   return `/heroes/${fileName}.png`;
 };
 
 const getRoleInfo = (heroName) => {
     const name = getDisplayHeroName(heroName);
-    const tanks = ['디바', '둠피스트', '정커퀸', '마우가', '오리사', '라마트라', '라인하르트', '로드호그', '시그마', '윈스턴', '레킹볼', '자리야', '해저드', '도미나'];
-    const supports = ['아나', '바티스트', '브리기테', '일리아리', '키리코', '라이프위버', '루시우', '메르시', '모이라', '젠야타', '주노', '우양', '미즈키', '제트팩 캣'];
+    const tanks = ['디바', 'D.Va', '둠피스트', 'Doomfist', '정커퀸', 'Junker Queen', '마우가', 'Mauga', '오리사', 'Orisa', '라마트라', 'Ramattra', '라인하르트', 'Reinhardt', '로드호그', 'Roadhog', '시그마', 'Sigma', '윈스턴', 'Winston', '레킹볼', 'Wrecking Ball', '자리야', 'Zarya', '해저드', 'Hazard', '도미나', 'Domina'];
+    const supports = ['아나', 'Ana', '바티스트', 'Baptiste', '브리기테', 'Brigitte', '일리아리', 'Illari', '키리코', 'Kiriko', '라이프위버', 'Lifeweaver', '루시우', 'Lucio', '메르시', 'Mercy', '모이라', 'Moira', '젠야타', 'Zenyatta', '주노', 'Juno', '미즈키', 'Mizuki', '제트팩 캣', 'Jetpack Cat', '우양', 'Wuyang'];
     
     if (tanks.includes(name) || tanks.includes(heroName)) return { label: 'tank', order: 1 };
     if (supports.includes(name) || supports.includes(heroName)) return { label: 'support', order: 3 };
@@ -137,33 +122,40 @@ const getRoleInfo = (heroName) => {
 
 const getRoleIconSrc = (roleLabel) => {
     if (roleLabel === 'tank') return '/roles/tank.png';
-    if (roleLabel === 'dps') return '/roles/damage.png';
+    if (roleLabel === 'dps') return '/roles/damage.png'; 
     if (roleLabel === 'support') return '/roles/support.png';
     return null;
 };
 
 const getAbilityName = (heroName, abilityRaw) => {
     if (!abilityRaw) return "기본 발사";
-    const cleanAbility = abilityRaw.trim();
+    const cleanAbility = String(abilityRaw).trim();
+    if (cleanAbility === '0' || cleanAbility === 'null') return '기본 발사';
     if (cleanAbility.toLowerCase().includes('primary')) return '기본 발사';
     if (cleanAbility.toLowerCase().includes('secondary')) return '보조 발사';
     if (cleanAbility.toLowerCase().includes('melee')) return '근접 공격';
+    
     const displayHero = getDisplayHeroName(heroName);
-    if (HERO_SKILL_MAP[displayHero] && HERO_SKILL_MAP[displayHero][cleanAbility]) return HERO_SKILL_MAP[displayHero][cleanAbility];
-    if (HERO_SKILL_MAP[heroName] && HERO_SKILL_MAP[heroName][cleanAbility]) return HERO_SKILL_MAP[heroName][cleanAbility];
-    if (cleanAbility === 'Ability 1') return '기술 1 (Shift)';
-    if (cleanAbility === 'Ability 2') return '기술 2 (E)';
-    if (cleanAbility === 'Ultimate') return '궁극기 (Q)';
-    return cleanAbility;
+    let skillName = cleanAbility;
+    
+    if (HERO_SKILL_MAP[displayHero] && HERO_SKILL_MAP[displayHero][cleanAbility]) {
+        skillName = HERO_SKILL_MAP[displayHero][cleanAbility];
+    } else if (HERO_SKILL_MAP[heroName] && HERO_SKILL_MAP[heroName][cleanAbility]) {
+        skillName = HERO_SKILL_MAP[heroName][cleanAbility];
+    }
+    
+    if (cleanAbility === 'Ability 1') return skillName === 'Ability 1' ? '기술 1 (Shift)' : `${skillName} (Shift)`;
+    if (cleanAbility === 'Ability 2') return skillName === 'Ability 2' ? '기술 2 (E)' : `${skillName} (E)`;
+    if (cleanAbility === 'Ultimate') return skillName === 'Ultimate' ? '궁극기 (Q)' : `${skillName} (Q)`;
+    
+    return skillName;
 };
 
 // =================================================================================
-// [신규 차트 컴포넌트들]
+// [차트용 서브 컴포넌트]
 // =================================================================================
-
 const FightSurvivorsChart = ({ fights, team1Name, team2Name, theme, t }) => {
   if (!fights || fights.length === 0) return <div style={{ padding: '40px', textAlign: 'center', color: theme.textSub, fontSize: '13px' }}>{t.noData}</div>;
-
   const data = fights.map((fight, index) => ({
     name: `${index + 1}`,
     t1Survivors: Math.max(0, 5 - (fight.team1_deaths || 0)),
@@ -171,7 +163,6 @@ const FightSurvivorsChart = ({ fights, team1Name, team2Name, theme, t }) => {
     winner: fight.winner,
     duration: fight.duration_sec ? fight.duration_sec.toFixed(1) : 0
   }));
-
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       const d = payload[0].payload;
@@ -186,7 +177,6 @@ const FightSurvivorsChart = ({ fights, team1Name, team2Name, theme, t }) => {
     }
     return null;
   };
-
   return (
     <div style={{ width: '100%', height: 250 }}>
       <ResponsiveContainer width="100%" height="100%" minWidth={0}>
@@ -206,16 +196,13 @@ const FightSurvivorsChart = ({ fights, team1Name, team2Name, theme, t }) => {
 
 const AverageSurvivorsChart = ({ fights, team1Name, team2Name, theme, t }) => {
     if (!fights || fights.length === 0) return null;
-
     const t1Total = fights.reduce((acc, f) => acc + Math.max(0, 5 - (f.team1_deaths || 0)), 0);
     const t2Total = fights.reduce((acc, f) => acc + Math.max(0, 5 - (f.team2_deaths || 0)), 0);
     const count = fights.length;
-
     const data = [
         { name: team1Name, avg: parseFloat((t1Total / count).toFixed(2)), fill: COLOR_TEAM1 },
         { name: team2Name, avg: parseFloat((t2Total / count).toFixed(2)), fill: COLOR_TEAM2 }
     ];
-
     const CustomTooltip = ({ active, payload }) => {
         if (active && payload && payload.length) {
             return (
@@ -226,7 +213,6 @@ const AverageSurvivorsChart = ({ fights, team1Name, team2Name, theme, t }) => {
         }
         return null;
     };
-
     return (
         <div style={{ width: '100%', height: 250, display:'flex', flexDirection:'column', alignItems:'center' }}>
             <div style={{ fontSize:'12px', color: theme.textSub, marginBottom:'10px' }}>{t.avgSurvivors}</div>
@@ -237,9 +223,7 @@ const AverageSurvivorsChart = ({ fights, team1Name, team2Name, theme, t }) => {
                     <YAxis domain={[0, 5]} stroke={theme.textSub} fontSize={10} tickLine={false} axisLine={false} tickCount={6}/>
                     <Tooltip content={<CustomTooltip />} cursor={{ fill: 'transparent' }} />
                     <Bar dataKey="avg" radius={[4, 4, 0, 0]} barSize={24} label={{ position: 'top', fill: theme.text, fontSize: 11 }}>
-                        {data.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.fill} />
-                        ))}
+                        {data.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.fill} />)}
                     </Bar>
                 </BarChart>
             </ResponsiveContainer>
@@ -248,7 +232,7 @@ const AverageSurvivorsChart = ({ fights, team1Name, team2Name, theme, t }) => {
 };
 
 // =================================================================================
-// [1] 스텟 뷰 (StatsView)
+// [1] StatsView
 // =================================================================================
 const StatsView = ({ activeRoundTab, setActiveRoundTab, displayStats, rounds, t1Name, t2Name }) => {
   const { theme } = useTheme();
@@ -359,7 +343,7 @@ const StatsView = ({ activeRoundTab, setActiveRoundTab, displayStats, rounds, t1
                     <td style={{...tdStyleCenter, padding:'4px'}}>
                         <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
                             {roleIconSrc && (
-                                <img src={roleIconSrc} alt={row.role_label} style={{width:'20px', height:'20px', objectFit:'contain'}} onError={(e) => {e.currentTarget.style.display = 'none';}} />
+                                <img src={roleIconSrc} alt={row.role_label} style={{width:'20px', height:'20px', objectFit:'contain', filter:'invert(1)', opacity:0.7}} onError={(e) => {e.currentTarget.style.display = 'none';}} />
                             )}
                         </div>
                     </td>
@@ -398,7 +382,7 @@ const StatsView = ({ activeRoundTab, setActiveRoundTab, displayStats, rounds, t1
 };
 
 // =================================================================================
-// [2] 킬 로그 뷰 (KillLogView)
+// [2] KillLogView
 // =================================================================================
 const KillLogView = ({ fights, activeRoundTab, t1Name, t2Name }) => {
   const { theme } = useTheme();
@@ -513,8 +497,9 @@ const KillLogView = ({ fights, activeRoundTab, t1Name, t2Name }) => {
   );
 };
 
+
 // =================================================================================
-// [3] 차트 뷰 (ChartView)
+// [3] ChartView (상세 분석 차트) 
 // =================================================================================
 const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => { 
   const { theme } = useTheme();
@@ -523,47 +508,152 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
   const team1Name = t1Name;
   const team2Name = t2Name;
 
-  const [fbTargetTeam, setFbTargetTeam] = useState(team1Name);
+  // 💡 1. 선취점 분석 (First Deaths) 데이터 생성
+  // 💡 1. 선취점 분석 (First Deaths) 데이터 생성
+  const firstDeathData = useMemo(() => {
+      if (!fights || fights.length === 0) return { firstKillsT1: 0, firstKillsT2: 0, t1Players: [], t2Players: [], t1Causes: [], t2Causes: [] };
+      
+      let firstKillsT1 = 0;
+      let firstKillsT2 = 0;
+      
+      const pMapT1Deaths = new Map(); // 1팀 선수 중 퍼블 당한 사람 목록
+      const pMapT2Deaths = new Map(); // 2팀 선수 중 퍼블 당한 사람 목록
+      
+      const t1CausesMap = new Map(); // 1팀을 죽인 원인 (2팀의 스킬)
+      const t2CausesMap = new Map(); // 2팀을 죽인 원인 (1팀의 스킬)
 
-  useEffect(() => {
-      if (team1Name) {
-          if (fbTargetTeam !== team1Name && fbTargetTeam !== team2Name) {
-              setFbTargetTeam(team1Name);
+      // 경기 뛴 선수 전체를 초기화
+      (matchData?.stats || []).forEach(p => {
+          if (checkIsTeam1(p.team_name, t1Name)) {
+              if(!pMapT1Deaths.has(p.player_name)) pMapT1Deaths.set(p.player_name, { name: p.player_name, hero: p.hero_name, count: 0 });
+          } else if (checkIsTeam2(p.team_name, t2Name)) {
+              if(!pMapT2Deaths.has(p.player_name)) pMapT2Deaths.set(p.player_name, { name: p.player_name, hero: p.hero_name, count: 0 });
           }
-      }
-  }, [team1Name, team2Name, fbTargetTeam]);
+      });
 
-  const firstBloodStats = useMemo(() => {
-    if (!fights || fights.length === 0) return null;
-    let securedTotal = 0, securedWins = 0, sufferedTotal = 0, sufferedWins = 0;
-    fights.forEach(fight => {
-        const kills = (fight.events || []).filter(e => e.event_type === 'kill').sort((a, b) => a.timestamp - b.timestamp);
-        if (kills.length > 0) {
-            const firstKill = kills[0];
-            const fightWinner = fight.winner;
-            if (firstKill.player_team === fbTargetTeam) {
-                securedTotal++;
-                if (fightWinner === fbTargetTeam) securedWins++;
-            } else if (firstKill.target_team === fbTargetTeam) {
-                sufferedTotal++;
-                if (fightWinner === fbTargetTeam) sufferedWins++;
-            }
-        }
-    });
-    return {
-        secured: { total: securedTotal, wins: securedWins, rate: securedTotal ? Math.round(securedWins / securedTotal * 100) : 0 },
-        suffered: { total: sufferedTotal, wins: sufferedWins, rate: sufferedTotal ? Math.round(sufferedWins / sufferedTotal * 100) : 0 }
-    };
-  }, [fights, fbTargetTeam]);
+      fights.forEach(f => {
+          const victimTeam = f.first_pick_team; // 💡 first_pick_team은 '처음 죽은(Target)' 팀입니다!
+          
+          // 💡 1팀이 죽은 경우 (2팀이 퍼킬 획득)
+          if (checkIsTeam1(victimTeam, t1Name)) {
+              firstKillsT2++; // 2팀이 킬을 냈으므로 2팀 퍼킬 횟수 증가
+              if (f.first_pick_event) {
+                  const ev = f.first_pick_event;
+                  const victimName = normalizeName(ev.target_name);
+                  
+                  // 1팀 선수가 죽었으므로 1팀 데스 명단에 카운트 증가
+                  if (pMapT1Deaths.has(victimName)) pMapT1Deaths.get(victimName).count++;
+                  else pMapT1Deaths.set(victimName, { name: victimName, hero: ev.target_hero, count: 1 });
+                  
+                  // 1팀이 죽은 원인 (누구의 스킬을 맞았는가)
+                  const skillName = getAbilityName(ev.player_hero, ev.ability);
+                  const causeKey = `${ev.player_hero}|${normalizeName(ev.player_name)}|${skillName}`;
+                  t1CausesMap.set(causeKey, (t1CausesMap.get(causeKey) || 0) + 1);
+              }
+          } 
+          // 💡 2팀이 죽은 경우 (1팀이 퍼킬 획득)
+          else if (checkIsTeam2(victimTeam, t2Name)) {
+              firstKillsT1++; // 1팀이 킬을 냈으므로 1팀 퍼킬 횟수 증가
+              if (f.first_pick_event) {
+                  const ev = f.first_pick_event;
+                  const victimName = normalizeName(ev.target_name);
+                  
+                  // 2팀 선수가 죽었으므로 2팀 데스 명단에 카운트 증가
+                  if (pMapT2Deaths.has(victimName)) pMapT2Deaths.get(victimName).count++;
+                  else pMapT2Deaths.set(victimName, { name: victimName, hero: ev.target_hero, count: 1 });
+                  
+                  // 2팀이 죽은 원인 (누구의 스킬을 맞았는가)
+                  const skillName = getAbilityName(ev.player_hero, ev.ability);
+                  const causeKey = `${ev.player_hero}|${normalizeName(ev.player_name)}|${skillName}`;
+                  t2CausesMap.set(causeKey, (t2CausesMap.get(causeKey) || 0) + 1);
+              }
+          }
+      });
 
-  const ultsPerFightData = useMemo(() => {
-    if (!rounds) return [];
-    return rounds.map((round, idx) => ({
-        name: `R${idx + 1}`,
-        t1: round.stats.reduce((sum, stat) => sum + (checkIsTeam1(stat.team_name, t1Name) ? (stat.ultimates_used || 0) : 0), 0),
-        t2: round.stats.reduce((sum, stat) => sum + (checkIsTeam2(stat.team_name, t2Name) ? (stat.ultimates_used || 0) : 0), 0)
-    }));
-  }, [rounds, t1Name, t2Name]);
+      return { 
+          firstKillsT1, firstKillsT2, 
+          t1Players: Array.from(pMapT1Deaths.values()).sort((a,b) => b.count - a.count), 
+          t2Players: Array.from(pMapT2Deaths.values()).sort((a,b) => b.count - a.count),
+          t1Causes: Array.from(t1CausesMap.entries()).map(([k, v]) => ({ name: k, count: v })).sort((a,b) => b.count - a.count),
+          t2Causes: Array.from(t2CausesMap.entries()).map(([k, v]) => ({ name: k, count: v })).sort((a,b) => b.count - a.count)
+      };
+  }, [fights, matchData, t1Name, t2Name]);
+
+  const maxT1Death = Math.max(...firstDeathData.t1Players.map(p => p.count), 1);
+  const maxT2Death = Math.max(...firstDeathData.t2Players.map(p => p.count), 1);
+
+  const ultSummary = useMemo(() => {
+      let t1Total = 0, t2Total = 0;
+      let t1First = 0, t2First = 0;
+      fights.forEach(f => {
+          const ults = f.events.filter(e => e.event_type === 'ultimate_start').sort((a,b) => a.timestamp - b.timestamp);
+          if (ults.length > 0) {
+              if (checkIsTeam1(ults[0].player_team, t1Name)) t1First++;
+              else if (checkIsTeam2(ults[0].player_team, t2Name)) t2First++;
+          }
+          ults.forEach(u => {
+              if (checkIsTeam1(u.player_team, t1Name)) t1Total++;
+              else if (checkIsTeam2(u.player_team, t2Name)) t2Total++;
+          });
+      });
+      return { t1Total, t2Total, t1First, t2First };
+  }, [fights, t1Name, t2Name]);
+
+  const timingData = useMemo(() => {
+      const result = { t1: { init: 0, mid: 0, late: 0 }, t2: { init: 0, mid: 0, late: 0 } };
+      fights.forEach(f => {
+          const start = f.startTime;
+          const end = f.fixedEndTime || (f.startTime + 20);
+          const duration = end - start;
+          f.events.forEach(e => {
+              if (e.event_type === 'ultimate_start') {
+                  const progress = (e.timestamp - start) / duration;
+                  const team = checkIsTeam1(e.player_team, t1Name) ? 't1' : 't2';
+                  if (progress <= 0.33) result[team].init++;
+                  else if (progress <= 0.66) result[team].mid++;
+                  else result[team].late++;
+              }
+          });
+      });
+      return result;
+  }, [fights, t1Name, t2Name]);
+
+  // 💡 4. 궁극기 투자 효율성 (교환비 및 과투자 지표 추가)
+  const efficiency = useMemo(() => {
+      const res = { 
+          t1: { wonFights: 0, lostFights: 0, wonUlts: 0, lostUlts: 0, wonWithFewerUlts: 0, lostWithFewerUlts: 0, overInvestFights: 0 },
+          t2: { wonFights: 0, lostFights: 0, wonUlts: 0, lostUlts: 0, wonWithFewerUlts: 0, lostWithFewerUlts: 0, overInvestFights: 0 }
+      };
+      fights.forEach(f => {
+          const t1Ults = f.events.filter(e => e.event_type === 'ultimate_start' && checkIsTeam1(e.player_team, t1Name)).length;
+          const t2Ults = f.events.filter(e => e.event_type === 'ultimate_start' && checkIsTeam2(e.player_team, t2Name)).length;
+          
+          if (f.winner === t1Name) { 
+              res.t1.wonFights++; res.t1.wonUlts += t1Ults; 
+              res.t2.lostFights++; res.t2.lostUlts += t2Ults;
+              if (t1Ults < t2Ults) res.t1.wonWithFewerUlts++; 
+              if (t2Ults < t1Ults) res.t2.lostWithFewerUlts++; 
+          }
+          else if (f.winner === t2Name) { 
+              res.t2.wonFights++; res.t2.wonUlts += t2Ults; 
+              res.t1.lostFights++; res.t1.lostUlts += t1Ults;
+              if (t2Ults < t1Ults) res.t2.wonWithFewerUlts++; 
+              if (t1Ults < t2Ults) res.t1.lostWithFewerUlts++;
+          }
+          
+          // 과투자(2개 이상 차이) 판단
+          if (t1Ults - t2Ults >= 2) res.t1.overInvestFights++;
+          if (t2Ults - t1Ults >= 2) res.t2.overInvestFights++;
+      });
+      return res;
+  }, [fights, t1Name, t2Name]);
+
+  // 💡 궁극기 교환비 차트용 데이터
+  const ultExchangeData = [
+      { name: '효율적 승리 (덜 씀)', t1: efficiency.t1.wonWithFewerUlts, t2: efficiency.t2.wonWithFewerUlts },
+      { name: '궁 아끼다 패배', t1: efficiency.t1.lostWithFewerUlts, t2: efficiency.t2.lostWithFewerUlts },
+      { name: '과투자 (2개 이상 초과)', t1: efficiency.t1.overInvestFights, t2: efficiency.t2.overInvestFights }
+  ];
 
   const roleFinalBlowsData = useMemo(() => {
     if (!matchData || !matchData.stats) return [];
@@ -630,92 +720,228 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
   const cardStyle = { background: theme.surface, border: `1px solid ${theme.border}`, borderRadius: '16px', padding: '24px', marginBottom: '24px' };
   const titleStyle = { color: theme.text, fontSize: '16px', fontWeight: 'bold', marginBottom: '20px', display:'flex', alignItems:'center', gap:'10px' };
 
+  const ProgressBar = ({ label, leftVal, rightVal, leftColor, rightColor }) => {
+      const total = leftVal + rightVal || 1;
+      const leftPct = (leftVal / total) * 100;
+      return (
+          <div style={{ marginBottom: '20px' }}>
+              <div style={{ display:'flex', justifyContent:'space-between', fontSize:'12px', fontWeight:'bold', marginBottom:'6px' }}>
+                  <span style={{ color: leftColor }}>{leftVal}</span>
+                  <span style={{ color: theme.textSub }}>{label}</span>
+                  <span style={{ color: rightColor }}>{rightVal}</span>
+              </div>
+              <div style={{ height:'24px', background: theme.surfaceHighlight, borderRadius:'6px', overflow:'hidden', display:'flex' }}>
+                  <div style={{ width: `${leftPct}%`, background: leftColor, transition: 'width 0.5s' }} />
+                  <div style={{ flex: 1, background: rightColor, transition: 'width 0.5s' }} />
+              </div>
+          </div>
+      );
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '100%' }}>
         
+        {/* 1. 선취점 분석 (First Deaths) + 개인별 순위표 */}
         <div style={cardStyle}>
-            <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'20px'}}>
-                <div style={titleStyle}><Target size={18}/> {t.firstBloodAnalysis}</div>
-                <select 
-                    value={fbTargetTeam} 
-                    onChange={(e) => setFbTargetTeam(e.target.value)}
-                    style={{ padding: '8px 12px', borderRadius: '8px', background: theme.surfaceHighlight, color: theme.text, border: `1px solid ${theme.borderHighlight}`, fontSize: '13px', cursor: 'pointer', outline: 'none' }}
-                >
-                    <option value={team1Name}>{team1Name} {t.standard}</option>
-                    <option value={team2Name}>{team2Name} {t.standard}</option>
-                </select>
-            </div>
-            <div style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', color: theme.text, fontSize: '14px', minWidth: '600px' }}>
-                    <thead>
-                        <tr style={{ borderBottom: `1px solid ${theme.border}`, color: theme.textSub }}>
-                            <th style={{ padding: '12px', textAlign: 'left' }}>{t.situation} ({fbTargetTeam})</th>
-                            <th style={{ padding: '12px', textAlign: 'center' }}>{t.fightCount}</th>
-                            <th style={{ padding: '12px', textAlign: 'center' }}>{t.win}</th>
-                            <th style={{ padding: '12px', textAlign: 'right' }}>{t.winRate}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style={{ borderBottom: `1px solid ${theme.border}` }}>
-                            <td style={{ padding: '16px', fontWeight: 'bold', color: theme.success }}>{t.fbSecured}</td>
-                            <td style={{ padding: '16px', textAlign: 'center' }}>{firstBloodStats?.secured.total}</td>
-                            <td style={{ padding: '16px', textAlign: 'center' }}>{firstBloodStats?.secured.wins}</td>
-                            <td style={{ padding: '16px', textAlign: 'right', fontWeight: 'bold', color: NEON_GREEN }}>{firstBloodStats?.secured.rate}%</td>
-                        </tr>
-                        <tr>
-                            <td style={{ padding: '16px', fontWeight: 'bold', color: theme.danger }}>{t.fbSuffered}</td>
-                            <td style={{ padding: '16px', textAlign: 'center' }}>{firstBloodStats?.suffered.total}</td>
-                            <td style={{ padding: '16px', textAlign: 'center' }}>{firstBloodStats?.suffered.wins}</td>
-                            <td style={{ padding: '16px', textAlign: 'right', fontWeight: 'bold' }}>{firstBloodStats?.suffered.rate}%</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div style={titleStyle}><Skull size={18} color={theme.danger}/> 선취점 획득 및 개인별 데스 분석 (First Deaths)</div>
+            {/* 💡 상단 Progress Bar는 첫 '킬' 획득 횟수 기준 */}
+            <ProgressBar label="선취점 획득 횟수 (팀)" leftVal={firstDeathData.firstKillsT1} rightVal={firstDeathData.firstKillsT2} leftColor={COLOR_TEAM1} rightColor={COLOR_TEAM2} />
+            
+            <div style={{ display: 'flex', gap: '24px', marginTop: '24px', flexWrap: 'wrap' }}>
+                {/* 1팀 표 (1팀이 죽은 내역) */}
+                <div style={{ flex: 1, minWidth: '300px' }}>
+                    <div style={{ fontSize: '13px', fontWeight: 'bold', color: COLOR_TEAM1, marginBottom: '8px' }}>{team1Name} 퍼스트 데스 순위</div>
+                    <div style={{ background: theme.bg, borderRadius: '8px', border: `1px solid ${COLOR_TEAM1}40`, overflow: 'hidden' }}>
+                        <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                            <thead style={{ background: theme.surfaceHighlight, borderBottom: `1px solid ${theme.border}` }}>
+                                <tr>
+                                    <th style={{ padding: '8px 12px', fontSize: '11px', color: theme.textSub }}>선수 (Hero)</th>
+                                    <th style={{ padding: '8px 12px', fontSize: '11px', color: theme.textSub, textAlign: 'right', width: '80px' }}>퍼블 데스</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {firstDeathData.t1Players.map((p, idx) => (
+                                    <tr key={idx} style={{ borderBottom: idx !== firstDeathData.t1Players.length -1 ? `1px solid ${theme.border}` : 'none' }}>
+                                        <td style={{ padding: '8px 12px', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                            {p.hero && <img src={getHeroImageSrc(p.hero)} alt={p.hero} style={{ width: 22, height: 22, borderRadius: 4, background: '#000' }} />}
+                                            <span style={{ color: theme.text, fontWeight: 'bold' }}>{p.name}</span>
+                                        </td>
+                                        <td style={{ position: 'relative', padding: '8px 12px', fontSize: '13px', textAlign: 'right', fontWeight: 'bold', color: p.count > 0 ? theme.danger : theme.textSub }}>
+                                            {p.count > 0 && (
+                                                <div style={{ position: 'absolute', top: 4, bottom: 4, right: 12, width: `${(p.count / maxT1Death) * 100}%`, background: `${theme.danger}30`, borderRadius: '4px', zIndex: 0, transition: 'width 0.5s' }}></div>
+                                            )}
+                                            <span style={{ position: 'relative', zIndex: 1 }}>{p.count}</span>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    {/* 💡 주요 데스 원인 요약 (1팀을 죽인 2팀의 스킬) */}
+                    <div style={{ marginTop: '12px', background: theme.bg, borderRadius: '8px', border: `1px solid ${COLOR_TEAM1}40`, padding: '12px' }}>
+                        <div style={{ fontSize: '12px', color: theme.textSub, marginBottom: '8px', fontWeight: 'bold' }}>주요 데스 원인 (누구의 스킬을 맞았는가)</div>
+                        {firstDeathData.t1Causes.slice(0, 3).map((cause, idx) => {
+                            const [kHero, kName, skill] = cause.name.split('|');
+                            return (
+                                <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px', fontSize: '12px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', flex: 1, minWidth: 0 }}>
+                                        <img src={getHeroImageSrc(kHero)} style={{ width: 16, height: 16, borderRadius: 2, flexShrink: 0 }} onError={e=>e.currentTarget.style.display='none'}/>
+                                        <span style={{ color: theme.textSub, fontSize: '11px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{kName}</span>
+                                        <span style={{ color: theme.textSub, fontSize: '11px', margin: '0 2px', flexShrink: 0 }}>➔</span>
+                                        <span style={{ fontWeight: 'bold', color: theme.text, overflow: 'hidden', textOverflow: 'ellipsis' }}>{skill}</span>
+                                    </div>
+                                    <span style={{ fontWeight: 'bold', color: theme.danger, marginLeft: '8px', flexShrink: 0 }}>{cause.count}회</span>
+                                </div>
+                            )
+                        })}
+                        {firstDeathData.t1Causes.length === 0 && <div style={{ fontSize:'11px', color:theme.textSub }}>데이터 없음</div>}
+                    </div>
+                </div>
+
+                {/* 2팀 표 (2팀이 죽은 내역) */}
+                <div style={{ flex: 1, minWidth: '300px' }}>
+                    <div style={{ fontSize: '13px', fontWeight: 'bold', color: COLOR_TEAM2, marginBottom: '8px' }}>{team2Name} 퍼스트 데스 순위</div>
+                    <div style={{ background: theme.bg, borderRadius: '8px', border: `1px solid ${COLOR_TEAM2}40`, overflow: 'hidden' }}>
+                        <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                            <thead style={{ background: theme.surfaceHighlight, borderBottom: `1px solid ${theme.border}` }}>
+                                <tr>
+                                    <th style={{ padding: '8px 12px', fontSize: '11px', color: theme.textSub }}>선수 (Hero)</th>
+                                    <th style={{ padding: '8px 12px', fontSize: '11px', color: theme.textSub, textAlign: 'right', width: '80px' }}>퍼블 데스</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {firstDeathData.t2Players.map((p, idx) => (
+                                    <tr key={idx} style={{ borderBottom: idx !== firstDeathData.t2Players.length -1 ? `1px solid ${theme.border}` : 'none' }}>
+                                        <td style={{ padding: '8px 12px', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                            {p.hero && <img src={getHeroImageSrc(p.hero)} alt={p.hero} style={{ width: 22, height: 22, borderRadius: 4, background: '#000' }} />}
+                                            <span style={{ color: theme.text, fontWeight: 'bold' }}>{p.name}</span>
+                                        </td>
+                                        <td style={{ position: 'relative', padding: '8px 12px', fontSize: '13px', textAlign: 'right', fontWeight: 'bold', color: p.count > 0 ? theme.danger : theme.textSub }}>
+                                            {p.count > 0 && (
+                                                <div style={{ position: 'absolute', top: 4, bottom: 4, right: 12, width: `${(p.count / maxT2Death) * 100}%`, background: `${theme.danger}30`, borderRadius: '4px', zIndex: 0, transition: 'width 0.5s' }}></div>
+                                            )}
+                                            <span style={{ position: 'relative', zIndex: 1 }}>{p.count}</span>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    {/* 💡 주요 데스 원인 요약 (2팀을 죽인 1팀의 스킬) */}
+                    <div style={{ marginTop: '12px', background: theme.bg, borderRadius: '8px', border: `1px solid ${COLOR_TEAM2}40`, padding: '12px' }}>
+                        <div style={{ fontSize: '12px', color: theme.textSub, marginBottom: '8px', fontWeight: 'bold' }}>주요 데스 원인 (누구의 스킬을 맞았는가)</div>
+                        {firstDeathData.t2Causes.slice(0, 3).map((cause, idx) => {
+                            const [kHero, kName, skill] = cause.name.split('|');
+                            return (
+                                <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px', fontSize: '12px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', flex: 1, minWidth: 0 }}>
+                                        <img src={getHeroImageSrc(kHero)} style={{ width: 16, height: 16, borderRadius: 2, flexShrink: 0 }} onError={e=>e.currentTarget.style.display='none'}/>
+                                        <span style={{ color: theme.textSub, fontSize: '11px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{kName}</span>
+                                        <span style={{ color: theme.textSub, fontSize: '11px', margin: '0 2px', flexShrink: 0 }}>➔</span>
+                                        <span style={{ fontWeight: 'bold', color: theme.text, overflow: 'hidden', textOverflow: 'ellipsis' }}>{skill}</span>
+                                    </div>
+                                    <span style={{ fontWeight: 'bold', color: theme.danger, marginLeft: '8px', flexShrink: 0 }}>{cause.count}회</span>
+                                </div>
+                            )
+                        })}
+                        {firstDeathData.t2Causes.length === 0 && <div style={{ fontSize:'11px', color:theme.textSub }}>데이터 없음</div>}
+                    </div>
+                </div>
             </div>
         </div>
 
+        {/* 2. 궁극기 종합 (Ultimates) */}
+        <div style={cardStyle}>
+            <div style={titleStyle}><Zap size={18} color={NEON_GREEN}/> 궁극기 종합 (Ultimates)</div>
+            <ProgressBar label="총 궁극기 사용 횟수 (Total Ultimates Used)" leftVal={ultSummary.t1Total} rightVal={ultSummary.t2Total} leftColor={COLOR_TEAM1} rightColor={COLOR_TEAM2} />
+            <ProgressBar label="한타 첫 궁극기 사용 (Used Ult First in Fight)" leftVal={ultSummary.t1First} rightVal={ultSummary.t2First} leftColor={COLOR_TEAM1} rightColor={COLOR_TEAM2} />
+        </div>
+
+        {/* 3 & 4. 궁극기 타이밍 & 가성비 */}
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(400px, 1fr))', gap:'24px' }}>
+            {/* 3. 타이밍 */}
+            <div style={{...cardStyle, marginBottom: 0}}>
+                <div style={titleStyle}><Clock size={18} color={theme.primary}/> 궁극기 사용 타이밍 (Timing)</div>
+                <div style={{ display:'flex', flexDirection:'column', gap:'16px' }}>
+                    {[t1Name, t2Name].map((name, idx) => {
+                        const data = idx === 0 ? timingData.t1 : timingData.t2;
+                        const total = data.init + data.mid + data.late || 1;
+                        return (
+                            <div key={idx}>
+                                <div style={{ fontSize:'13px', fontWeight:'bold', marginBottom:'6px', color: idx === 0 ? COLOR_TEAM1 : COLOR_TEAM2 }}>{name}</div>
+                                <div style={{ height:'30px', background: theme.surfaceHighlight, borderRadius:'6px', overflow:'hidden', display:'flex' }}>
+                                    <div style={{ width: `${(data.init/total)*100}%`, background: '#4ade80' }} title="Initiation (진입)"/>
+                                    <div style={{ width: `${(data.mid/total)*100}%`, background: '#fbbf24' }} title="Midfight (중반)"/>
+                                    <div style={{ width: `${(data.late/total)*100}%`, background: '#f87171' }} title="Late (후반)"/>
+                                </div>
+                            </div>
+                        );
+                    })}
+                    <div style={{ display:'flex', gap:'12px', fontSize:'11px', color: theme.textSub, marginTop:'8px' }}>
+                        <span style={{display:'flex', alignItems:'center', gap:'4px'}}><div style={{width:8, height:8, background:'#4ade80'}}/> 초반(진입)</span>
+                        <span style={{display:'flex', alignItems:'center', gap:'4px'}}><div style={{width:8, height:8, background:'#fbbf24'}}/> 중반</span>
+                        <span style={{display:'flex', alignItems:'center', gap:'4px'}}><div style={{width:8, height:8, background:'#f87171'}}/> 후반</span>
+                    </div>
+                </div>
+            </div>
+
+            {/* 💡 4. 가성비 및 교환비 (UI 완전 개편 & 그래프 추가) */}
+            <div style={{...cardStyle, marginBottom: 0}}>
+                <div style={titleStyle}><Target size={18} color={theme.success}/> 궁극기 교환비 및 과투자 (Ult Exchange)</div>
+                <div style={{ display:'flex', flexDirection:'column', gap:'16px' }}>
+                    
+                    {/* 상단 텍스트 요약 */}
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                        {[t1Name, t2Name].map((name, idx) => {
+                            const data = idx === 0 ? efficiency.t1 : efficiency.t2;
+                            const avgWon = data.wonFights > 0 ? (data.wonUlts / data.wonFights).toFixed(1) : "0.0";
+                            const avgLost = data.lostFights > 0 ? (data.lostUlts / data.lostFights).toFixed(1) : "0.0";
+                            return (
+                                <div key={idx} style={{ padding:'12px', background: theme.bg, borderRadius:'8px', border:`1px solid ${idx === 0 ? COLOR_TEAM1 : COLOR_TEAM2}40` }}>
+                                    <div style={{ fontWeight:'bold', color: idx === 0 ? COLOR_TEAM1 : COLOR_TEAM2, marginBottom:'12px', fontSize: '13px' }}>{name} 평균 소모</div>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                        <div style={{ fontSize:'11px', color: theme.textSub, display: 'flex', justifyContent: 'space-between' }}><span>승리한 한타:</span> <strong style={{color: theme.success, fontSize:'13px'}}>{avgWon}개</strong></div>
+                                        <div style={{ fontSize:'11px', color: theme.textSub, display: 'flex', justifyContent: 'space-between' }}><span>패배한 한타:</span> <strong style={{color: theme.danger, fontSize:'13px'}}>{avgLost}개</strong></div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    {/* 하단 바 차트 (교환비 & 과투자) */}
+                    <div style={{ width: '100%', height: 180, marginTop: '8px' }}>
+                        <ResponsiveContainer width="100%" height="100%" minWidth={0}>
+                            <BarChart data={ultExchangeData} layout="vertical" margin={{ top: 0, right: 10, left: 10, bottom: 0 }}>
+                                <CartesianGrid strokeDasharray="3 3" stroke={theme.border} horizontal={false} />
+                                <XAxis type="number" stroke={theme.textSub} fontSize={11} tickLine={false} axisLine={false} allowDecimals={false} />
+                                <YAxis type="category" dataKey="name" stroke={theme.textSub} fontSize={10} tickLine={false} axisLine={false} width={160} tick={{ fill: theme.textSub }} />
+                                <Tooltip cursor={{fill: theme.surfaceHighlight, opacity: 0.4}} contentStyle={{ backgroundColor: theme.surface, border: 'none', borderRadius: '8px', color: theme.text, fontSize:'12px' }} />
+                                <Legend verticalAlign="top" height={30} wrapperStyle={{fontSize:'11px'}}/>
+                                <Bar dataKey="t1" name={t1Name} fill={COLOR_TEAM1} radius={[0, 4, 4, 0]} barSize={12} animationDuration={1000} />
+                                <Bar dataKey="t2" name={t2Name} fill={COLOR_TEAM2} radius={[0, 4, 4, 0]} barSize={12} animationDuration={1000} />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        {/* 기존: 생존 인원 차트 */}
         <div style={cardStyle}>
             <div style={titleStyle}><Activity size={18}/> {t.fightSurvivors}</div>
             <div style={{ display: 'grid', gridTemplateColumns: '3fr 1fr', gap: '24px' }}>
                 <div style={{ minWidth: 0 }}>
-                    <FightSurvivorsChart 
-                        fights={fights} 
-                        team1Name={team1Name} 
-                        team2Name={team2Name} 
-                        theme={theme}
-                        t={t}
-                    />
+                    <FightSurvivorsChart fights={fights} team1Name={team1Name} team2Name={team2Name} theme={theme} t={t} />
                 </div>
-                
                 <div style={{ borderLeft: `1px solid ${theme.border}`, paddingLeft: '24px', minWidth: 0 }}>
-                    <AverageSurvivorsChart 
-                        fights={fights} 
-                        team1Name={team1Name} 
-                        team2Name={team2Name} 
-                        theme={theme}
-                        t={t}
-                    />
+                    <AverageSurvivorsChart fights={fights} team1Name={team1Name} team2Name={team2Name} theme={theme} t={t} />
                 </div>
             </div>
         </div>
 
+        {/* 기존: 역할별 결정타 차트 */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '24px' }}>
-            <div style={{ ...cardStyle, marginBottom: 0 }}>
-                <div style={titleStyle}><Zap size={18}/> {t.ultsPerFight}</div>
-                <div style={{ width: '100%', height: 300 }}>
-                    <ResponsiveContainer width="100%" height="100%" minWidth={0}>
-                        <BarChart data={ultsPerFightData}>
-                            <CartesianGrid strokeDasharray="3 3" stroke={theme.border} vertical={false} />
-                            <XAxis dataKey="name" stroke={theme.textSub} fontSize={12} tickLine={false} axisLine={false} />
-                            <YAxis stroke={theme.textSub} fontSize={12} tickLine={false} axisLine={false} width={30}/>
-                            <Tooltip cursor={{fill: 'transparent'}} contentStyle={{ backgroundColor: theme.surface, border: 'none', borderRadius: '8px', color: theme.text, fontSize:'13px' }} />
-                            <Legend verticalAlign="top" height={36} wrapperStyle={{fontSize:'12px'}}/>
-                            <Bar dataKey="t1" name={team1Name} fill={NEON_GREEN} radius={[4, 4, 0, 0]} barSize={32} />
-                            <Bar dataKey="t2" name={team2Name} fill={COLOR_TEAM2} radius={[4, 4, 0, 0]} barSize={32} />
-                        </BarChart>
-                    </ResponsiveContainer>
-                </div>
-            </div>
-
             <div style={{ ...cardStyle, marginBottom: 0 }}>
                 <div style={titleStyle}><Crosshair size={18}/> {t.fbByRole}</div>
                 <div style={{ width: '100%', height: 300 }}>
@@ -732,9 +958,8 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
                     </ResponsiveContainer>
                 </div>
             </div>
-        </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '24px' }}>
+            {/* 기존: 누적 딜량 차트 */}
             <div style={{ ...cardStyle, marginBottom: 0 }}>
                 <div style={titleStyle}><Zap size={18}/> {t.cumulativeDmg}</div>
                 <div style={{ width: '100%', height: 280 }}>
@@ -763,6 +988,7 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
             </div>
         </div>
 
+        {/* 기존: 딜링 효율성 산점도 */}
         <div style={cardStyle}>
             <div style={titleStyle}><Crosshair size={18}/> {t.dmgEfficiency}</div>
             <div style={{ width: '100%', height: 350 }}>
@@ -1184,7 +1410,6 @@ const MatchStats = ({ matchId, onBack, matchData: initialMatchData }) => {
     if (!fetchedMatchData) return null;
     const rounds = fetchedMatchData.rounds || [];
     
-    // 💡 백엔드에서 받아온 진짜 팀 이름을 최우선으로 사용! (동적 할당)
     const t1Name = fetchedMatchData.team_1_name || "1팀";
     const t2Name = fetchedMatchData.team_2_name || "2팀";
 
@@ -1214,14 +1439,24 @@ const MatchStats = ({ matchId, onBack, matchData: initialMatchData }) => {
                 fixedEndTime: ev.timestamp + FIGHT_DURATION_LIMIT, 
                 events: [ev], 
                 t1Kills: 0, t2Kills: 0,
-                team1_deaths: 0, team2_deaths: 0 
+                team1_deaths: 0, team2_deaths: 0,
+                first_pick_team: null,
+                first_pick_player: null, 
+                first_pick_hero: null,
+                first_pick_event: null
             };
         } else {
             curF.events.push(ev);
         }
 
-        // 💡 1팀, 2팀 문자열 하드코딩 완전 제거 (동적 팀명 체크 로직 적용)
         if (ev.event_type === 'kill') { 
+            if (!curF.first_pick_team) {
+                curF.first_pick_team = ev.target_team; 
+                curF.first_pick_player = ev.target_name; 
+                curF.first_pick_hero = ev.target_hero; 
+                curF.first_pick_event = ev; 
+            }
+
             if (checkIsTeam1(ev.player_team, t1Name)) curF.t1Kills++; 
             else if (checkIsTeam2(ev.player_team, t2Name)) curF.t2Kills++; 
             
@@ -1248,74 +1483,71 @@ const MatchStats = ({ matchId, onBack, matchData: initialMatchData }) => {
 
   if (loading || !dataSummary) return <div style={{ padding: '60px', color: theme.textSub, textAlign: 'center' }}>{t.loading}</div>;
 
-  const btnStyle = (isActive) => ({ padding: '12px 24px', background: 'transparent', border: 'none', borderBottom: isActive ? `3px solid ${NEON_GREEN}` : '3px solid transparent', color: isActive ? NEON_GREEN : theme.textSub, fontWeight: 700, fontSize: '14px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' });
+  const btnStyle = (isActive) => ({ padding: '12px 24px', background: 'transparent', border: 'none', borderBottom: isActive ? `3px solid ${NEON_GREEN}` : '3px solid transparent', color: isActive ? theme.text : theme.textSub, fontWeight: isActive ? 800 : 600, fontSize: '14px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap', transition:'all 0.2s' });
+
+  const summaryCardStyle = { background: theme.surface, padding: '24px', borderRadius: '16px', border: `1px solid ${theme.border}`, display: 'flex', flexDirection: 'column', gap: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' };
 
   return (
     <div style={{ padding: '24px', maxWidth: '1600px', margin: '0 auto', color: theme.text, boxSizing: 'border-box' }}>
-      <button onClick={onBack} style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'none', border: 'none', color: theme.textSub, cursor: 'pointer', marginBottom: '20px' }}><ChevronLeft size={16} /> {t.backToList}</button>
-      <h1 style={{ fontSize: '32px', fontWeight: '900', marginBottom: '32px' }}>{fetchedMatchData.map_name}</h1>
+      <button onClick={onBack} style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'none', border: 'none', color: theme.textSub, cursor: 'pointer', marginBottom: '24px', fontWeight:'600' }}><ChevronLeft size={16} /> Back to Overview</button>
+      <h1 style={{ fontSize: '36px', fontWeight: '900', marginBottom: '32px', letterSpacing:'-0.5px' }}>{fetchedMatchData.map_name}</h1>
 
-      {activeMainTab !== 'compare' && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '12px', marginBottom: '32px' }}>
-            <div style={{ background: theme.surface, padding: '16px', borderRadius: '12px', border: `1px solid ${theme.border}` }}>
-                <div style={{ fontSize: '12px', color: theme.textSub }}><Clock size={14} style={{display:'inline', marginRight:4}}/> {t.totalDuration}</div>
-                <div style={{ fontSize: '24px', fontWeight: '800' }}>{Math.floor(fetchedMatchData.timeline.duration_sec/60)}m {Math.floor(fetchedMatchData.timeline.duration_sec%60)}s</div>
-            </div>
-            <div style={{ background: theme.surface, padding: '16px', borderRadius: '12px', border: `1px solid ${theme.border}` }}>
-                <div style={{ fontSize: '12px', color: theme.textSub }}><Trophy size={14} style={{display:'inline', marginRight:4}}/> {t.roundScore}</div>
-                <div style={{ fontSize: '24px', fontWeight: '800' }}>
-                    <span style={{ color: COLOR_TEAM1 }}>{dataSummary.t1Score}</span> : <span style={{ color: COLOR_TEAM2 }}>{dataSummary.t2Score}</span>
-                </div>
-                <div style={{ fontSize: '11px', color: theme.textSub, marginTop: '2px' }}>
-                    {dataSummary.t1Score === dataSummary.t2Score ? t.draw : (dataSummary.t1Score > dataSummary.t2Score ? `${dataSummary.t1Name} ${t.win}` : `${dataSummary.t2Name} ${t.win}`)}
-                </div>
-            </div>
-            <div style={{ background: theme.surface, padding: '16px', borderRadius: '12px', border: `1px solid ${theme.border}` }}>
-                <div style={{ fontSize: '12px', color: theme.textSub }}><Skull size={14} style={{display:'inline', marginRight:4}}/> {t.finalBlows}</div>
-                <div style={{ fontSize: '24px', fontWeight: '800' }}>
-                    <span style={{color:COLOR_TEAM1}}>{fetchedMatchData.total_final_blows_t1}</span> <span style={{color: theme.textSub, fontSize:'18px', margin:'0 4px'}}>vs</span> <span style={{color:COLOR_TEAM2}}>{fetchedMatchData.total_final_blows_t2}</span>
-                </div>
-                <div style={{fontSize:'11px', color: theme.textSub, marginTop:2}}>{dataSummary.t1Name} vs {dataSummary.t2Name}</div>
-            </div>
-            <div style={{ background: theme.surface, padding: '16px', borderRadius: '12px', border: `1px solid ${theme.border}` }}>
-                <div style={{ fontSize: '12px', color: theme.textSub }}><Sword size={14} style={{display:'inline', marginRight:4}}/> {t.fightWins}</div>
-                <div style={{ fontSize: '24px', fontWeight: '800' }}>
-                    <span style={{color:COLOR_TEAM1}}>{dataSummary.fights.filter(f=>f.winner===dataSummary.t1Name).length}</span> <span style={{color: theme.textSub, fontSize:'18px', margin:'0 4px'}}>vs</span> <span style={{color:COLOR_TEAM2}}>{dataSummary.fights.filter(f=>f.winner===dataSummary.t2Name).length}</span>
-                </div>
-                <div style={{fontSize:'11px', color: theme.textSub, marginTop:2}}>{dataSummary.fights.filter(f=>f.winner===dataSummary.t1Name).length > dataSummary.fights.filter(f=>f.winner===dataSummary.t2Name).length ? `${dataSummary.t1Name} ${t.lead}` : (dataSummary.fights.filter(f=>f.winner===dataSummary.t1Name).length < dataSummary.fights.filter(f=>f.winner===dataSummary.t2Name).length ? `${dataSummary.t2Name} ${t.lead}` : t.draw)}</div>
-            </div>
-            <div style={{ background: theme.surface, padding: '16px', borderRadius: '12px', border: `1px solid ${theme.border}` }}>
-                <div style={{ fontSize: '12px', color: theme.textSub }}><Zap size={14} style={{display:'inline', marginRight:4}}/> {t.ultEconomy}</div>
-                <div style={{ fontSize: '24px', fontWeight: '800' }}>
-                    <span style={{color:COLOR_TEAM1}}>{(dataSummary.fights.filter(f=>f.winner===dataSummary.t1Name).length ? ((fetchedMatchData.stats?.reduce((acc,s)=>acc+(checkIsTeam1(s.team_name, dataSummary.t1Name)?s.ultimates_used:0),0) || 0) / dataSummary.fights.filter(f=>f.winner===dataSummary.t1Name).length).toFixed(2) : "0.00")}</span>
-                    <span style={{color: theme.textSub, fontSize:'18px', margin:'0 4px'}}>vs</span>
-                    <span style={{color:COLOR_TEAM2}}>{(dataSummary.fights.filter(f=>f.winner===dataSummary.t2Name).length ? ((fetchedMatchData.stats?.reduce((acc,s)=>acc+(checkIsTeam2(s.team_name, dataSummary.t2Name)?s.ultimates_used:0),0) || 0) / dataSummary.fights.filter(f=>f.winner===dataSummary.t2Name).length).toFixed(2) : "0.00")}</span>
-                </div>
-                <div style={{fontSize:'11px', color: theme.textSub, marginTop:2}}>{t.lowerBetter}</div>
-            </div>
-        </div>
-      )}
-
-      {activeMainTab !== 'compare' && (
-        <div style={{ marginBottom: '24px', display:'flex', gap:'8px' }}>
-            <button onClick={() => setActiveRoundTab('overview')} style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: activeRoundTab === 'overview' ? theme.surfaceHighlight : theme.bg, color: activeRoundTab === 'overview' ? theme.text : theme.textSub, fontWeight: 'bold', cursor: 'pointer', border: `1px solid ${theme.border}` }}>{t.totalCumulative}</button>
-            {dataSummary.rounds.map(r => ( <button key={r.round_number} onClick={() => setActiveRoundTab(r.round_number.toString())} style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: activeRoundTab === r.round_number.toString() ? theme.surfaceHighlight : theme.bg, color: activeRoundTab === r.round_number.toString() ? theme.text : theme.textSub, fontWeight: 'bold', cursor: 'pointer', border: `1px solid ${theme.border}` }}>{t.round} {r.round_number}</button> ))}
-        </div>
-      )}
-
-      <div style={{ borderBottom: `1px solid ${theme.border}`, display: 'flex', gap: '12px', overflowX: 'auto', marginBottom: '24px' }}>
-        <button onClick={() => setActiveMainTab('stats')} style={btnStyle(activeMainTab === 'stats')}><List size={18}/> {t.tabStats}</button>
-        <button onClick={() => setActiveMainTab('kill')} style={btnStyle(activeMainTab === 'kill')}><Skull size={18}/> {t.tabKillLog}</button>
-        <button onClick={() => setActiveMainTab('chart')} style={btnStyle(activeMainTab === 'chart')}><BarChart2 size={18}/> {t.tabChart}</button>
-        <button onClick={() => setActiveMainTab('event')} style={btnStyle(activeMainTab === 'event')}><Activity size={18}/> {t.tabEvent}</button>
-        <button onClick={() => setActiveMainTab('compare')} style={btnStyle(activeMainTab === 'compare')}><User size={18}/> {t.tabPlayer}</button>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '16px', marginBottom: '40px' }}>
+          <div style={summaryCardStyle}>
+              <div style={{ fontSize: '13px', color: theme.textSub, fontWeight:'bold', display:'flex', alignItems:'center', gap:'6px' }}><Clock size={16}/> Total Match Time</div>
+              <div style={{ fontSize: '32px', fontWeight: '900' }}>{Math.floor(fetchedMatchData.timeline.duration_sec/60)}m {Math.floor(fetchedMatchData.timeline.duration_sec%60)}s</div>
+          </div>
+          <div style={summaryCardStyle}>
+              <div style={{ fontSize: '13px', color: theme.textSub, fontWeight:'bold', display:'flex', alignItems:'center', gap:'6px' }}><Trophy size={16}/> Score</div>
+              <div style={{ fontSize: '32px', fontWeight: '900' }}>
+                  <span style={{ color: COLOR_TEAM1 }}>{dataSummary.t1Score}</span> <span style={{color:theme.textSub, fontSize:'24px'}}>-</span> <span style={{ color: COLOR_TEAM2 }}>{dataSummary.t2Score}</span>
+              </div>
+              <div style={{ fontSize: '12px', color: theme.textSub }}>
+                  Winner: {dataSummary.t1Score === dataSummary.t2Score ? 'Draw' : (dataSummary.t1Score > dataSummary.t2Score ? <span style={{color:COLOR_TEAM1, fontWeight:'bold', background:`${COLOR_TEAM1}20`, padding:'2px 6px', borderRadius:4}}>{dataSummary.t1Name}</span> : <span style={{color:COLOR_TEAM2, fontWeight:'bold', background:`${COLOR_TEAM2}20`, padding:'2px 6px', borderRadius:4}}>{dataSummary.t2Name}</span>)}
+              </div>
+          </div>
+          <div style={summaryCardStyle}>
+              <div style={{ fontSize: '13px', color: theme.textSub, fontWeight:'bold', display:'flex', alignItems:'center', gap:'6px' }}><Skull size={16}/> Final Blows</div>
+              <div style={{ fontSize: '32px', fontWeight: '900' }}>
+                  <span style={{color:COLOR_TEAM1}}>{fetchedMatchData.total_final_blows_t1}</span> <span style={{color: theme.textSub, fontSize:'24px'}}>-</span> <span style={{color:COLOR_TEAM2}}>{fetchedMatchData.total_final_blows_t2}</span>
+              </div>
+          </div>
+          <div style={summaryCardStyle}>
+              <div style={{ fontSize: '13px', color: theme.textSub, fontWeight:'bold', display:'flex', alignItems:'center', gap:'6px' }}><Sword size={16}/> Fight Wins</div>
+              <div style={{ fontSize: '32px', fontWeight: '900' }}>
+                  <span style={{color:COLOR_TEAM1}}>{dataSummary.fights.filter(f=>f.winner===dataSummary.t1Name).length}</span> <span style={{color: theme.textSub, fontSize:'24px'}}>-</span> <span style={{color:COLOR_TEAM2}}>{dataSummary.fights.filter(f=>f.winner===dataSummary.t2Name).length}</span>
+              </div>
+          </div>
+          <div style={summaryCardStyle}>
+              <div style={{ fontSize: '13px', color: theme.textSub, fontWeight:'bold', display:'flex', alignItems:'center', gap:'6px' }}><Zap size={16}/> Ult Economy</div>
+              <div style={{ fontSize: '32px', fontWeight: '900' }}>
+                  <span style={{color:COLOR_TEAM1}}>{(dataSummary.fights.filter(f=>f.winner===dataSummary.t1Name).length ? ((fetchedMatchData.stats?.reduce((acc,s)=>acc+(checkIsTeam1(s.team_name, dataSummary.t1Name)?s.ultimates_used:0),0) || 0) / dataSummary.fights.filter(f=>f.winner===dataSummary.t1Name).length).toFixed(2) : "0.00")}</span>
+                  <span style={{color: theme.textSub, fontSize:'24px'}}>-</span>
+                  <span style={{color:COLOR_TEAM2}}>{(dataSummary.fights.filter(f=>f.winner===dataSummary.t2Name).length ? ((fetchedMatchData.stats?.reduce((acc,s)=>acc+(checkIsTeam2(s.team_name, dataSummary.t2Name)?s.ultimates_used:0),0) || 0) / dataSummary.fights.filter(f=>f.winner===dataSummary.t2Name).length).toFixed(2) : "0.00")}</span>
+              </div>
+          </div>
       </div>
 
-      {activeMainTab === 'stats' && <StatsView activeRoundTab={activeRoundTab} setActiveRoundTab={setActiveRoundTab} displayStats={dataSummary.displayStats} rounds={dataSummary.rounds} t1Name={dataSummary.t1Name} t2Name={dataSummary.t2Name} />}
-      {activeMainTab === 'kill' && <KillLogView fights={dataSummary.fights} activeRoundTab={activeRoundTab} t1Name={dataSummary.t1Name} t2Name={dataSummary.t2Name} />}
-      {activeMainTab === 'chart' && <ChartView matchData={fetchedMatchData} rounds={dataSummary.rounds} fights={dataSummary.fights} t1Name={dataSummary.t1Name} t2Name={dataSummary.t2Name} />}
-      {activeMainTab === 'event' && <EventsView matchData={fetchedMatchData} t1Name={dataSummary.t1Name} t2Name={dataSummary.t2Name} />}
-      {activeMainTab === 'compare' && <PlayerStatsView matchData={fetchedMatchData} t1Name={dataSummary.t1Name} t2Name={dataSummary.t2Name} />}
+      <div style={{ marginBottom: '24px', display:'flex', gap:'8px', background: theme.surface, padding:'8px', borderRadius:'12px', width:'fit-content', border:`1px solid ${theme.border}` }}>
+          <button onClick={() => setActiveRoundTab('overview')} style={{ padding: '8px 20px', borderRadius: '8px', border: 'none', background: activeRoundTab === 'overview' ? theme.surfaceHighlight : 'transparent', color: activeRoundTab === 'overview' ? theme.text : theme.textSub, fontWeight: 'bold', cursor: 'pointer' }}>Overview</button>
+          {dataSummary.rounds.map(r => ( <button key={r.round_number} onClick={() => setActiveRoundTab(r.round_number.toString())} style={{ padding: '8px 20px', borderRadius: '8px', border: 'none', background: activeRoundTab === r.round_number.toString() ? theme.surfaceHighlight : 'transparent', color: activeRoundTab === r.round_number.toString() ? theme.text : theme.textSub, fontWeight: 'bold', cursor: 'pointer' }}>Round {r.round_number}</button> ))}
+      </div>
+
+      <div style={{ borderBottom: `1px solid ${theme.border}`, display: 'flex', gap: '16px', overflowX: 'auto', marginBottom: '32px' }}>
+        <button onClick={() => setActiveMainTab('stats')} style={btnStyle(activeMainTab === 'stats')}><List size={18}/> 스텟표</button>
+        <button onClick={() => setActiveMainTab('kill')} style={btnStyle(activeMainTab === 'kill')}><Skull size={18}/> 킬 로그</button>
+        <button onClick={() => setActiveMainTab('chart')} style={btnStyle(activeMainTab === 'chart')}><BarChart2 size={18}/> 상세 분석 차트</button>
+        <button onClick={() => setActiveMainTab('event')} style={btnStyle(activeMainTab === 'event')}><Activity size={18}/> 타임라인</button>
+        <button onClick={() => setActiveMainTab('compare')} style={btnStyle(activeMainTab === 'compare')}><User size={18}/> 선수 비교</button>
+      </div>
+
+      <div style={{ animation: 'fadeIn 0.3s ease-in-out' }}>
+          {activeMainTab === 'stats' && <StatsView activeRoundTab={activeRoundTab} setActiveRoundTab={setActiveRoundTab} displayStats={dataSummary.displayStats} rounds={dataSummary.rounds} t1Name={dataSummary.t1Name} t2Name={dataSummary.t2Name} />}
+          {activeMainTab === 'kill' && <KillLogView fights={dataSummary.fights} activeRoundTab={activeRoundTab} t1Name={dataSummary.t1Name} t2Name={dataSummary.t2Name} />}
+          {activeMainTab === 'chart' && <ChartView matchData={fetchedMatchData} rounds={dataSummary.rounds} fights={dataSummary.fights} t1Name={dataSummary.t1Name} t2Name={dataSummary.t2Name} />}
+          {activeMainTab === 'event' && <EventsView matchData={fetchedMatchData} t1Name={dataSummary.t1Name} t2Name={dataSummary.t2Name} />}
+          {activeMainTab === 'compare' && <PlayerStatsView matchData={fetchedMatchData} t1Name={dataSummary.t1Name} t2Name={dataSummary.t2Name} />}
+      </div>
     </div>
   );
 };
