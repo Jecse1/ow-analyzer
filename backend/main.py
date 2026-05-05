@@ -353,6 +353,9 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
 
     lines = log_text.splitlines()
     for line in lines:
+        # 비속어 필터(****)가 들어와도 무조건 kill로 자동 변환!
+        line = line.replace("****", "kill")
+        
         clean_line = line.strip()
         real_timestamp = parse_log_timestamp(clean_line)
         play_timestamp = max(0, real_timestamp - 8)
