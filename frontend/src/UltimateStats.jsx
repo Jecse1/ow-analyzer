@@ -135,6 +135,32 @@ export default function UltimateStats({ allScrims }) {
         return { countStats, heroStats };
     }, [allScrims, startDate, endDate, baseTeam]);
 
+    // 💡 [버그 픽스] 다크모드 대응 & 데이터 분리를 위한 커스텀 툴팁
+    const CustomTooltip = ({ active, payload, label }) => {
+        if (active && payload && payload.length) {
+            const data = payload[0].payload; 
+            return (
+                <div style={{ 
+                    backgroundColor: theme.surfaceHighlight || '#2A2A2A', 
+                    padding: '12px', 
+                    borderRadius: '8px', 
+                    border: `1px solid ${theme.border || '#444'}`,
+                    color: '#ffffff', // 글자색 하얀색 고정
+                    boxShadow: '0 4px 6px rgba(0,0,0,0.3)'
+                }}>
+                    <p style={{ margin: '0 0 8px 0', fontWeight: 'bold', fontSize: '15px' }}>{label}</p>
+                    <p style={{ margin: '0 0 4px 0', fontSize: '13px', color: '#cccccc' }}>
+                        {t.fightCount} : {data.uses}회
+                    </p>
+                    <p style={{ margin: 0, fontSize: '14px', color: NEON_GREEN, fontWeight: 'bold' }}>
+                        {t.winRate} : {data.winRate}%
+                    </p>
+                </div>
+            );
+        }
+        return null;
+    };
+
     return (
         <div style={{ padding: "40px", maxWidth: 1200, margin: "0 auto", color: theme.text }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems:'center', marginBottom:'24px' }}>
@@ -172,8 +198,11 @@ export default function UltimateStats({ allScrims }) {
                                 <CartesianGrid strokeDasharray="3 3" stroke={theme.border} vertical={false}/>
                                 <XAxis dataKey="name" stroke={theme.textSub} fontSize={13} tickLine={false} axisLine={false}/>
                                 <YAxis stroke={theme.textSub} fontSize={13} tickLine={false} axisLine={false} domain={[0, 100]} tickFormatter={(v)=>`${v}%`}/>
-                                <Tooltip cursor={{fill: 'transparent'}} contentStyle={{ backgroundColor: theme.surfaceHighlight, border: 'none', borderRadius: '8px', color: theme.text }} formatter={(value, name) => [name === 'winRate' ? `${value}%` : value, name === 'winRate' ? t.winRate : t.fightCount]} />
-                                <Legend />
+                                
+                                {/* 💡 교체된 툴팁과 범례 */}
+                                <Tooltip content={<CustomTooltip />} cursor={{fill: 'transparent'}} />
+                                <Legend wrapperStyle={{ color: theme.text }} />
+                                
                                 <Bar dataKey="winRate" name={t.winRate} radius={[6, 6, 0, 0]} barSize={40}>
                                     {ultAnalysis.countStats.map((entry, index) => (
                                         <Cell key={`cell-${index}`} fill={entry.winRate >= 50 ? NEON_GREEN : theme.danger} />
