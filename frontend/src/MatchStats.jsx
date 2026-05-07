@@ -508,21 +508,18 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
   const team1Name = t1Name;
   const team2Name = t2Name;
 
-  // 💡 1. 선취점 분석 (First Deaths) 데이터 생성
-  // 💡 1. 선취점 분석 (First Deaths) 데이터 생성
   const firstDeathData = useMemo(() => {
       if (!fights || fights.length === 0) return { firstKillsT1: 0, firstKillsT2: 0, t1Players: [], t2Players: [], t1Causes: [], t2Causes: [] };
       
       let firstKillsT1 = 0;
       let firstKillsT2 = 0;
       
-      const pMapT1Deaths = new Map(); // 1팀 선수 중 퍼블 당한 사람 목록
-      const pMapT2Deaths = new Map(); // 2팀 선수 중 퍼블 당한 사람 목록
+      const pMapT1Deaths = new Map(); 
+      const pMapT2Deaths = new Map(); 
       
-      const t1CausesMap = new Map(); // 1팀을 죽인 원인 (2팀의 스킬)
-      const t2CausesMap = new Map(); // 2팀을 죽인 원인 (1팀의 스킬)
+      const t1CausesMap = new Map(); 
+      const t2CausesMap = new Map(); 
 
-      // 경기 뛴 선수 전체를 초기화
       (matchData?.stats || []).forEach(p => {
           if (checkIsTeam1(p.team_name, t1Name)) {
               if(!pMapT1Deaths.has(p.player_name)) pMapT1Deaths.set(p.player_name, { name: p.player_name, hero: p.hero_name, count: 0 });
@@ -532,37 +529,31 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
       });
 
       fights.forEach(f => {
-          const victimTeam = f.first_pick_team; // 💡 first_pick_team은 '처음 죽은(Target)' 팀입니다!
+          const victimTeam = f.first_pick_team; 
           
-          // 💡 1팀이 죽은 경우 (2팀이 퍼킬 획득)
           if (checkIsTeam1(victimTeam, t1Name)) {
-              firstKillsT2++; // 2팀이 킬을 냈으므로 2팀 퍼킬 횟수 증가
+              firstKillsT2++; 
               if (f.first_pick_event) {
                   const ev = f.first_pick_event;
                   const victimName = normalizeName(ev.target_name);
                   
-                  // 1팀 선수가 죽었으므로 1팀 데스 명단에 카운트 증가
                   if (pMapT1Deaths.has(victimName)) pMapT1Deaths.get(victimName).count++;
                   else pMapT1Deaths.set(victimName, { name: victimName, hero: ev.target_hero, count: 1 });
                   
-                  // 1팀이 죽은 원인 (누구의 스킬을 맞았는가)
                   const skillName = getAbilityName(ev.player_hero, ev.ability);
                   const causeKey = `${ev.player_hero}|${normalizeName(ev.player_name)}|${skillName}`;
                   t1CausesMap.set(causeKey, (t1CausesMap.get(causeKey) || 0) + 1);
               }
           } 
-          // 💡 2팀이 죽은 경우 (1팀이 퍼킬 획득)
           else if (checkIsTeam2(victimTeam, t2Name)) {
-              firstKillsT1++; // 1팀이 킬을 냈으므로 1팀 퍼킬 횟수 증가
+              firstKillsT1++; 
               if (f.first_pick_event) {
                   const ev = f.first_pick_event;
                   const victimName = normalizeName(ev.target_name);
                   
-                  // 2팀 선수가 죽었으므로 2팀 데스 명단에 카운트 증가
                   if (pMapT2Deaths.has(victimName)) pMapT2Deaths.get(victimName).count++;
                   else pMapT2Deaths.set(victimName, { name: victimName, hero: ev.target_hero, count: 1 });
                   
-                  // 2팀이 죽은 원인 (누구의 스킬을 맞았는가)
                   const skillName = getAbilityName(ev.player_hero, ev.ability);
                   const causeKey = `${ev.player_hero}|${normalizeName(ev.player_name)}|${skillName}`;
                   t2CausesMap.set(causeKey, (t2CausesMap.get(causeKey) || 0) + 1);
@@ -618,7 +609,6 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
       return result;
   }, [fights, t1Name, t2Name]);
 
-  // 💡 4. 궁극기 투자 효율성 (교환비 및 과투자 지표 추가)
   const efficiency = useMemo(() => {
       const res = { 
           t1: { wonFights: 0, lostFights: 0, wonUlts: 0, lostUlts: 0, wonWithFewerUlts: 0, lostWithFewerUlts: 0, overInvestFights: 0 },
@@ -641,14 +631,12 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
               if (t1Ults < t2Ults) res.t1.lostWithFewerUlts++;
           }
           
-          // 과투자(2개 이상 차이) 판단
           if (t1Ults - t2Ults >= 2) res.t1.overInvestFights++;
           if (t2Ults - t1Ults >= 2) res.t2.overInvestFights++;
       });
       return res;
   }, [fights, t1Name, t2Name]);
 
-  // 💡 궁극기 교환비 차트용 데이터
   const ultExchangeData = [
       { name: '효율적 승리 (덜 씀)', t1: efficiency.t1.wonWithFewerUlts, t2: efficiency.t2.wonWithFewerUlts },
       { name: '궁 아끼다 패배', t1: efficiency.t1.lostWithFewerUlts, t2: efficiency.t2.lostWithFewerUlts },
@@ -741,14 +729,11 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '100%' }}>
         
-        {/* 1. 선취점 분석 (First Deaths) + 개인별 순위표 */}
         <div style={cardStyle}>
             <div style={titleStyle}><Skull size={18} color={theme.danger}/> 선취점 획득 및 개인별 데스 분석 (First Deaths)</div>
-            {/* 💡 상단 Progress Bar는 첫 '킬' 획득 횟수 기준 */}
             <ProgressBar label="선취점 획득 횟수 (팀)" leftVal={firstDeathData.firstKillsT1} rightVal={firstDeathData.firstKillsT2} leftColor={COLOR_TEAM1} rightColor={COLOR_TEAM2} />
             
             <div style={{ display: 'flex', gap: '24px', marginTop: '24px', flexWrap: 'wrap' }}>
-                {/* 1팀 표 (1팀이 죽은 내역) */}
                 <div style={{ flex: 1, minWidth: '300px' }}>
                     <div style={{ fontSize: '13px', fontWeight: 'bold', color: COLOR_TEAM1, marginBottom: '8px' }}>{team1Name} 퍼스트 데스 순위</div>
                     <div style={{ background: theme.bg, borderRadius: '8px', border: `1px solid ${COLOR_TEAM1}40`, overflow: 'hidden' }}>
@@ -777,7 +762,6 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
                             </tbody>
                         </table>
                     </div>
-                    {/* 💡 주요 데스 원인 요약 (1팀을 죽인 2팀의 스킬) */}
                     <div style={{ marginTop: '12px', background: theme.bg, borderRadius: '8px', border: `1px solid ${COLOR_TEAM1}40`, padding: '12px' }}>
                         <div style={{ fontSize: '12px', color: theme.textSub, marginBottom: '8px', fontWeight: 'bold' }}>주요 데스 원인 (누구의 스킬을 맞았는가)</div>
                         {firstDeathData.t1Causes.slice(0, 3).map((cause, idx) => {
@@ -798,7 +782,6 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
                     </div>
                 </div>
 
-                {/* 2팀 표 (2팀이 죽은 내역) */}
                 <div style={{ flex: 1, minWidth: '300px' }}>
                     <div style={{ fontSize: '13px', fontWeight: 'bold', color: COLOR_TEAM2, marginBottom: '8px' }}>{team2Name} 퍼스트 데스 순위</div>
                     <div style={{ background: theme.bg, borderRadius: '8px', border: `1px solid ${COLOR_TEAM2}40`, overflow: 'hidden' }}>
@@ -827,7 +810,6 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
                             </tbody>
                         </table>
                     </div>
-                    {/* 💡 주요 데스 원인 요약 (2팀을 죽인 1팀의 스킬) */}
                     <div style={{ marginTop: '12px', background: theme.bg, borderRadius: '8px', border: `1px solid ${COLOR_TEAM2}40`, padding: '12px' }}>
                         <div style={{ fontSize: '12px', color: theme.textSub, marginBottom: '8px', fontWeight: 'bold' }}>주요 데스 원인 (누구의 스킬을 맞았는가)</div>
                         {firstDeathData.t2Causes.slice(0, 3).map((cause, idx) => {
@@ -850,16 +832,13 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
             </div>
         </div>
 
-        {/* 2. 궁극기 종합 (Ultimates) */}
         <div style={cardStyle}>
             <div style={titleStyle}><Zap size={18} color={NEON_GREEN}/> 궁극기 종합 (Ultimates)</div>
             <ProgressBar label="총 궁극기 사용 횟수 (Total Ultimates Used)" leftVal={ultSummary.t1Total} rightVal={ultSummary.t2Total} leftColor={COLOR_TEAM1} rightColor={COLOR_TEAM2} />
             <ProgressBar label="한타 첫 궁극기 사용 (Used Ult First in Fight)" leftVal={ultSummary.t1First} rightVal={ultSummary.t2First} leftColor={COLOR_TEAM1} rightColor={COLOR_TEAM2} />
         </div>
 
-        {/* 3 & 4. 궁극기 타이밍 & 가성비 */}
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(400px, 1fr))', gap:'24px' }}>
-            {/* 3. 타이밍 */}
             <div style={{...cardStyle, marginBottom: 0}}>
                 <div style={titleStyle}><Clock size={18} color={theme.primary}/> 궁극기 사용 타이밍 (Timing)</div>
                 <div style={{ display:'flex', flexDirection:'column', gap:'16px' }}>
@@ -885,12 +864,10 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
                 </div>
             </div>
 
-            {/* 💡 4. 가성비 및 교환비 (UI 완전 개편 & 그래프 추가) */}
             <div style={{...cardStyle, marginBottom: 0}}>
                 <div style={titleStyle}><Target size={18} color={theme.success}/> 궁극기 교환비 및 과투자 (Ult Exchange)</div>
                 <div style={{ display:'flex', flexDirection:'column', gap:'16px' }}>
                     
-                    {/* 상단 텍스트 요약 */}
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                         {[t1Name, t2Name].map((name, idx) => {
                             const data = idx === 0 ? efficiency.t1 : efficiency.t2;
@@ -908,7 +885,6 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
                         })}
                     </div>
 
-                    {/* 하단 바 차트 (교환비 & 과투자) */}
                     <div style={{ width: '100%', height: 180, marginTop: '8px' }}>
                         <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                             <BarChart data={ultExchangeData} layout="vertical" margin={{ top: 0, right: 10, left: 10, bottom: 0 }}>
@@ -927,7 +903,6 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
             </div>
         </div>
 
-        {/* 기존: 생존 인원 차트 */}
         <div style={cardStyle}>
             <div style={titleStyle}><Activity size={18}/> {t.fightSurvivors}</div>
             <div style={{ display: 'grid', gridTemplateColumns: '3fr 1fr', gap: '24px' }}>
@@ -940,7 +915,6 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
             </div>
         </div>
 
-        {/* 기존: 역할별 결정타 차트 */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '24px' }}>
             <div style={{ ...cardStyle, marginBottom: 0 }}>
                 <div style={titleStyle}><Crosshair size={18}/> {t.fbByRole}</div>
@@ -959,7 +933,6 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
                 </div>
             </div>
 
-            {/* 기존: 누적 딜량 차트 */}
             <div style={{ ...cardStyle, marginBottom: 0 }}>
                 <div style={titleStyle}><Zap size={18}/> {t.cumulativeDmg}</div>
                 <div style={{ width: '100%', height: 280 }}>
@@ -988,7 +961,6 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
             </div>
         </div>
 
-        {/* 기존: 딜링 효율성 산점도 */}
         <div style={cardStyle}>
             <div style={titleStyle}><Crosshair size={18}/> {t.dmgEfficiency}</div>
             <div style={{ width: '100%', height: 350 }}>
@@ -1252,7 +1224,7 @@ const PlayerStatsView = ({ matchData, t1Name, t2Name }) => {
         useEffect(() => { setSelHeroIdx(0); }, [selPlayerName]);
 
         const curHero = heroStats[selHeroIdx] || heroStats[0];
-        const getP10 = (v, t) => (!t || t === 0) ? "0.00" : ((v / t) * 600).toFixed(2);
+        const getP10 = (v, timePlayed) => (!timePlayed || timePlayed === 0) ? "0.00" : ((v / timePlayed) * 600).toFixed(2);
         const gameDur = matchData?.timeline?.duration_sec || 1;
 
         const StatBox = ({ label, value, subValue, subLabel }) => (
@@ -1413,10 +1385,9 @@ const MatchStats = ({ matchId, onBack, matchData: initialMatchData }) => {
     const t1Name = fetchedMatchData.team_1_name || "1팀";
     const t2Name = fetchedMatchData.team_2_name || "2팀";
 
-    const isControl = fetchedMatchData.game_mode === 'Control' || fetchedMatchData.game_mode === '쟁탈';
-    
-    let t1Score = isControl ? rounds.filter(r => r.winner === t1Name).length : (fetchedMatchData.score_t1 || 0);
-    let t2Score = isControl ? rounds.filter(r => r.winner === t2Name).length : (fetchedMatchData.score_t2 || 0);
+    // 💡 [버그 픽스] 쟁탈전 여부에 상관없이 프론트엔드의 자체 계산을 없애고 백엔드의 원본 점수를 100% 신뢰합니다.
+    let t1Score = fetchedMatchData.score_t1 || 0;
+    let t2Score = fetchedMatchData.score_t2 || 0;
 
     const displayStats = activeRoundTab === 'overview' ? (fetchedMatchData.stats || []) : (rounds.find(r => r.round_number.toString() === activeRoundTab)?.stats || []);
     
@@ -1503,7 +1474,8 @@ const MatchStats = ({ matchId, onBack, matchData: initialMatchData }) => {
                   <span style={{ color: COLOR_TEAM1 }}>{dataSummary.t1Score}</span> <span style={{color:theme.textSub, fontSize:'24px'}}>-</span> <span style={{ color: COLOR_TEAM2 }}>{dataSummary.t2Score}</span>
               </div>
               <div style={{ fontSize: '12px', color: theme.textSub }}>
-                  Winner: {dataSummary.t1Score === dataSummary.t2Score ? 'Draw' : (dataSummary.t1Score > dataSummary.t2Score ? <span style={{color:COLOR_TEAM1, fontWeight:'bold', background:`${COLOR_TEAM1}20`, padding:'2px 6px', borderRadius:4}}>{dataSummary.t1Name}</span> : <span style={{color:COLOR_TEAM2, fontWeight:'bold', background:`${COLOR_TEAM2}20`, padding:'2px 6px', borderRadius:4}}>{dataSummary.t2Name}</span>)}
+                  {/* 💡 [버그 픽스] 프론트엔드가 비교하지 않고 백엔드의 정확한 승리 텍스트(result)를 그대로 가져옵니다. */}
+                  Winner: <span style={{fontWeight:'bold', background: theme.surfaceHighlight, padding:'4px 8px', borderRadius:4, color: theme.text}}>{fetchedMatchData.result || "-"}</span>
               </div>
           </div>
           <div style={summaryCardStyle}>
