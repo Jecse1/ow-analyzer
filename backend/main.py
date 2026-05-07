@@ -363,7 +363,8 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
         if ",match_start," in clean_line:
             try:
                 base_idx = parts.index("match_start")
-                game_time = float(parts[0].replace('[', '').replace(']', '')) if parts[0].startswith('[') else 0.0
+                # 💡 [버그 픽스] 시간 문자열([00:00:00]) 때문에 발생하는 에러 해결
+                game_time = parse_log_timestamp(clean_line)
                 map_name = parts[base_idx + 2].strip()
                 game_mode = parts[base_idx + 3].strip()
                 first_team_name = map_team(parts[base_idx + 4])
@@ -383,13 +384,8 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
                 tail = [p.strip() for p in parts[base_idx + 1:]]
                 nums = []
                 for t in tail:
-                    try:
-                        # 소수점(843.85)이 들어와도 에러 없이 처리 후 정수로 변환
-                        nums.append(int(float(t)))
-                    except:
-                        continue
-                
-                # 💡 로그 맨 뒤에 있는 진짜 점수 2개만 확실하게 가져옵니다. (앞에 있는 라운드 수 3 등은 무시!)
+                    try: nums.append(int(float(t)))
+                    except: continue
                 if len(nums) >= 2:
                     match_end_score_t1 = nums[-2]
                     match_end_score_t2 = nums[-1]
@@ -413,7 +409,7 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
                     "score_t2": match_end_score_t2
                 })
             except: pass
-            
+
         elif ",round_start," in clean_line:
             try:
                 base_idx = parts.index("round_start")
@@ -607,27 +603,17 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
     if (game_mode == "Unknown" or game_mode == "") and is_control_map(map_name):
         game_mode = "Control"
 
+    # 💡 [버그 픽스] 팀 이름을 알파벳 순서(O2->PF)로 정렬하던 위험한 로직 제거!
     if first_team_name and second_team_name:
         t1, t2 = first_team_name, second_team_name
     else:
-        sorted_teams = sorted(list(team_names))
-        t1 = sorted_teams[0] if len(sorted_teams) > 0 else "Team 1"
-        t2 = sorted_teams[1] if len(sorted_teams) > 1 else "Team 2"
+        t1 = custom_t1 if custom_t1 else "Team 1"
+        t2 = custom_t2 if custom_t2 else "Team 2"
 
     valid_round_nums = sorted(list(raw_rounds_map.keys()))
     total_rounds_count = len(valid_round_nums) 
 
     clean_rounds_map = assign_persistent_slots(raw_rounds_map, valid_round_nums)
-
-    # 💡 [핵심 버그 수정] match_start 파싱이 실패하더라도 알파벳 정렬을 무시하고 UI 입력값을 1순위로 강제 적용
-    if custom_t1 and custom_t2:
-        t1, t2 = custom_t1, custom_t2
-    elif first_team_name and second_team_name:
-        t1, t2 = first_team_name, second_team_name
-    else:
-        sorted_teams = sorted(list(team_names))
-        t1 = sorted_teams[0] if len(sorted_teams) > 0 else "Team 1"
-        t2 = sorted_teams[1] if len(sorted_teams) > 1 else "Team 2"
 
     return {
         "rounds_stats": clean_rounds_map,
@@ -745,12 +731,14 @@ def calculate_pure_stats(parsed, target_match):
     n_team1 = normalize_team_name(team1)
     n_team2 = normalize_team_name(team2)
 
-    # 💡 [핵심 수정] match_end에 기록된 실제 점수를 최우선으로! (None 검사 추가)
+    final_t1_score = 0
+    final_t2_score = 0
+    
     score_match_end_t1 = parsed.get("match_end_score_t1")
     score_match_end_t2 = parsed.get("match_end_score_t2")
     
-    score_round_end_t1 = None
-    score_round_end_t2 = None
+    score_round_end_t1 = 0
+    score_round_end_t2 = 0
     if round_scores:
         max_r = max(round_scores.keys())
         score_round_end_t1 = round_scores[max_r].get("t1", 0)
@@ -762,18 +750,36 @@ def calculate_pure_stats(parsed, target_match):
         r_w = normalize_team_name(r_data.get("winner", ""))
         if r_w == n_team1: score_round_wins_t1 += 1
         elif r_w == n_team2: score_round_wins_t2 += 1
+        
+    score_obj_t1 = 0
+    score_obj_t2 = 0
+    for r_num in range(1, total_rounds + 1):
+        attacker = normalize_team_name(round_attackers.get(r_num, ""))
+        max_idx = 0
+        for ev in parsed["events"]:
+            if ev.get("event_type") == "objective_updated" and ev.get("round") == r_num:
+                idx = ev.get("new_index", 0)
+                if idx > max_idx:
+                    max_idx = idx
+        if attacker == n_team1: score_obj_t1 += max_idx
+        elif attacker == n_team2: score_obj_t2 += max_idx
 
     is_push = any(k in map_name for k in ["밀기", "Push", "에스페란사", "이스페란사", "뉴 퀸", "콜로세오", "룬아사피", "루나사피"])
+    has_payload = any(e.get("event_type") == "payload_progress" for e in parsed["events"])
+    is_hybrid_escort = has_payload or any(k in game_mode for k in ["Escort", "화물", "Hybrid", "혼합"])
 
     if is_push:
         final_t1_score = 0
         final_t2_score = 0
+    elif is_hybrid_escort:
+        final_t1_score = score_obj_t1
+        final_t2_score = score_obj_t2
     else:
-        # 💡 [핵심 수정] 쟁탈, 화물, 혼합 가릴 것 없이 무조건 로그 원본 점수(0과 3)를 100% 신뢰
+        # 💡 [버그 픽스] match_end 점수가 0점일 때 False로 처리되는 현상 방지 (is not None 사용)
         if score_match_end_t1 is not None and score_match_end_t2 is not None:
             final_t1_score = score_match_end_t1
             final_t2_score = score_match_end_t2
-        elif score_round_end_t1 is not None and score_round_end_t2 is not None and (score_round_end_t1 > 0 or score_round_end_t2 > 0):
+        elif score_round_end_t1 > 0 or score_round_end_t2 > 0:
             final_t1_score = score_round_end_t1
             final_t2_score = score_round_end_t2
         else:
@@ -783,7 +789,6 @@ def calculate_pure_stats(parsed, target_match):
     target_match["score_t1"] = final_t1_score
     target_match["score_t2"] = final_t2_score
 
-    # 프론트엔드로 보내줄 승리 텍스트
     if final_t1_score > final_t2_score:
         match_winner = team1
         target_match["result"] = f"{team1} 승 ({final_t1_score} : {final_t2_score})"
@@ -796,7 +801,6 @@ def calculate_pure_stats(parsed, target_match):
         
     target_match["winner"] = match_winner
 
-    # -------- 이하 통계 계산 로직은 원본 그대로 유지 --------
     round_end_times = {}
     for r in range(1, total_rounds + 1):
         max_t = 0
