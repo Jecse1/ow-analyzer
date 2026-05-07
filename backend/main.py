@@ -353,7 +353,6 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
 
     lines = log_text.splitlines()
     for line in lines:
-        # 비속어 필터(****)가 들어와도 무조건 kill로 자동 변환!
         line = line.replace("****", "kill")
         
         clean_line = line.strip()
@@ -386,6 +385,8 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
                 for t in tail:
                     try: nums.append(int(float(t)))
                     except: continue
+                
+                # 💡 로그 맨 뒤에 있는 진짜 점수 2개만 확실하게 가져옵니다.
                 if len(nums) >= 2:
                     match_end_score_t1 = nums[-2]
                     match_end_score_t2 = nums[-1]
@@ -523,7 +524,6 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
 
                 key = (p_team, p_name, p_hero_kr)
 
-                # 💡 중복 스텟 생성 방지 로직: 45초 이내에 연속으로 들어온 스텟 로그는 단일 뭉치(라운드)로 합칩니다.
                 matched_clump = None
                 for c in stat_clumps:
                     if abs(c["time"] - game_time) < 45.0:
@@ -735,11 +735,12 @@ def calculate_pure_stats(parsed, target_match):
     final_t1_score = 0
     final_t2_score = 0
     
-    score_match_end_t1 = parsed.get("match_end_score_t1") or 0
-    score_match_end_t2 = parsed.get("match_end_score_t2") or 0
+    # 💡 [핵심 수정 1] or 0 제거 (0점인 경우를 정확히 추적하기 위해 None 유지)
+    score_match_end_t1 = parsed.get("match_end_score_t1")
+    score_match_end_t2 = parsed.get("match_end_score_t2")
     
-    score_round_end_t1 = 0
-    score_round_end_t2 = 0
+    score_round_end_t1 = None
+    score_round_end_t2 = None
     if round_scores:
         max_r = max(round_scores.keys())
         score_round_end_t1 = round_scores[max_r].get("t1", 0)
@@ -751,35 +752,19 @@ def calculate_pure_stats(parsed, target_match):
         r_w = normalize_team_name(r_data.get("winner", ""))
         if r_w == n_team1: score_round_wins_t1 += 1
         elif r_w == n_team2: score_round_wins_t2 += 1
-        
-    score_obj_t1 = 0
-    score_obj_t2 = 0
-    for r_num in range(1, total_rounds + 1):
-        attacker = normalize_team_name(round_attackers.get(r_num, ""))
-        max_idx = 0
-        for ev in parsed["events"]:
-            if ev.get("event_type") == "objective_updated" and ev.get("round") == r_num:
-                idx = ev.get("new_index", 0)
-                if idx > max_idx:
-                    max_idx = idx
-        if attacker == n_team1: score_obj_t1 += max_idx
-        elif attacker == n_team2: score_obj_t2 += max_idx
 
     is_push = any(k in map_name for k in ["밀기", "Push", "에스페란사", "이스페란사", "뉴 퀸", "콜로세오", "룬아사피", "루나사피"])
-    has_payload = any(e.get("event_type") == "payload_progress" for e in parsed["events"])
-    is_hybrid_escort = has_payload or any(k in game_mode for k in ["Escort", "화물", "Hybrid", "혼합"])
 
     if is_push:
         final_t1_score = 0
         final_t2_score = 0
-    elif is_hybrid_escort:
-        final_t1_score = score_obj_t1
-        final_t2_score = score_obj_t2
     else:
-        if score_match_end_t1 > 0 or score_match_end_t2 > 0:
+        # 💡 [핵심 수정 2] 점수가 0대0, 0대3 인 경우에도 무시하지 않도록 명시적인 None 체크 도입!
+        # 기존의 강제 화물 점령 점수(is_hybrid_escort) 덮어쓰기도 제거하여 무조건 실제 로그를 신뢰합니다.
+        if score_match_end_t1 is not None and score_match_end_t2 is not None:
             final_t1_score = score_match_end_t1
             final_t2_score = score_match_end_t2
-        elif score_round_end_t1 > 0 or score_round_end_t2 > 0:
+        elif score_round_end_t1 is not None and score_round_end_t2 is not None and (score_round_end_t1 > 0 or score_round_end_t2 > 0):
             final_t1_score = score_round_end_t1
             final_t2_score = score_round_end_t2
         else:
@@ -904,7 +889,6 @@ def calculate_pure_stats(parsed, target_match):
             "fights": round_fights
         })
 
-    # 💡 [핵심 버그 수정] 라운드 진행 시간이 15초 미만인 것은 중복/유령 라운드로 판단하여 제거합니다!
     actual_rounds = []
     for r_data in actual_rounds_temp:
         if r_data["duration_sec"] < 15.0 and len(actual_rounds) >= 1:
