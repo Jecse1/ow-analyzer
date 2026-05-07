@@ -383,10 +383,13 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
                 tail = [p.strip() for p in parts[base_idx + 1:]]
                 nums = []
                 for t in tail:
-                    try: nums.append(int(float(t)))
-                    except: continue
+                    try:
+                        # 소수점(843.85)이 들어와도 에러 없이 처리 후 정수로 변환
+                        nums.append(int(float(t)))
+                    except:
+                        continue
                 
-                # 💡 로그 맨 뒤에 있는 진짜 점수 2개만 확실하게 가져옵니다.
+                # 💡 로그 맨 뒤에 있는 진짜 점수 2개만 확실하게 가져옵니다. (앞에 있는 라운드 수 3 등은 무시!)
                 if len(nums) >= 2:
                     match_end_score_t1 = nums[-2]
                     match_end_score_t2 = nums[-1]
@@ -410,7 +413,7 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
                     "score_t2": match_end_score_t2
                 })
             except: pass
-
+            
         elif ",round_start," in clean_line:
             try:
                 base_idx = parts.index("round_start")
@@ -616,6 +619,16 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
 
     clean_rounds_map = assign_persistent_slots(raw_rounds_map, valid_round_nums)
 
+    # 💡 [핵심 버그 수정] match_start 파싱이 실패하더라도 알파벳 정렬을 무시하고 UI 입력값을 1순위로 강제 적용
+    if custom_t1 and custom_t2:
+        t1, t2 = custom_t1, custom_t2
+    elif first_team_name and second_team_name:
+        t1, t2 = first_team_name, second_team_name
+    else:
+        sorted_teams = sorted(list(team_names))
+        t1 = sorted_teams[0] if len(sorted_teams) > 0 else "Team 1"
+        t2 = sorted_teams[1] if len(sorted_teams) > 1 else "Team 2"
+
     return {
         "rounds_stats": clean_rounds_map,
         "events": events,
@@ -732,10 +745,7 @@ def calculate_pure_stats(parsed, target_match):
     n_team1 = normalize_team_name(team1)
     n_team2 = normalize_team_name(team2)
 
-    final_t1_score = 0
-    final_t2_score = 0
-    
-    # 💡 [핵심 수정 1] or 0 제거 (0점인 경우를 정확히 추적하기 위해 None 유지)
+    # 💡 [핵심 수정] match_end에 기록된 실제 점수를 최우선으로! (None 검사 추가)
     score_match_end_t1 = parsed.get("match_end_score_t1")
     score_match_end_t2 = parsed.get("match_end_score_t2")
     
@@ -759,8 +769,7 @@ def calculate_pure_stats(parsed, target_match):
         final_t1_score = 0
         final_t2_score = 0
     else:
-        # 💡 [핵심 수정 2] 점수가 0대0, 0대3 인 경우에도 무시하지 않도록 명시적인 None 체크 도입!
-        # 기존의 강제 화물 점령 점수(is_hybrid_escort) 덮어쓰기도 제거하여 무조건 실제 로그를 신뢰합니다.
+        # 💡 [핵심 수정] 쟁탈, 화물, 혼합 가릴 것 없이 무조건 로그 원본 점수(0과 3)를 100% 신뢰
         if score_match_end_t1 is not None and score_match_end_t2 is not None:
             final_t1_score = score_match_end_t1
             final_t2_score = score_match_end_t2
@@ -774,6 +783,7 @@ def calculate_pure_stats(parsed, target_match):
     target_match["score_t1"] = final_t1_score
     target_match["score_t2"] = final_t2_score
 
+    # 프론트엔드로 보내줄 승리 텍스트
     if final_t1_score > final_t2_score:
         match_winner = team1
         target_match["result"] = f"{team1} 승 ({final_t1_score} : {final_t2_score})"
@@ -786,6 +796,7 @@ def calculate_pure_stats(parsed, target_match):
         
     target_match["winner"] = match_winner
 
+    # -------- 이하 통계 계산 로직은 원본 그대로 유지 --------
     round_end_times = {}
     for r in range(1, total_rounds + 1):
         max_t = 0
