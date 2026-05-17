@@ -4,6 +4,8 @@ nohup*.out
 backend/venv/
 backend/.venv/
 
+scrim_rowdata_log/
+
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/react,node,python
