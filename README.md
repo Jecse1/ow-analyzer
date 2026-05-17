@@ -11,15 +11,16 @@
 #### 설치
 
 ```
-python -m venv backend\venv
-.\backend\venv\Scripts\Activate.ps1
-pip install -r backend\requirements.txt
+python -m venv backend\venv # 가상환경 생성
+.\backend\venv\Scripts\Activate.ps1 # 가상환경 활성화
+pip install -e .\backend\ # API 서버 패키지 설치
 ```
 
 #### 실행
 
 ```
-python backend\main.py
+.\backend\venv\Scripts\Activate.ps1 # 가상환경 활성화
+python -m ow_analyzer_runnerleague # 실행
 ```
 
 ### Frontend
@@ -28,11 +29,11 @@ python backend\main.py
 
 ```
 cd frontend
-npm install
+npm install # 노드 모듈 설치
 ```
 
 #### 실행
 
 ```
-npm run dev
+npm run dev # 실행
 ```
