@@ -1,5 +1,6 @@
 *.key
 nohup*.out
+.vscode/
 
 backend/venv/
 backend/.venv/

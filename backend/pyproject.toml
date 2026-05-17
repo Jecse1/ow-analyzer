@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ow-analyzer-runnerleague"
+version = "0.0.1"
+# authors = [
+#   { name="Your Name", email="your.email@example.com" },
+# ]
+description = "Overwatch match analyzer for Runner League (API Server)"
+# readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    # "License :: OSI Approved :: MIT License",
+    # "Operating System :: OS Independent",
+]
+
+dynamic = ["dependencies"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.dynamic.dependencies]
+file = ["requirements.txt"]
