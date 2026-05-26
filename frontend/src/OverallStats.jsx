@@ -10,7 +10,7 @@ const API_BASE = import.meta.env.PROD ? "" : "";
 const KEYWORD_TYPES = { MAP: "MAP", HERO: "HERO", EVENT: "EVENT", RESULT: "RESULT", PLAYER: "PLAYER" };
 const EVENT_KEYWORDS = { "궁극기": "ultimate_start", "궁": "ultimate_start", "ult": "ultimate_start", "처치": "kill", "킬": "kill", "kill": "kill", "죽음": "death", "데스": "death", "death": "death" };
 const RESULT_KEYWORDS = { "승리": "win", "승": "win", "win": "win", "패배": "lose", "패": "lose", "lose": "lose", "무승부": "draw", "무": "draw", "draw": "draw" };
-const KNOWN_MAPS = [ "왕의 길", "눔바니", "미드타운", "블리자드 월드", "아이헨발데", "파라이소", "할리우드", "도라도", "리알토", "서킷 로얄", "쓰레기촌", "66번 국도", "지브raltar", "샴발리", "하바나", "네팔", "리장", "부산", "오아시스", "일리오스", "남극", "사모아", "뉴 퀸 스트리트", "콜로세오", "에스페란사", "룬아사피", "뉴 정크 시티", "수라바사", "하나오카", "아누비스" ];
+const KNOWN_MAPS = [ "왕의길", "왕의 길", "눔바니", "미드타운", "블리자드월드", "블리자드 월드", "아이헨발데", "파라이수", "할리우드", "도라도", "리알토", "서킷로얄", "서킷 로얄", "쓰레기촌", "66번국도", "66번 국도", "지브롤터", "샴발리", "샴발리수도원", "샴발리 수도원", "하바나", "네팔", "리장", "리장타워", "부산", "오아시스", "일리오스", "남극", "남극기지", "사모아", "뉴퀸스트리트", "뉴 퀸 스트리트", "콜로세오", "에스페란사", "루나사피", "뉴정크시티", "뉴 정크 시티", "수라바사", "하나오카", "아누비스" ];
 const KNOWN_HEROES = [ '디바', '둠피스트', '정커퀸', '마우가', '오리사', '라마트라', '라인하르트', '로드호그', '시그마', '윈스턴', '레킹볼', '자리야', '해저드', '애쉬', '바스티온', '캐서디', '에코', '겐지', '한조', '정크랫', '메이', '파라', '리퍼', '소전', '솔저76', '솜브라', '시메트라', '토르비욘', '트레이서', '위도우메이커', '벤처', '벤데타', '프레야', '아나', '바티스트', '브리기테', '일리아리', '주노', '키리코', '라이프위버', '루시우', '메르시', '모이라', '젠야타', '우양' ];
 
 const normalize = (str) => (str || "").replace(/\s+/g, "").toLowerCase();
@@ -237,25 +237,45 @@ export default function OverallStats({ onBack, onGoSessions }) {
             (r.events || []).forEach(ev => {
                 let isMatch = true;
                 
-                if (baseTeam !== 'All' && ev.player_team !== baseTeam) isMatch = false; 
+                if (baseTeam !== 'All' && ev.player_team !== baseTeam) isMatch = false;
 
-                if (playerTag && (!ev.player_name || !ev.player_name.toLowerCase().includes(playerTag.label.toLowerCase()))) isMatch = false;
-                if (heroTag) {
-                    const evHero = ev.player_hero || ev.hero; 
-                    if (!evHero || normalize(evHero) !== normalize(heroTag.label)) isMatch = false;
-                }
-                if (eventTag) {
-                    if (eventTag.value === 'ultimate_start' && ev.event_type !== 'ultimate_start') isMatch = false;
-                    if (eventTag.value === 'kill' && ev.event_type !== 'kill') isMatch = false;
+                if (eventTag && eventTag.value === 'death') {
+                    // 죽음/데스: death 이벤트(player_name) 또는 kill 이벤트에서 피해자(target_name) 검색
+                    if (playerTag) {
+                        const isDeath = ev.event_type === 'death' && ev.player_name && ev.player_name.toLowerCase().includes(playerTag.label.toLowerCase());
+                        const isVictim = ev.event_type === 'kill' && ev.target_name && ev.target_name.toLowerCase().includes(playerTag.label.toLowerCase());
+                        if (!isDeath && !isVictim) isMatch = false;
+                    } else {
+                        if (ev.event_type !== 'death') isMatch = false;
+                    }
+                    if (heroTag) {
+                        const evHero = ev.player_hero || ev.hero;
+                        if (!evHero || normalize(evHero) !== normalize(heroTag.label)) isMatch = false;
+                    }
                 } else {
-                    if (ev.event_type !== 'ultimate_start' && ev.event_type !== 'kill') isMatch = false;
+                    if (playerTag && (!ev.player_name || !ev.player_name.toLowerCase().includes(playerTag.label.toLowerCase()))) isMatch = false;
+                    if (heroTag) {
+                        const evHero = ev.player_hero || ev.hero;
+                        if (!evHero || normalize(evHero) !== normalize(heroTag.label)) isMatch = false;
+                    }
+                    if (eventTag) {
+                        if (eventTag.value === 'ultimate_start' && ev.event_type !== 'ultimate_start') isMatch = false;
+                        if (eventTag.value === 'kill' && ev.event_type !== 'kill') isMatch = false;
+                    } else {
+                        if (ev.event_type !== 'ultimate_start' && ev.event_type !== 'kill') isMatch = false;
+                    }
                 }
 
                 if (isMatch) {
+                    const deathDesc = ev.event_type === 'death'
+                        ? `${ev.player_name} 사망`
+                        : ev.event_type === 'kill' && eventTag && eventTag.value === 'death'
+                            ? `${ev.player_name} 킬 ➜ ${ev.target_name} (${ev.target_name} 사망)`
+                            : null;
                     moments.push({
                         id: m.id + ev.timestamp + ev.player_name,
                         matchName: m.map_name,
-                        desc: ev.desc || (ev.event_type === 'kill' ? `${ev.player_name} 킬 ➜ ${ev.target_name}` : `${ev.player_name} 궁극기`),
+                        desc: ev.desc || deathDesc || (ev.event_type === 'kill' ? `${ev.player_name} 킬 ➜ ${ev.target_name}` : `${ev.player_name} 궁극기`),
                         hero: ev.player_hero || ev.hero,
                         timestamp: ev.timestamp,
                         videoUrl: m.video_url, videoOffset: m.video_offset, pauses: m.pauses,
