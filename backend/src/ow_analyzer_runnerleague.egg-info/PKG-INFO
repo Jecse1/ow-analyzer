@@ -1,0 +1,15 @@
+Metadata-Version: 2.1
+Name: ow-analyzer-runnerleague
+Version: 0.0.1
+Summary: Overwatch match analyzer for Runner League (API Server)
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.10
+Requires-Dist: fastapi
+Requires-Dist: uvicorn[standard]
+Requires-Dist: python-multipart
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: requests
+Requires-Dist: jinja2
+Requires-Dist: isort
+Requires-Dist: black

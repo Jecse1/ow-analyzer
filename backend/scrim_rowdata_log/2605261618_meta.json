@@ -1,0 +1,78 @@
+{
+    "id": "2605261618",
+    "scrim_name": "260526-VARREL",
+    "video_url": "https://www.youtube.com/live/yr2DF8zNKYg?si=Lij70f8gB34Tr2AY",
+    "date": "2026-05-26",
+    "start_time": "16",
+    "end_time": "18",
+    "matches": [
+        {
+            "id": "65163718-f582-4169-95f1-ba036bab07ac",
+            "match_index": 1,
+            "map_name": "일리오스",
+            "team1_name": "VR",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "video_offset": 678,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "d1966f6c-b31e-4172-9434-3b738967e0b5",
+            "match_index": 2,
+            "map_name": "왕의길",
+            "team1_name": "VR",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "video_offset": 1966,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "99ccbd44-ccb4-4fd2-9c30-fcc55152980d",
+            "match_index": 3,
+            "map_name": "뉴퀸스트리트",
+            "team1_name": "VR",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "video_offset": 3391,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "2a9ecd59-ae4c-419a-8136-316d4cd5194a",
+            "match_index": 4,
+            "map_name": "수라바사",
+            "team1_name": "VR",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "video_offset": 4303,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        }
+    ]
+}

@@ -1,4 +1,6 @@
-#!/home/ubuntu/ow-analyzer-runnerleague/backend/venv/bin/python3
+#!/bin/sh
+'''exec' "/home/ubuntu/Falcons Scrim analyzer/backend/venv/bin/python3" "$0" "$@"
+' '''
 # -*- coding: utf-8 -*-
 import re
 import sys

@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+python-multipart
+numpy
+pandas
+requests
+jinja2
+isort
+black
