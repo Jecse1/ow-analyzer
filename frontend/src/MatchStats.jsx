@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
-import { Clock, ChevronLeft, Trophy, Zap, Crosshair, Sword, List, BarChart2, Skull, Activity, Target, PlayCircle, User, ChevronDown, AlertOctagon } from 'lucide-react';
+import { Clock, ChevronLeft, Trophy, Zap, Crosshair, Sword, List, BarChart2, Skull, Activity, Target, PlayCircle, User, ChevronDown, AlertOctagon, RefreshCw } from 'lucide-react';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
   BarChart, Bar, AreaChart, Area, ScatterChart, Scatter, ZAxis, Cell, ReferenceLine
@@ -8,6 +8,7 @@ import {
 
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
+import { computeFights } from './utils/fightAnalysis';
 
 // --- 색상 및 상수 ---
 const COLOR_TEAM1 = '#60a5fa'; 
@@ -508,7 +509,84 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
   const team1Name = t1Name;
   const team2Name = t2Name;
 
-  // 💡 1. 선취점 분석 (First Deaths) 데이터 생성
+  // 💡 [기존 추가] 패배 한타 저항력 계산 (Resistance in Lost Fights)
+  const lostFightData = useMemo(() => {
+      if (!fights || fights.length === 0) return { t1LostFights: 0, t1KillsWhenLost: 0, t1Avg: 0, t1Pct: 0, t2LostFights: 0, t2KillsWhenLost: 0, t2Avg: 0, t2Pct: 0 };
+      
+      let t1LostFights = 0, t1KillsWhenLost = 0;
+      let t2LostFights = 0, t2KillsWhenLost = 0;
+
+      fights.forEach(f => {
+          if (f.winner === t2Name) {
+              t1LostFights++; 
+              t1KillsWhenLost += f.t1Kills; 
+          } else if (f.winner === t1Name) {
+              t2LostFights++; 
+              t2KillsWhenLost += f.t2Kills; 
+          }
+      });
+
+      return {
+          t1LostFights, t1KillsWhenLost,
+          t1Avg: t1LostFights > 0 ? (t1KillsWhenLost / t1LostFights).toFixed(1) : "0.0",
+          t1Pct: t1LostFights > 0 ? ((t1KillsWhenLost / (t1LostFights * 5)) * 100).toFixed(1) : "0.0",
+          t2LostFights, t2KillsWhenLost,
+          t2Avg: t2LostFights > 0 ? (t2KillsWhenLost / t2LostFights).toFixed(1) : "0.0",
+          t2Pct: t2LostFights > 0 ? ((t2KillsWhenLost / (t2LostFights * 5)) * 100).toFixed(1) : "0.0"
+      };
+  }, [fights, t1Name, t2Name]);
+
+  // 💡 [신규 추가] 연속 한타 승률 및 모멘텀 계산 (Momentum & Turnovers)
+  const momentumData = useMemo(() => {
+      if (!fights || fights.length < 2) return {
+          t1AfterWinWon: 0, t1AfterWinTotal: 0, t1AfterWinPct: "0.0",
+          t1AfterLossWon: 0, t1AfterLossTotal: 0, t1AfterLossPct: "0.0",
+          t2AfterWinWon: 0, t2AfterWinTotal: 0, t2AfterWinPct: "0.0",
+          t2AfterLossWon: 0, t2AfterLossTotal: 0, t2AfterLossPct: "0.0"
+      };
+
+      let t1AfterWinWon = 0, t1AfterWinTotal = 0;
+      let t1AfterLossWon = 0, t1AfterLossTotal = 0;
+
+      let t2AfterWinWon = 0, t2AfterWinTotal = 0;
+      let t2AfterLossWon = 0, t2AfterLossTotal = 0;
+
+      for (let i = 1; i < fights.length; i++) {
+          const prevFight = fights[i - 1];
+          const currFight = fights[i];
+
+          // 1팀 관점
+          if (prevFight.winner === t1Name) {
+              t1AfterWinTotal++;
+              if (currFight.winner === t1Name) t1AfterWinWon++;
+          } else if (prevFight.winner === t2Name) {
+              t1AfterLossTotal++;
+              if (currFight.winner === t1Name) t1AfterLossWon++;
+          }
+
+          // 2팀 관점
+          if (prevFight.winner === t2Name) {
+              t2AfterWinTotal++;
+              if (currFight.winner === t2Name) t2AfterWinWon++;
+          } else if (prevFight.winner === t1Name) {
+              t2AfterLossTotal++;
+              if (currFight.winner === t2Name) t2AfterLossWon++;
+          }
+      }
+
+      return {
+          t1AfterWinWon, t1AfterWinTotal,
+          t1AfterWinPct: t1AfterWinTotal > 0 ? ((t1AfterWinWon / t1AfterWinTotal) * 100).toFixed(1) : "0.0",
+          t1AfterLossWon, t1AfterLossTotal,
+          t1AfterLossPct: t1AfterLossTotal > 0 ? ((t1AfterLossWon / t1AfterLossTotal) * 100).toFixed(1) : "0.0",
+
+          t2AfterWinWon, t2AfterWinTotal,
+          t2AfterWinPct: t2AfterWinTotal > 0 ? ((t2AfterWinWon / t2AfterWinTotal) * 100).toFixed(1) : "0.0",
+          t2AfterLossWon, t2AfterLossTotal,
+          t2AfterLossPct: t2AfterLossTotal > 0 ? ((t2AfterLossWon / t2AfterLossTotal) * 100).toFixed(1) : "0.0"
+      };
+  }, [fights, t1Name, t2Name]);
+
   // 💡 1. 선취점 분석 (First Deaths) 데이터 생성
   const firstDeathData = useMemo(() => {
       if (!fights || fights.length === 0) return { firstKillsT1: 0, firstKillsT2: 0, t1Players: [], t2Players: [], t1Causes: [], t2Causes: [] };
@@ -516,13 +594,12 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
       let firstKillsT1 = 0;
       let firstKillsT2 = 0;
       
-      const pMapT1Deaths = new Map(); // 1팀 선수 중 퍼블 당한 사람 목록
-      const pMapT2Deaths = new Map(); // 2팀 선수 중 퍼블 당한 사람 목록
+      const pMapT1Deaths = new Map(); 
+      const pMapT2Deaths = new Map(); 
       
-      const t1CausesMap = new Map(); // 1팀을 죽인 원인 (2팀의 스킬)
-      const t2CausesMap = new Map(); // 2팀을 죽인 원인 (1팀의 스킬)
+      const t1CausesMap = new Map(); 
+      const t2CausesMap = new Map(); 
 
-      // 경기 뛴 선수 전체를 초기화
       (matchData?.stats || []).forEach(p => {
           if (checkIsTeam1(p.team_name, t1Name)) {
               if(!pMapT1Deaths.has(p.player_name)) pMapT1Deaths.set(p.player_name, { name: p.player_name, hero: p.hero_name, count: 0 });
@@ -532,37 +609,31 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
       });
 
       fights.forEach(f => {
-          const victimTeam = f.first_pick_team; // 💡 first_pick_team은 '처음 죽은(Target)' 팀입니다!
+          const victimTeam = f.first_pick_team; 
           
-          // 💡 1팀이 죽은 경우 (2팀이 퍼킬 획득)
           if (checkIsTeam1(victimTeam, t1Name)) {
-              firstKillsT2++; // 2팀이 킬을 냈으므로 2팀 퍼킬 횟수 증가
+              firstKillsT2++; 
               if (f.first_pick_event) {
                   const ev = f.first_pick_event;
                   const victimName = normalizeName(ev.target_name);
                   
-                  // 1팀 선수가 죽었으므로 1팀 데스 명단에 카운트 증가
                   if (pMapT1Deaths.has(victimName)) pMapT1Deaths.get(victimName).count++;
                   else pMapT1Deaths.set(victimName, { name: victimName, hero: ev.target_hero, count: 1 });
                   
-                  // 1팀이 죽은 원인 (누구의 스킬을 맞았는가)
                   const skillName = getAbilityName(ev.player_hero, ev.ability);
                   const causeKey = `${ev.player_hero}|${normalizeName(ev.player_name)}|${skillName}`;
                   t1CausesMap.set(causeKey, (t1CausesMap.get(causeKey) || 0) + 1);
               }
           } 
-          // 💡 2팀이 죽은 경우 (1팀이 퍼킬 획득)
           else if (checkIsTeam2(victimTeam, t2Name)) {
-              firstKillsT1++; // 1팀이 킬을 냈으므로 1팀 퍼킬 횟수 증가
+              firstKillsT1++; 
               if (f.first_pick_event) {
                   const ev = f.first_pick_event;
                   const victimName = normalizeName(ev.target_name);
                   
-                  // 2팀 선수가 죽었으므로 2팀 데스 명단에 카운트 증가
                   if (pMapT2Deaths.has(victimName)) pMapT2Deaths.get(victimName).count++;
                   else pMapT2Deaths.set(victimName, { name: victimName, hero: ev.target_hero, count: 1 });
                   
-                  // 2팀이 죽은 원인 (누구의 스킬을 맞았는가)
                   const skillName = getAbilityName(ev.player_hero, ev.ability);
                   const causeKey = `${ev.player_hero}|${normalizeName(ev.player_name)}|${skillName}`;
                   t2CausesMap.set(causeKey, (t2CausesMap.get(causeKey) || 0) + 1);
@@ -618,7 +689,6 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
       return result;
   }, [fights, t1Name, t2Name]);
 
-  // 💡 4. 궁극기 투자 효율성 (교환비 및 과투자 지표 추가)
   const efficiency = useMemo(() => {
       const res = { 
           t1: { wonFights: 0, lostFights: 0, wonUlts: 0, lostUlts: 0, wonWithFewerUlts: 0, lostWithFewerUlts: 0, overInvestFights: 0 },
@@ -641,14 +711,12 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
               if (t1Ults < t2Ults) res.t1.lostWithFewerUlts++;
           }
           
-          // 과투자(2개 이상 차이) 판단
           if (t1Ults - t2Ults >= 2) res.t1.overInvestFights++;
           if (t2Ults - t1Ults >= 2) res.t2.overInvestFights++;
       });
       return res;
   }, [fights, t1Name, t2Name]);
 
-  // 💡 궁극기 교환비 차트용 데이터
   const ultExchangeData = [
       { name: '효율적 승리 (덜 씀)', t1: efficiency.t1.wonWithFewerUlts, t2: efficiency.t2.wonWithFewerUlts },
       { name: '궁 아끼다 패배', t1: efficiency.t1.lostWithFewerUlts, t2: efficiency.t2.lostWithFewerUlts },
@@ -741,14 +809,126 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '100%' }}>
         
+        {/* 💡 [기존] 패배 한타 저항력 (Kill Exchange in Lost Fights) */}
+        <div style={cardStyle}>
+            <div style={titleStyle}><AlertOctagon size={18} color={theme.warning || '#f59e0b'}/> 패배 한타 저항력 (Kill Exchange in Lost Fights)</div>
+            
+            {/* 상단 요약 바 */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '24px' }}>
+                <div style={{ background: theme.bg, padding: '16px', borderRadius: '8px', border: `1px solid ${COLOR_TEAM1}40` }}>
+                    <div style={{ fontSize: '13px', color: COLOR_TEAM1, fontWeight: 'bold', marginBottom: '8px' }}>{team1Name} 패배 시 평균 적 처치율</div>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+                        <span style={{ fontSize: '28px', fontWeight: '900', color: theme.text }}>{lostFightData.t1Pct}%</span>
+                        <span style={{ fontSize: '12px', color: theme.textSub }}>(평균 {lostFightData.t1Avg}명 처치 / {lostFightData.t1LostFights}회 패배)</span>
+                    </div>
+                </div>
+                <div style={{ background: theme.bg, padding: '16px', borderRadius: '8px', border: `1px solid ${COLOR_TEAM2}40` }}>
+                    <div style={{ fontSize: '13px', color: COLOR_TEAM2, fontWeight: 'bold', marginBottom: '8px' }}>{team2Name} 패배 시 평균 적 처치율</div>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+                        <span style={{ fontSize: '28px', fontWeight: '900', color: theme.text }}>{lostFightData.t2Pct}%</span>
+                        <span style={{ fontSize: '12px', color: theme.textSub }}>(평균 {lostFightData.t2Avg}명 처치 / {lostFightData.t2LostFights}회 패배)</span>
+                    </div>
+                </div>
+            </div>
+
+            {/* Fight-by-Fight 시각화 */}
+            <div style={{ fontSize: '11px', color: theme.textSub, fontWeight: 'bold', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>FIGHT-BY-FIGHT LOST MOMENTUM (저항 킬 수)</div>
+            <div style={{ display: 'flex', gap: '4px', overflowX: 'auto', paddingBottom: '8px' }}>
+                {fights.map((f, idx) => {
+                    const isT1Win = f.winner === team1Name;
+                    const isT2Win = f.winner === team2Name;
+                    const isDraw = !isT1Win && !isT2Win;
+                    
+                    let bgColor = theme.surfaceHighlight;
+                    let bottomColor = theme.textSub;
+                    let bottomText = "-";
+
+                    if (isT1Win) {
+                        bgColor = COLOR_TEAM1; bottomColor = COLOR_TEAM2; bottomText = `${f.t2Kills}K`; 
+                    } else if (isT2Win) {
+                        bgColor = COLOR_TEAM2; bottomColor = COLOR_TEAM1; bottomText = `${f.t1Kills}K`; 
+                    }
+
+                    return (
+                        <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '40px', flex: 1 }}>
+                            <div style={{ width: '100%', height: '24px', background: bgColor, display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '12px', fontWeight: 'bold', color: isDraw ? theme.textSub : '#fff', borderRadius: '4px 4px 0 0' }}>{idx + 1}</div>
+                            <div style={{ width: '100%', height: '22px', background: isDraw ? theme.bg : `${bottomColor}15`, display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '11px', fontWeight: 'bold', color: bottomColor, border: `1px solid ${isDraw ? theme.border : `${bottomColor}40`}`, borderTop: 'none', borderRadius: '0 0 4px 4px' }}>{isDraw ? 'Draw' : bottomText}</div>
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
+
+        {/* 💡 [신규] 연속 한타 승률 및 모멘텀 (Momentum & Turnovers) */}
+        <div style={cardStyle}>
+            <div style={titleStyle}><RefreshCw size={18} color={theme.primary} /> 한타 모멘텀 (연속 승률 및 턴 뒤집기)</div>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+                {/* 1팀 */}
+                <div style={{ background: theme.bg, padding: '20px', borderRadius: '12px', border: `1px solid ${COLOR_TEAM1}40` }}>
+                    <div style={{ fontSize: '15px', color: COLOR_TEAM1, fontWeight: '900', marginBottom: '16px', textAlign: 'center' }}>{team1Name}</div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <div>
+                                <div style={{ fontSize: '13px', fontWeight: 'bold', color: theme.text, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: theme.success || '#10b981' }}></div>
+                                    자리 먹었을 때 승률 <span style={{ color: theme.textSub, fontWeight: 'normal', fontSize: '11px' }}>(승리 ➔ 승리)</span>
+                                </div>
+                                <div style={{ fontSize: '11px', color: theme.textSub, marginTop: '4px', marginLeft: '14px' }}>유리함을 굳히는 능력 ({momentumData.t1AfterWinWon}/{momentumData.t1AfterWinTotal}회)</div>
+                            </div>
+                            <div style={{ fontSize: '24px', fontWeight: '900', color: theme.text }}>{momentumData.t1AfterWinPct}%</div>
+                        </div>
+                        <div style={{ height: '1px', background: theme.borderHighlight }}></div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <div>
+                                <div style={{ fontSize: '13px', fontWeight: 'bold', color: theme.text, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: theme.danger || '#ef4444' }}></div>
+                                    자리 못 먹었을 때 승률 <span style={{ color: theme.textSub, fontWeight: 'normal', fontSize: '11px' }}>(패배 ➔ 승리)</span>
+                                </div>
+                                <div style={{ fontSize: '11px', color: theme.textSub, marginTop: '4px', marginLeft: '14px' }}>턴을 뒤집는 능력 ({momentumData.t1AfterLossWon}/{momentumData.t1AfterLossTotal}회)</div>
+                            </div>
+                            <div style={{ fontSize: '24px', fontWeight: '900', color: theme.text }}>{momentumData.t1AfterLossPct}%</div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* 2팀 */}
+                <div style={{ background: theme.bg, padding: '20px', borderRadius: '12px', border: `1px solid ${COLOR_TEAM2}40` }}>
+                    <div style={{ fontSize: '15px', color: COLOR_TEAM2, fontWeight: '900', marginBottom: '16px', textAlign: 'center' }}>{team2Name}</div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <div>
+                                <div style={{ fontSize: '13px', fontWeight: 'bold', color: theme.text, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: theme.success || '#10b981' }}></div>
+                                    자리 먹었을 때 승률 <span style={{ color: theme.textSub, fontWeight: 'normal', fontSize: '11px' }}>(승리 ➔ 승리)</span>
+                                </div>
+                                <div style={{ fontSize: '11px', color: theme.textSub, marginTop: '4px', marginLeft: '14px' }}>유리함을 굳히는 능력 ({momentumData.t2AfterWinWon}/{momentumData.t2AfterWinTotal}회)</div>
+                            </div>
+                            <div style={{ fontSize: '24px', fontWeight: '900', color: theme.text }}>{momentumData.t2AfterWinPct}%</div>
+                        </div>
+                        <div style={{ height: '1px', background: theme.borderHighlight }}></div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <div>
+                                <div style={{ fontSize: '13px', fontWeight: 'bold', color: theme.text, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: theme.danger || '#ef4444' }}></div>
+                                    자리 못 먹었을 때 승률 <span style={{ color: theme.textSub, fontWeight: 'normal', fontSize: '11px' }}>(패배 ➔ 승리)</span>
+                                </div>
+                                <div style={{ fontSize: '11px', color: theme.textSub, marginTop: '4px', marginLeft: '14px' }}>턴을 뒤집는 능력 ({momentumData.t2AfterLossWon}/{momentumData.t2AfterLossTotal}회)</div>
+                            </div>
+                            <div style={{ fontSize: '24px', fontWeight: '900', color: theme.text }}>{momentumData.t2AfterLossPct}%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {/* 1. 선취점 분석 (First Deaths) + 개인별 순위표 */}
         <div style={cardStyle}>
             <div style={titleStyle}><Skull size={18} color={theme.danger}/> 선취점 획득 및 개인별 데스 분석 (First Deaths)</div>
-            {/* 💡 상단 Progress Bar는 첫 '킬' 획득 횟수 기준 */}
             <ProgressBar label="선취점 획득 횟수 (팀)" leftVal={firstDeathData.firstKillsT1} rightVal={firstDeathData.firstKillsT2} leftColor={COLOR_TEAM1} rightColor={COLOR_TEAM2} />
             
             <div style={{ display: 'flex', gap: '24px', marginTop: '24px', flexWrap: 'wrap' }}>
-                {/* 1팀 표 (1팀이 죽은 내역) */}
+                {/* 1팀 표 */}
                 <div style={{ flex: 1, minWidth: '300px' }}>
                     <div style={{ fontSize: '13px', fontWeight: 'bold', color: COLOR_TEAM1, marginBottom: '8px' }}>{team1Name} 퍼스트 데스 순위</div>
                     <div style={{ background: theme.bg, borderRadius: '8px', border: `1px solid ${COLOR_TEAM1}40`, overflow: 'hidden' }}>
@@ -777,7 +957,7 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
                             </tbody>
                         </table>
                     </div>
-                    {/* 💡 주요 데스 원인 요약 (1팀을 죽인 2팀의 스킬) */}
+                    {/* 1팀 주요 데스 원인 */}
                     <div style={{ marginTop: '12px', background: theme.bg, borderRadius: '8px', border: `1px solid ${COLOR_TEAM1}40`, padding: '12px' }}>
                         <div style={{ fontSize: '12px', color: theme.textSub, marginBottom: '8px', fontWeight: 'bold' }}>주요 데스 원인 (누구의 스킬을 맞았는가)</div>
                         {firstDeathData.t1Causes.slice(0, 3).map((cause, idx) => {
@@ -798,7 +978,7 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
                     </div>
                 </div>
 
-                {/* 2팀 표 (2팀이 죽은 내역) */}
+                {/* 2팀 표 */}
                 <div style={{ flex: 1, minWidth: '300px' }}>
                     <div style={{ fontSize: '13px', fontWeight: 'bold', color: COLOR_TEAM2, marginBottom: '8px' }}>{team2Name} 퍼스트 데스 순위</div>
                     <div style={{ background: theme.bg, borderRadius: '8px', border: `1px solid ${COLOR_TEAM2}40`, overflow: 'hidden' }}>
@@ -827,7 +1007,7 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
                             </tbody>
                         </table>
                     </div>
-                    {/* 💡 주요 데스 원인 요약 (2팀을 죽인 1팀의 스킬) */}
+                    {/* 2팀 주요 데스 원인 */}
                     <div style={{ marginTop: '12px', background: theme.bg, borderRadius: '8px', border: `1px solid ${COLOR_TEAM2}40`, padding: '12px' }}>
                         <div style={{ fontSize: '12px', color: theme.textSub, marginBottom: '8px', fontWeight: 'bold' }}>주요 데스 원인 (누구의 스킬을 맞았는가)</div>
                         {firstDeathData.t2Causes.slice(0, 3).map((cause, idx) => {
@@ -885,7 +1065,7 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
                 </div>
             </div>
 
-            {/* 💡 4. 가성비 및 교환비 (UI 완전 개편 & 그래프 추가) */}
+            {/* 4. 가성비 및 교환비 */}
             <div style={{...cardStyle, marginBottom: 0}}>
                 <div style={titleStyle}><Target size={18} color={theme.success}/> 궁극기 교환비 및 과투자 (Ult Exchange)</div>
                 <div style={{ display:'flex', flexDirection:'column', gap:'16px' }}>
@@ -927,7 +1107,7 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
             </div>
         </div>
 
-        {/* 기존: 생존 인원 차트 */}
+        {/* 생존 인원 차트 */}
         <div style={cardStyle}>
             <div style={titleStyle}><Activity size={18}/> {t.fightSurvivors}</div>
             <div style={{ display: 'grid', gridTemplateColumns: '3fr 1fr', gap: '24px' }}>
@@ -940,7 +1120,7 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
             </div>
         </div>
 
-        {/* 기존: 역할별 결정타 차트 */}
+        {/* 역할별 결정타 차트 */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '24px' }}>
             <div style={{ ...cardStyle, marginBottom: 0 }}>
                 <div style={titleStyle}><Crosshair size={18}/> {t.fbByRole}</div>
@@ -959,7 +1139,7 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
                 </div>
             </div>
 
-            {/* 기존: 누적 딜량 차트 */}
+            {/* 누적 딜량 차트 */}
             <div style={{ ...cardStyle, marginBottom: 0 }}>
                 <div style={titleStyle}><Zap size={18}/> {t.cumulativeDmg}</div>
                 <div style={{ width: '100%', height: 280 }}>
@@ -988,7 +1168,7 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
             </div>
         </div>
 
-        {/* 기존: 딜링 효율성 산점도 */}
+        {/* 딜링 효율성 산점도 */}
         <div style={cardStyle}>
             <div style={titleStyle}><Crosshair size={18}/> {t.dmgEfficiency}</div>
             <div style={{ width: '100%', height: 350 }}>
@@ -1422,61 +1602,7 @@ const MatchStats = ({ matchId, onBack, matchData: initialMatchData }) => {
     
     const targetEvents = activeRoundTab === 'overview' ? rounds.flatMap(r => r.events || []) : (rounds.find(r => r.round_number.toString() === activeRoundTab)?.events || []);
     
-    const fights = []; 
-    let curF = null;
-    const FIGHT_DURATION_LIMIT = 20;
-    
-    targetEvents.sort((a,b)=>a.timestamp-b.timestamp).forEach(ev => {
-        if (ev.event_type !== 'kill' && ev.event_type !== 'ultimate_start') return;
-        
-        if (!curF || ev.timestamp > curF.fixedEndTime) {
-            if (curF) {
-                curF.duration_sec = curF.events[curF.events.length-1].timestamp - curF.events[0].timestamp;
-                fights.push(curF);
-            }
-            curF = { 
-                startTime: ev.timestamp, 
-                fixedEndTime: ev.timestamp + FIGHT_DURATION_LIMIT, 
-                events: [ev], 
-                t1Kills: 0, t2Kills: 0,
-                team1_deaths: 0, team2_deaths: 0,
-                first_pick_team: null,
-                first_pick_player: null, 
-                first_pick_hero: null,
-                first_pick_event: null
-            };
-        } else {
-            curF.events.push(ev);
-        }
-
-        if (ev.event_type === 'kill') { 
-            if (!curF.first_pick_team) {
-                curF.first_pick_team = ev.target_team; 
-                curF.first_pick_player = ev.target_name; 
-                curF.first_pick_hero = ev.target_hero; 
-                curF.first_pick_event = ev; 
-            }
-
-            if (checkIsTeam1(ev.player_team, t1Name)) curF.t1Kills++; 
-            else if (checkIsTeam2(ev.player_team, t2Name)) curF.t2Kills++; 
-            
-            if (checkIsTeam1(ev.target_team, t1Name)) curF.team1_deaths++;
-            else if (checkIsTeam2(ev.target_team, t2Name)) curF.team2_deaths++;
-        }
-    });
-    
-    if(curF) {
-        curF.duration_sec = curF.events[curF.events.length-1].timestamp - curF.events[0].timestamp;
-        fights.push(curF);
-    }
-
-    fights.forEach(f => {
-        const t1Survivors = Math.max(0, 5 - f.team1_deaths);
-        const t2Survivors = Math.max(0, 5 - f.team2_deaths);
-        if (t1Survivors > t2Survivors) f.winner = t1Name;
-        else if (t2Survivors > t1Survivors) f.winner = t2Name;
-        else f.winner = 'Draw';
-    });
+    const fights = computeFights(targetEvents, t1Name, t2Name);
 
     return { t1Score, t2Score, displayStats, rounds, fights, t1Name, t2Name };
   }, [fetchedMatchData, activeRoundTab]);

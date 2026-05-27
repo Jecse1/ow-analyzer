@@ -1,19 +1,31 @@
 import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
-import { ChevronLeft, RefreshCw, Search, X, Youtube, Zap, Skull, Trophy, Map as MapIcon, User, Filter, Calendar, Users } from "lucide-react";
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from "recharts";
+import { ChevronLeft, RefreshCw, Search, X, Youtube, Zap, Skull, Trophy, Map as MapIcon, User, Filter, Calendar, Users, Sword, AlertOctagon } from "lucide-react";
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, Cell } from "recharts";
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
+import { computeFights } from './utils/fightAnalysis';
 
 const API_BASE = import.meta.env.PROD ? "" : "";
 
 const KEYWORD_TYPES = { MAP: "MAP", HERO: "HERO", EVENT: "EVENT", RESULT: "RESULT", PLAYER: "PLAYER" };
 const EVENT_KEYWORDS = { "궁극기": "ultimate_start", "궁": "ultimate_start", "ult": "ultimate_start", "처치": "kill", "킬": "kill", "kill": "kill", "죽음": "death", "데스": "death", "death": "death" };
-const RESULT_KEYWORDS = { "승리": "win", "승": "win", "win": "win", "패배": "lose", "패": "lose", "lose": "lose", "무승부": "draw", "무": "draw", "draw": "draw" };
+const RESULT_KEYWORDS = { "승리": "win", "승": "win", "win": "win", "패배": "loss", "패": "loss", "loss": "loss", "lose": "loss", "무승부": "draw", "무": "draw", "draw": "draw" };
 const KNOWN_MAPS = [ "왕의길", "왕의 길", "눔바니", "미드타운", "블리자드월드", "블리자드 월드", "아이헨발데", "파라이수", "할리우드", "도라도", "리알토", "서킷로얄", "서킷 로얄", "쓰레기촌", "66번국도", "66번 국도", "지브롤터", "샴발리", "샴발리수도원", "샴발리 수도원", "하바나", "네팔", "리장", "리장타워", "부산", "오아시스", "일리오스", "남극", "남극기지", "사모아", "뉴퀸스트리트", "뉴 퀸 스트리트", "콜로세오", "에스페란사", "루나사피", "뉴정크시티", "뉴 정크 시티", "수라바사", "하나오카", "아누비스" ];
 const KNOWN_HEROES = [ '디바', '둠피스트', '정커퀸', '마우가', '오리사', '라마트라', '라인하르트', '로드호그', '시그마', '윈스턴', '레킹볼', '자리야', '해저드', '애쉬', '바스티온', '캐서디', '에코', '겐지', '한조', '정크랫', '메이', '파라', '리퍼', '소전', '솔저76', '솜브라', '시메트라', '토르비욘', '트레이서', '위도우메이커', '벤처', '벤데타', '프레야', '아나', '바티스트', '브리기테', '일리아리', '주노', '키리코', '라이프위버', '루시우', '메르시', '모이라', '젠야타', '우양' ];
 
+const COLOR_TEAM1 = '#60a5fa';
+const COLOR_TEAM2 = '#f87171';
+
 const normalize = (str) => (str || "").replace(/\s+/g, "").toLowerCase();
+
+const getHeroImg = (heroName) => {
+  if (!heroName || heroName === 'Unknown') return null;
+  const aliases = { 'D.Va': 'dva', '디바': 'dva', '솔저: 76': 'soldier76', '솔저76': 'soldier76', '솔저 76': 'soldier76', '제트팩 캣': 'jetpackcat', '시에라': 'sierra' };
+  const name = (heroName || '').trim();
+  const fileName = aliases[name] || name.replace(/[\s.:]/g, '');
+  return `/heroes/${fileName}.png`;
+};
 
 const getYouTubeLink = (videoUrl, offset, timestamp, pauses = []) => {
     if (!videoUrl) return "#";
@@ -120,6 +132,140 @@ export default function OverallStats({ onBack, onGoSessions }) {
   };
   const handleKeyDown = (e) => { if (e.key === 'Enter') addTag(inputText); };
 
+  // 매치별 fights 캐싱 — matches가 바뀔 때만 재계산
+  const matchFightsMap = useMemo(() => {
+    const map = {};
+    matches.forEach(m => {
+      const allEvents = (m.rounds || []).flatMap(r => r.events || []);
+      map[m.id] = computeFights(allEvents, m.team_1_name || '1팀', m.team_2_name || '2팀');
+    });
+    return map;
+  }, [matches]);
+
+  // 한타 통계 탭용 집계 (date+map 필터 적용, result 태그 무관)
+  const overallFightStats = useMemo(() => {
+    let fMatches = matches.filter(m => {
+      if (startDate && m.scrim_date < startDate) return false;
+      if (endDate && m.scrim_date > endDate) return false;
+      return true;
+    });
+    const mapTag = activeTags.find(tg => tg.type === KEYWORD_TYPES.MAP);
+    if (mapTag) fMatches = fMatches.filter(m => m.map_name.includes(mapTag.label));
+    if (baseTeam !== 'All') fMatches = fMatches.filter(m => m.team_1_name === baseTeam || m.team_2_name === baseTeam);
+
+    if (fMatches.length === 0) return null;
+
+    let lostFights = 0, killsWhenLost = 0;
+    let afterWinWon = 0, afterWinTotal = 0;
+    let afterLossWon = 0, afterLossTotal = 0;
+    // playerName -> { kills, fightSet(Set), heroKillMap, teamName }
+    const carryMap = {};
+    // playerName -> { count, heroMap, teamName }
+    const firstDeathMap = {};
+
+    fMatches.forEach(m => {
+      const fights = matchFightsMap[m.id] || [];
+      const t1Name = m.team_1_name || '1팀';
+      const t2Name = m.team_2_name || '2팀';
+
+      fights.forEach((f, fIdx) => {
+        if (f.winner === 'Draw') return;
+
+        const losingTeam = f.winner === t1Name ? t2Name : t1Name;
+        const fightId = `${m.id}-${fIdx}`;
+
+        // 패배 한타 저항력
+        if (baseTeam === 'All') {
+          killsWhenLost += f.winner === t1Name ? f.t2Kills : f.t1Kills;
+          lostFights++;
+        } else if (f.winner !== baseTeam) {
+          killsWhenLost += m.team_1_name === baseTeam ? f.t1Kills : f.t2Kills;
+          lostFights++;
+        }
+
+        // 퍼스트 데스 순위 (패배팀 첫 사망자)
+        if (f.first_pick_player && f.first_pick_team) {
+          const shouldCount = baseTeam === 'All' || f.first_pick_team === baseTeam;
+          if (shouldCount) {
+            const pName = f.first_pick_player;
+            if (!firstDeathMap[pName]) firstDeathMap[pName] = { count: 0, heroMap: {}, teamName: f.first_pick_team };
+            firstDeathMap[pName].count++;
+            const h = f.first_pick_hero || 'Unknown';
+            firstDeathMap[pName].heroMap[h] = (firstDeathMap[pName].heroMap[h] || 0) + 1;
+          }
+        }
+
+        // 패배 한타 캐리 순위 (패배팀 선수의 킬 집계)
+        const trackTeam = baseTeam === 'All' ? losingTeam : baseTeam;
+        const isBaseLost = baseTeam === 'All' || f.winner !== baseTeam;
+        if (isBaseLost) {
+          f.events.forEach(ev => {
+            if (ev.event_type !== 'kill' || ev.player_team !== trackTeam) return;
+            const pName = ev.player_name;
+            if (!carryMap[pName]) carryMap[pName] = { kills: 0, fightSet: new Set(), heroKillMap: {}, teamName: ev.player_team };
+            carryMap[pName].kills++;
+            carryMap[pName].fightSet.add(fightId);
+            const hero = ev.player_hero || 'Unknown';
+            carryMap[pName].heroKillMap[hero] = (carryMap[pName].heroKillMap[hero] || 0) + 1;
+          });
+        }
+      });
+
+      // 모멘텀 (매치 경계 분리)
+      for (let i = 1; i < fights.length; i++) {
+        const prev = fights[i - 1];
+        const curr = fights[i];
+        if (prev.winner === 'Draw' || curr.winner === 'Draw') continue;
+
+        if (baseTeam === 'All') {
+          afterWinTotal++;
+          if (curr.winner === prev.winner) afterWinWon++;
+          const prevLoser = prev.winner === t1Name ? t2Name : t1Name;
+          afterLossTotal++;
+          if (curr.winner === prevLoser) afterLossWon++;
+        } else {
+          const prevWon = prev.winner === baseTeam;
+          const currWon = curr.winner === baseTeam;
+          if (prevWon) { afterWinTotal++; if (currWon) afterWinWon++; }
+          else { afterLossTotal++; if (currWon) afterLossWon++; }
+        }
+      }
+    });
+
+    const MIN_LOST_FIGHTS = 10;
+    const carryRanking = Object.entries(carryMap)
+      .map(([name, data]) => {
+        const cnt = data.fightSet.size;
+        const avg = cnt > 0 ? data.kills / cnt : 0;
+        const topHero = Object.entries(data.heroKillMap).sort((a, b) => b[1] - a[1])[0]?.[0] || null;
+        return { name, kills: data.kills, lostFightCount: cnt, avgKills: parseFloat(avg.toFixed(2)), topHero, teamName: data.teamName };
+      })
+      .filter(p => p.lostFightCount >= MIN_LOST_FIGHTS)
+      .sort((a, b) => b.avgKills - a.avgKills)
+      .slice(0, 10);
+
+    const firstDeathRanking = Object.entries(firstDeathMap)
+      .map(([name, data]) => {
+        const topHero = Object.entries(data.heroMap).sort((a, b) => b[1] - a[1])[0]?.[0] || null;
+        return { name, count: data.count, hero: topHero, teamName: data.teamName };
+      })
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10);
+
+    return {
+      matchCount: fMatches.length,
+      lostFights,
+      avgKills: lostFights > 0 ? (killsWhenLost / lostFights).toFixed(1) : '0.0',
+      resistancePct: lostFights > 0 ? ((killsWhenLost / (lostFights * 5)) * 100).toFixed(1) : '0.0',
+      afterWinWon, afterWinTotal,
+      afterWinPct: afterWinTotal > 0 ? ((afterWinWon / afterWinTotal) * 100).toFixed(1) : '0.0',
+      afterLossWon, afterLossTotal,
+      afterLossPct: afterLossTotal > 0 ? ((afterLossWon / afterLossTotal) * 100).toFixed(1) : '0.0',
+      carryRanking,
+      firstDeathRanking,
+    };
+  }, [matches, activeTags, startDate, endDate, baseTeam, matchFightsMap]);
+
   const filteredData = useMemo(() => {
     if (!matches.length) return { stats: null, moments: [], heroStats: [], mapStats: [] };
 
@@ -136,13 +282,17 @@ export default function OverallStats({ onBack, onGoSessions }) {
     const playerTag = activeTags.find(t => t.type === KEYWORD_TYPES.PLAYER);
 
     if (mapTag) targetMatches = targetMatches.filter(m => m.map_name.includes(mapTag.label));
+
+    // baseMatches: date+map 필터만 적용, resultTag 미적용 (moments에서 fight 레벨로 필터)
+    const baseMatches = targetMatches;
+
     if (resultTag) {
         targetMatches = targetMatches.filter(m => {
-            if (resultTag.value === 'draw') return m.result.includes('무');
-            if (baseTeam === 'All') return true; // 전체 팀 시점에서는 승패 필터 무시
-            const isWin = m.winner === baseTeam; 
+            if (resultTag.value === 'draw') return m.result && m.result.includes('무');
+            if (baseTeam === 'All') return true;
+            const isWin = m.winner === baseTeam;
             if (resultTag.value === 'win') return isWin;
-            if (resultTag.value === 'lose') return !isWin && !m.result.includes('무');
+            if (resultTag.value === 'loss') return !isWin && !(m.result && m.result.includes('무'));
             return true;
         });
     }
@@ -158,12 +308,13 @@ export default function OverallStats({ onBack, onGoSessions }) {
         }
 
         if (heroTag) {
-            const heroPlayed = m.stats.some(s => {
+            // 보조 영웅도 검색되도록 라운드별 실제 출전 영웅 기준으로 체크
+            const heroPlayed = (m.rounds || []).some(r => r.stats.some(s => {
                 const isHeroMatch = normalize(s.hero_name) === normalize(heroTag.label);
                 if (playerTag) return isHeroMatch && s.player_name.toLowerCase().includes(playerTag.label.toLowerCase());
                 return isHeroMatch;
-            });
-            if (!heroPlayed) return; 
+            }));
+            if (!heroPlayed) return;
         }
 
         const isWin = baseTeam === 'All' ? false : (m.winner === baseTeam);
@@ -174,30 +325,41 @@ export default function OverallStats({ onBack, onGoSessions }) {
         mapMap[m.map_name].games++;
         if (isWin) mapMap[m.map_name].wins++;
 
-        // 💡 선택된 팀의 선수들만 스탯 합산 (All이면 모두 합산)
+        // 매치 합산 킬/뎃/뎀은 aggregate stats 사용 (선수별 정확한 합산값)
         const targetStats = m.stats.filter(s => {
-            if (baseTeam !== 'All' && s.team_name !== baseTeam) return false; 
+            if (baseTeam !== 'All' && s.team_name !== baseTeam) return false;
             if (playerTag && !s.player_name.toLowerCase().includes(playerTag.label.toLowerCase())) return false;
             return true;
         });
-
         targetStats.forEach(s => {
             totalKills += s.eliminations;
             totalDeaths += s.deaths;
             totalDmg += s.hero_damage_dealt;
-
-            const hName = s.hero_name;
-            if (!heroMap[hName]) heroMap[hName] = { games: 0, wins: 0, kills: 0, deaths: 0, dmg: 0, playTime: 0 };
-            
-            heroMap[hName].playTime += s.hero_time_played;
-            heroMap[hName].kills += s.eliminations;
-            heroMap[hName].deaths += s.deaths;
-            heroMap[hName].dmg += s.hero_damage_dealt;
         });
 
-        // 영웅별 게임 수 및 승률 계산 (전체 팀일 경우 양 팀의 승패를 각각 처리)
-        const team1Heroes = new Set(m.stats.filter(s => s.team_name === m.team_1_name).map(s => s.hero_name));
-        const team2Heroes = new Set(m.stats.filter(s => s.team_name === m.team_2_name).map(s => s.hero_name));
+        // 영웅별 stats: 라운드 단위로 순회해 보조 영웅 누락 방지
+        (m.rounds || []).forEach(r => {
+            r.stats.forEach(s => {
+                if (baseTeam !== 'All' && s.team_name !== baseTeam) return;
+                if (playerTag && !s.player_name.toLowerCase().includes(playerTag.label.toLowerCase())) return;
+                const hName = s.hero_name;
+                if (!heroMap[hName]) heroMap[hName] = { games: 0, wins: 0, kills: 0, deaths: 0, dmg: 0, playTime: 0 };
+                heroMap[hName].playTime += s.hero_time_played;
+                heroMap[hName].kills += s.eliminations;
+                heroMap[hName].deaths += s.deaths;
+                heroMap[hName].dmg += s.hero_damage_dealt;
+            });
+        });
+
+        // 영웅별 게임 수/승률: 라운드 출전 영웅 전부 수집 (보조 영웅 포함)
+        const team1Heroes = new Set();
+        const team2Heroes = new Set();
+        (m.rounds || []).forEach(r => {
+            r.stats.forEach(s => {
+                if (s.team_name === m.team_1_name) team1Heroes.add(s.hero_name);
+                else if (s.team_name === m.team_2_name) team2Heroes.add(s.hero_name);
+            });
+        });
 
         if (baseTeam === 'All' || baseTeam === m.team_1_name) {
             team1Heroes.forEach(hName => {
@@ -232,11 +394,16 @@ export default function OverallStats({ onBack, onGoSessions }) {
 
     const eventTag = activeTags.find(t => t.type === KEYWORD_TYPES.EVENT);
     const moments = [];
-    targetMatches.forEach(m => {
+    // baseMatches 기준으로 순회: fight 레벨 result는 moment 단위로 판정
+    baseMatches.forEach(m => {
+        const mFights = matchFightsMap[m.id] || [];
+        const mt1Name = m.team_1_name || '1팀';
+        const mt2Name = m.team_2_name || '2팀';
+
         (m.rounds || []).forEach(r => {
             (r.events || []).forEach(ev => {
                 let isMatch = true;
-                
+
                 if (baseTeam !== 'All' && ev.player_team !== baseTeam) isMatch = false;
 
                 if (eventTag && eventTag.value === 'death') {
@@ -267,6 +434,22 @@ export default function OverallStats({ onBack, onGoSessions }) {
                 }
 
                 if (isMatch) {
+                    // 이 이벤트가 속한 한타를 찾아 승패 판정
+                    const fight = mFights.find(f => f.startTime <= ev.timestamp && ev.timestamp <= f.fixedEndTime);
+                    let result = 'neutral';
+                    if (fight) {
+                        const pTeam = ev.player_team;
+                        const isT1 = pTeam === mt1Name || pTeam === '1팀' || pTeam === 'Team 1';
+                        const isT2 = pTeam === mt2Name || pTeam === '2팀' || pTeam === 'Team 2';
+                        if (fight.winner === 'Draw') {
+                            result = 'draw';
+                        } else if ((isT1 && fight.winner === mt1Name) || (isT2 && fight.winner === mt2Name)) {
+                            result = 'win';
+                        } else if (isT1 || isT2) {
+                            result = 'loss';
+                        }
+                    }
+
                     const deathDesc = ev.event_type === 'death'
                         ? `${ev.player_name} 사망`
                         : ev.event_type === 'kill' && eventTag && eventTag.value === 'death'
@@ -279,12 +462,17 @@ export default function OverallStats({ onBack, onGoSessions }) {
                         hero: ev.player_hero || ev.hero,
                         timestamp: ev.timestamp,
                         videoUrl: m.video_url, videoOffset: m.video_offset, pauses: m.pauses,
-                        type: ev.event_type
+                        type: ev.event_type,
+                        player_team: ev.player_team,
+                        result
                     });
                 }
             });
         });
     });
+
+    // fight 레벨 result로 moments 필터 (매치 레벨 필터와 독립)
+    const filteredMoments = resultTag ? moments.filter(mo => mo.result === resultTag.value) : moments;
 
     // 💡 평균 K/D/A를 계산할 때 한 팀 기준(5명)인지 전체(10명)인지 분류
     let statDivisor = 0;
@@ -300,9 +488,9 @@ export default function OverallStats({ onBack, onGoSessions }) {
             avgDeaths: statDivisor > 0 ? (totalDeaths / statDivisor).toFixed(1) : 0,
             avgDmg: statDivisor > 0 ? (totalDmg / statDivisor).toFixed(0) : 0,
         },
-        heroStats: heroStatsArr, mapStats: mapStatsArr, moments
+        heroStats: heroStatsArr, mapStats: mapStatsArr, moments: filteredMoments
     };
-  }, [matches, activeTags, startDate, endDate, baseTeam]);
+  }, [matches, activeTags, startDate, endDate, baseTeam, matchFightsMap]);
 
   const tagColor = (type) => {
       switch(type) {
@@ -393,6 +581,7 @@ export default function OverallStats({ onBack, onGoSessions }) {
                 <TabButton id="dashboard" label={t.tabHighlights} icon={Youtube} />
                 <TabButton id="heroes" label={t.tabHeroes} icon={User} />
                 <TabButton id="maps" label={t.tabMaps} icon={MapIcon} />
+                <TabButton id="fights" label="한타 통계" icon={Sword} />
             </div>
 
             {activeTab === 'dashboard' && (
@@ -406,7 +595,15 @@ export default function OverallStats({ onBack, onGoSessions }) {
                                 <a key={idx} href={getYouTubeLink(moment.videoUrl, moment.videoOffset, moment.timestamp, moment.pauses)} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', background: theme.bg, border: `1px solid ${theme.border}`, borderRadius: '12px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '8px', transition: 'transform 0.2s, border-color 0.2s' }} onMouseOver={e => { e.currentTarget.style.borderColor = theme.borderHighlight; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseOut={e => { e.currentTarget.style.borderColor = theme.border; e.currentTarget.style.transform = 'translateY(0)'; }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <div style={{ fontSize: '12px', color: theme.textSub, display:'flex', alignItems:'center', gap:'4px' }}><MapIcon size={12}/> {moment.matchName}</div>
-                                        <div style={{ fontSize: '11px', color: theme.textDim, fontFamily:'monospace' }}>{Math.floor(moment.timestamp/60)}:{Math.floor(moment.timestamp%60).toString().padStart(2,'0')}</div>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                            <div style={{ fontSize: '11px', color: theme.text, fontWeight: 600, fontFamily:'monospace' }}>{Math.floor(moment.timestamp/60)}:{Math.floor(moment.timestamp%60).toString().padStart(2,'0')}</div>
+                                            {moment.result === 'win' && (
+                                                <span style={{ fontSize: '10px', background: '#60a5fa', color: '#fff', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold', lineHeight: '1.4' }}>승</span>
+                                            )}
+                                            {moment.result === 'loss' && (
+                                                <span style={{ fontSize: '10px', background: theme.danger, color: '#fff', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold', lineHeight: '1.4' }}>패</span>
+                                            )}
+                                        </div>
                                     </div>
                                     <div style={{ fontSize: '14px', fontWeight: 'bold', color: theme.text, display:'flex', alignItems:'center', gap:'6px' }}>
                                         {moment.type === 'ultimate_start' && <Zap size={14} color={theme.warning}/>}{moment.type === 'kill' && <Skull size={14} color={theme.danger}/>}{moment.desc}
@@ -470,12 +667,20 @@ export default function OverallStats({ onBack, onGoSessions }) {
                         <>
                             <div style={{ width: '100%', height: 300, marginBottom: '30px' }}>
                                 <ResponsiveContainer>
-                                    <BarChart data={filteredData.mapStats.slice(0, 10)} layout="vertical">
-                                        <CartesianGrid strokeDasharray="3 3" stroke={theme.border} horizontal={false}/>
+                                    <BarChart data={filteredData.mapStats.slice(0, 10)} layout="vertical" margin={{ right: 40 }}>
+                                        <CartesianGrid strokeDasharray="3 3" stroke={theme.border} opacity={0.5} horizontal={false}/>
                                         <XAxis type="number" stroke={theme.textSub} fontSize={12} tickLine={false} axisLine={false}/>
                                         <YAxis dataKey="name" type="category" stroke={theme.textSub} fontSize={12} tickLine={false} axisLine={false} width={100}/>
-                                        <Tooltip cursor={{fill: 'transparent'}} contentStyle={{ backgroundColor: theme.surface, border: 'none', borderRadius: '8px', color: theme.text, fontSize:'13px' }}/>
-                                        <Bar dataKey="winRate" name={t.winRate} fill={theme.success} radius={[0, 4, 4, 0]} barSize={20} />
+                                        <Tooltip cursor={{fill: `${theme.border}40`}} contentStyle={{ backgroundColor: theme.surface, border: `1px solid ${theme.border}`, borderRadius: '8px', color: theme.text, fontSize:'13px' }}/>
+                                        <Bar dataKey="winRate" name={t.winRate} radius={[0, 4, 4, 0]} barSize={20} label={{ position: 'right', fill: theme.text, fontSize: 11, formatter: (v) => `${v}%` }}>
+                                            {filteredData.mapStats.slice(0, 10).map((entry, idx) => (
+                                                <Cell key={idx} fill={
+                                                    entry.winRate >= 70 ? (theme.success || '#10b981') :
+                                                    entry.winRate >= 40 ? '#60a5fa' :
+                                                    (theme.danger || '#ef4444')
+                                                } />
+                                            ))}
+                                        </Bar>
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>
@@ -494,6 +699,150 @@ export default function OverallStats({ onBack, onGoSessions }) {
                     ) : <div style={{padding:'40px', textAlign:'center', color: theme.textSub}}>{t.noData}</div>}
                 </div>
             )}
+            {activeTab === 'fights' && (() => {
+                const fs = overallFightStats;
+                const cardStyle = { background: theme.surface, border: `1px solid ${theme.border}`, borderRadius: '16px', padding: '24px', marginBottom: '24px' };
+                const titleStyle = { color: theme.text, fontSize: '16px', fontWeight: 'bold', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px' };
+                const teamLabel = baseTeam === 'All' ? '전체 평균' : baseTeam;
+                const accentColor = baseTeam === 'All' ? (theme.primary || '#a78bfa') : COLOR_TEAM1;
+
+                if (!fs) {
+                    return (
+                        <div style={{ background: theme.surface, borderRadius: '16px', border: `1px solid ${theme.border}`, padding: '60px', textAlign: 'center', color: theme.textSub }}>
+                            {baseTeam !== 'All' ? `${baseTeam}의 경기 데이터가 없습니다` : '분석할 한타 데이터가 없습니다'}
+                        </div>
+                    );
+                }
+
+                return (
+                    <div>
+                        {/* A. 패배 한타 저항력 — 통합 카드 */}
+                        {(() => {
+                            const maxFD = fs.firstDeathRanking[0]?.count || 1;
+                            const maxCarry = fs.carryRanking[0]?.avgKills || 1;
+                            const rankBadgeColor = (i) => i === 0 ? '#fbbf24' : i === 1 ? '#9ca3af' : i === 2 ? '#cd7c2f' : theme.textSub;
+                            const RankRow = ({ idx, hero, name, teamName, mainVal, mainSuffix, subVal, barPct, barColor }) => (
+                                <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '8px', padding: '7px 10px', borderRadius: '8px', overflow: 'hidden', marginBottom: '4px' }}>
+                                    <div style={{ position: 'absolute', inset: 0, width: `${barPct}%`, background: `${barColor}18`, borderRadius: '8px', pointerEvents: 'none' }} />
+                                    <span style={{ position: 'relative', zIndex: 1, fontSize: '11px', fontWeight: 'bold', color: rankBadgeColor(idx), minWidth: '14px', textAlign: 'center' }}>{idx + 1}</span>
+                                    {hero && <img src={getHeroImg(hero)} alt={hero} style={{ position: 'relative', zIndex: 1, width: '24px', height: '24px', borderRadius: '4px', flexShrink: 0 }} onError={e => { e.currentTarget.style.display = 'none'; }} />}
+                                    <div style={{ position: 'relative', zIndex: 1, flex: 1, minWidth: 0 }}>
+                                        <div style={{ fontSize: '12px', fontWeight: 'bold', color: theme.text, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{name}</div>
+                                        <div style={{ fontSize: '10px', color: theme.textSub }}>{teamName}</div>
+                                    </div>
+                                    <div style={{ position: 'relative', zIndex: 1, textAlign: 'right', flexShrink: 0 }}>
+                                        <div style={{ fontSize: '16px', fontWeight: '900', color: theme.text, lineHeight: 1 }}>{mainVal}<span style={{ fontSize: '10px', color: theme.textSub, fontWeight: 'normal', marginLeft: '2px' }}>{mainSuffix}</span></div>
+                                        <div style={{ fontSize: '10px', color: theme.textSub, marginTop: '2px' }}>{subVal}</div>
+                                    </div>
+                                </div>
+                            );
+                            return (
+                                <div style={cardStyle}>
+                                    <div style={titleStyle}>
+                                        <AlertOctagon size={18} color={theme.warning || '#f59e0b'} />
+                                        패배 한타 저항력 (Kill Exchange in Lost Fights)
+                                    </div>
+                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr 1.2fr', gap: '0' }}>
+                                        {/* 좌: % 요약 */}
+                                        <div style={{ paddingRight: '24px', borderRight: `1px solid ${theme.border}` }}>
+                                            <div style={{ fontSize: '13px', color: accentColor, fontWeight: 'bold', marginBottom: '10px' }}>
+                                                {teamLabel} — 패배 시 평균 적 처치율
+                                            </div>
+                                            <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '10px' }}>
+                                                <span style={{ fontSize: '36px', fontWeight: '900', color: theme.text }}>{fs.resistancePct}%</span>
+                                            </div>
+                                            <div style={{ fontSize: '12px', color: theme.textSub, lineHeight: '1.6' }}>
+                                                평균 {fs.avgKills}명 처치<br/>총 {fs.lostFights}회 패배 한타
+                                            </div>
+                                            <div style={{ marginTop: '12px', fontSize: '11px', color: theme.textSub, lineHeight: '1.6' }}>
+                                                패배한 한타에서 상대를 {fs.avgKills}명 처치 → {fs.resistancePct}% 처치율. 값이 높을수록 지면서도 교환을 잘 함.
+                                            </div>
+                                        </div>
+
+                                        {/* 중: 퍼스트 데스 TOP 3 */}
+                                        <div style={{ padding: '0 24px', borderRight: `1px solid ${theme.border}` }}>
+                                            <div style={{ fontSize: '13px', fontWeight: 'bold', color: theme.danger, marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                <Skull size={14} color={theme.danger} /> 퍼스트 데스 TOP 3
+                                            </div>
+                                            {fs.firstDeathRanking.length === 0
+                                                ? <div style={{ fontSize: '13px', color: theme.textSub }}>데이터 없음</div>
+                                                : fs.firstDeathRanking.slice(0, 3).map((p, i) => (
+                                                    <RankRow key={i} idx={i} hero={p.hero} name={p.name} teamName={p.teamName}
+                                                        mainVal={p.count} mainSuffix="회"
+                                                        subVal="퍼스트 데스"
+                                                        barPct={(p.count / maxFD) * 100} barColor={theme.danger} />
+                                                ))
+                                            }
+                                        </div>
+
+                                        {/* 우: 패배 한타 캐리 TOP 3 */}
+                                        <div style={{ paddingLeft: '24px' }}>
+                                            <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#60a5fa', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                <Zap size={14} color="#60a5fa" /> 패배 한타 캐리 TOP 3
+                                            </div>
+                                            {fs.carryRanking.length === 0
+                                                ? <div style={{ fontSize: '13px', color: theme.textSub }}>최소 10회 이상 참여 선수 없음</div>
+                                                : fs.carryRanking.slice(0, 3).map((p, i) => (
+                                                    <RankRow key={i} idx={i} hero={p.topHero} name={p.name} teamName={p.teamName}
+                                                        mainVal={p.avgKills.toFixed(1)} mainSuffix="킬/한타"
+                                                        subVal={`(총 ${p.kills}킬 / ${p.lostFightCount}회)`}
+                                                        barPct={(p.avgKills / maxCarry) * 100} barColor="#60a5fa" />
+                                                ))
+                                            }
+                                            <div style={{ fontSize: '10px', color: theme.textSub, marginTop: '8px' }}>* 최소 10회 이상 패배 한타 참여 기준</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })()}
+
+                        {/* B. 한타 모멘텀 */}
+                        <div style={cardStyle}>
+                            <div style={titleStyle}>
+                                <Sword size={18} color={theme.primary || '#a78bfa'} />
+                                한타 모멘텀 (연속 승률 및 턴 뒤집기)
+                            </div>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+                                {/* 승리 후 승률 */}
+                                <div style={{ background: theme.bg, padding: '20px', borderRadius: '12px', border: `1px solid ${theme.success || '#10b981'}40` }}>
+                                    <div style={{ fontSize: '13px', fontWeight: 'bold', color: theme.text, display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
+                                        <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: theme.success || '#10b981', flexShrink: 0 }} />
+                                        자리 먹었을 때 승률
+                                        <span style={{ color: theme.textSub, fontWeight: 'normal', fontSize: '11px' }}>(승리 ➔ 승리)</span>
+                                    </div>
+                                    <div style={{ fontSize: '11px', color: theme.textSub, marginBottom: '16px', paddingLeft: '14px' }}>
+                                        유리함을 굳히는 능력
+                                    </div>
+                                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px' }}>
+                                        <span style={{ fontSize: '36px', fontWeight: '900', color: theme.text }}>{fs.afterWinPct}%</span>
+                                        <span style={{ fontSize: '12px', color: theme.textSub }}>({fs.afterWinWon}/{fs.afterWinTotal}회)</span>
+                                    </div>
+                                </div>
+
+                                {/* 패배 후 역전 승률 */}
+                                <div style={{ background: theme.bg, padding: '20px', borderRadius: '12px', border: `1px solid ${theme.danger || '#ef4444'}40` }}>
+                                    <div style={{ fontSize: '13px', fontWeight: 'bold', color: theme.text, display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
+                                        <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: theme.danger || '#ef4444', flexShrink: 0 }} />
+                                        자리 못 먹었을 때 승률
+                                        <span style={{ color: theme.textSub, fontWeight: 'normal', fontSize: '11px' }}>(패배 ➔ 승리)</span>
+                                    </div>
+                                    <div style={{ fontSize: '11px', color: theme.textSub, marginBottom: '16px', paddingLeft: '14px' }}>
+                                        턴을 뒤집는 능력
+                                    </div>
+                                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px' }}>
+                                        <span style={{ fontSize: '36px', fontWeight: '900', color: theme.text }}>{fs.afterLossPct}%</span>
+                                        <span style={{ fontSize: '12px', color: theme.textSub }}>({fs.afterLossWon}/{fs.afterLossTotal}회)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style={{ marginTop: '12px', fontSize: '12px', color: theme.textSub }}>
+                                * 매치 경계를 넘지 않음 · Draw 한타 제외 · 대상 매치: {fs.matchCount}경기
+                            </div>
+                        </div>
+
+                    </div>
+                );
+            })()}
         </>
       )}
       <style>{`.spin { animation: spin 1s linear infinite; } @keyframes spin { 100% { transform: rotate(360deg); } }`}</style>

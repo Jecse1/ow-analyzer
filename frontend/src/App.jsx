@@ -59,7 +59,7 @@ function MainApp() {
   useEffect(() => {
     const fetchAllData = async () => {
       try {
-        const res = await axios.get(`${API_BASE}/api/scrims`);
+        const res = await axios.get(`${API_BASE}/api/scrims/full-events`);
         setAllScrims(res.data || []);
       } catch (err) { console.error("❌ Failed to fetch all scrims:", err); }
     };
@@ -178,12 +178,12 @@ function MainApp() {
     try {
       const payload = {
         scrimName: scrimData.scrimName || "이름 없는 스크림",
-        videoUrl: scrimData.videoUrl || "",
         date: scrimData.date,
         startHour: scrimData.startHour || "00",
         endHour: scrimData.endHour || "00",
         matches: scrimData.matches.map((m) => ({
           map_name: m.map_name,
+          videoUrl: m.videoUrl || "",
           team1Name: m.team1Name || "1팀",
           team2Name: m.team2Name || "2팀",
           start_time: m.start_time,
@@ -192,7 +192,7 @@ function MainApp() {
           hasPause: m.has_pause,
           pauses: m.pauses || []
         })),
-        files: [] 
+        files: []
       };
 
       const createRes = await axios.post(`${API_BASE}/api/scrim/manual-register`, payload);

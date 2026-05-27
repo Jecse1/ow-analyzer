@@ -1,29 +1,44 @@
 // src/ScrimDetail.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { ChevronLeft, BarChart3 } from "lucide-react";
-// [중요] ThemeContext와 LanguageContext 가져오기
+import { ChevronLeft, BarChart3, Trash2 } from "lucide-react";
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
 
 const API_BASE = import.meta.env.PROD ? "" : "";
 
 export default function ScrimDetail({ scrimId, onSelectMatch, onBack, onGoOverall }) {
-  const { theme } = useTheme(); // [테마 훅]
-  const { t } = useLanguage();  // [언어 훅]
+  const { theme } = useTheme();
+  const { t } = useLanguage();
 
   const [scrim, setScrim] = useState(null);
   const [scrimLoading, setScrimLoading] = useState(true);
   const [scrimErr, setScrimErr] = useState("");
 
+  const [isSelectMode, setIsSelectMode] = useState(false);
+  const [selectedIds, setSelectedIds] = useState(new Set());
+  const [deleting, setDeleting] = useState(false);
+
+  const fetchScrim = async () => {
+    setScrimLoading(true);
+    setScrimErr("");
+    setScrim(null);
+    try {
+      const res = await axios.get(`${API_BASE}/api/scrims/${encodeURIComponent(scrimId)}`);
+      setScrim(res.data);
+    } catch (e) {
+      setScrimErr(e?.message || String(e));
+    } finally {
+      setScrimLoading(false);
+    }
+  };
+
   useEffect(() => {
     let alive = true;
-
-    async function fetchScrim() {
+    async function load() {
       setScrimLoading(true);
       setScrimErr("");
       setScrim(null);
-
       try {
         const res = await axios.get(`${API_BASE}/api/scrims/${encodeURIComponent(scrimId)}`);
         if (!alive) return;
@@ -36,13 +51,53 @@ export default function ScrimDetail({ scrimId, onSelectMatch, onBack, onGoOveral
         setScrimLoading(false);
       }
     }
-
-    if (scrimId) fetchScrim();
-
-    return () => {
-      alive = false;
-    };
+    if (scrimId) load();
+    return () => { alive = false; };
   }, [scrimId]);
+
+  const enterSelectMode = () => { setIsSelectMode(true); setSelectedIds(new Set()); };
+  const exitSelectMode = () => { setIsSelectMode(false); setSelectedIds(new Set()); };
+
+  const toggleSelect = (id) => {
+    setSelectedIds(prev => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
+  const toggleSelectAll = () => {
+    const matches = scrim?.matches || [];
+    if (selectedIds.size === matches.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(matches.map(m => m.id)));
+    }
+  };
+
+  const handleDeleteSelected = async () => {
+    if (selectedIds.size === 0) return;
+    const ids = [...selectedIds];
+    const msg = `선택한 ${ids.length}개 매치를 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.`;
+    if (!window.confirm(msg)) return;
+
+    setDeleting(true);
+    try {
+      const res = await axios.post('/api/matches/delete-batch', { ids });
+      if (res.data.warnings?.length > 0) {
+        alert(`삭제 완료 (${res.data.deleted_count}개)\n경고:\n${res.data.warnings.join('\n')}`);
+      }
+      if (res.data.failed_ids?.length > 0) {
+        alert(`일부 삭제 실패: ${res.data.failed_ids.join(', ')}`);
+      }
+      await fetchScrim();
+      exitSelectMode();
+    } catch (err) {
+      alert(`삭제 실패: ${err.response?.data?.detail || err.message}`);
+    } finally {
+      setDeleting(false);
+    }
+  };
 
   if (scrimLoading) {
     return (
@@ -59,22 +114,16 @@ export default function ScrimDetail({ scrimId, onSelectMatch, onBack, onGoOveral
         <div style={{ color: theme.textSub, marginTop: 8, fontSize: 13 }}>{scrimErr}</div>
         <button
           onClick={onBack}
-          style={{
-            marginTop: 14,
-            background: theme.surfaceHighlight,
-            border: `1px solid ${theme.borderHighlight}`,
-            color: theme.text,
-            padding: "10px 14px",
-            borderRadius: 10,
-            cursor: "pointer",
-            fontWeight: 800,
-          }}
+          style={{ marginTop: 14, background: theme.surfaceHighlight, border: `1px solid ${theme.borderHighlight}`, color: theme.text, padding: "10px 14px", borderRadius: 10, cursor: "pointer", fontWeight: 800 }}
         >
           {t.back}
         </button>
       </div>
     );
   }
+
+  const matches = scrim.matches || [];
+  const allSelected = matches.length > 0 && selectedIds.size === matches.length;
 
   return (
     <div style={{ padding: "40px", maxWidth: 1200, margin: "0 auto", color: theme.text }}>
@@ -83,48 +132,43 @@ export default function ScrimDetail({ scrimId, onSelectMatch, onBack, onGoOveral
         <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
           <button
             onClick={onBack}
-            style={{
-              background: theme.surface,
-              border: `1px solid ${theme.border}`,
-              color: theme.text,
-              borderRadius: 10,
-              padding: "10px 12px",
-              cursor: "pointer",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-            }}
+            style={{ background: theme.surface, border: `1px solid ${theme.border}`, color: theme.text, borderRadius: 10, padding: "10px 12px", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 8 }}
           >
             <ChevronLeft size={16} /> {t.backToList}
           </button>
-
           <div>
             <div style={{ fontSize: 24, fontWeight: 900, marginBottom: 4 }}>{scrim.scrim_name}</div>
             <div style={{ color: theme.textSub, fontSize: 13 }}>
-              {scrim.date} · {scrim.start_time} ~ {scrim.end_time} · {scrim.matches?.length || 0} {t.fightCount}
+              {scrim.date} · {scrim.start_time} ~ {scrim.end_time} · {matches.length} {t.fightCount}
             </div>
           </div>
         </div>
 
         <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-          {onGoOverall && (
+          {isSelectMode ? (
             <button
-              onClick={onGoOverall}
-              style={{
-                background: theme.surfaceHighlight,
-                border: `1px solid ${theme.borderHighlight}`,
-                color: theme.text,
-                padding: "10px 14px",
-                borderRadius: 10,
-                cursor: "pointer",
-                fontWeight: 800,
-                display: "inline-flex",
-                gap: 8,
-                alignItems: "center",
-              }}
+              onClick={exitSelectMode}
+              style={{ background: theme.surface, border: `1px solid ${theme.border}`, color: theme.textSub, padding: "10px 14px", borderRadius: 10, cursor: "pointer", fontWeight: 800, display: "inline-flex", gap: 8, alignItems: "center" }}
             >
-              <BarChart3 size={16} /> {t.overall}
+              선택 취소
             </button>
+          ) : (
+            <>
+              <button
+                onClick={enterSelectMode}
+                style={{ background: theme.surface, border: `1px solid ${theme.border}`, color: theme.danger || '#ef4444', padding: "10px 14px", borderRadius: 10, cursor: "pointer", fontWeight: 800, display: "inline-flex", gap: 8, alignItems: "center" }}
+              >
+                <Trash2 size={15} /> 삭제
+              </button>
+              {onGoOverall && (
+                <button
+                  onClick={onGoOverall}
+                  style={{ background: theme.surfaceHighlight, border: `1px solid ${theme.borderHighlight}`, color: theme.text, padding: "10px 14px", borderRadius: 10, cursor: "pointer", fontWeight: 800, display: "inline-flex", gap: 8, alignItems: "center" }}
+                >
+                  <BarChart3 size={16} /> {t.overall}
+                </button>
+              )}
+            </>
           )}
         </div>
       </div>
@@ -132,57 +176,72 @@ export default function ScrimDetail({ scrimId, onSelectMatch, onBack, onGoOveral
       <div style={{ height: 24 }} />
 
       {/* 매치 목록 */}
-      <div
-        style={{
-          background: theme.surface,
-          border: `1px solid ${theme.border}`,
-          borderRadius: 14,
-          padding: 18,
-        }}
-      >
-        <div style={{ fontWeight: 900, marginBottom: 12 }}>Match List</div>
+      <div style={{ background: theme.surface, border: `1px solid ${theme.border}`, borderRadius: 14, padding: 18 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+          <div style={{ fontWeight: 900 }}>Match List</div>
+
+          {/* 선택 모드 액션 바 */}
+          {isSelectMode && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span style={{ fontSize: '13px', color: theme.textSub }}>{selectedIds.size}개 선택됨</span>
+              <button
+                onClick={toggleSelectAll}
+                style={{ background: 'transparent', border: `1px solid ${theme.border}`, color: theme.textSub, padding: '5px 10px', borderRadius: '6px', cursor: 'pointer', fontSize: '12px' }}
+              >
+                {allSelected ? '전체 해제' : '전체 선택'}
+              </button>
+              <button
+                onClick={handleDeleteSelected}
+                disabled={selectedIds.size === 0 || deleting}
+                style={{ background: selectedIds.size > 0 ? (theme.danger || '#ef4444') : theme.surfaceHighlight, border: 'none', color: selectedIds.size > 0 ? '#fff' : theme.textSub, padding: '5px 14px', borderRadius: '6px', cursor: selectedIds.size > 0 ? 'pointer' : 'not-allowed', fontSize: '12px', fontWeight: '700', opacity: deleting ? 0.6 : 1 }}
+              >
+                {deleting ? '삭제 중...' : '선택 삭제'}
+              </button>
+            </div>
+          )}
+        </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-          {(scrim.matches || []).map((m) => {
+          {matches.map((m) => {
+            const isChecked = selectedIds.has(m.id);
             return (
               <div
                 key={m.id}
+                onClick={() => isSelectMode ? toggleSelect(m.id) : onSelectMatch?.(m.id)}
                 style={{
-                  border: `1px solid ${theme.border}`,
-                  background: theme.bg, // 리스트 아이템 배경
-                  borderRadius: 12,
-                  padding: 14,
-                  display: "flex",
-                  justifyContent: "space-between",
-                  gap: 12,
+                  border: `1px solid ${isChecked ? (theme.danger || '#ef4444') : theme.border}`,
+                  background: isChecked ? `${theme.danger || '#ef4444'}12` : theme.bg,
+                  borderRadius: 12, padding: 14,
+                  display: "flex", justifyContent: "space-between", gap: 12,
+                  cursor: 'pointer', transition: 'background 0.15s, border-color 0.15s',
                 }}
               >
-                <div>
-                  <div style={{ fontWeight: 900, marginBottom: 6 }}>
-                    #{m.match_index} · {m.map_name}
-                  </div>
-                  <div style={{ color: theme.textSub, fontSize: 13 }}>
-                    Result: {m.result || "Unknown"}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  {isSelectMode && (
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      onChange={() => toggleSelect(m.id)}
+                      onClick={e => e.stopPropagation()}
+                      style={{ width: '16px', height: '16px', accentColor: theme.danger || '#ef4444', cursor: 'pointer', flexShrink: 0 }}
+                    />
+                  )}
+                  <div>
+                    <div style={{ fontWeight: 900, marginBottom: 6 }}>#{m.match_index} · {m.map_name}</div>
+                    <div style={{ color: theme.textSub, fontSize: 13 }}>Result: {m.result || "Unknown"}</div>
                   </div>
                 </div>
 
-                <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                  <button
-                    onClick={() => onSelectMatch?.(m.id)}
-                    style={{
-                      background: theme.text, // 반전 효과 (흰색 모드에선 검정, 다크 모드에선 흰색)
-                      border: "none",
-                      color: theme.bg,        // 텍스트는 배경색으로 반전
-                      padding: "8px 10px",
-                      borderRadius: 10,
-                      cursor: "pointer",
-                      fontWeight: 900,
-                      fontSize: 12,
-                    }}
-                  >
-                    Analyze
-                  </button>
-                </div>
+                {!isSelectMode && (
+                  <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                    <button
+                      onClick={e => { e.stopPropagation(); onSelectMatch?.(m.id); }}
+                      style={{ background: theme.text, border: "none", color: theme.bg, padding: "8px 10px", borderRadius: 10, cursor: "pointer", fontWeight: 900, fontSize: 12 }}
+                    >
+                      Analyze
+                    </button>
+                  </div>
+                )}
               </div>
             );
           })}

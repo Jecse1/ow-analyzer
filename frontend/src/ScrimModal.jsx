@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { X, Upload, Plus, Trash2, Calendar, Youtube, Map, Clock, PauseCircle, AlertCircle, Users } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { X, Upload, Plus, Trash2, Calendar, Youtube, Map, Clock, PauseCircle, AlertCircle, Users, PlayCircle } from 'lucide-react';
 // [중요] ThemeContext, LanguageContext 적용
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
@@ -13,22 +13,58 @@ const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
   const [step, setStep] = useState(1);
   const [scrimData, setScrimData] = useState({
     scrimName: '',
-    videoUrl: '',
     date: new Date().toISOString().split('T')[0],
     startHour: '20',
     endHour: '22',
-    matches: [{ 
-      map_name: '', 
-      team1Name: '1팀', // 💡 각 맵마다 팀명 저장
+    matches: [{
+      map_name: '',
+      videoUrl: '',
+      team1Name: '1팀',
       team2Name: '2팀',
-      start_time: '', 
-      end_time: '', 
-      result: '', 
-      has_pause: false, 
-      pauses: [] 
+      start_time: '',
+      end_time: '',
+      result: '',
+      has_pause: false,
+      pauses: []
     }],
     files: []
   });
+
+  const initialScrimData = () => ({
+    scrimName: '',
+    date: new Date().toISOString().split('T')[0],
+    startHour: '20',
+    endHour: '22',
+    matches: [{ map_name: '', videoUrl: '', team1Name: '1팀', team2Name: '2팀', start_time: '', end_time: '', result: '', has_pause: false, pauses: [] }],
+    files: []
+  });
+
+  const isDirty =
+    scrimData.scrimName !== '' ||
+    scrimData.matches.some(m => m.map_name !== '' || m.videoUrl !== '' || m.start_time !== '' || m.end_time !== '');
+
+  const handleClose = () => {
+    if (isDirty) {
+      if (!window.confirm('입력 중인 내용이 사라집니다. 정말 닫으시겠습니까?')) return;
+    }
+    onClose();
+  };
+
+  // ESC 키
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKeyDown = (e) => { if (e.key === 'Escape') handleClose(); };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isOpen, isDirty]);
+
+  // 닫힐 때 state 초기화
+  useEffect(() => {
+    if (!isOpen) {
+      setStep(1);
+      setScrimData(initialScrimData());
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -113,7 +149,7 @@ const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
   const addMatch = () => {
     setScrimData(prev => ({
       ...prev,
-      matches: [...prev.matches, { map_name: '', team1Name: '1팀', team2Name: '2팀', start_time: '', end_time: '', result: '', has_pause: false, pauses: [] }],
+      matches: [...prev.matches, { map_name: '', videoUrl: '', team1Name: '1팀', team2Name: '2팀', start_time: '', end_time: '', result: '', has_pause: false, pauses: [] }],
       files: [...prev.files, null]
     }));
   };
@@ -147,12 +183,12 @@ const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
   const btnStyle = (variant) => ({ padding: '14px 28px', borderRadius: '12px', fontSize: '16px', fontWeight: '600', cursor: 'pointer', border: variant === 'primary' ? 'none' : `1px solid ${theme.borderHighlight}`, backgroundColor: variant === 'primary' ? theme.text : theme.surfaceHighlight, color: variant === 'primary' ? theme.bg : theme.text });
 
   return (
-    <div style={overlayStyle} onClick={onClose}>
+    <div style={overlayStyle} onClick={handleClose}>
       <div style={modalStyle} onClick={e => e.stopPropagation()}>
-        
+
         <div style={headerStyle}>
           <h2 style={{ margin: 0, fontSize: '24px', fontWeight: '800' }}>{t.modalTitle}</h2>
-          <button onClick={onClose} style={{ background: 'transparent', border: 'none', color: theme.textSub, cursor: 'pointer' }}><X size={24} /></button>
+          <button onClick={handleClose} style={{ background: 'transparent', border: 'none', color: theme.textSub, cursor: 'pointer' }}><X size={24} /></button>
         </div>
 
         <div style={bodyStyle}>
@@ -166,10 +202,6 @@ const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
               <div style={inputGroupStyle}>
                 <label style={labelStyle}>{t.scrimName}</label>
                 <input type="text" placeholder={t.scrimNamePlace} value={scrimData.scrimName} onChange={e => setScrimData({ ...scrimData, scrimName: e.target.value })} style={inputStyle} />
-              </div>
-              <div style={inputGroupStyle}>
-                <label style={labelStyle}><Youtube size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> {t.videoUrl}</label>
-                <input type="text" placeholder="https://youtu.be/..." value={scrimData.videoUrl} onChange={e => setScrimData({ ...scrimData, videoUrl: e.target.value })} style={inputStyle} />
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '20px' }}>
                   <div style={inputGroupStyle}>
@@ -214,7 +246,12 @@ const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
                         <label style={labelStyle}><Map size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> {t.mapName}</label>
                         <input type="text" placeholder="ex: King's Row" value={match.map_name} onChange={e => updateMatch(idx, 'map_name', e.target.value)} style={inputStyle} />
                       </div>
-                      
+
+                      <div style={inputGroupStyle}>
+                        <label style={labelStyle}><PlayCircle size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> 유튜브 영상 링크 <span style={{ fontSize: '12px', fontWeight: 'normal', color: theme.textSub }}>(선택)</span></label>
+                        <input type="text" placeholder="https://youtu.be/..." value={match.videoUrl} onChange={e => updateMatch(idx, 'videoUrl', e.target.value)} style={inputStyle} />
+                      </div>
+
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                           <div style={inputGroupStyle}>
                               <label style={labelStyle}><Users size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> 1팀 이름 (왼쪽)</label>
