@@ -311,12 +311,15 @@ export default function OverallStats({ onBack, onGoSessions }) {
         }
 
         const isWin = baseTeam === 'All' ? false : (m.winner === baseTeam);
-        totalGames++;
-        if (isWin) totalWins++;
+        const baseTeamPlayed = baseTeam === 'All' || m.team_1_name === baseTeam || m.team_2_name === baseTeam;
+        if (baseTeamPlayed) {
+            totalGames++;
+            if (isWin) totalWins++;
 
-        if (!mapMap[m.map_name]) mapMap[m.map_name] = { games: 0, wins: 0 };
-        mapMap[m.map_name].games++;
-        if (isWin) mapMap[m.map_name].wins++;
+            if (!mapMap[m.map_name]) mapMap[m.map_name] = { games: 0, wins: 0 };
+            mapMap[m.map_name].games++;
+            if (isWin) mapMap[m.map_name].wins++;
+        }
 
         // 매치 합산 킬/뎃/뎀은 aggregate stats 사용 (선수별 정확한 합산값)
         const targetStats = m.stats.filter(s => {
