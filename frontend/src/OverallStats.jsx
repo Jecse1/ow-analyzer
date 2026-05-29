@@ -5,6 +5,7 @@ import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, Cart
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
 import { computeFights } from './utils/fightAnalysis';
+import { buildVideoLink, hasVideo } from './utils/videoLink';
 
 const API_BASE = import.meta.env.PROD ? "" : "";
 
@@ -27,17 +28,9 @@ const getHeroImg = (heroName) => {
   return `/heroes/${fileName}.png`;
 };
 
-const getYouTubeLink = (videoUrl, offset, timestamp, pauses = []) => {
-    if (!videoUrl) return "#";
-    let targetVideoTime = (Number(offset) || 0) + timestamp;
-    if (pauses && pauses.length > 0) {
-        const sortedPauses = [...pauses].sort((a, b) => a.start_sec - b.start_sec);
-        for (const p of sortedPauses) {
-            if (p.start_sec <= targetVideoTime) targetVideoTime += (p.end_sec - p.start_sec);
-        }
-    }
-    const finalTime = Math.floor(targetVideoTime);
-    return videoUrl.includes('?') ? `${videoUrl}&t=${finalTime}` : `${videoUrl}?t=${finalTime}`;
+const getYouTubeLink = (videoUrl, offset, timestamp, pauses = [], gameSetupSec = null) => {
+    const matchLike = { video_url: videoUrl, video_offset: offset, game_setup_sec: gameSetupSec, pauses };
+    return buildVideoLink(videoUrl, timestamp, matchLike) || "#";
 };
 
 export default function OverallStats({ onBack, onGoSessions }) {
@@ -395,7 +388,8 @@ export default function OverallStats({ onBack, onGoSessions }) {
     const eventTag = activeTags.find(t => t.type === KEYWORD_TYPES.EVENT);
     const moments = [];
     // baseMatches 기준으로 순회: fight 레벨 result는 moment 단위로 판정
-    baseMatches.forEach(m => {
+    // 하이라이트는 영상 있는 매치만 (통계/한타는 영향 없음)
+    baseMatches.filter(m => hasVideo(m.video_url)).forEach(m => {
         const mFights = matchFightsMap[m.id] || [];
         const mt1Name = m.team_1_name || '1팀';
         const mt2Name = m.team_2_name || '2팀';
@@ -461,7 +455,7 @@ export default function OverallStats({ onBack, onGoSessions }) {
                         desc: ev.desc || deathDesc || (ev.event_type === 'kill' ? `${ev.player_name} 킬 ➜ ${ev.target_name}` : `${ev.player_name} 궁극기`),
                         hero: ev.player_hero || ev.hero,
                         timestamp: ev.timestamp,
-                        videoUrl: m.video_url, videoOffset: m.video_offset, pauses: m.pauses,
+                        videoUrl: m.video_url, videoOffset: m.video_offset, gameSetupSec: m.game_setup_sec, pauses: m.pauses,
                         type: ev.event_type,
                         player_team: ev.player_team,
                         result
@@ -592,7 +586,7 @@ export default function OverallStats({ onBack, onGoSessions }) {
                     ) : (
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '12px' }}>
                             {filteredData.moments.map((moment, idx) => (
-                                <a key={idx} href={getYouTubeLink(moment.videoUrl, moment.videoOffset, moment.timestamp, moment.pauses)} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', background: theme.bg, border: `1px solid ${theme.border}`, borderRadius: '12px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '8px', transition: 'transform 0.2s, border-color 0.2s' }} onMouseOver={e => { e.currentTarget.style.borderColor = theme.borderHighlight; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseOut={e => { e.currentTarget.style.borderColor = theme.border; e.currentTarget.style.transform = 'translateY(0)'; }}>
+                                <a key={idx} href={getYouTubeLink(moment.videoUrl, moment.videoOffset, moment.timestamp, moment.pauses, moment.gameSetupSec)} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', background: theme.bg, border: `1px solid ${theme.border}`, borderRadius: '12px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '8px', transition: 'transform 0.2s, border-color 0.2s' }} onMouseOver={e => { e.currentTarget.style.borderColor = theme.borderHighlight; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseOut={e => { e.currentTarget.style.borderColor = theme.border; e.currentTarget.style.transform = 'translateY(0)'; }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <div style={{ fontSize: '12px', color: theme.textSub, display:'flex', alignItems:'center', gap:'4px' }}><MapIcon size={12}/> {moment.matchName}</div>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>

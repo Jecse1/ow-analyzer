@@ -39,6 +39,7 @@ class Match(Base):
     result = Column(String)
     video_url = Column(String)
     video_offset = Column(Integer, default=0)
+    game_setup_sec = Column(Integer, nullable=True)
     duration_sec = Column(Float, default=0)
     total_final_blows_t1 = Column(Integer, default=0)
     total_final_blows_t2 = Column(Integer, default=0)

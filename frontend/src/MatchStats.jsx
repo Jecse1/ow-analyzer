@@ -8,6 +8,8 @@ import {
 
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
+import { buildVideoLink, hasVideo } from "./utils/videoLink";
+import NoVideoModal from "./NoVideoModal";
 import { computeFights } from './utils/fightAnalysis';
 
 // --- 색상 및 상수 ---
@@ -1209,6 +1211,8 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
 const EventsView = ({ matchData, t1Name, t2Name }) => {
   const { theme } = useTheme();
   const { t } = useLanguage();
+  const [noVideoModal, setNoVideoModal] = useState(false);
+  const videoExists = hasVideo(matchData?.video_url);
 
   const formatTime = (sec) => {
     const isNegative = sec < 0;
@@ -1229,25 +1233,7 @@ const EventsView = ({ matchData, t1Name, t2Name }) => {
   }, [matchData]);
 
   const getYouTubeLink = (eventTimestamp) => {
-      const baseUrl = matchData.video_url || "#";
-      const userVideoOffset = Number(matchData.video_offset) || 0; 
-      
-      let targetVideoTime = userVideoOffset + eventTimestamp;
-      
-      const pauses = matchData.pauses || [];
-      let totalPauseDuration = 0;
-      
-      for (const p of pauses) {
-          if (p.start_sec < targetVideoTime) {
-              const duration = p.end_sec - p.start_sec;
-              totalPauseDuration += duration;
-          }
-      }
-      
-      const finalTime = Math.floor(targetVideoTime + totalPauseDuration);
-      
-      if (baseUrl.includes('?')) return `${baseUrl}&t=${finalTime}`;
-      return `${baseUrl}?t=${finalTime}`;
+      return buildVideoLink(matchData.video_url, eventTimestamp, matchData);
   };
 
   const processedEvents = useMemo(() => {
@@ -1326,32 +1312,47 @@ const EventsView = ({ matchData, t1Name, t2Name }) => {
     return { general: finalGeneral, ultimates };
   }, [matchData, setupStartTime, theme, t, t1Name, t2Name]);
 
-  const EventItem = ({ time, displayTime, label, desc, color, hero, url }) => (
-    <a 
-        href={url} 
-        target="_blank" 
-        rel="noopener noreferrer"
-        style={{ display: 'flex', alignItems: 'flex-start', padding: '12px 0', borderBottom: `1px solid ${theme.border}`, textDecoration: 'none', color: 'inherit', transition: 'background 0.2s' }}
-        onMouseOver={e => e.currentTarget.style.background = theme.surfaceHighlight}
-        onMouseOut={e => e.currentTarget.style.background = 'transparent'}
-    >
-        <div style={{ width: '80px', flexShrink: 0, fontSize: '13px', color: theme.text, fontWeight: 'bold', fontFamily: 'monospace' }}>
-            {formatTime(displayTime)}
-        </div>
-        <div style={{ flexGrow: 1 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px' }}>
-                {hero && <img src={getHeroImageSrc(hero)} alt={hero} style={{width:'20px', height:'20px', borderRadius:'4px', background:'#000'}}/>}
-                <span style={{ fontSize: '14px', fontWeight: 'bold', color: color || theme.text }}>
-                     {label && <span style={{marginRight:'6px'}}>{label} -</span>} 
-                     <span style={{fontWeight:'normal', color: theme.textSub}}>{desc}</span>
-                </span>
-            </div>
-        </div>
-        <PlayCircle size={16} color={theme.textSub} style={{marginTop:'4px'}}/>
-    </a>
-  );
+  const EventItem = ({ time, displayTime, label, desc, color, hero, url }) => {
+    const handleClick = () => {
+      if (url) {
+        window.open(url, '_blank', 'noopener,noreferrer');
+      } else {
+        setNoVideoModal(true);
+      }
+    };
+    return (
+      <div
+          onClick={handleClick}
+          style={{ display: 'flex', alignItems: 'flex-start', padding: '12px 0', borderBottom: `1px solid ${theme.border}`, cursor: 'pointer', transition: 'background 0.2s' }}
+          onMouseOver={e => e.currentTarget.style.background = theme.surfaceHighlight}
+          onMouseOut={e => e.currentTarget.style.background = 'transparent'}
+      >
+          <div style={{ width: '80px', flexShrink: 0, fontSize: '13px', color: theme.text, fontWeight: 'bold', fontFamily: 'monospace' }}>
+              {formatTime(displayTime)}
+          </div>
+          <div style={{ flexGrow: 1 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px' }}>
+                  {hero && <img src={getHeroImageSrc(hero)} alt={hero} style={{width:'20px', height:'20px', borderRadius:'4px', background:'#000'}}/>}
+                  <span style={{ fontSize: '14px', fontWeight: 'bold', color: color || theme.text }}>
+                       {label && <span style={{marginRight:'6px'}}>{label} -</span>}
+                       <span style={{fontWeight:'normal', color: theme.textSub}}>{desc}</span>
+                  </span>
+              </div>
+          </div>
+          <PlayCircle size={16} color={url ? theme.textSub : theme.border} style={{marginTop:'4px', flexShrink:0}}/>
+      </div>
+    );
+  };
 
   return (
+    <>
+    <NoVideoModal open={noVideoModal} onClose={() => setNoVideoModal(false)} />
+    {!videoExists && (
+      <div style={{ display:'flex', alignItems:'center', gap:'8px', padding:'12px 16px', marginBottom:'16px', background: theme.surface, border:`1px solid ${theme.border}`, borderRadius:'10px', color: theme.textSub, fontSize:'14px' }}>
+        <span>📹</span>
+        <span>해당 경기는 영상 기록이 없습니다</span>
+      </div>
+    )}
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '24px', width: '100%' }}>
         <div style={{ background: theme.surface, border: `1px solid ${theme.border}`, borderRadius: '16px', padding: '24px', maxHeight:'600px', overflowY:'auto' }}>
             <div style={{ fontSize: '16px', fontWeight: 'bold', color: theme.text, marginBottom: '8px', display:'flex', alignItems:'center', gap:'8px' }}>
@@ -1392,6 +1393,7 @@ const EventsView = ({ matchData, t1Name, t2Name }) => {
             </div>
         </div>
     </div>
+    </>
   );
 };
 

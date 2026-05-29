@@ -34,7 +34,9 @@ export const translations = {
     dateFilter: "기간 설정", startDate: "시작일", endDate: "종료일", allDates: "전체 기간",
     ultStatsTitle: "궁극기 가치 및 한타 분석", ultCountVsWin: "팀 궁극기 투자 개수 대비 한타 승률", ultEfficiency: "영웅별 궁극기 가치 (한타 승률 순)",
     ultUses: "사용 횟수",
-    baseTeam: "기준 팀", allTeams: "전체 팀"
+    baseTeam: "기준 팀", allTeams: "전체 팀",
+    matchStart: "경기 시작 시점", matchEnd: "경기 종료 시점",
+    matchStartTip: "영상에서 전투 시작(카운트다운 끝) 시점"
   },
   en: {
     back: "Back", loading: "Loading data...", noData: "No data available.", add: "Add",
@@ -66,7 +68,9 @@ export const translations = {
     dateFilter: "Date Range", startDate: "Start Date", endDate: "End Date", allDates: "All Time",
     ultStatsTitle: "Ultimate Value & Fight Analysis", ultCountVsWin: "Fight Win Rate by Ult Count", ultEfficiency: "Ultimate Efficiency (by Win Rate)",
     ultUses: "Uses",
-    baseTeam: "Base Team", allTeams: "All Teams"
+    baseTeam: "Base Team", allTeams: "All Teams",
+    matchStart: "Game Start Time", matchEnd: "Game End Time",
+    matchStartTip: "Video timestamp when countdown ends (setup_complete)"
   }
 };
 

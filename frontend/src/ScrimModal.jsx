@@ -266,7 +266,7 @@ const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
                       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'16px' }}>
                           <div style={inputGroupStyle}>
                               <label style={labelStyle}><Clock size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> {t.matchStart} (MM:SS)</label>
-                              <input type="text" placeholder="00:00" value={match.start_time} onChange={e => updateMatch(idx, 'start_time', e.target.value)} style={{...inputStyle, textAlign:'center'}} />
+                              <input type="text" placeholder="예: 03:30 (전투 시작)" value={match.start_time} onChange={e => updateMatch(idx, 'start_time', e.target.value)} style={{...inputStyle, textAlign:'center'}} />
                           </div>
                           <div style={inputGroupStyle}>
                               <label style={labelStyle}><Clock size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> {t.matchEnd} (MM:SS)</label>

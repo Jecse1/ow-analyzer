@@ -1,0 +1,325 @@
+[00:00:00] ,match_start,0,뉴 퀸 스트리트,밀기,1팀,2팀
+[00:00:01] ,round_start,0,1,2팀,0,0,0
+[00:00:09] ,hero_spawn,0,1팀,Bliss,제트팩 캣,0,0
+[00:00:09] ,hero_swap,0,1팀,Bliss,아나,제트팩 캣,0
+[00:00:10] ,hero_spawn,0,1팀,skewed,키리코,0,0
+[00:00:11] ,hero_swap,0,1팀,Bliss,바티스트,아나,0
+[00:00:11] ,hero_swap,0,1팀,Bliss,루시우,바티스트,0
+[00:00:13] ,hero_spawn,0,2팀,SP1NT,트레이서,0,0
+[00:00:14] ,hero_spawn,0,1팀,Proud,레킹볼,0,0
+[00:00:14] ,hero_spawn,0,1팀,ZEST,프레야,0,0
+[00:00:16] ,hero_spawn,0,2팀,HanBin,D.Va,0,0
+[00:00:17] ,hero_spawn,0,2팀,Fielder,일리아리,0,0
+[00:00:44] ,hero_spawn,0,2팀,MER1T,캐서디,0,0
+[00:00:45] ,hero_spawn,0,1팀,Jasm1ne,메이,0,0
+[00:00:46] ,hero_swap,0,2팀,MER1T,소전,캐서디,0
+[00:00:49] ,hero_swap,0,1팀,Bliss,미즈키,루시우,0
+[00:00:54] ,hero_swap,0,1팀,Bliss,루시우,미즈키,0
+[00:00:57] ,hero_swap,0,1팀,Bliss,제트팩 캣,루시우,0
+[00:01:00] ,hero_spawn,0,2팀,ChiYo,주노,0,0
+[00:01:00] ,hero_swap,0,1팀,Proud,바스티온,레킹볼,0
+[00:01:04] ,hero_swap,0,2팀,Fielder,아나,일리아리,0
+[00:01:09] ,hero_swap,0,1팀,Jasm1ne,D.Va,메이,0
+[00:01:13] ,hero_swap,0,1팀,ZEST,리퍼,프레야,0
+[00:01:33] ,hero_swap,0,2팀,Fielder,일리아리,아나,0
+[00:01:35] ,setup_complete,0,1,599.99
+[00:02:21] ,****,45.42,1팀,Proud,바스티온,2팀,HanBin,D.Va,Primary Fire,9.20,0,0
+[00:02:21] ,defensive_assist,45.62,1팀,skewed,키리코,0
+[00:02:21] ,defensive_assist,45.70,1팀,Bliss,제트팩 캣,0
+[00:02:23] ,****,47.44,1팀,ZEST,리퍼,2팀,MER1T,소전,Melee,32.06,0,0
+[00:02:25] ,****,49.14,1팀,ZEST,리퍼,2팀,Fielder,일리아리,Secondary Fire,8.87,True,0
+[00:02:25] ,defensive_assist,49.41,1팀,skewed,키리코,0
+[00:02:27] ,****,51.34,2팀,ChiYo,주노,1팀,skewed,키리코,Secondary Fire,64.88,0,0
+[00:02:27] ,****,51.89,1팀,ZEST,리퍼,2팀,ChiYo,주노,Primary Fire,19.27,0,0
+[00:02:28] ,defensive_assist,52.17,1팀,skewed,키리코,0
+[00:02:33] ,hero_swap,57.50,2팀,MER1T,캐서디,소전,57.50
+[00:02:34] ,****,58.25,1팀,Proud,바스티온,2팀,SP1NT,트레이서,Primary Fire,2.50,0,0
+[00:03:01] ,ultimate_charged,85.31,2팀,SP1NT,트레이서,0,1
+[00:03:06] ,ultimate_charged,90.27,1팀,Bliss,제트팩 캣,0,1
+[00:03:06] ,ultimate_start,90.81,2팀,SP1NT,트레이서,0,1
+[00:03:06] ,ultimate_end,91.00,2팀,SP1NT,트레이서,0,1
+[00:03:11] ,ultimate_charged,95.15,1팀,Proud,바스티온,0,1
+[00:03:15] ,ultimate_charged,99.79,1팀,ZEST,리퍼,0,1
+[00:03:17] ,****,101.76,2팀,HanBin,D.Va,1팀,Proud,바스티온,0,15.17,0,0
+[00:03:21] ,****,105.40,2팀,MER1T,캐서디,1팀,skewed,키리코,Primary Fire,90.10,True,0
+[00:03:25] ,ultimate_start,109.45,1팀,ZEST,리퍼,0,1
+[00:03:26] ,****,110.46,1팀,ZEST,리퍼,2팀,ChiYo,주노,Ultimate,11.84,0,0
+[00:03:26] ,****,110.63,2팀,MER1T,캐서디,1팀,ZEST,리퍼,Primary Fire,1.69,True,0
+[00:03:26] ,ultimate_end,110.63,1팀,ZEST,리퍼,0,1
+[00:03:26] ,defensive_assist,110.92,1팀,skewed,키리코,0
+[00:03:27] ,****,111.21,1팀,Jasm1ne,D.Va,2팀,MER1T,캐서디,0,8.50,0,0
+[00:03:28] ,****,112.67,2팀,Fielder,일리아리,1팀,Bliss,제트팩 캣,Primary Fire,59.50,0,0
+[00:03:28] ,ultimate_charged,112.99,1팀,skewed,키리코,0,1
+[00:03:30] ,ultimate_charged,114.70,2팀,Fielder,일리아리,0,1
+[00:03:32] ,ultimate_charged,116.99,1팀,Jasm1ne,D.Va,0,1
+[00:03:33] ,****,117.18,1팀,Jasm1ne,D.Va,2팀,HanBin,D.Va,Melee,0.57,0,0
+[00:03:35] ,ultimate_start,119.95,1팀,Jasm1ne,D.Va,0,1
+[00:03:36] ,****,120.28,2팀,SP1NT,트레이서,1팀,Jasm1ne,D.Va,Melee,22.50,0,0
+[00:03:37] ,ultimate_end,121.53,1팀,Jasm1ne,D.Va,0,1
+[00:04:01] ,ultimate_charged,145.97,2팀,ChiYo,주노,0,1
+[00:04:05] ,ultimate_start,149.76,2팀,Fielder,일리아리,0,1
+[00:04:05] ,ultimate_start,150.05,1팀,skewed,키리코,0,1
+[00:04:06] ,ultimate_charged,150.93,2팀,HanBin,D.Va,0,1
+[00:04:08] ,****,153.03,1팀,Proud,바스티온,2팀,Fielder,일리아리,Primary Fire,3.29,0,0
+[00:04:08] ,ultimate_end,153.03,2팀,Fielder,일리아리,0,1
+[00:04:09] ,defensive_assist,153.22,1팀,skewed,키리코,0
+[00:04:09] ,offensive_assist,153.35,1팀,Bliss,제트팩 캣,0
+[00:04:09] ,defensive_assist,153.35,1팀,Bliss,제트팩 캣,0
+[00:04:10] ,ultimate_start,154.28,2팀,ChiYo,주노,0,1
+[00:04:10] ,ultimate_charged,154.92,2팀,MER1T,캐서디,0,1
+[00:04:11] ,****,155.14,1팀,Proud,바스티온,2팀,MER1T,캐서디,Primary Fire,6.10,0,0
+[00:04:11] ,offensive_assist,155.24,1팀,Bliss,제트팩 캣,0
+[00:04:11] ,defensive_assist,155.24,1팀,Bliss,제트팩 캣,0
+[00:04:11] ,ultimate_start,155.46,1팀,Proud,바스티온,0,1
+[00:04:11] ,offensive_assist,155.57,1팀,skewed,키리코,0
+[00:04:11] ,defensive_assist,155.57,1팀,skewed,키리코,0
+[00:04:16] ,ultimate_end,160.18,1팀,Proud,바스티온,0,1
+[00:04:17] ,ultimate_end,161.21,1팀,skewed,키리코,0,1
+[00:04:17] ,ultimate_start,161.53,1팀,Bliss,제트팩 캣,0,1
+[00:04:17] ,ultimate_charged,162.02,2팀,SP1NT,트레이서,0,2
+[00:04:18] ,ultimate_end,162.79,2팀,ChiYo,주노,0,1
+[00:04:19] ,****,163.16,1팀,Proud,바스티온,2팀,ChiYo,주노,Primary Fire,10.08,0,0
+[00:04:19] ,offensive_assist,163.56,1팀,skewed,키리코,0
+[00:04:19] ,defensive_assist,163.56,1팀,skewed,키리코,0
+[00:04:20] ,****,164.60,2팀,SP1NT,트레이서,1팀,Jasm1ne,D.Va,Melee,15.12,0,0
+[00:04:20] ,hero_swap,165.06,2팀,Fielder,미즈키,일리아리,165.06
+[00:04:22] ,ultimate_end,166.28,1팀,Bliss,제트팩 캣,0,1
+[00:04:32] ,ultimate_start,177.01,2팀,HanBin,D.Va,0,1
+[00:04:34] ,remech_charged,178.25,2팀,HanBin,D.Va,0,2
+[00:04:34] ,ultimate_end,178.57,2팀,HanBin,D.Va,0,2
+[00:04:36] ,dva_remech,180.43,2팀,HanBin,D.Va,2
+[00:04:39] ,****,183.66,2팀,HanBin,D.Va,1팀,ZEST,리퍼,0,3.74,True,0
+[00:05:06] ,ultimate_start,210.96,2팀,MER1T,캐서디,0,1
+[00:05:09] ,ultimate_start,213.60,2팀,SP1NT,트레이서,0,2
+[00:05:09] ,ultimate_end,213.79,2팀,SP1NT,트레이서,0,2
+[00:05:12] ,ultimate_end,216.67,2팀,MER1T,캐서디,0,1
+[00:05:13] ,****,217.97,2팀,SP1NT,트레이서,1팀,Jasm1ne,D.Va,Primary Fire,4.35,0,0
+[00:05:14] ,defensive_assist,218.16,2팀,Fielder,미즈키,0
+[00:05:20] ,****,224.88,2팀,HanBin,D.Va,1팀,skewed,키리코,0,0.62,0,0
+[00:05:21] ,defensive_assist,225.22,2팀,Fielder,미즈키,0
+[00:05:25] ,ultimate_charged,229.83,1팀,Proud,바스티온,0,2
+[00:05:30] ,****,234.23,2팀,HanBin,D.Va,1팀,ZEST,리퍼,Melee,32.68,0,0
+[00:05:47] ,ultimate_charged,252.01,1팀,Jasm1ne,D.Va,0,2
+[00:05:55] ,ultimate_charged,259.98,1팀,ZEST,리퍼,0,2
+[00:05:57] ,ultimate_start,261.98,1팀,Proud,바스티온,0,2
+[00:05:58] ,ultimate_charged,262.43,1팀,Bliss,제트팩 캣,0,2
+[00:06:00] ,****,264.72,2팀,SP1NT,트레이서,1팀,Proud,바스티온,Primary Fire,3.31,0,0
+[00:06:00] ,ultimate_end,264.72,1팀,Proud,바스티온,0,2
+[00:06:00] ,defensive_assist,264.73,2팀,Fielder,미즈키,0
+[00:06:01] ,ultimate_charged,265.45,2팀,HanBin,D.Va,0,3
+[00:06:01] ,****,265.66,1팀,ZEST,리퍼,2팀,ChiYo,주노,Primary Fire,56.73,0,0
+[00:06:01] ,****,265.93,1팀,Jasm1ne,D.Va,2팀,MER1T,캐서디,0,18.78,0,0
+[00:06:01] ,ultimate_charged,265.98,1팀,skewed,키리코,0,2
+[00:06:02] ,ultimate_charged,266.11,2팀,Fielder,미즈키,0,2
+[00:06:03] ,ultimate_start,267.79,2팀,Fielder,미즈키,0,2
+[00:06:05] ,ultimate_start,269.21,1팀,Bliss,제트팩 캣,0,2
+[00:06:05] ,ultimate_start,269.65,1팀,skewed,키리코,0,2
+[00:06:05] ,ultimate_charged,269.79,2팀,SP1NT,트레이서,0,3
+[00:06:06] ,ultimate_start,270.72,1팀,ZEST,리퍼,0,2
+[00:06:09] ,****,273.15,2팀,HanBin,D.Va,1팀,ZEST,리퍼,0,2.62,0,0
+[00:06:09] ,ultimate_end,273.15,1팀,ZEST,리퍼,0,2
+[00:06:09] ,defensive_assist,273.20,2팀,Fielder,미즈키,0
+[00:06:09] ,ultimate_end,274.08,1팀,Bliss,제트팩 캣,0,2
+[00:06:10] ,ultimate_end,274.30,2팀,Fielder,미즈키,0,2
+[00:06:10] ,ultimate_start,274.49,1팀,Jasm1ne,D.Va,0,2
+[00:06:11] ,remech_charged,275.73,1팀,Jasm1ne,D.Va,0,3
+[00:06:11] ,ultimate_end,276.06,1팀,Jasm1ne,D.Va,0,3
+[00:06:12] ,ultimate_start,277.02,2팀,SP1NT,트레이서,0,3
+[00:06:13] ,ultimate_end,277.21,2팀,SP1NT,트레이서,0,3
+[00:06:13] ,****,277.71,1팀,Bliss,제트팩 캣,2팀,HanBin,D.Va,0,7,0,0
+[00:06:13] ,offensive_assist,277.82,1팀,skewed,키리코,0
+[00:06:13] ,dva_remech,277.85,1팀,Jasm1ne,D.Va,3
+[00:06:13] ,ultimate_start,277.85,2팀,HanBin,D.Va,0,3
+[00:06:13] ,defensive_assist,277.95,1팀,Bliss,제트팩 캣,0
+[00:06:15] ,ultimate_end,279.42,2팀,HanBin,D.Va,0,3
+[00:06:16] ,ultimate_end,280.86,1팀,skewed,키리코,0,2
+[00:06:25] ,ultimate_charged,289.89,2팀,MER1T,캐서디,0,2
+[00:06:35] ,ultimate_charged,299.19,2팀,ChiYo,주노,0,2
+[00:06:50] ,****,314.16,2팀,SP1NT,트레이서,1팀,Jasm1ne,D.Va,Primary Fire,4,0,0
+[00:06:50] ,defensive_assist,314.61,2팀,Fielder,미즈키,0
+[00:06:57] ,****,321.24,2팀,MER1T,캐서디,1팀,skewed,키리코,Primary Fire,45,0,0
+[00:07:08] ,****,332.98,2팀,MER1T,캐서디,1팀,Proud,바스티온,0,1.29,0,0
+[00:07:09] ,ultimate_start,333.18,2팀,MER1T,캐서디,0,2
+[00:07:09] ,defensive_assist,333.45,2팀,Fielder,미즈키,0
+[00:07:11] ,ultimate_end,336.00,2팀,MER1T,캐서디,0,2
+[00:07:27] ,ultimate_charged,351.28,2팀,SP1NT,트레이서,0,4
+[00:07:31] ,****,355.57,2팀,HanBin,D.Va,1팀,skewed,키리코,Melee,24.18,0,0
+[00:07:32] ,ultimate_start,356.63,2팀,ChiYo,주노,0,2
+[00:07:34] ,ultimate_start,359.09,2팀,SP1NT,트레이서,0,4
+[00:07:35] ,****,359.22,1팀,ZEST,리퍼,2팀,MER1T,캐서디,Primary Fire,13.67,0,0
+[00:07:35] ,ultimate_end,359.28,2팀,SP1NT,트레이서,0,4
+[00:07:35] ,defensive_assist,359.30,1팀,Bliss,제트팩 캣,0
+[00:07:35] ,defensive_assist,359.67,1팀,skewed,키리코,0
+[00:07:36] ,****,360.28,2팀,SP1NT,트레이서,1팀,Proud,바스티온,Ultimate,184.25,0,0
+[00:07:36] ,defensive_assist,360.72,2팀,Fielder,미즈키,0
+[00:07:38] ,****,362.28,2팀,ChiYo,주노,1팀,Jasm1ne,D.Va,Primary Fire,4.05,0,0
+[00:07:38] ,defensive_assist,362.60,2팀,Fielder,미즈키,0
+[00:07:40] ,ultimate_charged,364.18,1팀,Bliss,제트팩 캣,0,3
+[00:07:40] ,remech_charged,364.32,2팀,HanBin,D.Va,0,4
+[00:07:40] ,****,364.42,2팀,HanBin,D.Va,1팀,ZEST,리퍼,Melee,45.52,0,0
+[00:07:40] ,defensive_assist,364.50,2팀,Fielder,미즈키,0
+[00:07:40] ,ultimate_end,365.14,2팀,ChiYo,주노,0,2
+[00:07:42] ,****,367.03,2팀,ChiYo,주노,1팀,Bliss,제트팩 캣,Primary Fire,5,0,0
+[00:07:43] ,defensive_assist,367.30,2팀,Fielder,미즈키,0
+[00:07:44] ,dva_remech,368.57,2팀,HanBin,D.Va,4
+[00:07:58] ,ultimate_charged,382.50,1팀,skewed,키리코,0,3
+[00:08:00] ,ultimate_charged,384.59,1팀,Proud,바스티온,0,3
+[00:08:01] ,ultimate_charged,385.60,2팀,HanBin,D.Va,0,5
+[00:08:02] ,ultimate_charged,386.83,2팀,Fielder,미즈키,0,3
+[00:08:05] ,ultimate_charged,389.84,1팀,Jasm1ne,D.Va,0,4
+[00:08:05] ,****,389.98,1팀,Jasm1ne,D.Va,2팀,Fielder,미즈키,0,0.44,True,0
+[00:08:06] ,defensive_assist,390.25,1팀,skewed,키리코,0
+[00:08:07] ,****,391.49,1팀,ZEST,리퍼,2팀,ChiYo,주노,Melee,23.78,0,0
+[00:08:07] ,defensive_assist,391.65,1팀,skewed,키리코,0
+[00:08:07] ,offensive_assist,391.74,1팀,Bliss,제트팩 캣,0
+[00:08:07] ,defensive_assist,391.74,1팀,Bliss,제트팩 캣,0
+[00:08:11] ,****,395.73,2팀,MER1T,캐서디,1팀,skewed,키리코,0,91.49,True,0
+[00:08:13] ,ultimate_charged,397.87,1팀,ZEST,리퍼,0,3
+[00:08:14] ,****,398.72,1팀,Jasm1ne,D.Va,2팀,MER1T,캐서디,0,6.71,0,0
+[00:08:14] ,defensive_assist,399.17,1팀,skewed,키리코,0
+[00:08:15] ,ultimate_start,399.71,2팀,HanBin,D.Va,0,5
+[00:08:16] ,****,400.94,2팀,HanBin,D.Va,1팀,Proud,바스티온,Ultimate,317.88,0,0
+[00:08:16] ,remech_charged,400.94,2팀,HanBin,D.Va,0,6
+[00:08:16] ,****,400.94,2팀,HanBin,D.Va,1팀,Bliss,제트팩 캣,Ultimate,225,0,0
+[00:08:17] ,ultimate_end,401.28,2팀,HanBin,D.Va,0,6
+[00:08:17] ,****,402.16,1팀,ZEST,리퍼,2팀,HanBin,D.Va,Primary Fire,30.25,0,0
+[00:08:18] ,defensive_assist,402.56,1팀,Bliss,제트팩 캣,0
+[00:08:19] ,ultimate_start,403.81,2팀,HanBin,D.Va,0,6
+[00:08:19] ,ultimate_end,403.81,2팀,HanBin,D.Va,0,6
+[00:08:48] ,ultimate_start,432.57,1팀,skewed,키리코,0,3
+[00:08:51] ,ultimate_start,435.64,2팀,Fielder,미즈키,0,3
+[00:08:53] ,ultimate_start,438.03,1팀,Bliss,제트팩 캣,0,3
+[00:08:54] ,****,438.99,1팀,Jasm1ne,D.Va,2팀,MER1T,캐서디,Melee,29.62,0,0
+[00:08:54] ,ultimate_end,438.99,1팀,Bliss,제트팩 캣,0,3
+[00:08:54] ,offensive_assist,439.17,1팀,skewed,키리코,0
+[00:08:54] ,defensive_assist,439.17,1팀,skewed,키리코,0
+[00:08:55] ,offensive_assist,439.28,1팀,Bliss,제트팩 캣,0
+[00:08:55] ,defensive_assist,439.28,1팀,Bliss,제트팩 캣,0
+[00:08:55] ,ultimate_charged,439.34,2팀,SP1NT,트레이서,0,5
+[00:08:57] ,ultimate_end,442.16,2팀,Fielder,미즈키,0,3
+[00:08:58] ,ultimate_start,442.95,1팀,Proud,바스티온,0,3
+[00:08:58] ,****,443.00,1팀,ZEST,리퍼,2팀,Fielder,미즈키,Primary Fire,15.12,0,0
+[00:08:58] ,offensive_assist,443.04,1팀,Bliss,제트팩 캣,0
+[00:08:58] ,defensive_assist,443.04,1팀,Bliss,제트팩 캣,0
+[00:08:59] ,offensive_assist,443.38,1팀,skewed,키리코,0
+[00:08:59] ,defensive_assist,443.38,1팀,skewed,키리코,0
+[00:08:59] ,ultimate_end,443.78,1팀,skewed,키리코,0,3
+[00:08:59] ,ultimate_charged,444.08,2팀,MER1T,캐서디,0,3
+[00:09:02] ,ultimate_end,446.58,1팀,Proud,바스티온,0,3
+[00:09:05] ,****,450.07,1팀,Proud,바스티온,2팀,SP1NT,트레이서,Primary Fire,13.49,0,0
+[00:09:06] ,defensive_assist,450.46,1팀,skewed,키리코,0
+[00:09:06] ,defensive_assist,450.55,1팀,Bliss,제트팩 캣,0
+[00:09:06] ,****,450.63,2팀,HanBin,D.Va,1팀,skewed,키리코,Melee,33.43,0,0
+[00:09:11] ,****,455.42,1팀,Proud,바스티온,2팀,HanBin,D.Va,Primary Fire,11,0,0
+[00:09:12] ,****,456.80,1팀,ZEST,리퍼,2팀,ChiYo,주노,Primary Fire,38.25,0,0
+[00:09:44] ,ultimate_start,488.46,2팀,SP1NT,트레이서,0,5
+[00:09:44] ,ultimate_end,488.65,2팀,SP1NT,트레이서,0,5
+[00:09:46] ,ultimate_charged,491.13,2팀,HanBin,D.Va,0,7
+[00:09:47] ,****,491.80,2팀,HanBin,D.Va,1팀,Jasm1ne,D.Va,Melee,20.89,0,0
+[00:09:47] ,ultimate_start,492.19,1팀,Jasm1ne,D.Va,0,4
+[00:09:48] ,****,492.79,1팀,ZEST,리퍼,2팀,Fielder,미즈키,Primary Fire,2.81,True,0
+[00:09:48] ,ultimate_charged,492.95,1팀,Bliss,제트팩 캣,0,4
+[00:09:49] ,ultimate_end,493.75,1팀,Jasm1ne,D.Va,0,4
+[00:09:50] ,****,494.62,1팀,Bliss,제트팩 캣,2팀,ChiYo,주노,0,3.64,0,0
+[00:09:50] ,defensive_assist,494.65,1팀,skewed,키리코,0
+[00:09:50] ,defensive_assist,494.78,1팀,Bliss,제트팩 캣,0
+[00:09:52] ,****,496.85,2팀,MER1T,캐서디,1팀,Bliss,제트팩 캣,0,3.03,0,0
+[00:09:56] ,ultimate_start,500.32,2팀,HanBin,D.Va,0,7
+[00:09:57] ,remech_charged,501.56,2팀,HanBin,D.Va,0,8
+[00:09:59] ,ultimate_end,503.53,2팀,HanBin,D.Va,0,8
+[00:09:59] ,****,503.79,1팀,ZEST,리퍼,2팀,MER1T,캐서디,Secondary Fire,53.63,0,0
+[00:09:59] ,defensive_assist,504.06,1팀,skewed,키리코,0
+[00:10:03] ,****,508.05,2팀,HanBin,D.Va,1팀,skewed,키리코,Ability 2,1.22,0,0
+[00:10:08] ,ultimate_charged,512.83,1팀,Proud,바스티온,0,4
+[00:10:10] ,ultimate_start,515.15,1팀,Bliss,제트팩 캣,0,4
+[00:10:14] ,ultimate_end,518.41,1팀,Bliss,제트팩 캣,0,4
+[00:10:14] ,****,519.27,1팀,ZEST,리퍼,2팀,SP1NT,트레이서,Primary Fire,15.04,0,0
+[00:10:15] ,****,519.64,1팀,Proud,바스티온,2팀,HanBin,D.Va,Secondary Fire,88,0,0
+[00:10:15] ,defensive_assist,519.70,1팀,Bliss,제트팩 캣,0
+[00:10:15] ,defensive_assist,519.70,1팀,Bliss,제트팩 캣,0
+[00:10:47] ,ultimate_charged,551.45,2팀,ChiYo,주노,0,3
+[00:10:49] ,ultimate_start,553.97,2팀,ChiYo,주노,0,3
+[00:10:50] ,ultimate_start,554.88,1팀,ZEST,리퍼,0,3
+[00:10:51] ,****,555.67,1팀,Bliss,제트팩 캣,2팀,ChiYo,주노,Melee,25.61,0,0
+[00:10:51] ,defensive_assist,555.73,1팀,skewed,키리코,0
+[00:10:51] ,defensive_assist,555.86,1팀,Bliss,제트팩 캣,0
+[00:10:52] ,****,556.28,1팀,ZEST,리퍼,2팀,MER1T,캐서디,Ultimate,15.36,0,0
+[00:10:52] ,offensive_assist,556.34,1팀,Bliss,제트팩 캣,0
+[00:10:52] ,defensive_assist,556.34,1팀,Bliss,제트팩 캣,0
+[00:10:52] ,defensive_assist,556.68,1팀,skewed,키리코,0
+[00:10:53] ,ultimate_end,557.88,1팀,ZEST,리퍼,0,3
+[00:10:58] ,ultimate_end,562.48,2팀,ChiYo,주노,0,3
+[00:11:01] ,****,565.31,2팀,SP1NT,트레이서,1팀,ZEST,리퍼,Melee,24.78,0,0
+[00:11:01] ,defensive_assist,565.73,2팀,Fielder,미즈키,0
+[00:11:02] ,ultimate_charged,566.54,2팀,SP1NT,트레이서,0,6
+[00:11:05] ,****,569.85,2팀,SP1NT,트레이서,1팀,Proud,바스티온,Melee,39.75,0,0
+[00:11:05] ,defensive_assist,569.96,2팀,Fielder,미즈키,0
+[00:11:09] ,****,573.27,1팀,Jasm1ne,D.Va,2팀,HanBin,D.Va,0,8,True,0
+[00:11:09] ,ultimate_start,573.64,2팀,SP1NT,트레이서,0,6
+[00:11:09] ,defensive_assist,573.71,1팀,Bliss,제트팩 캣,0
+[00:11:09] ,ultimate_end,573.83,2팀,SP1NT,트레이서,0,6
+[00:11:11] ,ultimate_charged,576.15,1팀,skewed,키리코,0,4
+[00:11:24] ,ultimate_start,589.15,1팀,skewed,키리코,0,4
+[00:11:26] ,ultimate_charged,591.17,2팀,Fielder,미즈키,0,4
+[00:11:27] ,ultimate_start,591.76,2팀,Fielder,미즈키,0,4
+[00:11:28] ,ultimate_charged,592.80,1팀,Jasm1ne,D.Va,0,5
+[00:11:29] ,ultimate_charged,593.49,1팀,Bliss,제트팩 캣,0,5
+[00:11:31] ,ultimate_charged,595.31,2팀,HanBin,D.Va,0,9
+[00:11:32] ,ultimate_start,596.33,1팀,Jasm1ne,D.Va,0,5
+[00:11:33] ,****,597.58,1팀,Jasm1ne,D.Va,2팀,Fielder,미즈키,Ultimate,250,0,0
+[00:11:33] ,****,597.58,1팀,Jasm1ne,D.Va,2팀,MER1T,캐서디,Ultimate,250,0,0
+[00:11:33] ,defensive_assist,597.66,1팀,Bliss,제트팩 캣,0
+[00:11:33] ,offensive_assist,598.01,1팀,skewed,키리코,0
+[00:11:33] ,offensive_assist,598.01,1팀,skewed,키리코,0
+[00:11:33] ,defensive_assist,598.01,1팀,skewed,키리코,0
+[00:11:34] ,ultimate_end,598.27,2팀,Fielder,미즈키,0,4
+[00:11:35] ,ultimate_end,599.55,1팀,Jasm1ne,D.Va,0,5
+[00:11:36] ,ultimate_end,600.35,1팀,skewed,키리코,0,4
+[00:11:37] ,****,601.71,1팀,Proud,바스티온,2팀,SP1NT,트레이서,Primary Fire,13.40,0,0
+[00:11:42] ,****,606.68,1팀,Proud,바스티온,2팀,ChiYo,주노,Primary Fire,4.66,0,0
+[00:11:42] ,offensive_assist,606.94,1팀,skewed,키리코,0
+[00:11:42] ,defensive_assist,606.94,1팀,skewed,키리코,0
+[00:11:42] ,defensive_assist,607.05,1팀,Bliss,제트팩 캣,0
+[00:11:44] ,****,608.54,1팀,ZEST,리퍼,2팀,HanBin,D.Va,Primary Fire,0.50,0,0
+[00:11:44] ,remech_charged,608.54,2팀,HanBin,D.Va,0,10
+[00:11:44] ,defensive_assist,608.82,1팀,skewed,키리코,0
+[00:11:50] ,ultimate_charged,615.12,2팀,HanBin,D.Va,0,11
+[00:12:00] ,ultimate_start,624.96,1팀,Proud,바스티온,0,4
+[00:12:04] ,****,628.33,2팀,HanBin,D.Va,1팀,skewed,키리코,Melee,30.50,0,0
+[00:12:04] ,defensive_assist,628.67,2팀,Fielder,미즈키,0
+[00:12:06] ,ultimate_end,630.73,1팀,Proud,바스티온,0,4
+[00:12:08] ,ultimate_start,632.92,1팀,Bliss,제트팩 캣,0,5
+[00:12:09] ,ultimate_end,634.20,1팀,Bliss,제트팩 캣,0,5
+[00:12:13] ,ultimate_start,637.34,2팀,HanBin,D.Va,0,11
+[00:12:13] ,ultimate_charged,638.17,2팀,SP1NT,트레이서,0,7
+[00:12:14] ,****,639.14,2팀,MER1T,캐서디,1팀,Bliss,제트팩 캣,Primary Fire,52.50,0,0
+[00:12:15] ,ultimate_start,639.96,2팀,MER1T,캐서디,0,3
+[00:12:16] ,ultimate_start,640.47,2팀,SP1NT,트레이서,0,7
+[00:12:16] ,ultimate_end,640.53,2팀,HanBin,D.Va,0,11
+[00:12:16] ,ultimate_end,640.66,2팀,SP1NT,트레이서,0,7
+[00:12:17] ,****,641.65,2팀,MER1T,캐서디,1팀,Jasm1ne,D.Va,Ultimate,143.14,0,0
+[00:12:17] ,****,641.76,2팀,SP1NT,트레이서,1팀,Proud,바스티온,Ultimate,301.50,0,0
+[00:12:17] ,defensive_assist,641.83,2팀,Fielder,미즈키,0
+[00:12:17] ,ultimate_end,642.10,2팀,MER1T,캐서디,0,3
+[00:12:19] ,round_end,643.16,1,2팀,0,0,0,0,0,0
+[00:12:19] ,match_end,643.16,1,0,0
+[00:12:19] ,player_stat,643.16,1,2팀,Fielder,일리아리,2,1,2,2567.29,0,2567.29,1939.50,1135.34,452.51,1721.71,0,0,0,1,1,0,0,1,0,0,0,5,0.15,0,0,0,62,33,20,0,0,0.62,165.06
+[00:12:19] ,player_stat,643.16,1,2팀,Fielder,아나,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:12:19] ,player_stat,643.16,1,2팀,Fielder,미즈키,8,0,4,4466.45,0,4466.43,7252.59,3232.45,0,4596.92,0,14,0,3,3,0,0,0,2,0,0,7,0.11,0,0,0,204,66,100,0,0,0.40,478.09
+[00:12:19] ,player_stat,643.16,1,1팀,Proud,레킹볼,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:12:19] ,player_stat,643.16,1,1팀,Proud,바스티온,20,10,7,13658.51,0,13658.49,0,8294.15,0,12081.41,0,0,0,4,4,1,3,1,5,0,0,35,0.04,0,0,0,2893,822,1518,0,0,0.35,643.16
+[00:12:19] ,player_stat,643.16,1,1팀,Jasm1ne,메이,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:12:19] ,player_stat,643.16,1,1팀,Jasm1ne,D.Va,21,9,7,9074.29,0,8903.53,0,9590.65,0,16204.74,13164.72,0,0,4,6,1,3,2,8,0,0,313,0.08,0,0,0,12688,3817,7366,0,0,0.34,643.16
+[00:12:19] ,player_stat,643.16,1,1팀,skewed,키리코,5,0,9,5560,0,5560,11374.03,1963.87,0,4069.30,0,21,8,4,8,0,0,0,2,0,0,6,0.06,0,0,0,404,98,263,0,0,0.27,643.16
+[00:12:19] ,player_stat,643.16,1,1팀,ZEST,프레야,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:12:19] ,player_stat,643.16,1,1팀,ZEST,리퍼,21,15,6,10131.52,0,10131.48,0,6402.19,1902.54,8737.20,0,0,0,3,3,1,3,3,10,0,0,202,0.08,0,0,0,8700,2456,5113,0,0,0.32,643.16
+[00:12:19] ,player_stat,643.16,1,2팀,MER1T,캐서디,11,8,9,10288.52,0,10288.50,0,3823.72,0,6144.68,0,0,0,3,3,0,0,0,3,0,0,19,0.15,0,0,0,301,131,116,0,0,0.53,585.65
+[00:12:19] ,player_stat,643.16,1,2팀,MER1T,소전,0,0,1,892.85,0,892.85,0,489.09,0,714.09,0,0,0,0,0,0,0,0,0,0,0,5,0.05,0,0,0,309,93,150,0,0,0.38,57.50
+[00:12:19] ,player_stat,643.16,1,2팀,SP1NT,트레이서,25,9,4,12405.50,0,12319.57,0,2636.31,1455.52,5517.81,0,0,0,7,7,1,4,2,11,0,0,161,0.07,0,0,0,5058,2346,2306,0,0,0.50,643.16
+[00:12:19] ,player_stat,643.16,1,2팀,HanBin,D.Va,22,13,8,10226.31,0,10226.31,0,9598.14,0,18885.67,22803.15,0,0,7,10,0,0,3,6,0,0,349,0.08,0,0,0,10395,4416,4951,0,0,0.47,643.16
+[00:12:19] ,player_stat,643.16,1,2팀,ChiYo,주노,10,3,9,3697.91,0,3697.91,0,1748.87,0,3985.05,0,0,0,3,3,1,4,0,4,0,0,128,0.07,0,0,0,3945,1714,1998,0,0,0.46,643.16
+[00:12:19] ,player_stat,643.16,1,1팀,Bliss,제트팩 캣,16,3,5,3232.63,0,3232.59,10350.45,2642.50,0,3716.29,0,18,6,5,5,1,3,0,4,0,0,132,0.09,0,0,0,4310,1498,2250,0,0,0.40,643.16
+[00:12:19] ,player_stat,643.16,1,1팀,Bliss,아나,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:12:19] ,player_stat,643.16,1,1팀,Bliss,바티스트,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:12:19] ,player_stat,643.16,1,1팀,Bliss,루시우,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:12:19] ,player_stat,643.16,1,1팀,Bliss,미즈키,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0

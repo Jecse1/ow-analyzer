@@ -492,7 +492,7 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
 
                 events.append({
                     "event_type": "round_start",
-                    "timestamp": real_timestamp,
+                    "timestamp": play_timestamp,
                     "game_timestamp": game_time,
                     "round_number": r_num,
                     "attacker": attacker_name
@@ -1147,6 +1147,7 @@ def _db_match_to_dict(m: "DBMatch", *, full: bool = False) -> dict:
         "result": m.result or "",
         "video_url": m.video_url or "",
         "video_offset": m.video_offset or 0,
+        "game_setup_sec": m.game_setup_sec,  # None = 기존 매치 (옛날 방식)
         "duration_sec": dur,
         "total_final_blows_t1": m.total_final_blows_t1 or 0,
         "total_final_blows_t2": m.total_final_blows_t2 or 0,
@@ -1335,6 +1336,17 @@ async def upload_match_log(scrim_id: str = Form(...), match_index: int = Form(..
             db_match.total_final_blows_t1 = target_match.get("total_final_blows_t1", 0)
             db_match.total_final_blows_t2 = target_match.get("total_final_blows_t2", 0)
 
+            # 신규 방식: setup_complete의 real_timestamp 추출 → game_setup_sec 저장
+            # -8 보정 없이 real_ts 그대로 저장. events.timestamp는 이미 (real_ts - 8)이므로
+            # 빼면 자연스럽게 8초 전 점프 효과 발생 (사용자 의도 유지)
+            game_setup_sec = None
+            for _line in log_text.splitlines():
+                if ",setup_complete," in _line:
+                    _real_ts = parse_log_timestamp(_line.strip())
+                    game_setup_sec = max(0, _real_ts)
+                    break
+            db_match.game_setup_sec = game_setup_sec
+
             await db.execute(sa_delete(DBEvent).where(DBEvent.match_id == match_id_val))
             await db.execute(sa_delete(DBPlayerStat).where(DBPlayerStat.match_id == match_id_val))
             await db.execute(sa_delete(DBRound).where(DBRound.match_id == match_id_val))
@@ -1473,6 +1485,14 @@ async def rebuild_database():
                     calculate_pure_stats(parsed, target_match)
                     target_match["video_offset"] = offset_save
                     target_match["pauses"] = pauses_save
+                    # setup_complete real_timestamp 추출 (-8 보정 없이)
+                    _gss = None
+                    for _line in log_text.splitlines():
+                        if ",setup_complete," in _line:
+                            _real_ts = parse_log_timestamp(_line.strip())
+                            _gss = max(0, _real_ts)
+                            break
+                    target_match["game_setup_sec"] = _gss
             new_scrims.append(scrim_obj)
         except Exception as e:
             parse_errors.append(f"{os.path.basename(meta_path)}: {e}")
@@ -1517,6 +1537,7 @@ async def rebuild_database():
                         result=m.get("result", ""),
                         video_url=m.get("video_url", ""),
                         video_offset=m.get("video_offset", 0),
+                        game_setup_sec=m.get("game_setup_sec"),
                         duration_sec=m.get("timeline", {}).get("duration_sec", 0),
                         total_final_blows_t1=m.get("total_final_blows_t1", 0),
                         total_final_blows_t2=m.get("total_final_blows_t2", 0),
