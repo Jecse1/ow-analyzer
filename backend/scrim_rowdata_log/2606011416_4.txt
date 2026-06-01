@@ -1,0 +1,284 @@
+[00:00:00] ,match_start,0,뉴 퀸 스트리트,밀기,1팀,2팀
+[00:00:01] ,round_start,0,1,2팀,0,0,0
+[00:00:10] ,hero_spawn,0,2팀,Fielder,키리코,0,0
+[00:00:10] ,hero_spawn,0,1팀,Qloud,키리코,0,0
+[00:00:11] ,hero_spawn,0,1팀,KSG,시그마,0,0
+[00:00:17] ,hero_spawn,0,1팀,Nico,캐서디,0,0
+[00:00:22] ,hero_spawn,0,2팀,SP1NT,트레이서,0,0
+[00:00:23] ,hero_spawn,0,2팀,ChiYo,루시우,0,0
+[00:00:32] ,hero_swap,0,2팀,SP1NT,정크랫,트레이서,0
+[00:00:37] ,hero_swap,0,2팀,SP1NT,트레이서,정크랫,0
+[00:00:38] ,hero_spawn,0,1팀,Sley,미즈키,0,0
+[00:00:45] ,hero_swap,0,2팀,ChiYo,미즈키,루시우,0
+[00:00:48] ,hero_spawn,0,2팀,Someone,시그마,0,0
+[00:00:51] ,hero_spawn,0,2팀,MER1T,캐서디,0,0
+[00:01:08] ,hero_spawn,0,1팀,TOPDRAGON,겐지,0,0
+[00:01:12] ,hero_swap,0,1팀,TOPDRAGON,메이,겐지,0
+[00:01:41] ,setup_complete,0,1,599.99
+[00:02:17] ,****,35.41,1팀,TOPDRAGON,메이,2팀,SP1NT,트레이서,Primary Fire,4.50,0,0
+[00:02:17] ,defensive_assist,35.76,1팀,Qloud,키리코,0
+[00:02:27] ,hero_swap,45.49,2팀,SP1NT,파라,트레이서,45.49
+[00:02:47] ,****,65.58,1팀,Nico,캐서디,2팀,SP1NT,파라,Primary Fire,35,0,0
+[00:02:47] ,defensive_assist,65.92,1팀,Qloud,키리코,0
+[00:02:55] ,****,73.77,2팀,Someone,시그마,1팀,Qloud,키리코,Primary Fire,21.44,0,0
+[00:02:55] ,defensive_assist,73.82,2팀,ChiYo,미즈키,0
+[00:02:55] ,defensive_assist,73.87,2팀,Fielder,키리코,0
+[00:03:00] ,****,79.08,2팀,ChiYo,미즈키,1팀,KSG,시그마,Melee,34.90,0,0
+[00:03:01] ,defensive_assist,79.45,2팀,ChiYo,미즈키,0
+[00:03:01] ,defensive_assist,79.50,2팀,Fielder,키리코,0
+[00:03:03] ,****,82.17,2팀,MER1T,캐서디,1팀,Nico,캐서디,Primary Fire,40.80,0,0
+[00:03:03] ,defensive_assist,82.30,2팀,ChiYo,미즈키,0
+[00:03:03] ,defensive_assist,82.32,2팀,Fielder,키리코,0
+[00:03:04] ,ultimate_charged,82.97,2팀,Fielder,키리코,0,1
+[00:03:07] ,ultimate_charged,85.77,1팀,TOPDRAGON,메이,0,1
+[00:03:11] ,ultimate_charged,89.50,2팀,MER1T,캐서디,0,1
+[00:03:11] ,****,89.50,2팀,MER1T,캐서디,1팀,Sley,미즈키,Primary Fire,68.33,0,0
+[00:03:11] ,****,89.74,2팀,SP1NT,파라,1팀,TOPDRAGON,메이,Primary Fire,39.19,0,0
+[00:03:11] ,defensive_assist,89.79,2팀,ChiYo,미즈키,0
+[00:03:11] ,defensive_assist,89.82,2팀,Fielder,키리코,0
+[00:03:36] ,ultimate_charged,114.79,2팀,ChiYo,미즈키,0,1
+[00:03:42] ,ultimate_start,120.52,2팀,Fielder,키리코,0,1
+[00:03:44] ,****,122.83,1팀,Sley,미즈키,2팀,Someone,시그마,Melee,20,0,0
+[00:03:44] ,defensive_assist,123.19,1팀,Qloud,키리코,0
+[00:03:44] ,defensive_assist,123.24,1팀,Sley,미즈키,0
+[00:03:45] ,****,124.25,2팀,MER1T,캐서디,1팀,KSG,시그마,Primary Fire,61.12,0,0
+[00:03:46] ,ultimate_charged,124.36,1팀,Sley,미즈키,0,1
+[00:03:46] ,defensive_assist,124.57,2팀,ChiYo,미즈키,0
+[00:03:46] ,offensive_assist,124.59,2팀,Fielder,키리코,0
+[00:03:47] ,****,125.61,2팀,Fielder,키리코,1팀,Nico,캐서디,0,10,0,0
+[00:03:47] ,defensive_assist,125.98,2팀,ChiYo,미즈키,0
+[00:03:49] ,****,128.14,2팀,MER1T,캐서디,1팀,Sley,미즈키,Primary Fire,45.36,0,0
+[00:03:50] ,offensive_assist,128.33,2팀,Fielder,키리코,0
+[00:03:50] ,defensive_assist,128.36,2팀,ChiYo,미즈키,0
+[00:03:53] ,ultimate_end,131.37,2팀,Fielder,키리코,0,1
+[00:03:53] ,****,131.82,2팀,MER1T,캐서디,1팀,Qloud,키리코,Primary Fire,15,0,0
+[00:03:53] ,defensive_assist,132.09,2팀,ChiYo,미즈키,0
+[00:03:53] ,offensive_assist,132.12,2팀,Fielder,키리코,0
+[00:03:56] ,****,134.91,2팀,SP1NT,파라,1팀,TOPDRAGON,메이,Melee,21.98,0,0
+[00:03:57] ,offensive_assist,135.39,2팀,Fielder,키리코,0
+[00:03:57] ,ultimate_charged,136.01,1팀,Qloud,키리코,0,1
+[00:04:05] ,ultimate_charged,143.34,1팀,Nico,캐서디,0,1
+[00:04:08] ,****,146.85,2팀,MER1T,캐서디,1팀,Sley,미즈키,Primary Fire,48.49,0,0
+[00:04:16] ,ultimate_charged,155.24,1팀,KSG,시그마,0,1
+[00:04:20] ,ultimate_charged,159.17,2팀,SP1NT,파라,0,1
+[00:04:21] ,ultimate_charged,160.02,2팀,Someone,시그마,0,1
+[00:04:28] ,ultimate_start,166.70,2팀,SP1NT,파라,0,1
+[00:04:28] ,****,166.92,1팀,KSG,시그마,2팀,Fielder,키리코,Primary Fire,20,0,0
+[00:04:28] ,defensive_assist,166.97,1팀,Qloud,키리코,0
+[00:04:28] ,defensive_assist,166.99,1팀,Sley,미즈키,0
+[00:04:28] ,****,167.13,2팀,SP1NT,파라,1팀,TOPDRAGON,메이,Ultimate,7.60,0,0
+[00:04:30] ,ultimate_start,168.54,1팀,KSG,시그마,0,1
+[00:04:30] ,ultimate_end,169.19,2팀,SP1NT,파라,0,1
+[00:04:34] ,****,172.51,1팀,KSG,시그마,2팀,Someone,시그마,Ultimate,181.04,0,0
+[00:04:34] ,defensive_assist,172.59,1팀,Qloud,키리코,0
+[00:04:34] ,defensive_assist,172.60,1팀,Sley,미즈키,0
+[00:04:34] ,ultimate_end,172.70,1팀,KSG,시그마,0,1
+[00:04:37] ,****,176.19,1팀,Sley,미즈키,2팀,ChiYo,미즈키,Primary Fire,2.68,0,0
+[00:04:38] ,defensive_assist,176.35,1팀,Qloud,키리코,0
+[00:04:38] ,****,176.53,1팀,KSG,시그마,2팀,SP1NT,파라,Ability 2,57.24,0,0
+[00:04:38] ,defensive_assist,176.85,1팀,Qloud,키리코,0
+[00:04:42] ,****,180.61,1팀,KSG,시그마,2팀,MER1T,캐서디,Primary Fire,10,0,0
+[00:05:07] ,ultimate_start,205.38,2팀,Someone,시그마,0,1
+[00:05:08] ,ultimate_start,206.95,1팀,Qloud,키리코,0,1
+[00:05:10] ,ultimate_start,209.16,1팀,Sley,미즈키,0,1
+[00:05:11] ,ultimate_start,209.45,2팀,ChiYo,미즈키,0,1
+[00:05:11] ,ultimate_end,209.51,2팀,Someone,시그마,0,1
+[00:05:12] ,ultimate_start,210.47,1팀,TOPDRAGON,메이,0,1
+[00:05:17] ,ultimate_end,215.68,1팀,Sley,미즈키,0,1
+[00:05:17] ,ultimate_end,215.97,2팀,ChiYo,미즈키,0,1
+[00:05:17] ,ultimate_end,216.29,1팀,TOPDRAGON,메이,0,1
+[00:05:19] ,ultimate_end,218.13,1팀,Qloud,키리코,0,1
+[00:05:22] ,****,220.72,1팀,Sley,미즈키,2팀,MER1T,캐서디,Primary Fire,0.64,0,0
+[00:05:22] ,offensive_assist,221.01,1팀,Qloud,키리코,0
+[00:05:22] ,****,221.36,1팀,Nico,캐서디,2팀,ChiYo,미즈키,Primary Fire,122.40,True,0
+[00:05:23] ,****,221.65,2팀,Fielder,키리코,1팀,Sley,미즈키,0,24.79,True,0
+[00:05:23] ,defensive_assist,221.90,2팀,Fielder,키리코,0
+[00:05:30] ,****,228.59,1팀,Qloud,키리코,2팀,Fielder,키리코,0,45,0,0
+[00:05:30] ,defensive_assist,229.01,1팀,Qloud,키리코,0
+[00:05:31] ,ultimate_start,230.13,1팀,Nico,캐서디,0,1
+[00:05:31] ,****,230.26,2팀,SP1NT,파라,1팀,Nico,캐서디,Primary Fire,33.85,0,0
+[00:05:31] ,ultimate_end,230.26,1팀,Nico,캐서디,0,1
+[00:05:32] ,offensive_assist,230.48,2팀,Someone,시그마,0
+[00:05:39] ,defensive_assist,237.46,1팀,Qloud,키리코,0
+[00:05:39] ,****,237.46,1팀,TOPDRAGON,메이,2팀,Someone,시그마,Primary Fire,0.50,0,0
+[00:05:39] ,offensive_assist,237.48,1팀,KSG,시그마,0
+[00:06:19] ,ultimate_charged,278.22,2팀,Fielder,키리코,0,2
+[00:06:20] ,ultimate_start,278.88,2팀,Fielder,키리코,0,2
+[00:06:21] ,****,279.70,1팀,KSG,시그마,2팀,ChiYo,미즈키,Primary Fire,53.52,0,0
+[00:06:21] ,offensive_assist,279.70,1팀,TOPDRAGON,메이,0
+[00:06:27] ,****,285.97,2팀,Someone,시그마,1팀,TOPDRAGON,메이,Primary Fire,40.56,0,0
+[00:06:27] ,ultimate_charged,286.24,1팀,KSG,시그마,0,2
+[00:06:27] ,offensive_assist,286.30,2팀,Fielder,키리코,0
+[00:06:27] ,defensive_assist,286.30,2팀,Fielder,키리코,0
+[00:06:31] ,ultimate_end,290.07,2팀,Fielder,키리코,0,2
+[00:06:31] ,ultimate_start,290.07,1팀,KSG,시그마,0,2
+[00:06:32] ,ultimate_charged,291.24,2팀,SP1NT,파라,0,2
+[00:06:32] ,ultimate_start,291.30,2팀,MER1T,캐서디,0,1
+[00:06:35] ,ultimate_end,293.54,2팀,MER1T,캐서디,0,1
+[00:06:35] ,****,293.93,1팀,Sley,미즈키,2팀,MER1T,캐서디,Primary Fire,0.60,0,0
+[00:06:35] ,****,294.06,1팀,KSG,시그마,2팀,Someone,시그마,Ultimate,197.69,0,0
+[00:06:35] ,ultimate_end,294.23,1팀,KSG,시그마,0,2
+[00:06:35] ,offensive_assist,294.38,1팀,Qloud,키리코,0
+[00:06:35] ,defensive_assist,294.38,1팀,Qloud,키리코,0
+[00:06:35] ,defensive_assist,294.38,1팀,Qloud,키리코,0
+[00:06:38] ,ultimate_charged,296.39,1팀,Qloud,키리코,0,2
+[00:06:38] ,****,297.05,1팀,Sley,미즈키,2팀,Fielder,키리코,Primary Fire,5,True,0
+[00:06:38] ,defensive_assist,297.18,1팀,Sley,미즈키,0
+[00:06:38] ,defensive_assist,297.20,1팀,Qloud,키리코,0
+[00:06:53] ,****,311.44,1팀,Nico,캐서디,2팀,SP1NT,파라,0,0.46,0,0
+[00:07:09] ,ultimate_charged,328.07,2팀,Someone,시그마,0,2
+[00:07:15] ,ultimate_charged,334.33,1팀,Nico,캐서디,0,2
+[00:07:19] ,****,337.53,2팀,Someone,시그마,1팀,Nico,캐서디,Primary Fire,38.85,0,0
+[00:07:19] ,defensive_assist,337.60,2팀,ChiYo,미즈키,0
+[00:07:19] ,defensive_assist,337.63,2팀,Fielder,키리코,0
+[00:07:19] ,ultimate_charged,338.08,1팀,TOPDRAGON,메이,0,2
+[00:07:27] ,ultimate_charged,345.87,1팀,Sley,미즈키,0,2
+[00:07:28] ,****,346.51,2팀,ChiYo,미즈키,1팀,Sley,미즈키,Primary Fire,3.48,0,0
+[00:07:28] ,defensive_assist,346.56,2팀,Fielder,키리코,0
+[00:07:30] ,****,348.99,2팀,Someone,시그마,1팀,TOPDRAGON,메이,Melee,32.18,0,0
+[00:07:30] ,defensive_assist,349.34,2팀,ChiYo,미즈키,0
+[00:07:30] ,defensive_assist,349.37,2팀,Fielder,키리코,0
+[00:07:32] ,****,350.61,2팀,Someone,시그마,1팀,KSG,시그마,Primary Fire,9.03,0,0
+[00:07:32] ,defensive_assist,350.77,2팀,ChiYo,미즈키,0
+[00:07:32] ,****,350.82,2팀,ChiYo,미즈키,1팀,Qloud,키리코,Primary Fire,45,True,0
+[00:07:32] ,defensive_assist,351.26,2팀,Fielder,키리코,0
+[00:07:33] ,ultimate_charged,352.39,2팀,ChiYo,미즈키,0,2
+[00:07:53] ,ultimate_start,371.50,2팀,Someone,시그마,0,2
+[00:07:53] ,ultimate_start,372.41,1팀,Qloud,키리코,0,2
+[00:07:57] ,ultimate_end,375.73,2팀,Someone,시그마,0,2
+[00:08:02] ,****,381.30,1팀,Sley,미즈키,2팀,MER1T,캐서디,Ability 2,39.40,0,0
+[00:08:02] ,defensive_assist,381.41,1팀,Sley,미즈키,0
+[00:08:02] ,offensive_assist,381.46,1팀,Qloud,키리코,0
+[00:08:02] ,defensive_assist,381.46,1팀,Qloud,키리코,0
+[00:08:05] ,ultimate_end,383.59,1팀,Qloud,키리코,0,2
+[00:08:05] ,ultimate_start,384.18,2팀,ChiYo,미즈키,0,2
+[00:08:06] ,ultimate_start,385.30,1팀,TOPDRAGON,메이,0,2
+[00:08:10] ,****,388.71,1팀,Nico,캐서디,2팀,SP1NT,파라,Primary Fire,59.91,0,0
+[00:08:10] ,defensive_assist,388.91,1팀,Sley,미즈키,0
+[00:08:10] ,defensive_assist,388.98,1팀,Qloud,키리코,0
+[00:08:10] ,****,389.23,1팀,TOPDRAGON,메이,2팀,Someone,시그마,Secondary Fire,162.54,True,0
+[00:08:10] ,offensive_assist,389.43,1팀,Qloud,키리코,0
+[00:08:10] ,defensive_assist,389.43,1팀,Qloud,키리코,0
+[00:08:12] ,ultimate_end,390.69,2팀,ChiYo,미즈키,0,2
+[00:08:12] ,ultimate_end,391.11,1팀,TOPDRAGON,메이,0,2
+[00:08:12] ,****,391.25,1팀,Nico,캐서디,2팀,Fielder,키리코,Ability 2,27.28,0,0
+[00:08:12] ,defensive_assist,391.27,1팀,Sley,미즈키,0
+[00:08:12] ,defensive_assist,391.31,1팀,Qloud,키리코,0
+[00:08:13] ,offensive_assist,391.67,1팀,TOPDRAGON,메이,0
+[00:08:28] ,ultimate_charged,407.35,2팀,MER1T,캐서디,0,2
+[00:08:41] ,ultimate_start,420.36,2팀,SP1NT,파라,0,2
+[00:08:42] ,ultimate_charged,421.32,2팀,Fielder,키리코,0,3
+[00:08:44] ,ultimate_end,422.86,2팀,SP1NT,파라,0,2
+[00:08:44] ,ultimate_start,423.19,1팀,Nico,캐서디,0,2
+[00:08:44] ,ultimate_end,423.48,1팀,Nico,캐서디,0,2
+[00:08:45] ,****,423.66,2팀,MER1T,캐서디,1팀,Sley,미즈키,Primary Fire,60.12,0,0
+[00:08:45] ,defensive_assist,423.72,2팀,ChiYo,미즈키,0
+[00:08:45] ,defensive_assist,423.75,2팀,Fielder,키리코,0
+[00:08:49] ,****,428.31,2팀,Someone,시그마,1팀,TOPDRAGON,메이,Primary Fire,50,0,0
+[00:08:49] ,defensive_assist,428.41,2팀,ChiYo,미즈키,0
+[00:08:53] ,ultimate_charged,432.28,1팀,KSG,시그마,0,3
+[00:08:56] ,****,434.92,2팀,Someone,시그마,1팀,Qloud,키리코,Primary Fire,22.85,0,0
+[00:08:56] ,defensive_assist,434.98,2팀,ChiYo,미즈키,0
+[00:08:56] ,defensive_assist,435.03,2팀,Fielder,키리코,0
+[00:08:57] ,****,436.25,2팀,Someone,시그마,1팀,KSG,시그마,Melee,23.89,0,0
+[00:08:57] ,defensive_assist,436.37,2팀,ChiYo,미즈키,0
+[00:08:57] ,defensive_assist,436.44,2팀,Fielder,키리코,0
+[00:08:58] ,****,437.17,2팀,MER1T,캐서디,1팀,Nico,캐서디,Primary Fire,136.72,True,0
+[00:08:58] ,defensive_assist,437.30,2팀,ChiYo,미즈키,0
+[00:08:58] ,defensive_assist,437.38,2팀,Fielder,키리코,0
+[00:09:20] ,ultimate_start,458.85,2팀,Fielder,키리코,0,3
+[00:09:21] ,ultimate_start,460.23,1팀,KSG,시그마,0,3
+[00:09:23] ,ultimate_start,461.80,2팀,MER1T,캐서디,0,2
+[00:09:26] ,ultimate_end,465.24,1팀,KSG,시그마,0,3
+[00:09:29] ,ultimate_end,468.19,2팀,MER1T,캐서디,0,2
+[00:09:31] ,ultimate_start,469.75,1팀,Sley,미즈키,0,2
+[00:09:31] ,ultimate_end,470.07,2팀,Fielder,키리코,0,3
+[00:09:37] ,ultimate_end,476.26,1팀,Sley,미즈키,0,2
+[00:09:44] ,****,483.45,1팀,Nico,캐서디,2팀,Fielder,키리코,0,5.77,0,0
+[00:09:44] ,defensive_assist,483.53,1팀,Qloud,키리코,0
+[00:09:49] ,****,488.52,1팀,TOPDRAGON,메이,2팀,ChiYo,미즈키,Secondary Fire,22.30,0,0
+[00:09:50] ,defensive_assist,488.67,1팀,Sley,미즈키,0
+[00:09:50] ,defensive_assist,488.70,1팀,Qloud,키리코,0
+[00:09:51] ,ultimate_charged,490.51,2팀,Someone,시그마,0,3
+[00:09:53] ,****,491.98,1팀,Nico,캐서디,2팀,Someone,시그마,Ability 2,25.50,0,0
+[00:09:53] ,defensive_assist,492.00,1팀,Qloud,키리코,0
+[00:09:53] ,offensive_assist,492.35,1팀,TOPDRAGON,메이,0
+[00:09:53] ,defensive_assist,492.41,1팀,Sley,미즈키,0
+[00:09:53] ,****,492.56,1팀,TOPDRAGON,메이,2팀,SP1NT,파라,Ability 1,3.51,0,0
+[00:09:54] ,defensive_assist,492.88,1팀,Sley,미즈키,0
+[00:09:54] ,ultimate_charged,493.39,1팀,Qloud,키리코,0,3
+[00:10:04] ,****,502.68,1팀,KSG,시그마,2팀,MER1T,캐서디,Primary Fire,30,0,0
+[00:10:08] ,ultimate_charged,506.75,1팀,TOPDRAGON,메이,0,3
+[00:10:12] ,****,511.12,1팀,Sley,미즈키,2팀,Fielder,키리코,Melee,22.50,0,0
+[00:10:12] ,offensive_assist,511.16,1팀,TOPDRAGON,메이,0
+[00:10:12] ,defensive_assist,511.25,1팀,Sley,미즈키,0
+[00:10:12] ,defensive_assist,511.27,1팀,Qloud,키리코,0
+[00:10:24] ,ultimate_start,523.31,1팀,Qloud,키리코,0,3
+[00:10:25] ,ultimate_start,523.92,2팀,Someone,시그마,0,3
+[00:10:27] ,****,525.69,1팀,TOPDRAGON,메이,2팀,MER1T,캐서디,Secondary Fire,165,True,0
+[00:10:27] ,ultimate_charged,525.79,2팀,ChiYo,미즈키,0,3
+[00:10:28] ,****,526.76,2팀,Someone,시그마,1팀,Qloud,키리코,Primary Fire,0.46,0,0
+[00:10:28] ,defensive_assist,527.15,2팀,ChiYo,미즈키,0
+[00:10:29] ,ultimate_charged,527.92,2팀,SP1NT,파라,0,3
+[00:10:29] ,ultimate_end,528.44,2팀,Someone,시그마,0,3
+[00:10:30] ,ultimate_start,528.80,2팀,ChiYo,미즈키,0,3
+[00:10:30] ,****,529.51,1팀,TOPDRAGON,메이,2팀,SP1NT,파라,Secondary Fire,45.46,0,0
+[00:10:30] ,offensive_assist,529.51,1팀,KSG,시그마,0
+[00:10:30] ,defensive_assist,529.58,1팀,Sley,미즈키,0
+[00:10:31] ,offensive_assist,529.59,1팀,Qloud,키리코,0
+[00:10:32] ,ultimate_start,530.99,1팀,TOPDRAGON,메이,0,3
+[00:10:35] ,****,533.83,1팀,KSG,시그마,2팀,ChiYo,미즈키,Primary Fire,41.22,0,0
+[00:10:35] ,offensive_assist,534.17,1팀,TOPDRAGON,메이,0
+[00:10:35] ,defensive_assist,534.26,1팀,Sley,미즈키,0
+[00:10:35] ,offensive_assist,534.28,1팀,Qloud,키리코,0
+[00:10:35] ,ultimate_end,534.47,1팀,Qloud,키리코,0,3
+[00:10:36] ,ultimate_charged,534.90,1팀,Nico,캐서디,0,3
+[00:10:36] ,ultimate_end,535.30,2팀,ChiYo,미즈키,0,3
+[00:10:36] ,ultimate_start,535.40,1팀,Nico,캐서디,0,3
+[00:10:37] ,ultimate_end,535.83,1팀,Nico,캐서디,0,3
+[00:10:38] ,ultimate_end,536.82,1팀,TOPDRAGON,메이,0,3
+[00:10:38] ,****,537.45,1팀,KSG,시그마,2팀,Someone,시그마,Primary Fire,2.16,0,0
+[00:10:38] ,offensive_assist,537.48,1팀,TOPDRAGON,메이,0
+[00:10:38] ,defensive_assist,537.56,1팀,Sley,미즈키,0
+[00:10:38] ,offensive_assist,537.57,1팀,Qloud,키리코,0
+[00:10:39] ,****,538.20,2팀,Fielder,키리코,1팀,Nico,캐서디,0,114.30,True,0
+[00:10:39] ,defensive_assist,538.49,2팀,Fielder,키리코,0
+[00:10:41] ,****,539.67,1팀,TOPDRAGON,메이,2팀,Fielder,키리코,Primary Fire,5,0,0
+[00:10:52] ,hero_swap,551.25,2팀,MER1T,엠레,캐서디,551.25
+[00:10:56] ,ultimate_charged,555.28,1팀,KSG,시그마,0,4
+[00:11:17] ,****,576.24,1팀,KSG,시그마,2팀,ChiYo,미즈키,Primary Fire,18.56,0,0
+[00:11:17] ,defensive_assist,576.54,1팀,Qloud,키리코,0
+[00:11:18] ,defensive_assist,576.56,1팀,Sley,미즈키,0
+[00:11:21] ,ultimate_start,580.11,1팀,KSG,시그마,0,4
+[00:11:24] ,ultimate_start,582.70,2팀,SP1NT,파라,0,3
+[00:11:24] ,****,582.93,2팀,SP1NT,파라,1팀,Nico,캐서디,Ultimate,14.63,0,0
+[00:11:25] ,****,583.58,2팀,SP1NT,파라,2팀,SP1NT,파라,Ultimate,0.68,0,0
+[00:11:25] ,ultimate_end,583.58,2팀,SP1NT,파라,0,3
+[00:11:25] ,defensive_assist,583.60,1팀,Qloud,키리코,0
+[00:11:25] ,offensive_assist,583.96,1팀,TOPDRAGON,메이,0
+[00:11:25] ,ultimate_end,584.33,1팀,KSG,시그마,0,4
+[00:11:30] ,****,588.92,1팀,TOPDRAGON,메이,2팀,Fielder,키리코,Secondary Fire,75.44,0,0
+[00:11:32] ,****,591.26,1팀,KSG,시그마,2팀,Someone,시그마,Melee,5.50,0,0
+[00:11:33] ,defensive_assist,591.58,1팀,Qloud,키리코,0
+[00:11:33] ,defensive_assist,591.59,1팀,Sley,미즈키,0
+[00:11:35] ,ultimate_charged,594.25,1팀,Sley,미즈키,0,3
+[00:11:37] ,hero_swap,595.61,2팀,SP1NT,메이,파라,550.12
+[00:11:39] ,****,598.13,1팀,KSG,시그마,2팀,MER1T,엠레,Primary Fire,10,0,0
+[00:11:41] ,round_end,600.21,1,2팀,0,0,0,0,0,0
+[00:11:41] ,match_end,600.21,1,0,0
+[00:11:41] ,player_stat,600.21,1,2팀,SP1NT,트레이서,0,0,1,121.38,0,121.38,0,90,0,265.00,0,0,0,0,0,0,0,0,0,0,0,3,0.07,0,0,0,262,43,170,0,0,0.20,45.49
+[00:11:41] ,player_stat,600.21,1,2팀,SP1NT,정크랫,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:11:41] ,player_stat,600.21,1,2팀,SP1NT,파라,13,5,7,11616.60,3900.32,7716.28,0,2115.28,0,4108.56,0,0,0,3,3,0,0,1,6,0,0,0,0,0,0,0,273,80,155,0,0,0.34,550.12
+[00:11:41] ,player_stat,600.21,1,2팀,SP1NT,메이,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,40,0,36,0,0,0,4.61
+[00:11:41] ,player_stat,600.21,1,2팀,Fielder,키리코,9,3,8,6841.14,2372.05,4469.09,9429.41,1664.94,0,3621.00,0,15,5,3,6,0,0,0,5,0,0,13,0.20,0,0,0,342,64,224,0,0,0.22,600.21
+[00:11:41] ,player_stat,600.21,1,1팀,Qloud,키리코,11,1,5,5119.40,1422.80,3636.60,11714.17,2839.92,0,4118.66,0,23,7,3,6,0,0,0,4,0,0,5,0.09,0,0,0,348,57,252,0,0,0.18,600.21
+[00:11:41] ,player_stat,600.21,1,1팀,Nico,캐서디,16,7,7,10607.95,3190.41,7417.54,0,4087.48,0,6218.34,0,0,0,3,3,1,3,2,6,0,0,14,0.13,0,0,0,349,104,188,0,0,0.36,600.21
+[00:11:41] ,player_stat,600.21,1,1팀,KSG,시그마,22,12,4,13847.07,2808.68,11038.39,0,9374.94,0,13196.60,13848.50,0,2,4,4,2,3,2,11,0,0,0,0,0,0,0,191,84,75,0,0,0.53,600.21
+[00:11:41] ,player_stat,600.21,1,2팀,Someone,시그마,15,9,8,13403.60,5016.57,8387.02,0,8871.60,0,14708.80,12535.88,0,1,3,3,1,3,0,14,0,0,0,0,0,0,0,191,78,82,0,0,0.49,600.21
+[00:11:41] ,player_stat,600.21,1,2팀,MER1T,캐서디,17,8,6,14625.98,4590.50,10035.48,0,4396.95,0,5990.39,0,0,0,2,2,2,4,1,7,0,0,9,0.07,0,0,0,414,138,202,0,0,0.41,551.25
+[00:11:41] ,player_stat,600.21,1,2팀,MER1T,엠레,1,0,1,1059.07,310.99,748.08,0,0,0,250,0,0,0,0,0,0,0,0,0,0,0,3,0.18,0.52,0,0,65,17,33,21,11,0.34,48.97
+[00:11:41] ,player_stat,600.21,1,2팀,ChiYo,루시우,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:11:41] ,player_stat,600.21,1,2팀,ChiYo,미즈키,8,3,6,6851.65,2271.87,4579.79,8579.46,2831.34,0,5126.97,0,17,0,3,3,0,0,0,4,0,0,9,0.14,0,0,0,283,63,169,0,0,0.27,600.21
+[00:11:41] ,player_stat,600.21,1,1팀,TOPDRAGON,겐지,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:11:41] ,player_stat,600.21,1,1팀,TOPDRAGON,메이,19,9,6,27026.99,3171.79,7469.00,0,5049.20,1858.88,7209.26,4613.80,0,7,3,3,2,3,1,11,0,0,0,0,0,0,0,684,299,287,0,0,0.51,600.21
+[00:11:41] ,player_stat,600.21,1,1팀,Sley,미즈키,15,7,6,6150.38,1942.20,4208.18,8925.92,3198.27,0,5454.26,0,16,0,3,2,0,0,0,5,0,0,9,0.16,0,0,0,308,57,202,0,0,0.22,600.21

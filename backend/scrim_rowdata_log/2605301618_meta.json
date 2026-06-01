@@ -1,0 +1,99 @@
+{
+    "id": "2605301618",
+    "scrim_name": "260530-JDG",
+    "date": "2026-05-30",
+    "start_time": "16",
+    "end_time": "18",
+    "matches": [
+        {
+            "id": "eb8a8b2a-243e-4c0a-a51c-4ec27dc49eef",
+            "match_index": 1,
+            "map_name": "남극반도",
+            "team1_name": "FLC",
+            "team2_name": "JDG",
+            "result": "Unknown",
+            "video_url": "https://youtube.com/live/U_bITWTYxGA?feature=share",
+            "video_offset": 8207,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "c6c8bec2-a96b-4d06-9b1c-3d684d7f8164",
+            "match_index": 2,
+            "map_name": "서킷로얄",
+            "team1_name": "FLC",
+            "team2_name": "JDG",
+            "result": "Unknown",
+            "video_url": "https://youtube.com/live/U_bITWTYxGA?feature=share",
+            "video_offset": 9107,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "af0403a0-e03a-4f6e-a20c-994ed1a4c6c9",
+            "match_index": 3,
+            "map_name": "수라바사",
+            "team1_name": "FLC",
+            "team2_name": "JDG",
+            "result": "Unknown",
+            "video_url": "https://youtube.com/live/U_bITWTYxGA?feature=share",
+            "video_offset": 10307,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "0eff182b-d001-4d7c-ab09-375e3b0493b9",
+            "match_index": 4,
+            "map_name": "왕의길",
+            "team1_name": "FLC",
+            "team2_name": "JDG",
+            "result": "Unknown",
+            "video_url": "https://youtube.com/live/U_bITWTYxGA?feature=share",
+            "video_offset": 11290,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "243ffec9-5dfb-40d6-905f-fda15d4edca2",
+            "match_index": 5,
+            "map_name": "눔바니",
+            "team1_name": "FLC",
+            "team2_name": "JDG",
+            "result": "Unknown",
+            "video_url": "https://youtube.com/live/U_bITWTYxGA?feature=share",
+            "video_offset": 12433,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        }
+    ]
+}
