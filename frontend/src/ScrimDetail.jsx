@@ -78,22 +78,22 @@ export default function ScrimDetail({ scrimId, onSelectMatch, onBack, onGoOveral
   const handleDeleteSelected = async () => {
     if (selectedIds.size === 0) return;
     const ids = [...selectedIds];
-    const msg = `선택한 ${ids.length}개 매치를 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.`;
+    const msg = `${t.deleteConfirmPre}${ids.length}${t.sdDeleteMatchPost}\n${t.sdIrreversible}`;
     if (!window.confirm(msg)) return;
 
     setDeleting(true);
     try {
       const res = await axios.post('/api/matches/delete-batch', { ids });
       if (res.data.warnings?.length > 0) {
-        alert(`삭제 완료 (${res.data.deleted_count}개)\n경고:\n${res.data.warnings.join('\n')}`);
+        alert(`${t.sdDeleteDone} (${res.data.deleted_count}${t.msCountUnit})\n${t.sdWarnings}\n${res.data.warnings.join('\n')}`);
       }
       if (res.data.failed_ids?.length > 0) {
-        alert(`일부 삭제 실패: ${res.data.failed_ids.join(', ')}`);
+        alert(`${t.sdPartialFail}${res.data.failed_ids.join(', ')}`);
       }
       await fetchScrim();
       exitSelectMode();
     } catch (err) {
-      alert(`삭제 실패: ${err.response?.data?.detail || err.message}`);
+      alert(`${t.sdDeleteFail}${err.response?.data?.detail || err.message}`);
     } finally {
       setDeleting(false);
     }
@@ -150,7 +150,7 @@ export default function ScrimDetail({ scrimId, onSelectMatch, onBack, onGoOveral
               onClick={exitSelectMode}
               style={{ background: theme.surface, border: `1px solid ${theme.border}`, color: theme.textSub, padding: "10px 14px", borderRadius: 10, cursor: "pointer", fontWeight: 800, display: "inline-flex", gap: 8, alignItems: "center" }}
             >
-              선택 취소
+              {t.cancelSelection}
             </button>
           ) : (
             <>
@@ -158,7 +158,7 @@ export default function ScrimDetail({ scrimId, onSelectMatch, onBack, onGoOveral
                 onClick={enterSelectMode}
                 style={{ background: theme.surface, border: `1px solid ${theme.border}`, color: theme.danger || '#ef4444', padding: "10px 14px", borderRadius: 10, cursor: "pointer", fontWeight: 800, display: "inline-flex", gap: 8, alignItems: "center" }}
               >
-                <Trash2 size={15} /> 삭제
+                <Trash2 size={15} /> {t.delete}
               </button>
               {onGoOverall && (
                 <button
@@ -183,19 +183,19 @@ export default function ScrimDetail({ scrimId, onSelectMatch, onBack, onGoOveral
           {/* 선택 모드 액션 바 */}
           {isSelectMode && (
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <span style={{ fontSize: '13px', color: theme.textSub }}>{selectedIds.size}개 선택됨</span>
+              <span style={{ fontSize: '13px', color: theme.textSub }}>{selectedIds.size}{t.msCountUnit} {t.selectedCount}</span>
               <button
                 onClick={toggleSelectAll}
                 style={{ background: 'transparent', border: `1px solid ${theme.border}`, color: theme.textSub, padding: '5px 10px', borderRadius: '6px', cursor: 'pointer', fontSize: '12px' }}
               >
-                {allSelected ? '전체 해제' : '전체 선택'}
+                {allSelected ? t.deselectAll : t.selectAll}
               </button>
               <button
                 onClick={handleDeleteSelected}
                 disabled={selectedIds.size === 0 || deleting}
                 style={{ background: selectedIds.size > 0 ? (theme.danger || '#ef4444') : theme.surfaceHighlight, border: 'none', color: selectedIds.size > 0 ? '#fff' : theme.textSub, padding: '5px 14px', borderRadius: '6px', cursor: selectedIds.size > 0 ? 'pointer' : 'not-allowed', fontSize: '12px', fontWeight: '700', opacity: deleting ? 0.6 : 1 }}
               >
-                {deleting ? '삭제 중...' : '선택 삭제'}
+                {deleting ? t.deleting : t.deleteSelected}
               </button>
             </div>
           )}

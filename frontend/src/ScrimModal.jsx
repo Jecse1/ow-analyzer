@@ -45,7 +45,7 @@ const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
 
   const handleClose = () => {
     if (isDirty) {
-      if (!window.confirm('입력 중인 내용이 사라집니다. 정말 닫으시겠습니까?')) return;
+      if (!window.confirm(t.smCloseConfirm)) return;
     }
     onClose();
   };
@@ -69,22 +69,22 @@ const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
   if (!isOpen) return null;
 
   const handleNext = () => {
-    if (!scrimData.scrimName) return alert("스크림 이름을 입력해주세요.");
+    if (!scrimData.scrimName) return alert(t.smEnterName);
     setStep(2);
   };
 
   const handleSubmit = () => {
-    if (scrimData.matches.length === 0) return alert("최소 1개의 경기를 기록해주세요.");
+    if (scrimData.matches.length === 0) return alert(t.smMinOneMatch);
     
     // 유효성 검사
     for (let i = 0; i < scrimData.matches.length; i++) {
         const m = scrimData.matches[i];
         if (m.has_pause) {
             if (!m.pauses || m.pauses.length === 0) {
-                return alert(`${i+1}번 경기: '퍼즈 있음'을 선택하셨습니다. 퍼즈 구간을 추가하거나 '아니오'를 선택해주세요.`);
+                return alert(`${t.smMatchPre}${i+1}${t.smMatchPost}${t.smPauseSelectedWarn}`);
             }
             for (const p of m.pauses) {
-                if (!p.start || !p.end) return alert(`${i+1}번 경기: 퍼즈 시작/종료 시간을 모두 입력해주세요. (예: 10:00)`);
+                if (!p.start || !p.end) return alert(`${t.smMatchPre}${i+1}${t.smMatchPost}${t.smPauseTimeWarn}`);
             }
         }
     }
@@ -248,17 +248,17 @@ const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
                       </div>
 
                       <div style={inputGroupStyle}>
-                        <label style={labelStyle}><PlayCircle size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> 유튜브 영상 링크 <span style={{ fontSize: '12px', fontWeight: 'normal', color: theme.textSub }}>(선택)</span></label>
+                        <label style={labelStyle}><PlayCircle size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> {t.smYoutubeLink} <span style={{ fontSize: '12px', fontWeight: 'normal', color: theme.textSub }}>{t.smOptional}</span></label>
                         <input type="text" placeholder="https://youtu.be/..." value={match.videoUrl} onChange={e => updateMatch(idx, 'videoUrl', e.target.value)} style={inputStyle} />
                       </div>
 
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                           <div style={inputGroupStyle}>
-                              <label style={labelStyle}><Users size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> 1팀 이름 (왼쪽)</label>
+                              <label style={labelStyle}><Users size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> {t.smTeam1Label}</label>
                               <input type="text" placeholder="ex: FLC" value={match.team1Name} onChange={e => updateMatch(idx, 'team1Name', e.target.value)} style={inputStyle} />
                           </div>
                           <div style={inputGroupStyle}>
-                              <label style={labelStyle}><Users size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> 2팀 이름 (오른쪽)</label>
+                              <label style={labelStyle}><Users size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> {t.smTeam2Label}</label>
                               <input type="text" placeholder="ex: RC" value={match.team2Name} onChange={e => updateMatch(idx, 'team2Name', e.target.value)} style={inputStyle} />
                           </div>
                       </div>
@@ -266,7 +266,7 @@ const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
                       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'16px' }}>
                           <div style={inputGroupStyle}>
                               <label style={labelStyle}><Clock size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> {t.matchStart} (MM:SS)</label>
-                              <input type="text" placeholder="예: 03:30 (전투 시작)" value={match.start_time} onChange={e => updateMatch(idx, 'start_time', e.target.value)} style={{...inputStyle, textAlign:'center'}} />
+                              <input type="text" placeholder={t.smStartPlaceholder} value={match.start_time} onChange={e => updateMatch(idx, 'start_time', e.target.value)} style={{...inputStyle, textAlign:'center'}} />
                           </div>
                           <div style={inputGroupStyle}>
                               <label style={labelStyle}><Clock size={16} style={{verticalAlign:'text-bottom', marginRight:6}}/> {t.matchEnd} (MM:SS)</label>

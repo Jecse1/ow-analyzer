@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Shield, Sword, PlusCircle, Crosshair, ArrowUpDown, Calendar, ChevronDown, ChevronUp, Users } from 'lucide-react';
 import { useTheme } from "./ThemeContext";
+import { useLanguage } from "./LanguageContext";
 
 const normalizeName = (name) => (name ? name.trim() : "");
 
@@ -131,6 +132,8 @@ const getTopN = (arr, key, n = 5) => {
 
 export default function FirstKillStats({ allScrims }) {
     const { theme } = useTheme();
+    const { t } = useLanguage();
+    const roleLabelDisplay = (role) => role === '탱커' ? t.tank : role === '딜러' ? t.dps : role === '힐러' ? t.support : role;
     const [selectedRole, setSelectedRole] = useState('All');
     const [sortConfig, setSortConfig] = useState({ key: 'rate', direction: 'desc' });
     const [startDate, setStartDate] = useState("");
@@ -254,9 +257,9 @@ export default function FirstKillStats({ allScrims }) {
         <div style={{ padding: '40px', maxWidth: '1200px', margin: '0 auto', color: theme.text }}>
             <div style={{ marginBottom: '32px' }}>
                 <h1 style={{ fontSize: '32px', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <Crosshair size={36} color={SUCCESS_COLOR} /> 퍼킬 분석 (First Kill Stats)
+                    <Crosshair size={36} color={SUCCESS_COLOR} /> {t.fkTitle}
                 </h1>
-                <p style={{ color: theme.textSub, marginTop: '8px' }}>한타를 터뜨리는 캐리력과 주력 희생양, 사용 스킬을 상세히 분석합니다.</p>
+                <p style={{ color: theme.textSub, marginTop: '8px' }}>{t.fkDesc}</p>
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
@@ -265,22 +268,22 @@ export default function FirstKillStats({ allScrims }) {
                         <button key={role} onClick={() => setSelectedRole(role)}
                             style={{ padding: '10px 20px', borderRadius: '8px', border: '1px solid', borderColor: selectedRole === role ? '#3b82f6' : theme.border, background: selectedRole === role ? '#3b82f620' : theme.surface, color: selectedRole === role ? '#3b82f6' : theme.textSub, cursor: 'pointer', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
                             {role === 'All' ? <Users size={16}/> : <img src={getRoleIconSrc(role)} alt={role} style={{ width: 16, height: 16, filter: 'invert(1)', opacity: selectedRole === role ? 1 : 0.5 }} />}
-                            {role === 'All' ? '전체 포지션' : role}
+                            {role === 'All' ? t.allPositions : roleLabelDisplay(role)}
                         </button>
                     ))}
                 </div>
 
                 <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: theme.surfaceHighlight, padding: '8px 16px', borderRadius: '8px', border: `1px solid ${theme.border}` }}>
-                        <span style={{ fontSize: '13px', fontWeight: 'bold', color: theme.textSub }}>특정 매치업:</span>
+                        <span style={{ fontSize: '13px', fontWeight: 'bold', color: theme.textSub }}>{t.matchup}</span>
                         <select value={selectedMyTeam} onChange={e => setSelectedMyTeam(e.target.value)} style={selectStyle}>
-                            <option value="All">우리 팀 (전체)</option>
-                            {teamList.map(t => <option key={t} value={t}>{t}</option>)}
+                            <option value="All">{t.myTeamAll}</option>
+                            {teamList.map(tm => <option key={tm} value={tm}>{tm}</option>)}
                         </select>
                         <span style={{ fontSize: '12px', color: theme.textSub, fontWeight: 'bold' }}>VS</span>
                         <select value={selectedEnemyTeam} onChange={e => setSelectedEnemyTeam(e.target.value)} style={selectStyle}>
-                            <option value="All">상대 팀 (전체)</option>
-                            {teamList.map(t => <option key={t} value={t}>{t}</option>)}
+                            <option value="All">{t.enemyTeamAll}</option>
+                            {teamList.map(tm => <option key={tm} value={tm}>{tm}</option>)}
                         </select>
                     </div>
 
@@ -298,11 +301,11 @@ export default function FirstKillStats({ allScrims }) {
                     <thead style={{ background: theme.surfaceHighlight }}>
                         <tr>
                             <th style={{ padding: '16px', textAlign: 'center', fontSize: '13px', color: theme.textSub }}>#</th>
-                            <th style={{ padding: '16px', textAlign: 'left', fontSize: '13px', color: theme.textSub, cursor:'pointer' }} onClick={() => handleSort('name')}>선수명 <ArrowUpDown size={12} style={{display:'inline'}}/></th>
-                            <th style={{ padding: '16px', textAlign: 'center', fontSize: '13px', color: theme.textSub }}>포지션</th>
-                            <th style={{ padding: '16px', textAlign: 'right', fontSize: '13px', color: theme.textSub, cursor:'pointer' }} onClick={() => handleSort('totalFights')}>한타 횟수 <ArrowUpDown size={12} style={{display:'inline'}}/></th>
-                            <th style={{ padding: '16px', textAlign: 'right', fontSize: '13px', color: theme.textSub, cursor:'pointer' }} onClick={() => handleSort('firstKills')}>퍼킬 횟수 <ArrowUpDown size={12} style={{display:'inline'}}/></th>
-                            <th style={{ padding: '16px', textAlign: 'right', fontSize: '13px', color: SUCCESS_COLOR, cursor:'pointer', fontWeight:'900' }} onClick={() => handleSort('rate')}>퍼킬 비율 (%) <ArrowUpDown size={12} style={{display:'inline'}}/></th>
+                            <th style={{ padding: '16px', textAlign: 'left', fontSize: '13px', color: theme.textSub, cursor:'pointer' }} onClick={() => handleSort('name')}>{t.player} <ArrowUpDown size={12} style={{display:'inline'}}/></th>
+                            <th style={{ padding: '16px', textAlign: 'center', fontSize: '13px', color: theme.textSub }}>{t.position}</th>
+                            <th style={{ padding: '16px', textAlign: 'right', fontSize: '13px', color: theme.textSub, cursor:'pointer' }} onClick={() => handleSort('totalFights')}>{t.fkColFights} <ArrowUpDown size={12} style={{display:'inline'}}/></th>
+                            <th style={{ padding: '16px', textAlign: 'right', fontSize: '13px', color: theme.textSub, cursor:'pointer' }} onClick={() => handleSort('firstKills')}>{t.fkColCount} <ArrowUpDown size={12} style={{display:'inline'}}/></th>
+                            <th style={{ padding: '16px', textAlign: 'right', fontSize: '13px', color: SUCCESS_COLOR, cursor:'pointer', fontWeight:'900' }} onClick={() => handleSort('rate')}>{t.fkColRate} <ArrowUpDown size={12} style={{display:'inline'}}/></th>
                             <th style={{ padding: '16px', width: '40px' }}></th>
                         </tr>
                     </thead>
@@ -326,8 +329,8 @@ export default function FirstKillStats({ allScrims }) {
                                         <td style={{ padding: '16px', textAlign: 'center' }}>
                                             <img src={getRoleIconSrc(p.roleLabel)} style={{ width: 20, height: 20, objectFit: 'contain', filter: 'invert(1)', opacity: 0.6 }} />
                                         </td>
-                                        <td style={{ padding: '16px', textAlign: 'right' }}>{p.totalFights.toLocaleString()}회</td>
-                                        <td style={{ padding: '16px', textAlign: 'right', fontWeight: 'bold' }}>{p.firstKills}회</td>
+                                        <td style={{ padding: '16px', textAlign: 'right' }}>{p.totalFights.toLocaleString()}{t.timesUnit}</td>
+                                        <td style={{ padding: '16px', textAlign: 'right', fontWeight: 'bold' }}>{p.firstKills}{t.timesUnit}</td>
                                         <td style={{ padding: '16px', textAlign: 'right' }}>
                                             <div style={{ position: 'relative', width: '100%', height: '24px', background: theme.surface, borderRadius: '4px', overflow: 'hidden' }}>
                                                 <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: `${Math.min(rate * 2, 100)}%`, background: isCarry ? '#10b98180' : '#10b98140' }} />
@@ -344,20 +347,20 @@ export default function FirstKillStats({ allScrims }) {
                                             <td colSpan="7" style={{ padding: '0 24px 24px 24px' }}>
                                                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', background: theme.bg, padding: '20px', borderRadius: '12px', border: `1px solid ${theme.border}40` }}>
                                                     <div>
-                                                        <h4 style={{ fontSize: '13px', color: theme.textSub, marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}><Crosshair size={14} color={SUCCESS_COLOR}/> 주요 희생양 (Player)</h4>
+                                                        <h4 style={{ fontSize: '13px', color: theme.textSub, marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}><Crosshair size={14} color={SUCCESS_COLOR}/> {t.fkTopVictims}</h4>
                                                         {getTopN(p.killLogs, 'targetName', 5).map((target, i) => {
                                                             const pct = p.firstKills > 0 ? (target.count / p.firstKills) * 100 : 0;
                                                             return (
                                                                 <div key={i} style={{ position: 'relative', display: 'flex', justifyContent: 'space-between', padding: '6px 8px', marginBottom: '4px', borderRadius: '4px', background: 'rgba(255,255,255,0.03)', overflow: 'hidden' }}>
                                                                     <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: `${pct}%`, background: `${SUCCESS_COLOR}20`, zIndex: 0 }} />
                                                                     <span style={{ position: 'relative', zIndex: 1, fontSize: '13px' }}>{target.name}</span>
-                                                                    <span style={{ position: 'relative', zIndex: 1, fontSize: '13px', fontWeight: 'bold', color: SUCCESS_COLOR }}>{target.count}회 <span style={{fontSize:'10px', color:theme.textSub, fontWeight:'normal'}}>({pct.toFixed(0)}%)</span></span>
+                                                                    <span style={{ position: 'relative', zIndex: 1, fontSize: '13px', fontWeight: 'bold', color: SUCCESS_COLOR }}>{target.count}{t.timesUnit} <span style={{fontSize:'10px', color:theme.textSub, fontWeight:'normal'}}>({pct.toFixed(0)}%)</span></span>
                                                                 </div>
                                                             )
                                                         })}
                                                     </div>
                                                     <div>
-                                                        <h4 style={{ fontSize: '13px', color: theme.textSub, marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}><Shield size={14} color={SUCCESS_COLOR}/> 집중 공략 영웅 (Hero)</h4>
+                                                        <h4 style={{ fontSize: '13px', color: theme.textSub, marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}><Shield size={14} color={SUCCESS_COLOR}/> {t.fkTopHeroes}</h4>
                                                         {getTopN(p.killLogs, 'targetHero', 5).map((hero, i) => {
                                                             const pct = p.firstKills > 0 ? (hero.count / p.firstKills) * 100 : 0;
                                                             return (
@@ -367,13 +370,13 @@ export default function FirstKillStats({ allScrims }) {
                                                                         <img src={getHeroImageSrc(hero.name)} style={{ width: 18, height: 18, borderRadius: 2 }} onError={e=>e.currentTarget.style.display='none'}/>
                                                                         <span style={{ fontSize: '13px' }}>{getDisplayHeroName(hero.name)}</span>
                                                                     </div>
-                                                                    <span style={{ position: 'relative', zIndex: 1, fontSize: '13px', fontWeight: 'bold' }}>{hero.count}회</span>
+                                                                    <span style={{ position: 'relative', zIndex: 1, fontSize: '13px', fontWeight: 'bold' }}>{hero.count}{t.timesUnit}</span>
                                                                 </div>
                                                             )
                                                         })}
                                                     </div>
                                                     <div>
-                                                        <h4 style={{ fontSize: '13px', color: theme.textSub, marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}><Sword size={14} color={SUCCESS_COLOR}/> 결정타 스킬 (누구에게 적중?)</h4>
+                                                        <h4 style={{ fontSize: '13px', color: theme.textSub, marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}><Sword size={14} color={SUCCESS_COLOR}/> {t.fkKillSkill}</h4>
                                                         {getTopN(p.killLogs, 'detailedSkill', 5).map((log, i) => {
                                                             // 💡 스킬명 ➔ 희생자이름 [희생자영웅아이콘] 파싱
                                                             const [skill, tName, tHero] = log.name.split('|');
@@ -387,7 +390,7 @@ export default function FirstKillStats({ allScrims }) {
                                                                         <span style={{ color: theme.textSub, fontSize: '12px' }}>{tName}</span>
                                                                         <img src={getHeroImageSrc(tHero)} style={{ width: 16, height: 16, borderRadius: 2 }} onError={e=>e.currentTarget.style.display='none'}/>
                                                                     </div>
-                                                                    <span style={{ position: 'relative', zIndex: 1, fontSize: '13px', fontWeight: 'bold' }}>{log.count}회</span>
+                                                                    <span style={{ position: 'relative', zIndex: 1, fontSize: '13px', fontWeight: 'bold' }}>{log.count}{t.timesUnit}</span>
                                                                 </div>
                                                             );
                                                         })}
@@ -401,7 +404,7 @@ export default function FirstKillStats({ allScrims }) {
                         })}
                         {sortedData.length === 0 && (
                             <tr>
-                                <td colSpan="7" style={{ padding: '60px', textAlign: 'center', color: theme.textSub }}>조건에 맞는 데이터가 없습니다.</td>
+                                <td colSpan="7" style={{ padding: '60px', textAlign: 'center', color: theme.textSub }}>{t.noFilteredData}</td>
                             </tr>
                         )}
                     </tbody>

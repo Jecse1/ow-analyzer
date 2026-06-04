@@ -34,7 +34,7 @@ const ScrimSessions = ({ onSelectScrim }) => {
 
   const handleRebuildDB = async (e) => {
     e.stopPropagation();
-    if (!window.confirm("DB를 복구하시겠습니까? (Rebuild DB?)")) return;
+    if (!window.confirm(t.ssRebuildConfirm)) return;
     setRebuilding(true);
     try {
       const res = await axios.post('/api/admin/rebuild-db');
@@ -89,22 +89,22 @@ const ScrimSessions = ({ onSelectScrim }) => {
       .filter(s => ids.includes(s.id))
       .reduce((sum, s) => sum + (s.matches?.length || 0), 0);
 
-    const msg = `선택한 ${ids.length}개 세션을 삭제하시겠습니까?\n이 세션에 포함된 총 ${totalMatches}개의 매치도 함께 삭제됩니다.\n이 작업은 되돌릴 수 없습니다.`;
+    const msg = `${t.deleteConfirmPre}${ids.length}${t.ssDeleteSessionMid}${totalMatches}${t.ssDeleteSessionPost}\n${t.sdIrreversible}`;
     if (!window.confirm(msg)) return;
 
     setDeleting(true);
     try {
       const res = await axios.post('/api/sessions/delete-batch', { ids });
       if (res.data.warnings?.length > 0) {
-        alert(`삭제 완료 (${res.data.deleted_count}개)\n경고:\n${res.data.warnings.join('\n')}`);
+        alert(`${t.sdDeleteDone} (${res.data.deleted_count}${t.msCountUnit})\n${t.sdWarnings}\n${res.data.warnings.join('\n')}`);
       }
       if (res.data.failed_ids?.length > 0) {
-        alert(`일부 삭제 실패: ${res.data.failed_ids.join(', ')}`);
+        alert(`${t.sdPartialFail}${res.data.failed_ids.join(', ')}`);
       }
       await fetchScrims();
       exitSelectMode();
     } catch (err) {
-      alert(`삭제 실패: ${err.response?.data?.detail || err.message}`);
+      alert(`${t.sdDeleteFail}${err.response?.data?.detail || err.message}`);
     } finally {
       setDeleting(false);
     }
@@ -129,7 +129,7 @@ const ScrimSessions = ({ onSelectScrim }) => {
               onClick={exitSelectMode}
               style={{ background: theme.surface, border: `1px solid ${theme.border}`, color: theme.textSub, padding: '10px 16px', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', fontWeight: '600' }}
             >
-              선택 취소
+              {t.cancelSelection}
             </button>
           ) : (
             <>
@@ -137,7 +137,7 @@ const ScrimSessions = ({ onSelectScrim }) => {
                 onClick={enterSelectMode}
                 style={{ background: theme.surface, border: `1px solid ${theme.border}`, color: theme.danger || '#ef4444', padding: '10px 16px', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', fontWeight: '600' }}
               >
-                <Trash2 size={15} /> 삭제
+                <Trash2 size={15} /> {t.delete}
               </button>
               <button
                 onClick={handleRebuildDB}
@@ -156,20 +156,20 @@ const ScrimSessions = ({ onSelectScrim }) => {
       {isSelectMode && (
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px', background: theme.surface, border: `1px solid ${theme.border}`, borderRadius: '10px', padding: '12px 16px' }}>
           <span style={{ fontSize: '14px', fontWeight: '600', color: theme.text, flex: 1 }}>
-            {selectedIds.size}개 선택됨
+            {selectedIds.size}{t.msCountUnit} {t.selectedCount}
           </span>
           <button
             onClick={toggleSelectAll}
             style={{ background: 'transparent', border: `1px solid ${theme.border}`, color: theme.textSub, padding: '6px 12px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px' }}
           >
-            {allSelected ? '전체 해제' : '전체 선택'}
+            {allSelected ? t.deselectAll : t.selectAll}
           </button>
           <button
             onClick={handleDeleteSelected}
             disabled={selectedIds.size === 0 || deleting}
             style={{ background: selectedIds.size > 0 ? (theme.danger || '#ef4444') : theme.surfaceHighlight, border: 'none', color: selectedIds.size > 0 ? '#fff' : theme.textSub, padding: '6px 16px', borderRadius: '6px', cursor: selectedIds.size > 0 ? 'pointer' : 'not-allowed', fontSize: '13px', fontWeight: '700', opacity: deleting ? 0.6 : 1 }}
           >
-            {deleting ? '삭제 중...' : '선택 삭제'}
+            {deleting ? t.deleting : t.deleteSelected}
           </button>
         </div>
       )}
@@ -190,7 +190,7 @@ const ScrimSessions = ({ onSelectScrim }) => {
         />
         {(startDate || endDate) && (
           <button onClick={() => { setStartDate(""); setEndDate(""); }} style={{ background: 'transparent', border: 'none', color: theme.danger, cursor: 'pointer', fontWeight: 'bold', marginLeft: 'auto' }}>
-            초기화
+            {t.reset}
           </button>
         )}
       </div>

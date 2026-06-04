@@ -451,7 +451,7 @@ const KillLogView = ({ fights, activeRoundTab, t1Name, t2Name }) => {
   return (
     <div style={{ width: '100%' }}>
       {filteredFights.length === 0 ? (
-        <div style={{padding:'60px', textAlign:'center', color: theme.textSub, fontSize:'14px'}}>기록된 전투(킬)가 없습니다.</div>
+        <div style={{padding:'60px', textAlign:'center', color: theme.textSub, fontSize:'14px'}}>{t.msNoFights}</div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           {filteredFights.map((fight, fIdx) => (
@@ -720,9 +720,9 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
   }, [fights, t1Name, t2Name]);
 
   const ultExchangeData = [
-      { name: '효율적 승리 (덜 씀)', t1: efficiency.t1.wonWithFewerUlts, t2: efficiency.t2.wonWithFewerUlts },
-      { name: '궁 아끼다 패배', t1: efficiency.t1.lostWithFewerUlts, t2: efficiency.t2.lostWithFewerUlts },
-      { name: '과투자 (2개 이상 초과)', t1: efficiency.t1.overInvestFights, t2: efficiency.t2.overInvestFights }
+      { name: t.msUltEffWin, t1: efficiency.t1.wonWithFewerUlts, t2: efficiency.t2.wonWithFewerUlts },
+      { name: t.msUltSaveLoss, t1: efficiency.t1.lostWithFewerUlts, t2: efficiency.t2.lostWithFewerUlts },
+      { name: t.msUltOverInvest, t1: efficiency.t1.overInvestFights, t2: efficiency.t2.overInvestFights }
   ];
 
   const roleFinalBlowsData = useMemo(() => {
@@ -813,28 +813,28 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
         
         {/* 💡 [기존] 패배 한타 저항력 (Kill Exchange in Lost Fights) */}
         <div style={cardStyle}>
-            <div style={titleStyle}><AlertOctagon size={18} color={theme.warning || '#f59e0b'}/> 패배 한타 저항력 (Kill Exchange in Lost Fights)</div>
+            <div style={titleStyle}><AlertOctagon size={18} color={theme.warning || '#f59e0b'}/> {t.msLostFightTitle}</div>
             
             {/* 상단 요약 바 */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '24px' }}>
                 <div style={{ background: theme.bg, padding: '16px', borderRadius: '8px', border: `1px solid ${COLOR_TEAM1}40` }}>
-                    <div style={{ fontSize: '13px', color: COLOR_TEAM1, fontWeight: 'bold', marginBottom: '8px' }}>{team1Name} 패배 시 평균 적 처치율</div>
+                    <div style={{ fontSize: '13px', color: COLOR_TEAM1, fontWeight: 'bold', marginBottom: '8px' }}>{team1Name} {t.msAvgKillRateOnLoss}</div>
                     <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
                         <span style={{ fontSize: '28px', fontWeight: '900', color: theme.text }}>{lostFightData.t1Pct}%</span>
-                        <span style={{ fontSize: '12px', color: theme.textSub }}>(평균 {lostFightData.t1Avg}명 처치 / {lostFightData.t1LostFights}회 패배)</span>
+                        <span style={{ fontSize: '12px', color: theme.textSub }}>({t.msAvgWord}{lostFightData.t1Avg}{t.msKillsUnit} / {lostFightData.t1LostFights}{t.msLossUnit})</span>
                     </div>
                 </div>
                 <div style={{ background: theme.bg, padding: '16px', borderRadius: '8px', border: `1px solid ${COLOR_TEAM2}40` }}>
-                    <div style={{ fontSize: '13px', color: COLOR_TEAM2, fontWeight: 'bold', marginBottom: '8px' }}>{team2Name} 패배 시 평균 적 처치율</div>
+                    <div style={{ fontSize: '13px', color: COLOR_TEAM2, fontWeight: 'bold', marginBottom: '8px' }}>{team2Name} {t.msAvgKillRateOnLoss}</div>
                     <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
                         <span style={{ fontSize: '28px', fontWeight: '900', color: theme.text }}>{lostFightData.t2Pct}%</span>
-                        <span style={{ fontSize: '12px', color: theme.textSub }}>(평균 {lostFightData.t2Avg}명 처치 / {lostFightData.t2LostFights}회 패배)</span>
+                        <span style={{ fontSize: '12px', color: theme.textSub }}>({t.msAvgWord}{lostFightData.t2Avg}{t.msKillsUnit} / {lostFightData.t2LostFights}{t.msLossUnit})</span>
                     </div>
                 </div>
             </div>
 
             {/* Fight-by-Fight 시각화 */}
-            <div style={{ fontSize: '11px', color: theme.textSub, fontWeight: 'bold', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>FIGHT-BY-FIGHT LOST MOMENTUM (저항 킬 수)</div>
+            <div style={{ fontSize: '11px', color: theme.textSub, fontWeight: 'bold', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>FIGHT-BY-FIGHT LOST MOMENTUM ({t.msResistKills})</div>
             <div style={{ display: 'flex', gap: '4px', overflowX: 'auto', paddingBottom: '8px' }}>
                 {fights.map((f, idx) => {
                     const isT1Win = f.winner === team1Name;
@@ -863,7 +863,7 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
 
         {/* 💡 [신규] 연속 한타 승률 및 모멘텀 (Momentum & Turnovers) */}
         <div style={cardStyle}>
-            <div style={titleStyle}><RefreshCw size={18} color={theme.primary} /> 한타 모멘텀 (연속 승률 및 턴 뒤집기)</div>
+            <div style={titleStyle}><RefreshCw size={18} color={theme.primary} /> {t.msMomentumTitle}</div>
             
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
                 {/* 1팀 */}
@@ -874,9 +874,9 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
                             <div>
                                 <div style={{ fontSize: '13px', fontWeight: 'bold', color: theme.text, display: 'flex', alignItems: 'center', gap: '6px' }}>
                                     <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: theme.success || '#10b981' }}></div>
-                                    자리 먹었을 때 승률 <span style={{ color: theme.textSub, fontWeight: 'normal', fontSize: '11px' }}>(승리 ➔ 승리)</span>
+                                    {t.msWinRateAfterWin} <span style={{ color: theme.textSub, fontWeight: 'normal', fontSize: '11px' }}>{t.msWinToWin}</span>
                                 </div>
-                                <div style={{ fontSize: '11px', color: theme.textSub, marginTop: '4px', marginLeft: '14px' }}>유리함을 굳히는 능력 ({momentumData.t1AfterWinWon}/{momentumData.t1AfterWinTotal}회)</div>
+                                <div style={{ fontSize: '11px', color: theme.textSub, marginTop: '4px', marginLeft: '14px' }}>{t.msSnowball} ({momentumData.t1AfterWinWon}/{momentumData.t1AfterWinTotal}{t.timesUnit})</div>
                             </div>
                             <div style={{ fontSize: '24px', fontWeight: '900', color: theme.text }}>{momentumData.t1AfterWinPct}%</div>
                         </div>
@@ -885,9 +885,9 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
                             <div>
                                 <div style={{ fontSize: '13px', fontWeight: 'bold', color: theme.text, display: 'flex', alignItems: 'center', gap: '6px' }}>
                                     <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: theme.danger || '#ef4444' }}></div>
-                                    자리 못 먹었을 때 승률 <span style={{ color: theme.textSub, fontWeight: 'normal', fontSize: '11px' }}>(패배 ➔ 승리)</span>
+                                    {t.msWinRateAfterLoss} <span style={{ color: theme.textSub, fontWeight: 'normal', fontSize: '11px' }}>{t.msLossToWin}</span>
                                 </div>
-                                <div style={{ fontSize: '11px', color: theme.textSub, marginTop: '4px', marginLeft: '14px' }}>턴을 뒤집는 능력 ({momentumData.t1AfterLossWon}/{momentumData.t1AfterLossTotal}회)</div>
+                                <div style={{ fontSize: '11px', color: theme.textSub, marginTop: '4px', marginLeft: '14px' }}>{t.msComeback} ({momentumData.t1AfterLossWon}/{momentumData.t1AfterLossTotal}{t.timesUnit})</div>
                             </div>
                             <div style={{ fontSize: '24px', fontWeight: '900', color: theme.text }}>{momentumData.t1AfterLossPct}%</div>
                         </div>
@@ -902,9 +902,9 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
                             <div>
                                 <div style={{ fontSize: '13px', fontWeight: 'bold', color: theme.text, display: 'flex', alignItems: 'center', gap: '6px' }}>
                                     <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: theme.success || '#10b981' }}></div>
-                                    자리 먹었을 때 승률 <span style={{ color: theme.textSub, fontWeight: 'normal', fontSize: '11px' }}>(승리 ➔ 승리)</span>
+                                    {t.msWinRateAfterWin} <span style={{ color: theme.textSub, fontWeight: 'normal', fontSize: '11px' }}>{t.msWinToWin}</span>
                                 </div>
-                                <div style={{ fontSize: '11px', color: theme.textSub, marginTop: '4px', marginLeft: '14px' }}>유리함을 굳히는 능력 ({momentumData.t2AfterWinWon}/{momentumData.t2AfterWinTotal}회)</div>
+                                <div style={{ fontSize: '11px', color: theme.textSub, marginTop: '4px', marginLeft: '14px' }}>{t.msSnowball} ({momentumData.t2AfterWinWon}/{momentumData.t2AfterWinTotal}{t.timesUnit})</div>
                             </div>
                             <div style={{ fontSize: '24px', fontWeight: '900', color: theme.text }}>{momentumData.t2AfterWinPct}%</div>
                         </div>
@@ -913,9 +913,9 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
                             <div>
                                 <div style={{ fontSize: '13px', fontWeight: 'bold', color: theme.text, display: 'flex', alignItems: 'center', gap: '6px' }}>
                                     <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: theme.danger || '#ef4444' }}></div>
-                                    자리 못 먹었을 때 승률 <span style={{ color: theme.textSub, fontWeight: 'normal', fontSize: '11px' }}>(패배 ➔ 승리)</span>
+                                    {t.msWinRateAfterLoss} <span style={{ color: theme.textSub, fontWeight: 'normal', fontSize: '11px' }}>{t.msLossToWin}</span>
                                 </div>
-                                <div style={{ fontSize: '11px', color: theme.textSub, marginTop: '4px', marginLeft: '14px' }}>턴을 뒤집는 능력 ({momentumData.t2AfterLossWon}/{momentumData.t2AfterLossTotal}회)</div>
+                                <div style={{ fontSize: '11px', color: theme.textSub, marginTop: '4px', marginLeft: '14px' }}>{t.msComeback} ({momentumData.t2AfterLossWon}/{momentumData.t2AfterLossTotal}{t.timesUnit})</div>
                             </div>
                             <div style={{ fontSize: '24px', fontWeight: '900', color: theme.text }}>{momentumData.t2AfterLossPct}%</div>
                         </div>
@@ -926,19 +926,19 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
 
         {/* 1. 선취점 분석 (First Deaths) + 개인별 순위표 */}
         <div style={cardStyle}>
-            <div style={titleStyle}><Skull size={18} color={theme.danger}/> 선취점 획득 및 개인별 데스 분석 (First Deaths)</div>
-            <ProgressBar label="선취점 획득 횟수 (팀)" leftVal={firstDeathData.firstKillsT1} rightVal={firstDeathData.firstKillsT2} leftColor={COLOR_TEAM1} rightColor={COLOR_TEAM2} />
+            <div style={titleStyle}><Skull size={18} color={theme.danger}/> {t.msFirstDeathAnalysis}</div>
+            <ProgressBar label={t.msFirstKillCountTeam} leftVal={firstDeathData.firstKillsT1} rightVal={firstDeathData.firstKillsT2} leftColor={COLOR_TEAM1} rightColor={COLOR_TEAM2} />
             
             <div style={{ display: 'flex', gap: '24px', marginTop: '24px', flexWrap: 'wrap' }}>
                 {/* 1팀 표 */}
                 <div style={{ flex: 1, minWidth: '300px' }}>
-                    <div style={{ fontSize: '13px', fontWeight: 'bold', color: COLOR_TEAM1, marginBottom: '8px' }}>{team1Name} 퍼스트 데스 순위</div>
+                    <div style={{ fontSize: '13px', fontWeight: 'bold', color: COLOR_TEAM1, marginBottom: '8px' }}>{team1Name} {t.msFirstDeathRank}</div>
                     <div style={{ background: theme.bg, borderRadius: '8px', border: `1px solid ${COLOR_TEAM1}40`, overflow: 'hidden' }}>
                         <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                             <thead style={{ background: theme.surfaceHighlight, borderBottom: `1px solid ${theme.border}` }}>
                                 <tr>
-                                    <th style={{ padding: '8px 12px', fontSize: '11px', color: theme.textSub }}>선수 (Hero)</th>
-                                    <th style={{ padding: '8px 12px', fontSize: '11px', color: theme.textSub, textAlign: 'right', width: '80px' }}>퍼블 데스</th>
+                                    <th style={{ padding: '8px 12px', fontSize: '11px', color: theme.textSub }}>{t.msPlayerHero}</th>
+                                    <th style={{ padding: '8px 12px', fontSize: '11px', color: theme.textSub, textAlign: 'right', width: '80px' }}>{t.msFirstBloodDeaths}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -961,7 +961,7 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
                     </div>
                     {/* 1팀 주요 데스 원인 */}
                     <div style={{ marginTop: '12px', background: theme.bg, borderRadius: '8px', border: `1px solid ${COLOR_TEAM1}40`, padding: '12px' }}>
-                        <div style={{ fontSize: '12px', color: theme.textSub, marginBottom: '8px', fontWeight: 'bold' }}>주요 데스 원인 (누구의 스킬을 맞았는가)</div>
+                        <div style={{ fontSize: '12px', color: theme.textSub, marginBottom: '8px', fontWeight: 'bold' }}>{t.msDeathCause}</div>
                         {firstDeathData.t1Causes.slice(0, 3).map((cause, idx) => {
                             const [kHero, kName, skill] = cause.name.split('|');
                             return (
@@ -972,23 +972,23 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
                                         <span style={{ color: theme.textSub, fontSize: '11px', margin: '0 2px', flexShrink: 0 }}>➔</span>
                                         <span style={{ fontWeight: 'bold', color: theme.text, overflow: 'hidden', textOverflow: 'ellipsis' }}>{skill}</span>
                                     </div>
-                                    <span style={{ fontWeight: 'bold', color: theme.danger, marginLeft: '8px', flexShrink: 0 }}>{cause.count}회</span>
+                                    <span style={{ fontWeight: 'bold', color: theme.danger, marginLeft: '8px', flexShrink: 0 }}>{cause.count}{t.timesUnit}</span>
                                 </div>
                             )
                         })}
-                        {firstDeathData.t1Causes.length === 0 && <div style={{ fontSize:'11px', color:theme.textSub }}>데이터 없음</div>}
+                        {firstDeathData.t1Causes.length === 0 && <div style={{ fontSize:'11px', color:theme.textSub }}>{t.msNoDataShort}</div>}
                     </div>
                 </div>
 
                 {/* 2팀 표 */}
                 <div style={{ flex: 1, minWidth: '300px' }}>
-                    <div style={{ fontSize: '13px', fontWeight: 'bold', color: COLOR_TEAM2, marginBottom: '8px' }}>{team2Name} 퍼스트 데스 순위</div>
+                    <div style={{ fontSize: '13px', fontWeight: 'bold', color: COLOR_TEAM2, marginBottom: '8px' }}>{team2Name} {t.msFirstDeathRank}</div>
                     <div style={{ background: theme.bg, borderRadius: '8px', border: `1px solid ${COLOR_TEAM2}40`, overflow: 'hidden' }}>
                         <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                             <thead style={{ background: theme.surfaceHighlight, borderBottom: `1px solid ${theme.border}` }}>
                                 <tr>
-                                    <th style={{ padding: '8px 12px', fontSize: '11px', color: theme.textSub }}>선수 (Hero)</th>
-                                    <th style={{ padding: '8px 12px', fontSize: '11px', color: theme.textSub, textAlign: 'right', width: '80px' }}>퍼블 데스</th>
+                                    <th style={{ padding: '8px 12px', fontSize: '11px', color: theme.textSub }}>{t.msPlayerHero}</th>
+                                    <th style={{ padding: '8px 12px', fontSize: '11px', color: theme.textSub, textAlign: 'right', width: '80px' }}>{t.msFirstBloodDeaths}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1011,7 +1011,7 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
                     </div>
                     {/* 2팀 주요 데스 원인 */}
                     <div style={{ marginTop: '12px', background: theme.bg, borderRadius: '8px', border: `1px solid ${COLOR_TEAM2}40`, padding: '12px' }}>
-                        <div style={{ fontSize: '12px', color: theme.textSub, marginBottom: '8px', fontWeight: 'bold' }}>주요 데스 원인 (누구의 스킬을 맞았는가)</div>
+                        <div style={{ fontSize: '12px', color: theme.textSub, marginBottom: '8px', fontWeight: 'bold' }}>{t.msDeathCause}</div>
                         {firstDeathData.t2Causes.slice(0, 3).map((cause, idx) => {
                             const [kHero, kName, skill] = cause.name.split('|');
                             return (
@@ -1022,11 +1022,11 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
                                         <span style={{ color: theme.textSub, fontSize: '11px', margin: '0 2px', flexShrink: 0 }}>➔</span>
                                         <span style={{ fontWeight: 'bold', color: theme.text, overflow: 'hidden', textOverflow: 'ellipsis' }}>{skill}</span>
                                     </div>
-                                    <span style={{ fontWeight: 'bold', color: theme.danger, marginLeft: '8px', flexShrink: 0 }}>{cause.count}회</span>
+                                    <span style={{ fontWeight: 'bold', color: theme.danger, marginLeft: '8px', flexShrink: 0 }}>{cause.count}{t.timesUnit}</span>
                                 </div>
                             )
                         })}
-                        {firstDeathData.t2Causes.length === 0 && <div style={{ fontSize:'11px', color:theme.textSub }}>데이터 없음</div>}
+                        {firstDeathData.t2Causes.length === 0 && <div style={{ fontSize:'11px', color:theme.textSub }}>{t.msNoDataShort}</div>}
                     </div>
                 </div>
             </div>
@@ -1034,16 +1034,16 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
 
         {/* 2. 궁극기 종합 (Ultimates) */}
         <div style={cardStyle}>
-            <div style={titleStyle}><Zap size={18} color={NEON_GREEN}/> 궁극기 종합 (Ultimates)</div>
-            <ProgressBar label="총 궁극기 사용 횟수 (Total Ultimates Used)" leftVal={ultSummary.t1Total} rightVal={ultSummary.t2Total} leftColor={COLOR_TEAM1} rightColor={COLOR_TEAM2} />
-            <ProgressBar label="한타 첫 궁극기 사용 (Used Ult First in Fight)" leftVal={ultSummary.t1First} rightVal={ultSummary.t2First} leftColor={COLOR_TEAM1} rightColor={COLOR_TEAM2} />
+            <div style={titleStyle}><Zap size={18} color={NEON_GREEN}/> {t.msUltSummary}</div>
+            <ProgressBar label={t.msTotalUlts} leftVal={ultSummary.t1Total} rightVal={ultSummary.t2Total} leftColor={COLOR_TEAM1} rightColor={COLOR_TEAM2} />
+            <ProgressBar label={t.msFirstUltInFight} leftVal={ultSummary.t1First} rightVal={ultSummary.t2First} leftColor={COLOR_TEAM1} rightColor={COLOR_TEAM2} />
         </div>
 
         {/* 3 & 4. 궁극기 타이밍 & 가성비 */}
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(400px, 1fr))', gap:'24px' }}>
             {/* 3. 타이밍 */}
             <div style={{...cardStyle, marginBottom: 0}}>
-                <div style={titleStyle}><Clock size={18} color={theme.primary}/> 궁극기 사용 타이밍 (Timing)</div>
+                <div style={titleStyle}><Clock size={18} color={theme.primary}/> {t.msUltTiming}</div>
                 <div style={{ display:'flex', flexDirection:'column', gap:'16px' }}>
                     {[t1Name, t2Name].map((name, idx) => {
                         const data = idx === 0 ? timingData.t1 : timingData.t2;
@@ -1052,24 +1052,24 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
                             <div key={idx}>
                                 <div style={{ fontSize:'13px', fontWeight:'bold', marginBottom:'6px', color: idx === 0 ? COLOR_TEAM1 : COLOR_TEAM2 }}>{name}</div>
                                 <div style={{ height:'30px', background: theme.surfaceHighlight, borderRadius:'6px', overflow:'hidden', display:'flex' }}>
-                                    <div style={{ width: `${(data.init/total)*100}%`, background: '#4ade80' }} title="Initiation (진입)"/>
-                                    <div style={{ width: `${(data.mid/total)*100}%`, background: '#fbbf24' }} title="Midfight (중반)"/>
-                                    <div style={{ width: `${(data.late/total)*100}%`, background: '#f87171' }} title="Late (후반)"/>
+                                    <div style={{ width: `${(data.init/total)*100}%`, background: '#4ade80' }} title={t.msPhaseEarly}/>
+                                    <div style={{ width: `${(data.mid/total)*100}%`, background: '#fbbf24' }} title={t.msPhaseMid}/>
+                                    <div style={{ width: `${(data.late/total)*100}%`, background: '#f87171' }} title={t.msPhaseLate}/>
                                 </div>
                             </div>
                         );
                     })}
                     <div style={{ display:'flex', gap:'12px', fontSize:'11px', color: theme.textSub, marginTop:'8px' }}>
-                        <span style={{display:'flex', alignItems:'center', gap:'4px'}}><div style={{width:8, height:8, background:'#4ade80'}}/> 초반(진입)</span>
-                        <span style={{display:'flex', alignItems:'center', gap:'4px'}}><div style={{width:8, height:8, background:'#fbbf24'}}/> 중반</span>
-                        <span style={{display:'flex', alignItems:'center', gap:'4px'}}><div style={{width:8, height:8, background:'#f87171'}}/> 후반</span>
+                        <span style={{display:'flex', alignItems:'center', gap:'4px'}}><div style={{width:8, height:8, background:'#4ade80'}}/> {t.msPhaseEarly}</span>
+                        <span style={{display:'flex', alignItems:'center', gap:'4px'}}><div style={{width:8, height:8, background:'#fbbf24'}}/> {t.msPhaseMid}</span>
+                        <span style={{display:'flex', alignItems:'center', gap:'4px'}}><div style={{width:8, height:8, background:'#f87171'}}/> {t.msPhaseLate}</span>
                     </div>
                 </div>
             </div>
 
             {/* 4. 가성비 및 교환비 */}
             <div style={{...cardStyle, marginBottom: 0}}>
-                <div style={titleStyle}><Target size={18} color={theme.success}/> 궁극기 교환비 및 과투자 (Ult Exchange)</div>
+                <div style={titleStyle}><Target size={18} color={theme.success}/> {t.msUltExchange}</div>
                 <div style={{ display:'flex', flexDirection:'column', gap:'16px' }}>
                     
                     {/* 상단 텍스트 요약 */}
@@ -1080,10 +1080,10 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
                             const avgLost = data.lostFights > 0 ? (data.lostUlts / data.lostFights).toFixed(1) : "0.0";
                             return (
                                 <div key={idx} style={{ padding:'12px', background: theme.bg, borderRadius:'8px', border:`1px solid ${idx === 0 ? COLOR_TEAM1 : COLOR_TEAM2}40` }}>
-                                    <div style={{ fontWeight:'bold', color: idx === 0 ? COLOR_TEAM1 : COLOR_TEAM2, marginBottom:'12px', fontSize: '13px' }}>{name} 평균 소모</div>
+                                    <div style={{ fontWeight:'bold', color: idx === 0 ? COLOR_TEAM1 : COLOR_TEAM2, marginBottom:'12px', fontSize: '13px' }}>{name} {t.msAvgConsumed}</div>
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                        <div style={{ fontSize:'11px', color: theme.textSub, display: 'flex', justifyContent: 'space-between' }}><span>승리한 한타:</span> <strong style={{color: theme.success, fontSize:'13px'}}>{avgWon}개</strong></div>
-                                        <div style={{ fontSize:'11px', color: theme.textSub, display: 'flex', justifyContent: 'space-between' }}><span>패배한 한타:</span> <strong style={{color: theme.danger, fontSize:'13px'}}>{avgLost}개</strong></div>
+                                        <div style={{ fontSize:'11px', color: theme.textSub, display: 'flex', justifyContent: 'space-between' }}><span>{t.msWonFight}</span> <strong style={{color: theme.success, fontSize:'13px'}}>{avgWon}{t.msCountUnit}</strong></div>
+                                        <div style={{ fontSize:'11px', color: theme.textSub, display: 'flex', justifyContent: 'space-between' }}><span>{t.msLostFightLabel}</span> <strong style={{color: theme.danger, fontSize:'13px'}}>{avgLost}{t.msCountUnit}</strong></div>
                                     </div>
                                 </div>
                             );
@@ -1177,8 +1177,8 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
                 <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                     <ScatterChart margin={{ top: 20, right: 20, bottom: 50, left: 20 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke={theme.border} />
-                        <XAxis type="number" dataKey="x" name="딜량" stroke={theme.textSub} fontSize={12} label={{ value: t.heroDmgDealt, position: 'insideBottom', offset: -30, fill: theme.textSub }} />
-                        <YAxis type="number" dataKey="y" name="결정타" stroke={theme.textSub} fontSize={12} label={{ value: t.finalBlows, angle: -90, position: 'insideLeft', fill: theme.textSub }} />
+                        <XAxis type="number" dataKey="x" name={t.heroDmg} stroke={theme.textSub} fontSize={12} label={{ value: t.heroDmgDealt, position: 'insideBottom', offset: -30, fill: theme.textSub }} />
+                        <YAxis type="number" dataKey="y" name={t.finalBlows} stroke={theme.textSub} fontSize={12} label={{ value: t.finalBlows, angle: -90, position: 'insideLeft', fill: theme.textSub }} />
                         <ZAxis type="number" dataKey="z" range={[60, 60]} />
                         <Tooltip content={<ScatterTooltip />} cursor={{ strokeDasharray: '3 3' }} />
                         <Scatter name="Players" data={scatterData}>
@@ -1350,7 +1350,7 @@ const EventsView = ({ matchData, t1Name, t2Name }) => {
     {!videoExists && (
       <div style={{ display:'flex', alignItems:'center', gap:'8px', padding:'12px 16px', marginBottom:'16px', background: theme.surface, border:`1px solid ${theme.border}`, borderRadius:'10px', color: theme.textSub, fontSize:'14px' }}>
         <span>📹</span>
-        <span>해당 경기는 영상 기록이 없습니다</span>
+        <span>{t.msNoVideo}</span>
       </div>
     )}
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '24px', width: '100%' }}>
@@ -1662,11 +1662,11 @@ const MatchStats = ({ matchId, onBack, matchData: initialMatchData }) => {
       </div>
 
       <div style={{ borderBottom: `1px solid ${theme.border}`, display: 'flex', gap: '16px', overflowX: 'auto', marginBottom: '32px' }}>
-        <button onClick={() => setActiveMainTab('stats')} style={btnStyle(activeMainTab === 'stats')}><List size={18}/> 스텟표</button>
-        <button onClick={() => setActiveMainTab('kill')} style={btnStyle(activeMainTab === 'kill')}><Skull size={18}/> 킬 로그</button>
-        <button onClick={() => setActiveMainTab('chart')} style={btnStyle(activeMainTab === 'chart')}><BarChart2 size={18}/> 상세 분석 차트</button>
-        <button onClick={() => setActiveMainTab('event')} style={btnStyle(activeMainTab === 'event')}><Activity size={18}/> 타임라인</button>
-        <button onClick={() => setActiveMainTab('compare')} style={btnStyle(activeMainTab === 'compare')}><User size={18}/> 선수 비교</button>
+        <button onClick={() => setActiveMainTab('stats')} style={btnStyle(activeMainTab === 'stats')}><List size={18}/> {t.msTabStats}</button>
+        <button onClick={() => setActiveMainTab('kill')} style={btnStyle(activeMainTab === 'kill')}><Skull size={18}/> {t.msTabKill}</button>
+        <button onClick={() => setActiveMainTab('chart')} style={btnStyle(activeMainTab === 'chart')}><BarChart2 size={18}/> {t.msTabChart}</button>
+        <button onClick={() => setActiveMainTab('event')} style={btnStyle(activeMainTab === 'event')}><Activity size={18}/> {t.msTabTimeline}</button>
+        <button onClick={() => setActiveMainTab('compare')} style={btnStyle(activeMainTab === 'compare')}><User size={18}/> {t.msTabCompare}</button>
       </div>
 
       <div style={{ animation: 'fadeIn 0.3s ease-in-out' }}>

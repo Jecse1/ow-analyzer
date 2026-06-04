@@ -211,7 +211,7 @@ function MainApp() {
           });
         }
       }
-      alert(t.success || "저장 완료!");
+      alert(t.success);
       goSessions(); 
     } catch (err) {
       let errMsg = err.message;
@@ -238,12 +238,12 @@ function MainApp() {
           <button onClick={goHome} style={navButtonStyle(currentView === "home")}> <LayoutDashboard size={16} /> {t.dashboard} </button>
           <button onClick={goSessions} style={navButtonStyle(["sessions", "scrim", "match"].includes(currentView))}> <History size={16} /> {t.sessions} </button>
           <button onClick={goOverall} style={navButtonStyle(currentView === "overall")}> <BarChart3 size={16} /> {t.overall} </button>
-          <button onClick={goUltimates} style={navButtonStyle(currentView === "ultimates")}> <Zap size={16} /> 궁극기 통계 </button>
-          
-          <button onClick={goFirstKill} style={navButtonStyle(currentView === "firstkill")}> <Crosshair size={16} /> 퍼킬 통계 </button>
-          <button onClick={goFirstDeath} style={navButtonStyle(currentView === "firstdeath")}> <Skull size={16} /> 퍼뎃 통계 </button>
-          
-          <button onClick={goPersonal} style={navButtonStyle(currentView === "personal")}> <User size={16} /> 개인 통계 </button>
+          <button onClick={goUltimates} style={navButtonStyle(currentView === "ultimates")}> <Zap size={16} /> {t.navUltimateStats} </button>
+
+          <button onClick={goFirstKill} style={navButtonStyle(currentView === "firstkill")}> <Crosshair size={16} /> {t.navFirstKill} </button>
+          <button onClick={goFirstDeath} style={navButtonStyle(currentView === "firstdeath")}> <Skull size={16} /> {t.navFirstDeath} </button>
+
+          <button onClick={goPersonal} style={navButtonStyle(currentView === "personal")}> <User size={16} /> {t.navPersonal} </button>
           <button style={{ ...navButtonStyle(false), cursor: "not-allowed", opacity: 0.5 }}> <Users size={16} /> {t.teamManage} </button>
         </nav>
       </div>

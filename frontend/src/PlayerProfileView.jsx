@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { Users, Search, Activity, Crosshair, Zap, Sword, PlusCircle } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useTheme } from "./ThemeContext";
+import { useLanguage } from "./LanguageContext";
 
 const HERO_ALIAS_MAP = {
     '솔저: 76': '솔저76', '솔저 : 76': '솔저76', 'D.Va': '디바', 'Widowmaker': '위도우메이커', 'Tracer': '트레이서', 'Sojourn': '소전', 'Sierra': '시에라'
@@ -32,6 +33,8 @@ const getRoleIconSrc = (roleLabel) => {
 
 export default function PlayerProfileView({ playersData }) {
     const { theme } = useTheme();
+    const { t } = useLanguage();
+    const roleLabelDisplay = (role) => (role === '탱크' || role === '탱커') ? t.tank : role === '딜러' ? t.dps : (role === '지원' || role === '힐러') ? t.support : role;
 
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedTeam, setSelectedTeam] = useState("All");
@@ -69,7 +72,7 @@ export default function PlayerProfileView({ playersData }) {
     }, [playersData]);
 
     if (!playersData || playersData.length === 0) {
-        return <div style={{ padding: '60px', textAlign: 'center', color: theme.textSub }}>집계된 선수 데이터가 없습니다.</div>;
+        return <div style={{ padding: '60px', textAlign: 'center', color: theme.textSub }}>{t.ppNoPlayers}</div>;
     }
 
     return (
@@ -78,13 +81,13 @@ export default function PlayerProfileView({ playersData }) {
             {/* ⬅️ 왼쪽 사이드바 (선수단 목록) */}
             <div style={{ width: '280px', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <h2 style={{ fontSize: '18px', fontWeight: '900', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Users size={20} /> 선수단 목록
+                    <Users size={20} /> {t.ppRosterTitle}
                 </h2>
 
                 <div style={{ position: 'relative' }}>
-                    <input 
-                        type="text" 
-                        placeholder="선수 검색..." 
+                    <input
+                        type="text"
+                        placeholder={t.ppSearchPlaceholder}
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         style={{ width: '100%', padding: '10px 10px 10px 36px', borderRadius: '8px', border: `1px solid ${theme.border}`, background: theme.surface, color: theme.text, boxSizing: 'border-box', outline: 'none' }}
@@ -97,8 +100,8 @@ export default function PlayerProfileView({ playersData }) {
                     onChange={(e) => setSelectedTeam(e.target.value)}
                     style={{ width: '100%', padding: '10px', borderRadius: '8px', border: `1px solid ${theme.border}`, background: theme.surface, color: theme.text, outline: 'none', cursor: 'pointer' }}
                 >
-                    <option value="All">전체 팀 (All Teams)</option>
-                    {teamList.filter(t => t !== "All").map(t => <option key={t} value={t}>{t}</option>)}
+                    <option value="All">{t.allTeams}</option>
+                    {teamList.filter(tm => tm !== "All").map(tm => <option key={tm} value={tm}>{tm}</option>)}
                 </select>
 
                 <div style={{ display: 'flex', gap: '4px', background: theme.surface, padding: '4px', borderRadius: '8px', border: `1px solid ${theme.border}` }}>
@@ -106,7 +109,7 @@ export default function PlayerProfileView({ playersData }) {
                         <button key={role} onClick={() => setSelectedRole(role)}
                             style={{ flex: 1, padding: '8px 0', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold', fontSize: '12px', background: selectedRole === role ? '#3b82f6' : 'transparent', color: selectedRole === role ? '#fff' : theme.textSub, transition: 'all 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
                             {role !== 'All' && <img src={getRoleIconSrc(role)} alt={role} style={{ width: 14, height: 14, filter: 'invert(1)', opacity: selectedRole === role ? 1 : 0.6 }} />}
-                            {role === 'All' ? '전체' : role}
+                            {role === 'All' ? t.all : roleLabelDisplay(role)}
                         </button>
                     ))}
                 </div>
@@ -122,7 +125,7 @@ export default function PlayerProfileView({ playersData }) {
                                 </div>
                                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                                     <span style={{ fontWeight: '900', fontSize: '15px', color: isActive ? '#3b82f6' : theme.text }}>{p.name}</span>
-                                    <span style={{ fontSize: '11px', color: theme.textSub }}>{p.team} · {p.role}</span>
+                                    <span style={{ fontSize: '11px', color: theme.textSub }}>{p.team} · {roleLabelDisplay(p.role)}</span>
                                 </div>
                             </div>
                         );
@@ -136,11 +139,11 @@ export default function PlayerProfileView({ playersData }) {
                     
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', paddingBottom: '16px', borderBottom: `1px solid ${theme.border}` }}>
                         <div>
-                            <div style={{ fontSize: '13px', color: theme.textSub, fontWeight: 'bold', marginBottom: '4px' }}>{activePlayer.team} · {activePlayer.role}</div>
+                            <div style={{ fontSize: '13px', color: theme.textSub, fontWeight: 'bold', marginBottom: '4px' }}>{activePlayer.team} · {roleLabelDisplay(activePlayer.role)}</div>
                             <h1 style={{ fontSize: '36px', fontWeight: '900', margin: 0 }}>{activePlayer.name}</h1>
                         </div>
                         <div style={{ textAlign: 'right' }}>
-                            <div style={{ fontSize: '13px', color: theme.textSub, fontWeight: 'bold', marginBottom: '4px' }}>평균 승률</div>
+                            <div style={{ fontSize: '13px', color: theme.textSub, fontWeight: 'bold', marginBottom: '4px' }}>{t.avgWinRate}</div>
                             <div style={{ fontSize: '32px', fontWeight: '900', color: activePlayer.overview.winRate >= 50 ? theme.success : theme.danger }}>
                                 {activePlayer.overview.winRate}%
                             </div>
@@ -149,26 +152,26 @@ export default function PlayerProfileView({ playersData }) {
 
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
                         <div style={{ background: theme.surface, padding: '20px', borderRadius: '12px', border: `1px solid ${theme.border}` }}>
-                            <div style={{ fontSize: '12px', color: theme.textSub, display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}><Crosshair size={14}/> 종합 K/D</div>
+                            <div style={{ fontSize: '12px', color: theme.textSub, display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}><Crosshair size={14}/> {t.ppOverallKd}</div>
                             <div style={{ fontSize: '24px', fontWeight: '900' }}>{activePlayer.overview.kd.toFixed(2)}</div>
                         </div>
                         <div style={{ background: theme.surface, padding: '20px', borderRadius: '12px', border: `1px solid ${theme.border}` }}>
-                            <div style={{ fontSize: '12px', color: theme.textSub, display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}><Sword size={14}/> 10분당 딜량</div>
+                            <div style={{ fontSize: '12px', color: theme.textSub, display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}><Sword size={14}/> {t.ppDmgPer10}</div>
                             <div style={{ fontSize: '24px', fontWeight: '900' }}>{activePlayer.overview.damagePer10.toLocaleString()}</div>
                         </div>
                         <div style={{ background: theme.surface, padding: '20px', borderRadius: '12px', border: `1px solid ${theme.border}` }}>
-                            <div style={{ fontSize: '12px', color: theme.textSub, display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}><PlusCircle size={14}/> 10분당 힐량</div>
+                            <div style={{ fontSize: '12px', color: theme.textSub, display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}><PlusCircle size={14}/> {t.ppHealPer10}</div>
                             <div style={{ fontSize: '24px', fontWeight: '900' }}>{activePlayer.overview.healPer10.toLocaleString()}</div>
                         </div>
                         <div style={{ background: theme.surface, padding: '20px', borderRadius: '12px', border: `1px solid ${theme.border}` }}>
-                            <div style={{ fontSize: '12px', color: theme.textSub, display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}><Zap size={14}/> 경기당 궁극기</div>
+                            <div style={{ fontSize: '12px', color: theme.textSub, display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}><Zap size={14}/> {t.ppUltPerMatch}</div>
                             <div style={{ fontSize: '24px', fontWeight: '900' }}>{activePlayer.overview.ultUsedPerMatch}</div>
                         </div>
                     </div>
 
                     <div style={{ background: theme.surface, padding: '24px', borderRadius: '16px', border: `1px solid ${theme.border}` }}>
                         <h3 style={{ fontSize: '16px', fontWeight: '900', margin: '0 0 20px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <Activity size={18}/> 모스트 영웅 풀
+                            <Activity size={18}/> {t.ppHeroPool}
                         </h3>
                         <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
                             {activePlayer.heroPool.map((h, i) => (
@@ -177,19 +180,19 @@ export default function PlayerProfileView({ playersData }) {
                                     <div>
                                         <div style={{ fontWeight: 'bold', fontSize: '14px', marginBottom: '4px' }}>{h.hero}</div>
                                         <div style={{ display: 'flex', gap: '12px', fontSize: '11px', color: theme.textSub }}>
-                                            <span>승률 <strong style={{ color: h.winRate >= 50 ? theme.success : theme.danger }}>{h.winRate}%</strong></span>
+                                            <span>{t.winRate} <strong style={{ color: h.winRate >= 50 ? theme.success : theme.danger }}>{h.winRate}%</strong></span>
                                             <span>K/D <strong>{h.kd}</strong></span>
                                         </div>
                                     </div>
                                 </div>
                             ))}
-                            {activePlayer.heroPool.length === 0 && <div style={{ fontSize: '13px', color: theme.textSub }}>영웅 플레이 기록이 없습니다.</div>}
+                            {activePlayer.heroPool.length === 0 && <div style={{ fontSize: '13px', color: theme.textSub }}>{t.ppNoHeroes}</div>}
                         </div>
                     </div>
 
                     <div style={{ background: theme.surface, padding: '24px', borderRadius: '16px', border: `1px solid ${theme.border}` }}>
                         <h3 style={{ fontSize: '16px', fontWeight: '900', margin: '0 0 20px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <Activity size={18}/> 최근 K/D 폼 (Form)
+                            <Activity size={18}/> {t.ppRecentForm}
                         </h3>
                         <div style={{ width: '100%', height: 250 }}>
                             <ResponsiveContainer width="100%" height="100%" minWidth={0}>
@@ -207,7 +210,7 @@ export default function PlayerProfileView({ playersData }) {
                 </div>
             ) : (
                 <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: theme.textSub, background: theme.surface, borderRadius: '16px', border: `1px dashed ${theme.border}` }}>
-                    왼쪽 목록에서 선수를 선택해주세요.
+                    {t.ppSelectPrompt}
                 </div>
             )}
         </div>

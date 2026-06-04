@@ -448,14 +448,14 @@ export default function OverallStats({ onBack, onGoSessions }) {
                     }
 
                     const deathDesc = ev.event_type === 'death'
-                        ? `${ev.player_name} 사망`
+                        ? `${ev.player_name} ${t.osEliminated}`
                         : ev.event_type === 'kill' && eventTag && eventTag.value === 'death'
-                            ? `${ev.player_name} 킬 ➜ ${ev.target_name} (${ev.target_name} 사망)`
+                            ? `${ev.player_name} ${t.osKill} ➜ ${ev.target_name} (${ev.target_name} ${t.osEliminated})`
                             : null;
                     moments.push({
                         id: m.id + ev.timestamp + ev.player_name,
                         matchName: m.map_name,
-                        desc: ev.desc || deathDesc || (ev.event_type === 'kill' ? `${ev.player_name} 킬 ➜ ${ev.target_name}` : `${ev.player_name} 궁극기`),
+                        desc: ev.desc || deathDesc || (ev.event_type === 'kill' ? `${ev.player_name} ${t.osKill} ➜ ${ev.target_name}` : `${ev.player_name} ${t.ults}`),
                         hero: ev.player_hero || ev.hero,
                         timestamp: ev.timestamp,
                         videoUrl: m.video_url, videoOffset: m.video_offset, gameSetupSec: m.game_setup_sec, pauses: m.pauses,
@@ -518,7 +518,7 @@ export default function OverallStats({ onBack, onGoSessions }) {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems:'center', marginBottom:'24px' }}>
         <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
           <button onClick={onBack} style={{ background: theme.surface, border: `1px solid ${theme.border}`, color: theme.text, borderRadius: 10, padding: "10px 12px", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 8 }}><ChevronLeft size={16} /> {t.back}</button>
-          <h1 style={{ fontSize: 24, fontWeight: 900, margin:0 }}>{t.overall} & 분석</h1>
+          <h1 style={{ fontSize: 24, fontWeight: 900, margin:0 }}>{t.overall} & {t.osAnalysis}</h1>
         </div>
         <div style={{ display: "flex", gap: 10 }}>
           <button onClick={onGoSessions} style={{ background: theme.surfaceHighlight, border: `1px solid ${theme.borderHighlight}`, color: theme.text, padding: "10px 14px", borderRadius: 10, cursor: "pointer", fontWeight: 700 }}>{t.sessions}</button>
@@ -543,7 +543,7 @@ export default function OverallStats({ onBack, onGoSessions }) {
           <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} style={{ background: theme.bg, color: theme.text, border: `1px solid ${theme.border}`, padding: '8px 12px', borderRadius: '8px', colorScheme: theme.mode === 'dark' ? 'dark' : 'light' }} />
           <span style={{ color: theme.textSub }}>~</span>
           <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} style={{ background: theme.bg, color: theme.text, border: `1px solid ${theme.border}`, padding: '8px 12px', borderRadius: '8px', colorScheme: theme.mode === 'dark' ? 'dark' : 'light' }} />
-          {(startDate || endDate) && <button onClick={() => { setStartDate(""); setEndDate(""); }} style={{ background: 'transparent', border: 'none', color: theme.danger, cursor: 'pointer', fontWeight: 'bold', marginLeft: 'auto' }}>초기화</button>}
+          {(startDate || endDate) && <button onClick={() => { setStartDate(""); setEndDate(""); }} style={{ background: 'transparent', border: 'none', color: theme.danger, cursor: 'pointer', fontWeight: 'bold', marginLeft: 'auto' }}>{t.reset}</button>}
       </div>
 
       <div style={{ background: theme.surface, padding: '20px', borderRadius: '16px', border: `1px solid ${theme.border}`, marginBottom: '24px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)' }}>
@@ -578,7 +578,7 @@ export default function OverallStats({ onBack, onGoSessions }) {
                 <TabButton id="dashboard" label={t.tabHighlights} icon={Youtube} />
                 <TabButton id="heroes" label={t.tabHeroes} icon={User} />
                 <TabButton id="maps" label={t.tabMaps} icon={MapIcon} />
-                <TabButton id="fights" label="한타 통계" icon={Sword} />
+                <TabButton id="fights" label={t.osTabFights} icon={Sword} />
             </div>
 
             {activeTab === 'dashboard' && (
@@ -595,10 +595,10 @@ export default function OverallStats({ onBack, onGoSessions }) {
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                                             <div style={{ fontSize: '11px', color: theme.text, fontWeight: 600, fontFamily:'monospace' }}>{Math.floor(moment.timestamp/60)}:{Math.floor(moment.timestamp%60).toString().padStart(2,'0')}</div>
                                             {moment.result === 'win' && (
-                                                <span style={{ fontSize: '10px', background: '#60a5fa', color: '#fff', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold', lineHeight: '1.4' }}>승</span>
+                                                <span style={{ fontSize: '10px', background: '#60a5fa', color: '#fff', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold', lineHeight: '1.4' }}>{t.osWinBadge}</span>
                                             )}
                                             {moment.result === 'loss' && (
-                                                <span style={{ fontSize: '10px', background: theme.danger, color: '#fff', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold', lineHeight: '1.4' }}>패</span>
+                                                <span style={{ fontSize: '10px', background: theme.danger, color: '#fff', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold', lineHeight: '1.4' }}>{t.osLossBadge}</span>
                                             )}
                                         </div>
                                     </div>
@@ -700,13 +700,13 @@ export default function OverallStats({ onBack, onGoSessions }) {
                 const fs = overallFightStats;
                 const cardStyle = { background: theme.surface, border: `1px solid ${theme.border}`, borderRadius: '16px', padding: '24px', marginBottom: '24px' };
                 const titleStyle = { color: theme.text, fontSize: '16px', fontWeight: 'bold', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px' };
-                const teamLabel = baseTeam === 'All' ? '전체 평균' : baseTeam;
+                const teamLabel = baseTeam === 'All' ? t.osAllAvg : baseTeam;
                 const accentColor = baseTeam === 'All' ? (theme.primary || '#a78bfa') : COLOR_TEAM1;
 
                 if (!fs) {
                     return (
                         <div style={{ background: theme.surface, borderRadius: '16px', border: `1px solid ${theme.border}`, padding: '60px', textAlign: 'center', color: theme.textSub }}>
-                            {baseTeam !== 'All' ? `${baseTeam}의 경기 데이터가 없습니다` : '분석할 한타 데이터가 없습니다'}
+                            {baseTeam !== 'All' ? `${t.osNoMatchDataPre}${baseTeam}${t.osNoMatchDataPost}` : t.osNoFightData}
                         </div>
                     );
                 }
@@ -737,36 +737,36 @@ export default function OverallStats({ onBack, onGoSessions }) {
                                 <div style={cardStyle}>
                                     <div style={titleStyle}>
                                         <AlertOctagon size={18} color={theme.warning || '#f59e0b'} />
-                                        패배 한타 저항력 (Kill Exchange in Lost Fights)
+                                        {t.msLostFightTitle}
                                     </div>
                                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr 1.2fr', gap: '0' }}>
                                         {/* 좌: % 요약 */}
                                         <div style={{ paddingRight: '24px', borderRight: `1px solid ${theme.border}` }}>
                                             <div style={{ fontSize: '13px', color: accentColor, fontWeight: 'bold', marginBottom: '10px' }}>
-                                                {teamLabel} — 패배 시 평균 적 처치율
+                                                {teamLabel} — {t.msAvgKillRateOnLoss}
                                             </div>
                                             <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '10px' }}>
                                                 <span style={{ fontSize: '36px', fontWeight: '900', color: theme.text }}>{fs.resistancePct}%</span>
                                             </div>
                                             <div style={{ fontSize: '12px', color: theme.textSub, lineHeight: '1.6' }}>
-                                                평균 {fs.avgKills}명 처치<br/>총 {fs.lostFights}회 패배 한타
+                                                {t.msAvgWord}{fs.avgKills}{t.msKillsUnit}<br/>{fs.lostFights}{t.osLostFightsSuffix}
                                             </div>
                                             <div style={{ marginTop: '12px', fontSize: '11px', color: theme.textSub, lineHeight: '1.6' }}>
-                                                패배한 한타에서 상대를 {fs.avgKills}명 처치 → {fs.resistancePct}% 처치율. 값이 높을수록 지면서도 교환을 잘 함.
+                                                {t.osResistDescPre}{fs.avgKills}{t.osResistDescMid}{fs.resistancePct}{t.osResistDescPost}
                                             </div>
                                         </div>
 
                                         {/* 중: 퍼스트 데스 TOP 3 */}
                                         <div style={{ padding: '0 24px', borderRight: `1px solid ${theme.border}` }}>
                                             <div style={{ fontSize: '13px', fontWeight: 'bold', color: theme.danger, marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                                <Skull size={14} color={theme.danger} /> 퍼스트 데스 TOP 3
+                                                <Skull size={14} color={theme.danger} /> {t.osFirstDeathTop3}
                                             </div>
                                             {fs.firstDeathRanking.length === 0
-                                                ? <div style={{ fontSize: '13px', color: theme.textSub }}>데이터 없음</div>
+                                                ? <div style={{ fontSize: '13px', color: theme.textSub }}>{t.msNoDataShort}</div>
                                                 : fs.firstDeathRanking.slice(0, 3).map((p, i) => (
                                                     <RankRow key={i} idx={i} hero={p.hero} name={p.name} teamName={p.teamName}
-                                                        mainVal={p.count} mainSuffix="회"
-                                                        subVal="퍼스트 데스"
+                                                        mainVal={p.count} mainSuffix={t.timesUnit}
+                                                        subVal={t.osFirstDeathLabel}
                                                         barPct={(p.count / maxFD) * 100} barColor={theme.danger} />
                                                 ))
                                             }
@@ -775,18 +775,18 @@ export default function OverallStats({ onBack, onGoSessions }) {
                                         {/* 우: 패배 한타 캐리 TOP 3 */}
                                         <div style={{ paddingLeft: '24px' }}>
                                             <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#60a5fa', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                                <Zap size={14} color="#60a5fa" /> 패배 한타 캐리 TOP 3
+                                                <Zap size={14} color="#60a5fa" /> {t.osLostFightCarryTop3}
                                             </div>
                                             {fs.carryRanking.length === 0
-                                                ? <div style={{ fontSize: '13px', color: theme.textSub }}>최소 10회 이상 참여 선수 없음</div>
+                                                ? <div style={{ fontSize: '13px', color: theme.textSub }}>{t.osNoMin10}</div>
                                                 : fs.carryRanking.slice(0, 3).map((p, i) => (
                                                     <RankRow key={i} idx={i} hero={p.topHero} name={p.name} teamName={p.teamName}
-                                                        mainVal={p.avgKills.toFixed(1)} mainSuffix="킬/한타"
-                                                        subVal={`(총 ${p.kills}킬 / ${p.lostFightCount}회)`}
+                                                        mainVal={p.avgKills.toFixed(1)} mainSuffix={t.osKillsPerFight}
+                                                        subVal={`(${t.osTotalWord}${p.kills}${t.osKillUnit} / ${p.lostFightCount}${t.timesUnit})`}
                                                         barPct={(p.avgKills / maxCarry) * 100} barColor="#60a5fa" />
                                                 ))
                                             }
-                                            <div style={{ fontSize: '10px', color: theme.textSub, marginTop: '8px' }}>* 최소 10회 이상 패배 한타 참여 기준</div>
+                                            <div style={{ fontSize: '10px', color: theme.textSub, marginTop: '8px' }}>{t.osMin10Note}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -797,22 +797,22 @@ export default function OverallStats({ onBack, onGoSessions }) {
                         <div style={cardStyle}>
                             <div style={titleStyle}>
                                 <Sword size={18} color={theme.primary || '#a78bfa'} />
-                                한타 모멘텀 (연속 승률 및 턴 뒤집기)
+                                {t.msMomentumTitle}
                             </div>
                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
                                 {/* 승리 후 승률 */}
                                 <div style={{ background: theme.bg, padding: '20px', borderRadius: '12px', border: `1px solid ${theme.success || '#10b981'}40` }}>
                                     <div style={{ fontSize: '13px', fontWeight: 'bold', color: theme.text, display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
                                         <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: theme.success || '#10b981', flexShrink: 0 }} />
-                                        자리 먹었을 때 승률
-                                        <span style={{ color: theme.textSub, fontWeight: 'normal', fontSize: '11px' }}>(승리 ➔ 승리)</span>
+                                        {t.msWinRateAfterWin}
+                                        <span style={{ color: theme.textSub, fontWeight: 'normal', fontSize: '11px' }}>{t.msWinToWin}</span>
                                     </div>
                                     <div style={{ fontSize: '11px', color: theme.textSub, marginBottom: '16px', paddingLeft: '14px' }}>
-                                        유리함을 굳히는 능력
+                                        {t.msSnowball}
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px' }}>
                                         <span style={{ fontSize: '36px', fontWeight: '900', color: theme.text }}>{fs.afterWinPct}%</span>
-                                        <span style={{ fontSize: '12px', color: theme.textSub }}>({fs.afterWinWon}/{fs.afterWinTotal}회)</span>
+                                        <span style={{ fontSize: '12px', color: theme.textSub }}>({fs.afterWinWon}/{fs.afterWinTotal}{t.timesUnit})</span>
                                     </div>
                                 </div>
 
@@ -820,20 +820,20 @@ export default function OverallStats({ onBack, onGoSessions }) {
                                 <div style={{ background: theme.bg, padding: '20px', borderRadius: '12px', border: `1px solid ${theme.danger || '#ef4444'}40` }}>
                                     <div style={{ fontSize: '13px', fontWeight: 'bold', color: theme.text, display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
                                         <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: theme.danger || '#ef4444', flexShrink: 0 }} />
-                                        자리 못 먹었을 때 승률
-                                        <span style={{ color: theme.textSub, fontWeight: 'normal', fontSize: '11px' }}>(패배 ➔ 승리)</span>
+                                        {t.msWinRateAfterLoss}
+                                        <span style={{ color: theme.textSub, fontWeight: 'normal', fontSize: '11px' }}>{t.msLossToWin}</span>
                                     </div>
                                     <div style={{ fontSize: '11px', color: theme.textSub, marginBottom: '16px', paddingLeft: '14px' }}>
-                                        턴을 뒤집는 능력
+                                        {t.msComeback}
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px' }}>
                                         <span style={{ fontSize: '36px', fontWeight: '900', color: theme.text }}>{fs.afterLossPct}%</span>
-                                        <span style={{ fontSize: '12px', color: theme.textSub }}>({fs.afterLossWon}/{fs.afterLossTotal}회)</span>
+                                        <span style={{ fontSize: '12px', color: theme.textSub }}>({fs.afterLossWon}/{fs.afterLossTotal}{t.timesUnit})</span>
                                     </div>
                                 </div>
                             </div>
                             <div style={{ marginTop: '12px', fontSize: '12px', color: theme.textSub }}>
-                                * 매치 경계를 넘지 않음 · Draw 한타 제외 · 대상 매치: {fs.matchCount}경기
+                                {t.osMomentumNotePre}{fs.matchCount}{t.osMomentumNotePost}
                             </div>
                         </div>
 

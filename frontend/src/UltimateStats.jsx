@@ -122,7 +122,7 @@ export default function UltimateStats({ allScrims }) {
         });
 
         const countStats = Object.keys(countMap).map(count => ({
-            name: count === '5' ? '5개 이상' : `${count}개`,
+            name: count === '5' ? t.ultFivePlus : `${count}${t.msCountUnit}`,
             uses: countMap[count].total,
             winRate: countMap[count].total > 0 ? Math.round((countMap[count].wins / countMap[count].total) * 100) : 0
         }));
@@ -150,7 +150,7 @@ export default function UltimateStats({ allScrims }) {
                 }}>
                     <p style={{ margin: '0 0 8px 0', fontWeight: 'bold', fontSize: '15px' }}>{label}</p>
                     <p style={{ margin: '0 0 4px 0', fontSize: '13px', color: '#cccccc' }}>
-                        {t.fightCount} : {data.uses}회
+                        {t.fightCount} : {data.uses}{t.timesUnit}
                     </p>
                     <p style={{ margin: 0, fontSize: '14px', color: NEON_GREEN, fontWeight: 'bold' }}>
                         {t.winRate} : {data.winRate}%
@@ -186,7 +186,7 @@ export default function UltimateStats({ allScrims }) {
                 <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} style={{ background: theme.bg, color: theme.text, border: `1px solid ${theme.border}`, padding: '8px 12px', borderRadius: '8px', colorScheme: theme.mode === 'dark' ? 'dark' : 'light' }} />
                 <span style={{ color: theme.textSub }}>~</span>
                 <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} style={{ background: theme.bg, color: theme.text, border: `1px solid ${theme.border}`, padding: '8px 12px', borderRadius: '8px', colorScheme: theme.mode === 'dark' ? 'dark' : 'light' }} />
-                {(startDate || endDate) && <button onClick={() => { setStartDate(""); setEndDate(""); }} style={{ background: 'transparent', border: 'none', color: theme.danger, cursor: 'pointer', fontWeight: 'bold', marginLeft: 'auto' }}>초기화</button>}
+                {(startDate || endDate) && <button onClick={() => { setStartDate(""); setEndDate(""); }} style={{ background: 'transparent', border: 'none', color: theme.danger, cursor: 'pointer', fontWeight: 'bold', marginLeft: 'auto' }}>{t.reset}</button>}
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
@@ -220,8 +220,8 @@ export default function UltimateStats({ allScrims }) {
                             <thead style={{ position: 'sticky', top: '-24px', background: theme.surface, zIndex: 1 }}>
                                 <tr style={{borderBottom:`1px solid ${theme.border}`, color: theme.textSub, textAlign:'left'}}>
                                     <th style={{padding:'12px'}}>{t.hero}</th>
-                                    <th style={{padding:'12px', textAlign:'center'}}>{t.ultUses} (총합)</th>
-                                    <th style={{padding:'12px', textAlign:'right'}}>{t.winRate} (가치)</th>
+                                    <th style={{padding:'12px', textAlign:'center'}}>{t.ultUses} ({t.ultTotal})</th>
+                                    <th style={{padding:'12px', textAlign:'right'}}>{t.winRate} ({t.ultValue})</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -232,7 +232,7 @@ export default function UltimateStats({ allScrims }) {
                                             <img src={getHeroImageSrc(h.hero)} alt={h.hero} style={{width:'32px', height:'32px', borderRadius:'6px', background:'#000'}}/>
                                             {h.hero}
                                         </td>
-                                        <td style={{padding:'12px', textAlign:'center'}}>{h.uses}회</td>
+                                        <td style={{padding:'12px', textAlign:'center'}}>{h.uses}{t.timesUnit}</td>
                                         <td style={{
                                             padding:'12px', 
                                             textAlign:'right', 
