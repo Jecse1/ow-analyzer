@@ -62,6 +62,7 @@ desktop.ini
 # ============== Auto-generated backups ==============
 **/scrim.db.before_rebuild_*
 **/scrim.db.before_rename_*
+**/scrim.db.bak_*
 **/scrim_data.json.before_rename_*
 
 # ============== Misc ==============
