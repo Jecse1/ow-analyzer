@@ -142,6 +142,28 @@ def is_control_map(map_name: str) -> bool:
             return True
     return False
 
+# DB에 저장된 맵명은 공백이 없는 경우가 많아(예: "왕의길", "서킷로얄") MAP_TYPE_DATA 키("왕의 길")와
+# 직접 매칭되지 않는다. 공백을 제거한 정규화 lookup 테이블을 한 번만 만들어 둔다. (MAP_TYPE_DATA 자체는 불변)
+_MAP_TYPE_DATA_NOSPACE = {k.replace(" ", ""): v for k, v in MAP_TYPE_DATA.items()}
+# 플래시포인트/밀기 = 매치 단위(첫 한타 1개), 그 외 = 라운드 단위. ko/en 값 모두 포함.
+_MATCH_LEVEL_MAP_TYPES = {"밀기", "Push", "플래시포인트", "Flashpoint"}
+
+def resolve_map_type(map_name: str) -> str:
+    """map_name -> map_type(쟁탈/화물/혼합/밀기/플래시포인트/격돌/...). 응답 전용 lookup.
+    공백 무시 매칭 → is_control_map 폴백 → 그래도 없으면 'Unknown'(안전 기본값)."""
+    if not map_name:
+        return "Unknown"
+    mt = MAP_TYPE_DATA.get(map_name) or _MAP_TYPE_DATA_NOSPACE.get(map_name.replace(" ", ""))
+    if mt:
+        return mt
+    if is_control_map(map_name):
+        return "쟁탈"
+    return "Unknown"
+
+def is_match_level_map(map_type: str) -> bool:
+    """플래시포인트/밀기는 매치 전체에서 첫 한타 1개만. 그 외(Unknown 포함)는 라운드 단위(안전 기본값)."""
+    return map_type in _MATCH_LEVEL_MAP_TYPES
+
 def safe_float(x: Any, default: float = 0.0) -> float:
     try:
         return float(x)
@@ -1703,6 +1725,119 @@ async def get_scrims_full_events():
             for s in sessions:
                 s.matches = [m for m in (s.matches or []) if m.deleted_at is None]
             return [_db_session_to_dict_events_only(s) for s in sessions]
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"DB error: {e}")
+
+
+def _build_match_pauses(m: "DBMatch") -> list:
+    return [{"start_sec": p.start_sec, "end_sec": p.end_sec, "duration": p.duration}
+            for p in (m.pauses or [])]
+
+
+def _first_fight_from_events(events: list, t1: str, t2: str):
+    """compute_fights/format_fights_for_api 재사용. 가장 먼저 시작된 한타 1개(dict) 또는 None."""
+    ev_dicts = [_db_event_to_dict(ev) for ev in (events or [])]
+    fights = format_fights_for_api(compute_fights(ev_dicts, t1, t2), t1, t2)
+    return fights[0] if fights else None
+
+
+def _round_start_sec(r: "DBRound", m: "DBMatch") -> float:
+    """라운드 시작 시점을 '실제(real) 좌표' 초로 반환. buildVideoLink가 game_setup_sec를 빼서
+    영상 위치로 환산하므로, 여기서는 -8 보정을 되돌린 real 좌표를 돌려준다 (round 1 == game_setup_sec).
+
+    events.timestamp는 -8 보정된 stored 좌표, rounds.duration_sec는 게임시간 누적이므로
+    (round_end_ts - duration_sec)는 stored 좌표의 라운드 시작이고, +8 하면 real 좌표가 된다.
+    round_start 이벤트 자체는 결측/부정확이 많아 쓰지 않는다.
+    """
+    round_end_ts = None
+    for ev in (r.events or []):
+        if ev.event_type == "round_end" and ev.timestamp is not None:
+            if round_end_ts is None or ev.timestamp > round_end_ts:
+                round_end_ts = ev.timestamp
+    if round_end_ts is not None and r.duration_sec is not None:
+        return (round_end_ts - r.duration_sec) + 8.0
+    # 폴백 1: 1라운드는 game_setup_sec(=real 좌표 라운드 시작)
+    if r.round_number == 1 and m.game_setup_sec is not None:
+        return float(m.game_setup_sec)
+    # 폴백 2: 라운드 첫 교전 이벤트(real 좌표). round_end 결측 + 비1라운드인 드문 경우.
+    kts = [ev.timestamp for ev in (r.events or [])
+           if ev.event_type in ("kill", "ultimate_start") and ev.timestamp is not None]
+    if kts:
+        return min(kts) + 8.0
+    return 0.0
+
+
+def _first_fight_item(m: "DBMatch", s: "DBSession", map_type: str,
+                      round_number, fight: dict, round_start_sec: float) -> dict:
+    """첫 한타 1건을 평탄한 응답 항목으로 직렬화."""
+    return {
+        "session_id": s.id,
+        "session_date": s.date,
+        "match_id": m.id,
+        "match_index": m.match_index,
+        "map_name": m.map_name,
+        "map_type": map_type,
+        "team1_name": m.team1_name,
+        "team2_name": m.team2_name,
+        "round_number": round_number,
+        "start_timestamp": fight.get("start_timestamp"),
+        "start_game_timestamp": fight.get("start_game_timestamp"),
+        "round_start_sec": round_start_sec,  # real 좌표 라운드 시작 (영상 점프 기준점)
+        "video_url": m.video_url or "",
+        "video_offset": m.video_offset or 0,
+        "game_setup_sec": m.game_setup_sec,
+        "pauses": _build_match_pauses(m),
+    }
+
+
+@app.get("/api/first-fights")
+async def get_first_fights():
+    """첫 한타(첫 교전) 모아보기 전용. 맵 종류 규칙에 따라 라운드/매치별 첫 한타를 평탄한 리스트로 반환.
+    - 쟁탈/화물/혼합/격돌: 라운드마다 첫 한타 1개씩 (round_number 채움).
+    - 플래시포인트/밀기: 매치 전체에서 가장 먼저 시작된 한타 1개만 (round_number = None).
+    한타가 0개인 라운드/매치는 건너뜀. soft-delete(deleted_at) 숨김. compute_fights 재사용·미수정.
+    """
+    if not _DB_AVAILABLE:
+        raise HTTPException(status_code=503, detail="Database not available")
+    try:
+        from sqlalchemy.orm import selectinload
+        async with AsyncSessionLocal() as db:
+            result = await db.execute(
+                select(DBSession)
+                .where(DBSession.deleted_at.is_(None))
+                .options(
+                    selectinload(DBSession.matches).options(
+                        selectinload(DBMatch.pauses),
+                        selectinload(DBMatch.rounds).selectinload(DBRound.events),
+                    )
+                )
+                .order_by(DBSession.date.desc(), DBSession.id.desc())
+            )
+            sessions = result.scalars().all()
+
+            items: list = []
+            for s in sessions:
+                for m in (s.matches or []):
+                    if m.deleted_at is not None:
+                        continue
+                    t1, t2 = m.team1_name, m.team2_name
+                    map_type = resolve_map_type(m.map_name)
+                    rounds = m.rounds or []
+                    if is_match_level_map(map_type):
+                        # 매치 전체 이벤트에서 첫 한타 1개 (가장 먼저 시작된 = 첫 라운드의 첫 한타)
+                        all_events = [ev for r in rounds for ev in (r.events or [])]
+                        fight = _first_fight_from_events(all_events, t1, t2)
+                        if fight and rounds:
+                            rs = _round_start_sec(rounds[0], m)  # 첫 라운드 시작 기준
+                            items.append(_first_fight_item(m, s, map_type, None, fight, rs))
+                    else:
+                        # 라운드마다 첫 한타 1개씩
+                        for r in rounds:
+                            fight = _first_fight_from_events(r.events or [], t1, t2)
+                            if fight:
+                                rs = _round_start_sec(r, m)
+                                items.append(_first_fight_item(m, s, map_type, r.round_number, fight, rs))
+            return items
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"DB error: {e}")
 
