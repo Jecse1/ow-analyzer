@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import {
-  LayoutDashboard, History, Users, BarChart3, Moon, Sun, Upload, AlertCircle, Globe, User, Zap, Skull, Crosshair 
-} from "lucide-react"; 
+  LayoutDashboard, History, Users, BarChart3, Moon, Sun, Upload, AlertCircle, Globe, User, Zap, Skull, Crosshair, Swords
+} from "lucide-react";
 
 import { ThemeProvider, useTheme } from "./ThemeContext";
 import { LanguageProvider, useLanguage } from "./LanguageContext";
@@ -14,8 +14,9 @@ import ScrimModal from "./ScrimModal";
 import OverallStats from "./OverallStats";
 import PlayerProfileView from "./PlayerProfileView"; 
 import UltimateStats from "./UltimateStats";
-import FirstDeathStats from "./FirstDeathStats"; 
-import FirstKillStats from "./FirstKillStats"; 
+import FirstDeathStats from "./FirstDeathStats";
+import FirstKillStats from "./FirstKillStats";
+import FirstFightStats from "./FirstFightStats";
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -164,7 +165,8 @@ function MainApp() {
   const goSessions = () => { setCurrentView("sessions"); setActiveScrimId(null); setActiveMatchId(null); };
   const goOverall = () => { setCurrentView("overall"); setActiveScrimId(null); setActiveMatchId(null); };
   const goUltimates = () => { setCurrentView("ultimates"); setActiveScrimId(null); setActiveMatchId(null); }; 
-  const goFirstKill = () => { setCurrentView("firstkill"); setActiveScrimId(null); setActiveMatchId(null); }; 
+  const goFirstKill = () => { setCurrentView("firstkill"); setActiveScrimId(null); setActiveMatchId(null); };
+  const goFirstFight = () => { setCurrentView("firstfight"); setActiveScrimId(null); setActiveMatchId(null); };
   const goFirstDeath = () => { setCurrentView("firstdeath"); setActiveScrimId(null); setActiveMatchId(null); }; 
   const goPersonal = () => { setCurrentView("personal"); setActiveScrimId(null); setActiveMatchId(null); }; 
 
@@ -242,6 +244,7 @@ function MainApp() {
 
           <button onClick={goFirstKill} style={navButtonStyle(currentView === "firstkill")}> <Crosshair size={16} /> {t.navFirstKill} </button>
           <button onClick={goFirstDeath} style={navButtonStyle(currentView === "firstdeath")}> <Skull size={16} /> {t.navFirstDeath} </button>
+          <button onClick={goFirstFight} style={navButtonStyle(currentView === "firstfight")}> <Swords size={16} /> {t.navFirstFight} </button>
 
           <button onClick={goPersonal} style={navButtonStyle(currentView === "personal")}> <User size={16} /> {t.navPersonal} </button>
           <button style={{ ...navButtonStyle(false), cursor: "not-allowed", opacity: 0.5 }}> <Users size={16} /> {t.teamManage} </button>
@@ -280,7 +283,8 @@ function MainApp() {
     if (currentView === "overall") return <OverallStats onBack={goHome} onGoSessions={goSessions} />;
     if (currentView === "ultimates") return <UltimateStats allScrims={allScrims} />;
     if (currentView === "firstkill") return <FirstKillStats allScrims={allScrims} />; 
-    if (currentView === "firstdeath") return <FirstDeathStats allScrims={allScrims} />; 
+    if (currentView === "firstdeath") return <FirstDeathStats allScrims={allScrims} />;
+    if (currentView === "firstfight") return <FirstFightStats />;
     if (currentView === "personal") return <div style={{ padding: '24px' }}><PlayerProfileView playersData={dynamicPlayersData} /></div>;
 
     return <div>404 Not Found</div>;

@@ -37,7 +37,10 @@ export const translations = {
     baseTeam: "기준 팀", allTeams: "전체 팀",
     matchStart: "경기 시작 시점", matchEnd: "경기 종료 시점",
     matchStartTip: "영상에서 전투 시작(카운트다운 끝) 시점",
-    navUltimateStats: "궁극기 통계", navFirstKill: "퍼킬 통계", navFirstDeath: "퍼뎃 통계", navPersonal: "개인 통계",
+    navUltimateStats: "궁극기 통계", navFirstKill: "퍼킬 통계", navFirstDeath: "퍼뎃 통계", navFirstFight: "첫한타", navPersonal: "개인 통계",
+    ffTitle: "첫 한타 모아보기", ffDesc: "각 맵·라운드의 첫 교전 시점을 모아 영상으로 바로 점프합니다. (쟁탈/화물/혼합은 라운드별, 플래시포인트/밀기는 매치당 1개)",
+    ffAllOpponents: "전체 상대", ffAllMaps: "전체 맵", ffColDate: "날짜", ffColMap: "맵", ffColRound: "라운드", ffColMatchup: "매치업", ffColTime: "교전 시각", ffColLink: "영상",
+    ffWatch: "보기", ffNoVideo: "영상 없음", ffLoading: "불러오는 중…", ffError: "데이터를 불러오지 못했습니다.",
     // FirstKillStats
     fkTitle: "퍼킬 분석", fkDesc: "한타를 터뜨리는 캐리력과 주력 희생양, 사용 스킬을 상세히 분석합니다.",
     allPositions: "전체 포지션", matchup: "특정 매치업:", myTeamAll: "우리 팀 (전체)", enemyTeamAll: "상대 팀 (전체)",
@@ -120,7 +123,10 @@ export const translations = {
     baseTeam: "Base Team", allTeams: "All Teams",
     matchStart: "Game Start Time", matchEnd: "Game End Time",
     matchStartTip: "Video timestamp when countdown ends (setup_complete)",
-    navUltimateStats: "Ultimate Stats", navFirstKill: "First Kill Stats", navFirstDeath: "First Death Stats", navPersonal: "Personal Stats",
+    navUltimateStats: "Ultimate Stats", navFirstKill: "First Kill Stats", navFirstDeath: "First Death Stats", navFirstFight: "First Fight", navPersonal: "Personal Stats",
+    ffTitle: "First Fights", ffDesc: "Jump straight to the first engagement of each map/round. (Control/Escort/Hybrid: per round, Flashpoint/Push: one per match)",
+    ffAllOpponents: "All Opponents", ffAllMaps: "All Maps", ffColDate: "Date", ffColMap: "Map", ffColRound: "Round", ffColMatchup: "Matchup", ffColTime: "Fight Time", ffColLink: "Video",
+    ffWatch: "Watch", ffNoVideo: "No video", ffLoading: "Loading…", ffError: "Failed to load data.",
     // FirstKillStats
     fkTitle: "First Kill Stats", fkDesc: "Detailed breakdown of fight-opening carry potential, top victims, and abilities used.",
     allPositions: "All Roles", matchup: "Matchup:", myTeamAll: "My Team (All)", enemyTeamAll: "Enemy Team (All)",
