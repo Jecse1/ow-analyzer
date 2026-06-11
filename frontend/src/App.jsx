@@ -72,7 +72,15 @@ function MainApp() {
 
     const playerMap = {};
 
-    allScrims.forEach(scrim => {
+    // /api/scrims/full-events 는 최신순(date DESC)으로 내려오므로, 시간순(오래된→최신)으로
+    // 뒤집어서 집계한다. 이래야 recentTrend가 시간순으로 쌓이고(차트 왼→오 = 과거→현재),
+    // team 덮어쓰기도 가장 최근 스크림 기준이 된다.
+    const chronologicalScrims = [...allScrims].sort((a, b) => {
+      const dc = (a.date || "").localeCompare(b.date || "");
+      return dc !== 0 ? dc : (a.id || "").localeCompare(b.id || "");
+    });
+
+    chronologicalScrims.forEach(scrim => {
       const scrimName = scrim.scrim_name || scrim.date;
       
       scrim.matches?.forEach(match => {
@@ -154,7 +162,7 @@ function MainApp() {
         .sort((a, b) => b.playTime - a.playTime)
         .slice(0, 5); 
 
-      if (p.recentTrend.length > 5) p.recentTrend = p.recentTrend.slice(-5);
+      // 최근 5경기로 자르지 않고 전체 경기를 시간순으로 유지한다.
       return p;
     });
 
