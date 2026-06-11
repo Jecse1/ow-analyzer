@@ -6,13 +6,15 @@ import {
 
 import { ThemeProvider, useTheme } from "./ThemeContext";
 import { LanguageProvider, useLanguage } from "./LanguageContext";
+import { computeFights } from "./utils/fightAnalysis";
 
 import ScrimSessions from "./ScrimSessions";
 import ScrimDetail from "./ScrimDetail";
 import MatchStats from "./MatchStats";
 import ScrimModal from "./ScrimModal";
 import OverallStats from "./OverallStats";
-import PlayerProfileView from "./PlayerProfileView"; 
+import PlayerProfileView from "./PlayerProfileView";
+import PlayerCompareView from "./PlayerCompareView";
 import UltimateStats from "./UltimateStats";
 import FirstDeathStats from "./FirstDeathStats";
 import FirstKillStats from "./FirstKillStats";
@@ -72,6 +74,26 @@ function MainApp() {
 
     const playerMap = {};
 
+    // 영웅 역할 분류 (역할 판정 + 궁당 킬 집계 방식 분기에 공용 사용)
+    const TANK_HEROES = ['디바', 'D.Va', '둠피스트', 'Doomfist', '정커퀸', 'Junker Queen', '마우가', 'Mauga', '오리사', 'Orisa', '라마트라', 'Ramattra', '라인하르트', 'Reinhardt', '로드호그', 'Roadhog', '시그마', 'Sigma', '윈스턴', 'Winston', '레킹볼', 'Wrecking Ball', '자리야', 'Zarya', '해저드', 'Hazard', '도미나', 'Domina'];
+    const SUPPORT_HEROES = ['아나', 'Ana', '바티스트', 'Baptiste', '브리기테', 'Brigitte', '일리아리', 'Illari', '키리코', 'Kiriko', '라이프위버', 'Lifeweaver', '루시우', 'Lucio', '메르시', 'Mercy', '모이라', 'Moira', '젠야타', 'Zenyatta', '주노', 'Juno', '미즈키', 'Mizuki', '제트팩 캣', 'Jetpack Cat', '우양', 'Wuyang'];
+    const heroRole = (h) => TANK_HEROES.includes(h) ? '탱크' : SUPPORT_HEROES.includes(h) ? '지원' : '딜러';
+
+    // 궁 사용 후 이 시간(초) 내의 결정타를 '궁극기로 만들어낸 결정타'로 간주 (힐러용)
+    const ULT_KILL_WINDOW = 10;
+    // 궁극기 한타 분석 (이벤트 기반): playerName -> heroName -> { uses, ultKillsAbility, ultKillsWindow, fights, fightWins }
+    //  - uses           : ultimate_start 이벤트 수 (궁 사용 횟수)
+    //  - ultKillsAbility : 궁 스킬(ability='Ultimate')로 직접 처치한 결정타 수 (딜러/탱커용)
+    //  - ultKillsWindow  : 궁 사용 후 ULT_KILL_WINDOW초 내에 그 선수가 만든 결정타 수 (힐러용)
+    //  - fights          : 그 선수가 궁을 쓴 한타 수 (무승부 제외)
+    //  - fightWins       : 그 중 승리한 한타 수
+    const ultEventMap = {};
+    const getUE = (pn, hn) => {
+      if (!ultEventMap[pn]) ultEventMap[pn] = {};
+      if (!ultEventMap[pn][hn]) ultEventMap[pn][hn] = { uses: 0, ultKillsAbility: 0, ultKillsWindow: 0, fights: 0, fightWins: 0 };
+      return ultEventMap[pn][hn];
+    };
+
     // /api/scrims/full-events 는 최신순(date DESC)으로 내려오므로, 시간순(오래된→최신)으로
     // 뒤집어서 집계한다. 이래야 recentTrend가 시간순으로 쌓이고(차트 왼→오 = 과거→현재),
     // team 덮어쓰기도 가장 최근 스크림 기준이 된다.
@@ -89,18 +111,13 @@ function MainApp() {
           if (!pName || pName === "Unknown") return;
 
           if (!playerMap[pName]) {
-            const tanks = ['디바', 'D.Va', '둠피스트', 'Doomfist', '정커퀸', 'Junker Queen', '마우가', 'Mauga', '오리사', 'Orisa', '라마트라', 'Ramattra', '라인하르트', 'Reinhardt', '로드호그', 'Roadhog', '시그마', 'Sigma', '윈스턴', 'Winston', '레킹볼', 'Wrecking Ball', '자리야', 'Zarya', '해저드', 'Hazard', '도미나', 'Domina'];
-            const supports = ['아나', 'Ana', '바티스트', 'Baptiste', '브리기테', 'Brigitte', '일리아리', 'Illari', '키리코', 'Kiriko', '라이프위버', 'Lifeweaver', '루시우', 'Lucio', '메르시', 'Mercy', '모이라', 'Moira', '젠야타', 'Zenyatta', '주노', 'Juno', '미즈키', 'Mizuki', '제트팩 캣', 'Jetpack Cat', '우양', 'Wuyang'];
-            
-            let role = '딜러';
-            if (tanks.includes(stat.hero_name)) role = '탱크';
-            if (supports.includes(stat.hero_name)) role = '지원';
+            const role = heroRole(stat.hero_name);
 
             playerMap[pName] = {
               id: pName, name: pName, role: role, 
               team: stat.team_name, // 동적 팀 필터링
-              _raw: { elims: 0, deaths: 0, fb: 0, heroDmg: 0, heal: 0, ultUsed: 0, playTime: 0, matchCount: 0, wins: 0 },
-              overview: { kd: 0, damagePer10: 0, healPer10: 0, ultUsedPerMatch: 0, winRate: 0 },
+              _raw: { elims: 0, deaths: 0, fb: 0, heroDmg: 0, heal: 0, mitigated: 0, ultUsed: 0, playTime: 0, matchCount: 0, wins: 0 },
+              overview: { kd: 0, damagePer10: 0, healPer10: 0, mitigatedPer10: 0, fbPer10: 0, ultUsedPerMatch: 0, winRate: 0 },
               heroPool: {}, recentTrend: [] 
             };
           } else {
@@ -117,6 +134,7 @@ function MainApp() {
           p._raw.deaths += deaths;
           p._raw.heroDmg += Number(stat.hero_damage_dealt) || 0;
           p._raw.heal += Number(stat.healing_dealt) || 0;
+          p._raw.mitigated += Number(stat.damage_blocked) || 0;
           p._raw.ultUsed += Number(stat.ultimates_used) || 0;
           p._raw.playTime += playTimeSec;
           
@@ -132,13 +150,70 @@ function MainApp() {
 
           const hName = stat.hero_name;
           if (!p.heroPool[hName]) {
-            p.heroPool[hName] = { hero: hName, playTime: 0, wins: 0, matches: 0, fb: 0, deaths: 0 };
+            p.heroPool[hName] = { hero: hName, playTime: 0, wins: 0, matches: 0, fb: 0, deaths: 0, elims: 0, ultEarned: 0 };
           }
           p.heroPool[hName].playTime += playTimeSec;
           p.heroPool[hName].fb += fb;
           p.heroPool[hName].deaths += deaths;
+          p.heroPool[hName].elims += Number(stat.eliminations) || 0;
+          p.heroPool[hName].ultEarned += Number(stat.ultimates_earned) || 0;
           p.heroPool[hName].matches += 1;
           if (match.winner === stat.team_name) p.heroPool[hName].wins += 1;
+        });
+
+        // 궁극기 한타 분석 (라운드별): (선수,영웅)별로 궁 사용수 · 궁으로 만들어낸 결정타 · 한타 승패 집계
+        const t1 = match.team1_name || match.team_1_name || "1팀";
+        const t2 = match.team2_name || match.team_2_name || "2팀";
+        const isT1 = (tn) => tn === t1 || tn === "1팀" || tn === "Team 1";
+        const isT2 = (tn) => tn === t2 || tn === "2팀" || tn === "Team 2";
+        const sideOf = (tn) => isT1(tn) ? 1 : isT2(tn) ? 2 : 0;
+
+        (match.rounds || []).forEach(rnd => {
+          const evs = rnd.events || [];
+
+          // (1) 궁 사용수 + 궁당 킬 (두 방식 모두 집계, 표시는 영웅 역할로 선택)
+          //     - ultKillsAbility: 궁 스킬로 직접 처치 (딜러/탱커)
+          //     - ultKillsWindow : 궁 사용 후 ULT_KILL_WINDOW초 내 그 선수의 결정타 (힐러)
+          const ultStarts = {}; // "player|hero" -> [timestamp...]
+          evs.forEach(ev => {
+            if (ev.event_type === 'ultimate_start' && ev.player_name && ev.player_hero) {
+              getUE(ev.player_name, ev.player_hero).uses += 1;
+              const key = ev.player_name + '|' + ev.player_hero;
+              if (!ultStarts[key]) ultStarts[key] = [];
+              ultStarts[key].push(ev.timestamp);
+            }
+          });
+          evs.forEach(ev => {
+            if (ev.event_type !== 'kill') return;
+            const pn = ev.player_name, hn = ev.player_hero;
+            if (!pn || !hn) return;
+            const m = getUE(pn, hn);
+            if (ev.ability === 'Ultimate') m.ultKillsAbility += 1;
+            const starts = ultStarts[pn + '|' + hn];
+            if (starts && starts.some(s => ev.timestamp >= s && ev.timestamp <= s + ULT_KILL_WINDOW)) {
+              m.ultKillsWindow += 1;
+            }
+          });
+
+          // (2) 궁 사용 한타 승률: 그 선수가 궁을 쓴 한타 중 승리 비율 (무승부 제외)
+          computeFights(evs, t1, t2).forEach(f => {
+            const winSide = sideOf(f.winner); // 1 / 2 / 0(무승부)
+            if (winSide === 0) return;
+            const usedSide = {}; // "player|hero" -> side (한타당 1회만)
+            (f.events || []).forEach(ev => {
+              if (ev.event_type === 'ultimate_start' && ev.player_name && ev.player_hero) {
+                const key = ev.player_name + '|' + ev.player_hero;
+                if (!(key in usedSide)) usedSide[key] = sideOf(ev.player_team);
+              }
+            });
+            Object.entries(usedSide).forEach(([key, pside]) => {
+              if (pside === 0) return;
+              const sep = key.lastIndexOf('|');
+              const m = getUE(key.slice(0, sep), key.slice(sep + 1));
+              m.fights += 1;
+              if (pside === winSide) m.fightWins += 1;
+            });
+          });
         });
       });
     });
@@ -150,17 +225,37 @@ function MainApp() {
       p.overview.kd = p._raw.deaths > 0 ? p._raw.fb / p._raw.deaths : p._raw.fb;
       p.overview.damagePer10 = Math.round(per10(p._raw.heroDmg));
       p.overview.healPer10 = Math.round(per10(p._raw.heal));
+      p.overview.mitigatedPer10 = Math.round(per10(p._raw.mitigated));
+      p.overview.fbPer10 = Number(per10(p._raw.fb).toFixed(1));
       p.overview.ultUsedPerMatch = p._raw.matchCount > 0 ? (p._raw.ultUsed / p._raw.matchCount).toFixed(1) : 0;
       p.overview.winRate = p._raw.matchCount > 0 ? Math.round((p._raw.wins / p._raw.matchCount) * 100) : 0;
 
       p.heroPool = Object.values(p.heroPool)
-        .map(h => ({
-          hero: h.hero, playTime: h.playTime, 
-          winRate: h.matches > 0 ? Math.round((h.wins / h.matches) * 100) : 0,
-          kd: h.deaths > 0 ? (h.fb / h.deaths).toFixed(2) : h.fb.toFixed(2)
-        }))
+        .map(h => {
+          const hMin = h.playTime / 60;
+          const uf = (ultEventMap[p.name] && ultEventMap[p.name][h.hero]) || null;
+          // 궁당 킬: 딜러/탱커는 궁 스킬 직접 처치만, 힐러는 궁 사용 후 윈도우 내 결정타
+          const ultKills = uf ? (heroRole(h.hero) === '지원' ? uf.ultKillsWindow : uf.ultKillsAbility) : 0;
+          return {
+            hero: h.hero, playTime: h.playTime,
+            winRate: h.matches > 0 ? Math.round((h.wins / h.matches) * 100) : 0,
+            kd: h.deaths > 0 ? (h.fb / h.deaths).toFixed(2) : h.fb.toFixed(2),
+            // 궁극기 효율: 궁 1회당 궁당 킬 (역할별 집계 방식)
+            ultEff: uf && uf.uses > 0 ? Number((ultKills / uf.uses).toFixed(2)) : null,
+            ultUses: uf ? uf.uses : 0,
+            ultKills,
+            // 궁 사용 한타 승률: 그 선수가 궁을 쓴 한타 중 승리 비율 (무승부 제외, 표본 없으면 null)
+            ultWinRate: uf && uf.fights > 0 ? Math.round((uf.fightWins / uf.fights) * 100) : null,
+            ultFights: uf ? uf.fights : 0,
+            // 평균 궁 충전 시간(초): 플레이 시간 ÷ 충전한 궁 수
+            ultChargeSec: h.ultEarned > 0 ? Math.round(h.playTime / h.ultEarned) : null,
+            ultEarned: h.ultEarned,
+            // 영향력: 10분당 처치 관여(eliminations)
+            impactPer10: hMin > 0 ? Number(((h.elims / hMin) * 10).toFixed(1)) : 0,
+          };
+        })
         .sort((a, b) => b.playTime - a.playTime)
-        .slice(0, 5); 
+        .slice(0, 5);
 
       // 최근 5경기로 자르지 않고 전체 경기를 시간순으로 유지한다.
       return p;
@@ -176,7 +271,8 @@ function MainApp() {
   const goFirstKill = () => { setCurrentView("firstkill"); setActiveScrimId(null); setActiveMatchId(null); };
   const goFirstFight = () => { setCurrentView("firstfight"); setActiveScrimId(null); setActiveMatchId(null); };
   const goFirstDeath = () => { setCurrentView("firstdeath"); setActiveScrimId(null); setActiveMatchId(null); }; 
-  const goPersonal = () => { setCurrentView("personal"); setActiveScrimId(null); setActiveMatchId(null); }; 
+  const goPersonal = () => { setCurrentView("personal"); setActiveScrimId(null); setActiveMatchId(null); };
+  const goCompare = () => { setCurrentView("compare"); setActiveScrimId(null); setActiveMatchId(null); };
 
   const goToScrim = (scrimId) => { setActiveScrimId(scrimId); setCurrentView("scrim"); };
   const goToMatch = (matchId) => { setActiveMatchId(matchId); setCurrentView("match"); };
@@ -255,7 +351,7 @@ function MainApp() {
           <button onClick={goFirstFight} style={navButtonStyle(currentView === "firstfight")}> <Swords size={16} /> {t.navFirstFight} </button>
 
           <button onClick={goPersonal} style={navButtonStyle(currentView === "personal")}> <User size={16} /> {t.navPersonal} </button>
-          <button style={{ ...navButtonStyle(false), cursor: "not-allowed", opacity: 0.5 }}> <Users size={16} /> {t.teamManage} </button>
+          <button onClick={goCompare} style={navButtonStyle(currentView === "compare")}> <Users size={16} /> {t.navCompare} </button>
         </nav>
       </div>
       <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
@@ -294,6 +390,7 @@ function MainApp() {
     if (currentView === "firstdeath") return <FirstDeathStats allScrims={allScrims} />;
     if (currentView === "firstfight") return <FirstFightStats />;
     if (currentView === "personal") return <div style={{ padding: '24px' }}><PlayerProfileView playersData={dynamicPlayersData} /></div>;
+    if (currentView === "compare") return <div style={{ padding: '24px' }}><PlayerCompareView playersData={dynamicPlayersData} /></div>;
 
     return <div>404 Not Found</div>;
   };
