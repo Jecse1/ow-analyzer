@@ -79,6 +79,7 @@ const HERO_SKILL_MAP = {
     '위도우메이커': { 'Ability 1': '갈고리 발사', 'Ability 2': '맹독 지뢰', 'Ultimate': '적외선 투시' },
     '벤처': { 'Ability 1': '잠복', 'Ability 2': '드릴 돌진', 'Ultimate': '지각 충격' },
     '벤데타': { 'Ability 1': '소용돌이 질주', 'Ability 2': '치솟는 베기', 'Ultimate': '갈라내는 칼날' },
+    '시온': { 'Ability 1': '피하기', 'Ability 2': '조이라이드', 'Ultimate': '광란의 살육' },
     '아나': { 'Ability 1': '수면총', 'Ability 2': '생체 수류탄', 'Ultimate': '나노 강화제' },
     '바티스트': { 'Ability 1': '치유 파동', 'Ability 2': '불사 장치', 'Ultimate': '증폭 매트릭스' },
     '브리기테': { 'Ability 1': '방패 밀쳐내기', 'Ability 2': '도리깨 투척', 'Ultimate': '집결' },

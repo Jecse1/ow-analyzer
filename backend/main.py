@@ -87,7 +87,7 @@ KOREAN_HERO_MAP = {
     '한조': 'Hanzo', '정크랫': 'Junkrat', '메이': 'Mei', '파라': 'Pharah', '리퍼': 'Reaper',
     '소전': 'Sojourn', '솔저: 76': 'Soldier: 76', '솔저 76': 'Soldier: 76', '솜브라': 'Sombra',
     '시메트라': 'Symmetra', '토르비욘': 'Torbjorn', '트레이서': 'Tracer', '벤처': 'Venture',
-    '위도우메이커': 'Widowmaker', '안란': 'Anran', '엠레': 'Emre',
+    '위도우메이커': 'Widowmaker', '안란': 'Anran', '엠레': 'Emre', '시온': 'Shion',
     '아나': 'Ana', '바티스트': 'Baptiste', '브리기테': 'Brigitte', '일리아리': 'Illari', '주노': 'Juno',
     '키리코': 'Kiriko', '라이프위버': 'Lifeweaver', '루시우': 'Lucio', '메르시': 'Mercy',
     '모이라': 'Moira', '젠야타': 'Zenyatta', '미즈키': 'Mizuki', '제트팩 캣': 'Jetpack Cat',
