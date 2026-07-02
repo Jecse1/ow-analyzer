@@ -1,0 +1,117 @@
+{
+    "id": "2606291618",
+    "scrim_name": "260629-SuperBad",
+    "date": "2026-06-29",
+    "start_time": "16",
+    "end_time": "18",
+    "matches": [
+        {
+            "id": "4ed57d0d-1336-4680-b1f4-c3d19efef9c1",
+            "match_index": 1,
+            "map_name": "일리오스",
+            "team1_name": "SB",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "video_url": "https://www.youtube.com/live/6YK1KSHxObE?si=PcWVGWoJAwa6-PDI",
+            "video_offset": 181,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "1e719803-7ad3-4972-b59b-526835fd8943",
+            "match_index": 2,
+            "map_name": "네팔",
+            "team1_name": "SB",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "video_url": "https://www.youtube.com/live/6YK1KSHxObE?si=PcWVGWoJAwa6-PDI",
+            "video_offset": 1442,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "bd3cbeb0-bd6f-4295-8bb5-058b57a47227",
+            "match_index": 3,
+            "map_name": "네온교차로",
+            "team1_name": "SB",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "video_url": "https://www.youtube.com/live/6YK1KSHxObE?si=PcWVGWoJAwa6-PDI",
+            "video_offset": 2389,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "9bd2ef22-8cac-4f21-9c6d-cc34e6eb088a",
+            "match_index": 4,
+            "map_name": "아틀리스",
+            "team1_name": "SB",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "video_url": "https://www.youtube.com/live/6YK1KSHxObE?si=PcWVGWoJAwa6-PDI",
+            "video_offset": 3802,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "3b88357b-cfc9-4b4f-ba60-8b36861a8188",
+            "match_index": 5,
+            "map_name": "도라도",
+            "team1_name": "SB",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "video_url": "https://www.youtube.com/live/6YK1KSHxObE?si=PcWVGWoJAwa6-PDI",
+            "video_offset": 5126,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "bb6cfc83-feff-4fce-b21f-c6fbdb669eb1",
+            "match_index": 6,
+            "map_name": "콜로세오",
+            "team1_name": "SB",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "video_url": "https://www.youtube.com/live/6YK1KSHxObE?si=PcWVGWoJAwa6-PDI",
+            "video_offset": 6218,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        }
+    ]
+}

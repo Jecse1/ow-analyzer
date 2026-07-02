@@ -1,0 +1,117 @@
+{
+    "id": "2606231618",
+    "scrim_name": "260623-CR",
+    "date": "2026-06-23",
+    "start_time": "16",
+    "end_time": "18",
+    "matches": [
+        {
+            "id": "445054b8-ac90-48ba-813e-c045319cad4f",
+            "match_index": 1,
+            "map_name": "남극반도",
+            "team1_name": "FLC",
+            "team2_name": "CR",
+            "result": "Unknown",
+            "video_url": "https://www.youtube.com/live/W6mzvEuu6L8?si=o51A6pujVSemHjW0",
+            "video_offset": 309,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "bfcea7e5-f307-4263-8180-d25af12871fc",
+            "match_index": 2,
+            "map_name": "오아시스",
+            "team1_name": "FLC",
+            "team2_name": "CR",
+            "result": "Unknown",
+            "video_url": "https://www.youtube.com/live/W6mzvEuu6L8?si=o51A6pujVSemHjW0",
+            "video_offset": 1234,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "98dab097-8192-46b8-84fb-26280dc0b5a8",
+            "match_index": 3,
+            "map_name": "서킷로얄",
+            "team1_name": "FLC",
+            "team2_name": "CR",
+            "result": "Unknown",
+            "video_url": "https://www.youtube.com/live/W6mzvEuu6L8?si=o51A6pujVSemHjW0",
+            "video_offset": 2245,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "473b20e8-0631-4fe1-a0df-c2c00e50c8c9",
+            "match_index": 4,
+            "map_name": "루나사피",
+            "team1_name": "FLC",
+            "team2_name": "CR",
+            "result": "Unknown",
+            "video_url": "https://www.youtube.com/live/W6mzvEuu6L8?si=o51A6pujVSemHjW0",
+            "video_offset": 3783,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "7c66de68-d542-44c3-b73e-faa83de7b7f6",
+            "match_index": 5,
+            "map_name": "뉴정크시티",
+            "team1_name": "FLC",
+            "team2_name": "CR",
+            "result": "Unknown",
+            "video_url": "https://www.youtube.com/live/W6mzvEuu6L8?si=o51A6pujVSemHjW0",
+            "video_offset": 4804,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "633a2b90-6c3f-4bad-9cc2-6e05779237f3",
+            "match_index": 6,
+            "map_name": "수라바사",
+            "team1_name": "FLC",
+            "team2_name": "CR",
+            "result": "Unknown",
+            "video_url": "https://www.youtube.com/live/W6mzvEuu6L8?si=o51A6pujVSemHjW0",
+            "video_offset": 5947,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        }
+    ]
+}
