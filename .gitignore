@@ -65,6 +65,9 @@ desktop.ini
 **/scrim.db.bak_*
 **/scrim_data.json.before_rename_*
 
+# ============== One-off analysis scripts ==============
+backend/analysis/
+
 # ============== Misc ==============
 *.bak
 *.tmp
