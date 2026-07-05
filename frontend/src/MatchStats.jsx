@@ -1722,7 +1722,17 @@ const MatchStats = ({ matchId, onBack, matchData: initialMatchData }) => {
                   <span style={{ color: COLOR_TEAM1 }}>{dataSummary.t1Score}</span> <span style={{color:theme.textSub, fontSize:'24px'}}>-</span> <span style={{ color: COLOR_TEAM2 }}>{dataSummary.t2Score}</span>
               </div>
               <div style={{ fontSize: '12px', color: theme.textSub }}>
-                  Winner: {dataSummary.t1Score === dataSummary.t2Score ? 'Draw' : (dataSummary.t1Score > dataSummary.t2Score ? <span style={{color:COLOR_TEAM1, fontWeight:'bold', background:`${COLOR_TEAM1}20`, padding:'2px 6px', borderRadius:4}}>{dataSummary.t1Name}</span> : <span style={{color:COLOR_TEAM2, fontWeight:'bold', background:`${COLOR_TEAM2}20`, padding:'2px 6px', borderRadius:4}}>{dataSummary.t2Name}</span>)}
+                  Winner: {(() => {
+                      // 스코어 비교가 기본. 동점이면 유효 winner(winner_override 반영된 직렬화 값)로 폴백 —
+                      // 스코어 미기록(0:0) 상태로 승패만 보정된 밀기 매치가 Draw로 뜨지 않게.
+                      const w = dataSummary.t1Score > dataSummary.t2Score ? dataSummary.t1Name
+                          : dataSummary.t2Score > dataSummary.t1Score ? dataSummary.t2Name
+                          : (fetchedMatchData.winner === dataSummary.t1Name || fetchedMatchData.winner === dataSummary.t2Name) ? fetchedMatchData.winner
+                          : null;
+                      if (!w) return 'Draw';
+                      const c = w === dataSummary.t1Name ? COLOR_TEAM1 : COLOR_TEAM2;
+                      return <span style={{color:c, fontWeight:'bold', background:`${c}20`, padding:'2px 6px', borderRadius:4}}>{w}</span>;
+                  })()}
               </div>
           </div>
           <div style={summaryCardStyle}>
