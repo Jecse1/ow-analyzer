@@ -16,9 +16,11 @@ import OverallStats from "./OverallStats";
 import PlayerProfileView from "./PlayerProfileView";
 import PlayerCompareView from "./PlayerCompareView";
 import UltimateStats from "./UltimateStats";
-import FirstDeathStats from "./FirstDeathStats";
-import FirstKillStats from "./FirstKillStats";
+import KillDeathStats from "./KillDeathStats";
 import FirstFightStats from "./FirstFightStats";
+import FightLabStats from "./FightLabStats";
+import UltimateAnalysisStats from "./UltimateAnalysisStats";
+import { FlaskConical } from "lucide-react";
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -144,8 +146,13 @@ function MainApp() {
              if (match.winner === stat.team_name) p._raw.wins += 1;
              p._processedMatches.add(match.id);
              
-             const matchKd = deaths > 0 ? fb / deaths : fb;
-             p.recentTrend.push({ match: scrimName, kd: Number(matchKd.toFixed(2)) });
+             // K/D = FB / max(1, D) — 0데스도 나눗셈 생략 없이 동일 공식(값은 같지만 규칙 일관).
+             // 라벨에 세트 번호를 붙여 같은 세션의 세트들이 x축·툴팁에서 구분되게 한다.
+             const matchKd = fb / Math.max(1, deaths);
+             p.recentTrend.push({
+               match: `${scrimName} · ${match.match_index != null ? match.match_index : '?'}세트`,
+               kd: Number(matchKd.toFixed(2)), fb, deaths,
+             });
           }
 
           const hName = stat.hero_name;
@@ -222,7 +229,7 @@ function MainApp() {
       const minutes = p._raw.playTime / 60;
       const per10 = (val) => minutes > 0 ? (val / minutes) * 10 : 0;
       
-      p.overview.kd = p._raw.deaths > 0 ? p._raw.fb / p._raw.deaths : p._raw.fb;
+      p.overview.kd = p._raw.fb / Math.max(1, p._raw.deaths);
       p.overview.damagePer10 = Math.round(per10(p._raw.heroDmg));
       p.overview.healPer10 = Math.round(per10(p._raw.heal));
       p.overview.mitigatedPer10 = Math.round(per10(p._raw.mitigated));
@@ -239,7 +246,7 @@ function MainApp() {
           return {
             hero: h.hero, playTime: h.playTime,
             winRate: h.matches > 0 ? Math.round((h.wins / h.matches) * 100) : 0,
-            kd: h.deaths > 0 ? (h.fb / h.deaths).toFixed(2) : h.fb.toFixed(2),
+            kd: (h.fb / Math.max(1, h.deaths)).toFixed(2),
             // 궁극기 효율: 궁 1회당 궁당 킬 (역할별 집계 방식)
             ultEff: uf && uf.uses > 0 ? Number((ultKills / uf.uses).toFixed(2)) : null,
             ultUses: uf ? uf.uses : 0,
@@ -267,10 +274,11 @@ function MainApp() {
   const goHome = () => { setCurrentView("home"); setActiveScrimId(null); setActiveMatchId(null); };
   const goSessions = () => { setCurrentView("sessions"); setActiveScrimId(null); setActiveMatchId(null); };
   const goOverall = () => { setCurrentView("overall"); setActiveScrimId(null); setActiveMatchId(null); };
-  const goUltimates = () => { setCurrentView("ultimates"); setActiveScrimId(null); setActiveMatchId(null); }; 
-  const goFirstKill = () => { setCurrentView("firstkill"); setActiveScrimId(null); setActiveMatchId(null); };
+  const goUltimates = () => { setCurrentView("ultimates"); setActiveScrimId(null); setActiveMatchId(null); };
+  const goKillDeath = () => { setCurrentView("killdeath"); setActiveScrimId(null); setActiveMatchId(null); };
   const goFirstFight = () => { setCurrentView("firstfight"); setActiveScrimId(null); setActiveMatchId(null); };
-  const goFirstDeath = () => { setCurrentView("firstdeath"); setActiveScrimId(null); setActiveMatchId(null); }; 
+  const goUltAnalysis = () => { setCurrentView("ultanalysis"); setActiveScrimId(null); setActiveMatchId(null); };
+  const goFightLab = () => { setCurrentView("fightlab"); setActiveScrimId(null); setActiveMatchId(null); };
   const goPersonal = () => { setCurrentView("personal"); setActiveScrimId(null); setActiveMatchId(null); };
   const goCompare = () => { setCurrentView("compare"); setActiveScrimId(null); setActiveMatchId(null); };
 
@@ -341,15 +349,15 @@ function MainApp() {
         FLC Scrim
         </div>
         <nav style={{ display: "flex", gap: "8px", fontSize: "14px", fontWeight: 500 }}>
+          {/* 순서: 대시보드 · 스크림 세션 · 전체 통계 · 한타 분석 · 궁극기 분석 · 첫한타 · 킬데스 통계 · 궁극기 통계 · 개인 통계 · 선수 비교 */}
           <button onClick={goHome} style={navButtonStyle(currentView === "home")}> <LayoutDashboard size={16} /> {t.dashboard} </button>
           <button onClick={goSessions} style={navButtonStyle(["sessions", "scrim", "match"].includes(currentView))}> <History size={16} /> {t.sessions} </button>
           <button onClick={goOverall} style={navButtonStyle(currentView === "overall")}> <BarChart3 size={16} /> {t.overall} </button>
-          <button onClick={goUltimates} style={navButtonStyle(currentView === "ultimates")}> <Zap size={16} /> {t.navUltimateStats} </button>
-
-          <button onClick={goFirstKill} style={navButtonStyle(currentView === "firstkill")}> <Crosshair size={16} /> {t.navFirstKill} </button>
-          <button onClick={goFirstDeath} style={navButtonStyle(currentView === "firstdeath")}> <Skull size={16} /> {t.navFirstDeath} </button>
+          <button onClick={goFightLab} style={navButtonStyle(currentView === "fightlab")}> <FlaskConical size={16} /> {t.navFightLab} </button>
+          <button onClick={goUltAnalysis} style={navButtonStyle(currentView === "ultanalysis")}> <Crosshair size={16} /> {t.navUltAnalysis} </button>
           <button onClick={goFirstFight} style={navButtonStyle(currentView === "firstfight")}> <Swords size={16} /> {t.navFirstFight} </button>
-
+          <button onClick={goKillDeath} style={navButtonStyle(currentView === "killdeath")}> <Skull size={16} /> {t.navKillDeath} </button>
+          <button onClick={goUltimates} style={navButtonStyle(currentView === "ultimates")}> <Zap size={16} /> {t.navUltimateStats} </button>
           <button onClick={goPersonal} style={navButtonStyle(currentView === "personal")}> <User size={16} /> {t.navPersonal} </button>
           <button onClick={goCompare} style={navButtonStyle(currentView === "compare")}> <Users size={16} /> {t.navCompare} </button>
         </nav>
@@ -386,9 +394,10 @@ function MainApp() {
     if (currentView === "match") return <MatchStats matchId={activeMatchId} onBack={() => goToScrim(activeScrimId)} />;
     if (currentView === "overall") return <OverallStats onBack={goHome} onGoSessions={goSessions} />;
     if (currentView === "ultimates") return <UltimateStats allScrims={allScrims} />;
-    if (currentView === "firstkill") return <FirstKillStats allScrims={allScrims} />; 
-    if (currentView === "firstdeath") return <FirstDeathStats allScrims={allScrims} />;
+    if (currentView === "killdeath") return <KillDeathStats allScrims={allScrims} />;
     if (currentView === "firstfight") return <FirstFightStats />;
+    if (currentView === "fightlab") return <FightLabStats />;
+    if (currentView === "ultanalysis") return <UltimateAnalysisStats />;
     if (currentView === "personal") return <div style={{ padding: '24px' }}><PlayerProfileView playersData={dynamicPlayersData} /></div>;
     if (currentView === "compare") return <div style={{ padding: '24px' }}><PlayerCompareView playersData={dynamicPlayersData} /></div>;
 

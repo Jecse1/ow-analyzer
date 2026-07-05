@@ -1842,6 +1842,387 @@ async def get_first_fights():
         raise HTTPException(status_code=500, detail=f"DB error: {e}")
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# 한타 분석 (베타) 전용: GET /api/fight-records
+# compute_fights 재사용(미수정). 한타 1개 = 응답 항목 1개(평탄 리스트).
+# ─────────────────────────────────────────────────────────────────────────────
+
+# 첫 킬 후 이 시간(초) 내 반대편 킬 발생 = "트레이드됨"
+TRADE_WINDOW_SEC = 5
+
+# 영웅 → 역할. 프론트 App.jsx heroRole과 동일 분류 + 신영웅.
+# (신영웅 역할 근거: player_stats 집계 — 도미나 blocked/10≈24.8k→탱커, 미즈키 heal/10≈10k·
+#  제트팩 캣 heal/10≈7.8k→지원, 벤데타/시온/안란/엠레/시에라/벤처/프레야 heal·blocked≈0→딜러)
+# 매핑에 없는 영웅은 "other"로 안전 처리.
+_FIGHTLAB_TANKS = [
+    '디바', 'D.Va', '둠피스트', 'Doomfist', '정커퀸', 'Junker Queen', '마우가', 'Mauga',
+    '오리사', 'Orisa', '라마트라', 'Ramattra', '라인하르트', 'Reinhardt', '로드호그', 'Roadhog',
+    '시그마', 'Sigma', '윈스턴', 'Winston', '레킹볼', 'Wrecking Ball', '자리야', 'Zarya',
+    '해저드', 'Hazard', '도미나', 'Domina',
+]
+_FIGHTLAB_SUPPORTS = [
+    '아나', 'Ana', '바티스트', 'Baptiste', '브리기테', 'Brigitte', '일리아리', 'Illari',
+    '키리코', 'Kiriko', '라이프위버', 'Lifeweaver', '루시우', 'Lucio', '메르시', 'Mercy',
+    '모이라', 'Moira', '젠야타', 'Zenyatta', '주노', 'Juno', '미즈키', 'Mizuki',
+    '제트팩 캣', 'Jetpack Cat', '우양', 'Wuyang',
+]
+_FIGHTLAB_DAMAGE = [
+    '겐지', 'Genji', '리퍼', 'Reaper', '메이', 'Mei', '바스티온', 'Bastion',
+    '벤처', 'Venture', '소전', 'Sojourn', '솔저: 76', '솔저 76', '솔저76', 'Soldier: 76',
+    '솜브라', 'Sombra', '시메트라', 'Symmetra', '애쉬', 'Ashe', '에코', 'Echo',
+    '위도우메이커', 'Widowmaker', '정크랫', 'Junkrat', '캐서디', 'Cassidy',
+    '트레이서', 'Tracer', '파라', 'Pharah', '한조', 'Hanzo', '토르비욘', 'Torbjorn', 'Torbjörn',
+    '프레야', 'Freja', '벤데타', 'Vendetta', '시에라', 'Sierra', '시온', '안란', '엠레',
+]
+HERO_ROLE_DATA: dict = {}
+for _h in _FIGHTLAB_TANKS:
+    HERO_ROLE_DATA[_h] = "tank"
+for _h in _FIGHTLAB_SUPPORTS:
+    HERO_ROLE_DATA[_h] = "support"
+for _h in _FIGHTLAB_DAMAGE:
+    HERO_ROLE_DATA[_h] = "damage"
+
+
+def _fightlab_hero_role(hero: str) -> str:
+    """영웅명 → tank/damage/support/other. 미등록 영웅은 'other'(에러 금지)."""
+    if not hero:
+        return "other"
+    return HERO_ROLE_DATA.get(hero) or HERO_ROLE_DATA.get(hero.strip()) or "other"
+
+
+def _fightlab_side(team_name: str, t1: str, t2: str) -> int:
+    """이벤트의 팀명 → 1/2/0(불명). '1팀'/'Team 1' 별칭 포함(_check_is_* 재사용)."""
+    from services.fight_analysis import _check_is_team1, _check_is_team2
+    if _check_is_team1(team_name or "", t1):
+        return 1
+    if _check_is_team2(team_name or "", t2):
+        return 2
+    return 0
+
+
+def _fight_to_record(f: dict, our_side: int, t1: str, t2: str,
+                     s: "DBSession", m: "DBMatch", map_type: str,
+                     round_number=None) -> dict:
+    """compute_fights 내부 dict 1개 → /api/fight-records 응답 항목 1개."""
+    enemy_side = 2 if our_side == 1 else 1
+    our_team = t1 if our_side == 1 else t2
+    enemy_team = t2 if our_side == 1 else t1
+
+    # 한타 승자: compute_fights winner(t1/t2/'Draw') → us/them/unknown(무승부=판정 불가)
+    winner_name = f.get("winner", "Draw")
+    if winner_name == t1:
+        fight_winner = "us" if our_side == 1 else "them"
+    elif winner_name == t2:
+        fight_winner = "us" if our_side == 2 else "them"
+    else:
+        fight_winner = "unknown"
+
+    kills = [e for e in f.get("events", []) if e.get("event_type") == "kill"]
+    ults = [e for e in f.get("events", []) if e.get("event_type") == "ultimate_start"]
+
+    # 첫 킬 (killer 소속이 우리면 첫픽, 상대면 우리 첫데스)
+    first_kill = None
+    first_kill_traded = False
+    first_death_traded = False
+    if kills:
+        fk = kills[0]
+        killer_side = _fightlab_side(fk.get("player_team", ""), t1, t2)
+        by = "us" if killer_side == our_side else ("them" if killer_side == enemy_side else "unknown")
+        first_kill = {
+            "by": by,
+            "killer_hero": fk.get("player_hero", ""),
+            "killer_name": fk.get("player_name", ""),
+            "victim_hero": fk.get("target_hero", ""),
+            "victim_name": fk.get("target_name", ""),
+            "victim_role": _fightlab_hero_role(fk.get("target_hero", "")),
+            "timestamp": fk.get("timestamp", 0),
+        }
+        fk_ts = fk.get("timestamp", 0)
+        for k in kills[1:]:
+            if k.get("timestamp", 0) - fk_ts > TRADE_WINDOW_SEC:
+                break
+            k_side = _fightlab_side(k.get("player_team", ""), t1, t2)
+            if by == "us" and k_side == enemy_side:
+                first_kill_traded = True   # 우리 첫픽이 5초 내 되갚아짐
+            elif by == "them" and k_side == our_side:
+                first_death_traded = True  # 우리 첫데스를 5초 내 되갚음
+    # 궁극기: 한타 내 ultimate_start 개수/첫 사용 측
+    # ults_list: 콤보 분석용 "누가 어떤 궁을 썼는지" 목록(추가 필드 — 기존 필드/집계 무변경).
+    #            소속 불명(team 매칭 실패) 이벤트는 기존 개수 집계와 동일하게 제외.
+    our_ult_count = 0
+    enemy_ult_count = 0
+    first_ult_side = "none"
+    ults_list = []
+    for u in ults:
+        u_side = _fightlab_side(u.get("player_team", ""), t1, t2)
+        if u_side == our_side:
+            our_ult_count += 1
+        elif u_side == enemy_side:
+            enemy_ult_count += 1
+        else:
+            continue
+        ults_list.append({
+            "side": "us" if u_side == our_side else "them",
+            "player": u.get("player_name", ""),
+            "hero": u.get("player_hero", ""),
+            "role": _fightlab_hero_role(u.get("player_hero", "")),
+            "timestamp": u.get("timestamp", 0),
+        })
+        if first_ult_side == "none":
+            first_ult_side = "us" if u_side == our_side else "them"
+
+    return {
+        "session_id": s.id,
+        "session_date": s.date,
+        "match_id": m.id,
+        "map_name": m.map_name,
+        "map_type": map_type,
+        "our_team": our_team,
+        "enemy_team": enemy_team,
+        "fight_winner": fight_winner,
+        "first_kill": first_kill,
+        "first_kill_traded": first_kill_traded,
+        "first_death_traded": first_death_traded,
+        "our_ult_count": our_ult_count,
+        "enemy_ult_count": enemy_ult_count,
+        "first_ult_side": first_ult_side,
+        "ults": ults_list,
+        "start_timestamp": f.get("startTime", 0),
+        # VOD 점프용 필드(추가만 — first-fights의 _first_fight_item과 동일 소스/형식)
+        "round_number": round_number,
+        "video_url": m.video_url or "",
+        "video_offset": m.video_offset or 0,
+        "game_setup_sec": m.game_setup_sec,
+        "pauses": _build_match_pauses(m),
+    }
+
+
+@app.get("/api/fight-records")
+async def get_fight_records(base_team: str = "FLC"):
+    """한타 분석(베타) 탭 전용. 모든 한타를 평탄 리스트로 반환하고 프론트가 기간별 집계만 수행.
+    - 한타 그룹핑/승자: compute_fights 재사용(미수정). 라운드 단위로 계산(기존 UltimateStats와 동일).
+    - 승자 판정: 생존자 수 비교(fight_analysis.py). 무승부(동수)는 winner='unknown' → 프론트 집계 제외.
+    - base_team(기본 FLC)이 참가하지 않은 매치는 건너뜀. soft-delete(deleted_at) 숨김.
+    """
+    if not _DB_AVAILABLE:
+        raise HTTPException(status_code=503, detail="Database not available")
+    try:
+        from sqlalchemy.orm import selectinload
+        async with AsyncSessionLocal() as db:
+            result = await db.execute(
+                select(DBSession)
+                .where(DBSession.deleted_at.is_(None))
+                .options(
+                    selectinload(DBSession.matches).selectinload(DBMatch.rounds).selectinload(DBRound.events),
+                    selectinload(DBSession.matches).selectinload(DBMatch.pauses),
+                )
+                .order_by(DBSession.date.desc(), DBSession.id.desc())
+            )
+            sessions = result.scalars().all()
+
+            records: list = []
+            skipped_matches = 0
+            for s in sessions:
+                for m in (s.matches or []):
+                    if m.deleted_at is not None:
+                        continue
+                    t1, t2 = m.team1_name, m.team2_name
+                    if t1 == base_team:
+                        our_side = 1
+                    elif t2 == base_team:
+                        our_side = 2
+                    else:
+                        skipped_matches += 1
+                        continue
+                    map_type = resolve_map_type(m.map_name)
+                    for r in (m.rounds or []):
+                        ev_dicts = [_db_event_to_dict(ev) for ev in (r.events or [])]
+                        for f in compute_fights(ev_dicts, t1, t2):
+                            records.append(_fight_to_record(f, our_side, t1, t2, s, m, map_type, r.round_number))
+
+            total = len(records)
+            unknown = sum(1 for rec in records if rec["fight_winner"] == "unknown")
+            return {
+                "meta": {
+                    "base_team": base_team,
+                    "trade_window_sec": TRADE_WINDOW_SEC,
+                    "total_fights": total,
+                    "winner_unknown_count": unknown,
+                    "winner_unknown_rate": (unknown / total) if total > 0 else 0,
+                    "skipped_matches_without_base_team": skipped_matches,
+                },
+                "records": records,
+            }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"DB error: {e}")
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 한타 분석 (베타) [선수] 서브탭 전용: GET /api/player-fight-stats
+# (매치 × 선수 × 영웅) 단위 가산(additive) 집계. 프론트가 기간/필터별로 합산만 수행.
+# compute_fights 재사용(미수정). 기존 엔드포인트/필드 무변경 — 신규 추가만.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# 백분위 풀 포함 최소 표본(프론트 안내용 상수 — 응답 meta로 내려줌)
+MIN_SAMPLE_FOR_PERCENTILE_FIGHTS = 20   # 한타 지표: 최소 20한타
+MIN_SAMPLE_FOR_PERCENTILE_ROUNDS = 10   # 라운드 지표: 최소 10라운드
+PERCENTILE_MIN_POOL = 8                 # 풀 최소 인원
+
+
+@app.get("/api/player-fight-stats")
+async def get_player_fight_stats(base_team: str = "FLC"):
+    """선수별 한타/라운드 지표의 원자료.
+    - 한타 지표: 라운드별 compute_fights 결과에서 선수·영웅 단위로 집계.
+      · fights(한타 수)는 그 라운드에 player_stats 엔트리가 있는 선수(=출전)에게 라운드의 한타 수를 부여.
+      · kp_sum/kp_fights: 팀 킬>0인 한타에서 (본인 킬/팀 킬)의 합과 그 한타 수 → 킬 관여율 = kp_sum/kp_fights.
+      · first_kills/first_deaths: 한타 첫 킬의 킬러/희생자 기준.
+      · ult_*: 한타 내 ultimate_start 기준. ult_fight_known은 승자 판정 가능한 궁 사용 한타 수.
+    - 라운드 지표: player_stats(라운드 요약)를 그대로 합산. duration_sec 없는(<=0) 라운드는 제외.
+    - side: base_team(FLC) 기준 'us'/'them'. 상대 선수도 동일 구조로 집계(백분위 풀·상대 시점용).
+    """
+    if not _DB_AVAILABLE:
+        raise HTTPException(status_code=503, detail="Database not available")
+    try:
+        from sqlalchemy.orm import selectinload
+        async with AsyncSessionLocal() as db:
+            result = await db.execute(
+                select(DBSession)
+                .where(DBSession.deleted_at.is_(None))
+                .options(
+                    selectinload(DBSession.matches).options(
+                        selectinload(DBMatch.rounds).selectinload(DBRound.events),
+                        selectinload(DBMatch.rounds).selectinload(DBRound.player_stats),
+                    )
+                )
+                .order_by(DBSession.date.desc(), DBSession.id.desc())
+            )
+            sessions = result.scalars().all()
+
+            items: dict = {}  # (match_id, player, hero, side_num) -> acc dict
+
+            def get_acc(m, s, our_side, pn, hn, side_num):
+                key = (m.id, pn, hn, side_num)
+                if key not in items:
+                    items[key] = {
+                        "session_id": s.id, "session_date": s.date, "match_id": m.id,
+                        "map_name": m.map_name,
+                        "our_team": m.team1_name if our_side == 1 else m.team2_name,
+                        "enemy_team": m.team2_name if our_side == 1 else m.team1_name,
+                        "side": "us" if side_num == our_side else "them",
+                        "player_name": pn, "hero": hn,
+                        "role": _fightlab_hero_role(hn),
+                        # 한타 지표(이벤트 기반)
+                        "fights": 0, "kp_sum": 0.0, "kp_fights": 0,
+                        "first_kills": 0, "first_deaths": 0,
+                        "ult_uses": 0, "ult_fights": 0, "ult_fight_wins": 0, "ult_fight_known": 0,
+                        # 라운드 지표(player_stats 기반)
+                        "rounds": 0, "duration_sec": 0.0, "hero_time": 0.0,
+                        "final_blows": 0.0, "deaths": 0.0,
+                        "hero_damage": 0.0, "healing": 0.0, "ults_used": 0.0,
+                    }
+                return items[key]
+
+            for s in sessions:
+                for m in (s.matches or []):
+                    if m.deleted_at is not None:
+                        continue
+                    t1, t2 = m.team1_name, m.team2_name
+                    if t1 == base_team:
+                        our_side = 1
+                    elif t2 == base_team:
+                        our_side = 2
+                    else:
+                        continue
+                    for r in (m.rounds or []):
+                        ev_dicts = [_db_event_to_dict(ev) for ev in (r.events or [])]
+                        fights = compute_fights(ev_dicts, t1, t2)
+
+                        # 한타별 사전 계산: 킬 이벤트 / (선수,영웅)별 킬 수 / 승자 측 / 궁 사용자
+                        fight_pre = []
+                        for f in fights:
+                            kills = [e for e in f.get("events", []) if e.get("event_type") == "kill"]
+                            per_kills: dict = {}
+                            for k in kills:
+                                pk = (k.get("player_name", ""), k.get("player_hero", ""),
+                                      _fightlab_side(k.get("player_team", ""), t1, t2))
+                                per_kills[pk] = per_kills.get(pk, 0) + 1
+                            winner_name = f.get("winner", "Draw")
+                            win_side = 1 if winner_name == t1 else 2 if winner_name == t2 else 0
+                            ult_events = [e for e in f.get("events", []) if e.get("event_type") == "ultimate_start"]
+                            fight_pre.append({
+                                "kills": kills, "per_kills": per_kills,
+                                "t1_kills": f.get("t1Kills", 0), "t2_kills": f.get("t2Kills", 0),
+                                "win_side": win_side, "ults": ult_events,
+                            })
+
+                        # (1) 출전(=player_stats 엔트리) 기반: 한타 수·킬 관여율·라운드 지표
+                        dur = r.duration_sec if (r.duration_sec is not None and r.duration_sec > 0) else None
+                        for ps in (r.player_stats or []):
+                            pn, hn = ps.player_name or "", ps.hero_name or ""
+                            if not pn or pn == "Unknown":
+                                continue
+                            side_num = _fightlab_side(ps.team_name or "", t1, t2)
+                            if side_num == 0:
+                                continue
+                            acc = get_acc(m, s, our_side, pn, hn, side_num)
+                            # 라운드 지표 (duration 없는 라운드는 표본 제외)
+                            if dur is not None:
+                                acc["rounds"] += 1
+                                acc["duration_sec"] += dur
+                                acc["final_blows"] += ps.final_blows or 0
+                                acc["deaths"] += ps.deaths or 0
+                                acc["hero_damage"] += ps.hero_damage_dealt or 0
+                                acc["healing"] += ps.healing_dealt or 0
+                                acc["ults_used"] += ps.ultimates_used or 0
+                            acc["hero_time"] += ps.hero_time_played or 0
+                            # 한타 수 + 킬 관여율
+                            acc["fights"] += len(fight_pre)
+                            for fp in fight_pre:
+                                team_kills = fp["t1_kills"] if side_num == 1 else fp["t2_kills"]
+                                if team_kills > 0:
+                                    acc["kp_fights"] += 1
+                                    acc["kp_sum"] += fp["per_kills"].get((pn, hn, side_num), 0) / team_kills
+
+                        # (2) 이벤트 기반: 첫 킬/첫데스/궁
+                        for fp in fight_pre:
+                            if fp["kills"]:
+                                fk = fp["kills"][0]
+                                k_side = _fightlab_side(fk.get("player_team", ""), t1, t2)
+                                if k_side and fk.get("player_name"):
+                                    get_acc(m, s, our_side, fk["player_name"], fk.get("player_hero", ""), k_side)["first_kills"] += 1
+                                v_side = _fightlab_side(fk.get("target_team", ""), t1, t2)
+                                if v_side and fk.get("target_name"):
+                                    get_acc(m, s, our_side, fk["target_name"], fk.get("target_hero", ""), v_side)["first_deaths"] += 1
+                            ult_users = set()
+                            for u in fp["ults"]:
+                                u_side = _fightlab_side(u.get("player_team", ""), t1, t2)
+                                if u_side == 0 or not u.get("player_name"):
+                                    continue
+                                acc = get_acc(m, s, our_side, u["player_name"], u.get("player_hero", ""), u_side)
+                                acc["ult_uses"] += 1
+                                ult_users.add((u["player_name"], u.get("player_hero", ""), u_side))
+                            for (pn, hn, u_side) in ult_users:
+                                acc = get_acc(m, s, our_side, pn, hn, u_side)
+                                acc["ult_fights"] += 1
+                                if fp["win_side"] != 0:
+                                    acc["ult_fight_known"] += 1
+                                    if fp["win_side"] == u_side:
+                                        acc["ult_fight_wins"] += 1
+
+            return {
+                "meta": {
+                    "base_team": base_team,
+                    "min_sample_for_percentile_fights": MIN_SAMPLE_FOR_PERCENTILE_FIGHTS,
+                    "min_sample_for_percentile_rounds": MIN_SAMPLE_FOR_PERCENTILE_ROUNDS,
+                    "percentile_min_pool": PERCENTILE_MIN_POOL,
+                    "items": len(items),
+                },
+                "items": list(items.values()),
+            }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"DB error: {e}")
+
+
 @app.get("/api/scrims/{scrim_id}")
 async def get_scrim_detail(scrim_id: str):
     if not _DB_AVAILABLE:

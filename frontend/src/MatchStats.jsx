@@ -9,6 +9,7 @@ import {
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
 import { buildVideoLink, hasVideo } from "./utils/videoLink";
+import { VOD_LEAD_SEC } from "./FightLabStats"; // 궁극기 타임라인 VOD 점프 리드(한타 분석 탭과 동일 상수)
 import NoVideoModal from "./NoVideoModal";
 import { computeFights } from './utils/fightAnalysis';
 
@@ -1399,6 +1400,95 @@ const EventsView = ({ matchData, t1Name, t2Name }) => {
 };
 
 // =================================================================================
+// [4.5] 궁극기 타임라인 뷰 (UltTimelineView)
+// 현재 보는 매치/라운드 범위(dataSummary.fights — 킬 로그와 동일 computeFights 결과)의
+// 한타별 궁 흐름 뷰어. 계산 로직 신규 없음: 이미 계산된 fights를 그대로 표시.
+// VOD 점프 = buildVideoLink(한타 시작 - VOD_LEAD_SEC) — 한타 분석 탭과 동일 계산(영상상 약 12초 전).
+// =================================================================================
+const UltTimelineView = ({ fights, matchData, t1Name, t2Name }) => {
+  const { theme } = useTheme();
+  const { t } = useLanguage();
+  const [noVideoModal, setNoVideoModal] = useState(false);
+  const videoExists = hasVideo(matchData?.video_url);
+
+  // EventsView와 동일한 기준 시각(첫 setup_complete) — 표시용 매치 시계
+  const setupStartTime = useMemo(() => {
+    if (!matchData?.rounds) return 0;
+    const allEvents = matchData.rounds.flatMap(r => r.events || []);
+    const setupEvent = allEvents.find(e =>
+      e.event_type === 'setup_complete' ||
+      (e.event_type && e.event_type.includes('setup_complete'))
+    );
+    return setupEvent ? setupEvent.timestamp : 0;
+  }, [matchData]);
+
+  const fmtClock = (sec) => {
+    const neg = sec < 0;
+    const s = Math.floor(Math.abs(sec));
+    return `${neg ? '-' : ''}${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+  };
+
+  const openVod = (f) => {
+    if (!videoExists) { setNoVideoModal(true); return; }
+    const url = buildVideoLink(matchData.video_url, Math.max(0, f.startTime - VOD_LEAD_SEC), matchData);
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  return (
+    <>
+      <NoVideoModal open={noVideoModal} onClose={() => setNoVideoModal(false)} />
+      <p style={{ color: theme.textSub, fontSize: '13px', margin: '0 0 16px' }}>{t.msUltTlNote}</p>
+      {fights.length === 0 && (
+        <div style={{ padding: '40px', textAlign: 'center', color: theme.textSub }}>{t.msNoFights}</div>
+      )}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+        {fights.map((f, i) => {
+          const ults = (f.events || []).filter(e => e.event_type === 'ultimate_start');
+          const firstTs = ults.length > 0 ? ults[0].timestamp : null;
+          const winnerNode = f.winner === 'Draw'
+            ? <span style={{ color: theme.textSub }}>{t.msUltTlDraw}</span>
+            : <span style={{ color: resolveTeamColor(f.winner, t1Name, t2Name), fontWeight: 800 }}>{f.winner}</span>;
+          return (
+            <div key={i} style={{ background: theme.surface, border: `1px solid ${theme.border}`, borderRadius: '12px', padding: '14px 18px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', marginBottom: ults.length > 0 ? '10px' : 0 }}>
+                <span style={{ fontWeight: 800, color: theme.text }}>{t.msUltTlFight} {i + 1}</span>
+                <span style={{ color: theme.textSub, fontSize: '13px', fontFamily: 'monospace' }}>{fmtClock(f.startTime - setupStartTime)}</span>
+                <span style={{ fontSize: '13px', color: theme.textSub }}>{t.msUltTlWinner}: {winnerNode}</span>
+                <button onClick={() => openVod(f)}
+                  style={{ marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'transparent', border: 'none', cursor: 'pointer', color: videoExists ? theme.textSub : theme.border, fontSize: '13px' }}>
+                  <PlayCircle size={16} /> {videoExists ? t.ffWatch : t.ffNoVideo}
+                </button>
+              </div>
+              {ults.length === 0 ? (
+                <div style={{ color: theme.textSub, fontSize: '13px' }}>{t.msUltTlNoUlt}</div>
+              ) : (
+                <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '6px', fontSize: '13px' }}>
+                  {ults.map((u, j) => (
+                    <React.Fragment key={j}>
+                      {j > 0 && <span style={{ color: theme.textSub }}>→</span>}
+                      <span style={{
+                        display: 'inline-flex', alignItems: 'center', gap: '5px',
+                        background: theme.surfaceHighlight, border: `1px solid ${theme.border}`,
+                        borderRadius: '8px', padding: '3px 9px', whiteSpace: 'nowrap',
+                      }}>
+                        <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: resolveTeamColor(u.player_team, t1Name, t2Name), flexShrink: 0 }} />
+                        <span style={{ color: theme.text, fontWeight: 600 }}>{u.player_name}</span>
+                        <span style={{ color: theme.textSub }}>({getDisplayHeroName(u.player_hero)})</span>
+                        <span style={{ color: theme.textSub, fontFamily: 'monospace' }}>+{(u.timestamp - firstTs).toFixed(1)}s</span>
+                      </span>
+                    </React.Fragment>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </>
+  );
+};
+
+// =================================================================================
 // [5] 플레이어 통계 뷰 (PlayerStatsView)
 // =================================================================================
 const PlayerStatsView = ({ matchData, t1Name, t2Name }) => {
@@ -1667,6 +1757,7 @@ const MatchStats = ({ matchId, onBack, matchData: initialMatchData }) => {
         <button onClick={() => setActiveMainTab('kill')} style={btnStyle(activeMainTab === 'kill')}><Skull size={18}/> {t.msTabKill}</button>
         <button onClick={() => setActiveMainTab('chart')} style={btnStyle(activeMainTab === 'chart')}><BarChart2 size={18}/> {t.msTabChart}</button>
         <button onClick={() => setActiveMainTab('event')} style={btnStyle(activeMainTab === 'event')}><Activity size={18}/> {t.msTabTimeline}</button>
+        <button onClick={() => setActiveMainTab('ulttl')} style={btnStyle(activeMainTab === 'ulttl')}><Zap size={18}/> {t.msTabUltTl}</button>
         <button onClick={() => setActiveMainTab('compare')} style={btnStyle(activeMainTab === 'compare')}><User size={18}/> {t.msTabCompare}</button>
       </div>
 
@@ -1675,6 +1766,7 @@ const MatchStats = ({ matchId, onBack, matchData: initialMatchData }) => {
           {activeMainTab === 'kill' && <KillLogView fights={dataSummary.fights} activeRoundTab={activeRoundTab} t1Name={dataSummary.t1Name} t2Name={dataSummary.t2Name} />}
           {activeMainTab === 'chart' && <ChartView matchData={fetchedMatchData} rounds={dataSummary.rounds} fights={dataSummary.fights} t1Name={dataSummary.t1Name} t2Name={dataSummary.t2Name} />}
           {activeMainTab === 'event' && <EventsView matchData={fetchedMatchData} t1Name={dataSummary.t1Name} t2Name={dataSummary.t2Name} />}
+          {activeMainTab === 'ulttl' && <UltTimelineView fights={dataSummary.fights} matchData={fetchedMatchData} t1Name={dataSummary.t1Name} t2Name={dataSummary.t2Name} />}
           {activeMainTab === 'compare' && <PlayerStatsView matchData={fetchedMatchData} t1Name={dataSummary.t1Name} t2Name={dataSummary.t2Name} />}
       </div>
     </div>

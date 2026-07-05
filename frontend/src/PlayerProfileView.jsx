@@ -200,7 +200,10 @@ export default function PlayerProfileView({ playersData }) {
                                     <CartesianGrid strokeDasharray="3 3" stroke={theme.border} vertical={false} />
                                     <XAxis dataKey="match" stroke={theme.textSub} fontSize={11} tickLine={false} axisLine={false} tickFormatter={(val) => val.length > 10 ? val.substring(0, 10)+'...' : val}/>
                                     <YAxis stroke={theme.textSub} fontSize={11} tickLine={false} axisLine={false} width={30} domain={['dataMin - 0.5', 'dataMax + 0.5']}/>
-                                    <Tooltip contentStyle={{ backgroundColor: theme.surface, border: 'none', borderRadius: '8px', color: theme.text, fontSize:'12px' }} />
+                                    <Tooltip
+                                        contentStyle={{ backgroundColor: theme.surface, border: 'none', borderRadius: '8px', color: theme.text, fontSize:'12px' }}
+                                        formatter={(value, name, props) => [`${value} (FB ${props?.payload?.fb ?? '-'} / D ${props?.payload?.deaths ?? '-'})`, 'K/D']}
+                                    />
                                     <Line type="monotone" dataKey="kd" stroke="#ef4444" strokeWidth={3} dot={{ r: 4, fill: theme.surface, strokeWidth: 2 }} activeDot={{ r: 6 }} animationDuration={1000} />
                                 </LineChart>
                             </ResponsiveContainer>
