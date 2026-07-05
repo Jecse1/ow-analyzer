@@ -770,7 +770,7 @@ export default function UltimateAnalysisStats() {
         : [t.flExpSidebar, t.flExpWinner, t.flExpCombo1, t.flExpCombo2, t.flExpCombo3, t.flExpSeq1, t.flExpSeq2, t.flExpSeq3, t.flExpCtr1, t.flExpCtr2, t.flExpCtr3, t.flExpWindows, t.flExpVod];
 
     return (
-        <FightScopeShell title={t.flUaTitle} desc={t.flUaDesc} sc={sc} t={t}
+        <FightScopeShell title={t.flUaTitle} desc={t.flUaDesc} sc={sc} t={t} opponentOnlyForThem
             captionRight={!loading && !error ? <VerdictChip verdict={verdict} t={t} /> : null}>
             <SubTabPills tabs={[['situation', t.flUaTabSituation], ['comboseq', t.flUaTabComboSeq], ['patterns', t.flPatTab], ['init', t.flInitTab]]} active={subTab} onChange={setSubTab} />
 

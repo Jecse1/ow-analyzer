@@ -491,6 +491,10 @@ export const flipRecord = (r) => ({
     enemy_ult_count: r.our_ult_count,
     first_ult_side: flipSide(r.first_ult_side),
     ults: (r.ults || []).map(u => ({ ...u, side: flipSide(u.side) })),
+    // 매치(맵) 단위 필드도 대칭 반전 — 맵 분석 탭용. 기존 탭은 이 필드들을 읽지 않으므로 동작 무변경.
+    match_result: r.match_result === 'win' ? 'loss' : r.match_result === 'loss' ? 'win' : r.match_result,
+    our_score: r.enemy_score,
+    enemy_score: r.our_score,
 });
 
 // ── 궁극기 콤보 분석 (frame_033~035: 컨트롤 행 + 상위/하위 콤보 표) ─────────────
@@ -1490,7 +1494,10 @@ export function useFightScope(records, t) {
 }
 
 // 사이드바 (frame_016 좌측): 초안을 수정하고 '적용'을 눌러야 반영 — 기존 aside JSX 그대로 추출
-export function ScopeSidebar({ sc, t }) {
+// 옵션(전부 기본 false — 기존 사용처 동작 무변경, 맵 분석 탭 전용):
+//   hideMap: 맵 필터 숨김 · hideMinSample: 최소 표본 입력 숨김(표본 하한 없는 탭)
+//   opponentOnlyForThem: 상대팀 선택을 '상대 시점'일 때만 노출(우리 시점 전환 시 상대 필터 초기화)
+export function ScopeSidebar({ sc, t, hideMap = false, hideMinSample = false, opponentOnlyForThem = false }) {
     const dateInputStyle = { width: '100%', boxSizing: 'border-box', background: T.inputBg, color: T.text, border: `1px solid ${T.inputBorder}`, borderRadius: '6px', padding: '4px 7px', fontSize: '12px', outline: 'none' };
     const sideLabel = { fontSize: '11px', fontWeight: 500, color: T.sub, marginBottom: '5px' };
     const sideSelect = { width: '100%', boxSizing: 'border-box', background: T.inputBg, color: T.text, border: `1px solid ${T.inputBorder}`, borderRadius: '6px', padding: '6px 8px', fontSize: '12px', fontWeight: 400, outline: 'none', cursor: 'pointer' };
@@ -1529,31 +1536,41 @@ export function ScopeSidebar({ sc, t }) {
             </div>
             <div>
                 <div style={sideLabel}>{t.flSideView}</div>
-                <select value={draft.perspective} onChange={e => setD({ perspective: e.target.value })} style={sideSelect}>
+                <select value={draft.perspective}
+                    onChange={e => {
+                        const v = e.target.value;
+                        setD(opponentOnlyForThem && v !== 'them' ? { perspective: v, opponent: 'All' } : { perspective: v });
+                    }} style={sideSelect}>
                     <option value="us">{t.flPerspUs}</option>
                     <option value="them">{t.flPerspThem}</option>
                 </select>
             </div>
-            <div>
-                <div style={sideLabel}>{t.flSideOpp}</div>
-                <select value={draft.opponent} onChange={e => setD({ opponent: e.target.value })} style={sideSelect}>
-                    <option value="All">{t.ffAllOpponents}</option>
-                    {opponentList.map(tm => <option key={tm} value={tm}>{tm}</option>)}
-                </select>
-            </div>
-            <div>
-                <div style={sideLabel}>{t.flSideMap}</div>
-                <select value={draft.map} onChange={e => setD({ map: e.target.value })} style={sideSelect}>
-                    <option value="All">{t.ffAllMaps}</option>
-                    {mapList.map(mp => <option key={mp} value={mp}>{mp}</option>)}
-                </select>
-            </div>
-            <div>
-                <div style={sideLabel}>{t.flSideMin}</div>
-                <input type="number" min="0" value={draft.minSample}
-                    onChange={e => setD({ minSample: Math.max(0, Number(e.target.value) || 0) })}
-                    style={{ ...sideSelect, cursor: 'text' }} />
-            </div>
+            {(!opponentOnlyForThem || draft.perspective === 'them') && (
+                <div>
+                    <div style={sideLabel}>{t.flSideOpp}</div>
+                    <select value={draft.opponent} onChange={e => setD({ opponent: e.target.value })} style={sideSelect}>
+                        <option value="All">{t.ffAllOpponents}</option>
+                        {opponentList.map(tm => <option key={tm} value={tm}>{tm}</option>)}
+                    </select>
+                </div>
+            )}
+            {!hideMap && (
+                <div>
+                    <div style={sideLabel}>{t.flSideMap}</div>
+                    <select value={draft.map} onChange={e => setD({ map: e.target.value })} style={sideSelect}>
+                        <option value="All">{t.ffAllMaps}</option>
+                        {mapList.map(mp => <option key={mp} value={mp}>{mp}</option>)}
+                    </select>
+                </div>
+            )}
+            {!hideMinSample && (
+                <div>
+                    <div style={sideLabel}>{t.flSideMin}</div>
+                    <input type="number" min="0" value={draft.minSample}
+                        onChange={e => setD({ minSample: Math.max(0, Number(e.target.value) || 0) })}
+                        style={{ ...sideSelect, cursor: 'text' }} />
+                </div>
+            )}
             <button onClick={applyDraft}
                 style={{ alignSelf: 'flex-start', background: '#e5484d', color: '#fff', border: 'none', borderRadius: '7px', padding: '7px 18px', fontWeight: 700, fontSize: '12px', cursor: 'pointer' }}>
                 {t.flApply}
@@ -1563,7 +1580,8 @@ export function ScopeSidebar({ sc, t }) {
 }
 
 // 스코프 캡션(좌) + 우측 노드(총평 칩 등) — 기존 캡션 행 JSX 그대로 추출
-export function ScopeCaption({ sc, t, right }) {
+// hideMap: 맵 항목 숨김(맵 분석 탭용). 기본 false — 기존 사용처 동작 무변경.
+export function ScopeCaption({ sc, t, right, hideMap = false }) {
     const fmtRange = ([s, e]) => `${s || '…'} ~ ${e || '…'}`;
     return (
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', flexWrap: 'wrap', marginBottom: '14px' }}>
@@ -1572,7 +1590,7 @@ export function ScopeCaption({ sc, t, right }) {
                 {' · '}{t.flScopeTrend}: <span style={{ color: T.text }}>{sc.presetA === 'all' ? t.flScopeNone : sc.pastLabel}</span>
                 {' · '}{t.flScopeView}: <span style={{ color: T.text }}>{sc.perspective === 'us' ? t.flPerspUs : t.flPerspThem}</span>
                 {' · '}{t.flScopeOpp}: <span style={{ color: T.text }}>{sc.selectedOpponent === 'All' ? t.all : sc.selectedOpponent}</span>
-                {' · '}{t.flScopeMap}: <span style={{ color: T.text }}>{sc.selectedMap === 'All' ? t.all : sc.selectedMap}</span>
+                {!hideMap && <>{' · '}{t.flScopeMap}: <span style={{ color: T.text }}>{sc.selectedMap === 'All' ? t.all : sc.selectedMap}</span></>}
             </div>
             {right}
         </div>
@@ -1745,7 +1763,8 @@ export function PerspectiveNotice({ sc, t }) {
 }
 
 // 페이지 공통 셸: 배경 + 제목 + 사이드바 + 캡션/겹침 경고 + 본문
-export function FightScopeShell({ title, desc, sc, t, captionRight, children }) {
+// hideMap/hideMinSample/opponentOnlyForThem: 맵 분석 탭용 사이드바 옵션(기본 false — 기존 사용처 무변경).
+export function FightScopeShell({ title, desc, sc, t, captionRight, children, hideMap = false, hideMinSample = false, opponentOnlyForThem = false }) {
     return (
         <div style={{ background: T.bg, minHeight: 'calc(100vh - 64px)', color: T.text }}>
         <style>{`.flb-row:hover{background:${T.hover} !important}`}</style>
@@ -1755,9 +1774,9 @@ export function FightScopeShell({ title, desc, sc, t, captionRight, children }) 
                 <p style={{ color: T.sub, marginTop: '6px', fontSize: '12px' }}>{desc}</p>
             </div>
             <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
-                <ScopeSidebar sc={sc} t={t} />
+                <ScopeSidebar sc={sc} t={t} hideMap={hideMap} hideMinSample={hideMinSample} opponentOnlyForThem={opponentOnlyForThem} />
                 <main style={{ flex: 1, minWidth: 0 }}>
-                    <ScopeCaption sc={sc} t={t} right={captionRight} />
+                    <ScopeCaption sc={sc} t={t} right={captionRight} hideMap={hideMap} />
                     {sc.overlap && (
                         <p style={{ color: T.yellow, fontSize: '12px', margin: '0 0 12px' }}>⚠ {t.flOverlapWarn}</p>
                     )}
@@ -1826,7 +1845,7 @@ export default function FightLabStats() {
         : [t.flExpSidebar, t.flPbExpSrc, t.flPbExpFights, t.flPbExpKp, t.flPbExpFkFd, t.flPbExpAxes, t.flPbExpSignals, t.flPbExpPool, t.flPbExpHeal, t.flPbExpLb];
 
     return (
-        <FightScopeShell title={t.flTitle} desc={t.flDesc} sc={sc} t={t}
+        <FightScopeShell title={t.flTitle} desc={t.flDesc} sc={sc} t={t} opponentOnlyForThem
             captionRight={!loading && !error ? <VerdictChip verdict={verdict} t={t} /> : null}>
             <SubTabPills tabs={[['fights', t.flTabFights], ['players', t.flTabPlayers]]} active={subTab} onChange={setSubTab} />
             <PerspectiveNotice sc={sc} t={t} />

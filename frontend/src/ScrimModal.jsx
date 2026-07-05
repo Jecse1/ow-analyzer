@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Upload, Plus, Trash2, Calendar, Youtube, Map, Clock, PauseCircle, AlertCircle, Users, PlayCircle } from 'lucide-react';
+import { X, Upload, Plus, Trash2, Calendar, Youtube, Map, Clock, PauseCircle, AlertCircle, Users, PlayCircle, Trophy } from 'lucide-react';
 // [중요] ThemeContext, LanguageContext 적용
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
@@ -25,7 +25,8 @@ const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
       end_time: '',
       result: '',
       has_pause: false,
-      pauses: []
+      pauses: [],
+      winner_override: ''
     }],
     files: []
   });
@@ -35,7 +36,7 @@ const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
     date: new Date().toISOString().split('T')[0],
     startHour: '20',
     endHour: '22',
-    matches: [{ map_name: '', videoUrl: '', team1Name: '1팀', team2Name: '2팀', start_time: '', end_time: '', result: '', has_pause: false, pauses: [] }],
+    matches: [{ map_name: '', videoUrl: '', team1Name: '1팀', team2Name: '2팀', start_time: '', end_time: '', result: '', has_pause: false, pauses: [], winner_override: '' }],
     files: []
   });
 
@@ -149,7 +150,7 @@ const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
   const addMatch = () => {
     setScrimData(prev => ({
       ...prev,
-      matches: [...prev.matches, { map_name: '', videoUrl: '', team1Name: '1팀', team2Name: '2팀', start_time: '', end_time: '', result: '', has_pause: false, pauses: [] }],
+      matches: [...prev.matches, { map_name: '', videoUrl: '', team1Name: '1팀', team2Name: '2팀', start_time: '', end_time: '', result: '', has_pause: false, pauses: [], winner_override: '' }],
       files: [...prev.files, null]
     }));
   };
@@ -316,6 +317,35 @@ const ScrimModal = ({ isOpen, onClose, onSubmit }) => {
                             </button>
                         </div>
                     )}
+                  </div>
+
+                  {/* 승패 보정 섹션 — 퍼즈 보정과 동일 자리·스타일, 맵 종류 무관 항상 노출.
+                      밀기맵 등 로그에 스코어가 없어 자동 판정이 무승부로 저장되는 매치의 실제 승팀을
+                      등록자가 수동 선택(기본 미보정). 저장 시 winner_override로 전달, 원본 winner 무변경. */}
+                  <div style={{ background: theme.surfaceHighlight, padding: '16px', borderRadius: '12px', marginBottom: '20px', border: `1px solid ${theme.borderHighlight}` }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+                        <label style={{ ...labelStyle, color: theme.text, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <Trophy size={16} color={theme.warning} /> {t.woLabel}
+                        </label>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                          {/* 좌우 순서 = team1, team2 순서와 일치 */}
+                          {[['', t.woNone], [match.team1Name, `${match.team1Name} ${t.woWinSuffix}`], [match.team2Name, `${match.team2Name} ${t.woWinSuffix}`]].map(([val, label], wi) => {
+                            const active = (match.winner_override || '') === val;
+                            return (
+                              <button key={wi} onClick={() => updateMatch(idx, 'winner_override', val)}
+                                style={{ padding: '6px 16px', borderRadius: '8px', border: '1px solid', cursor: 'pointer', fontSize: '13px', fontWeight: 'bold',
+                                  background: active ? (val === '' ? theme.surface : theme.warning) : 'transparent',
+                                  color: active ? (val === '' ? theme.text : '#000') : theme.textSub,
+                                  borderColor: active ? (val === '' ? theme.text : theme.warning) : theme.borderHighlight }}>
+                                {label}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                      <div style={{ fontSize: '12px', color: theme.textSub, marginTop: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <AlertCircle size={12} /> {t.woHint}
+                      </div>
                   </div>
 
                   <div>

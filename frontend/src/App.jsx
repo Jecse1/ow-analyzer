@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import {
-  LayoutDashboard, History, Users, BarChart3, Moon, Sun, Upload, AlertCircle, Globe, User, Zap, Skull, Crosshair, Swords
+  LayoutDashboard, History, Users, BarChart3, Moon, Sun, Upload, AlertCircle, Globe, User, Zap, Skull, Crosshair, Swords, Map as MapIcon
 } from "lucide-react";
 
 import { ThemeProvider, useTheme } from "./ThemeContext";
@@ -20,6 +20,7 @@ import KillDeathStats from "./KillDeathStats";
 import FirstFightStats from "./FirstFightStats";
 import FightLabStats from "./FightLabStats";
 import UltimateAnalysisStats from "./UltimateAnalysisStats";
+import MapAnalysisStats from "./MapAnalysisStats";
 import { FlaskConical } from "lucide-react";
 
 class ErrorBoundary extends React.Component {
@@ -279,6 +280,7 @@ function MainApp() {
   const goFirstFight = () => { setCurrentView("firstfight"); setActiveScrimId(null); setActiveMatchId(null); };
   const goUltAnalysis = () => { setCurrentView("ultanalysis"); setActiveScrimId(null); setActiveMatchId(null); };
   const goFightLab = () => { setCurrentView("fightlab"); setActiveScrimId(null); setActiveMatchId(null); };
+  const goMapAnalysis = () => { setCurrentView("mapanalysis"); setActiveScrimId(null); setActiveMatchId(null); };
   const goPersonal = () => { setCurrentView("personal"); setActiveScrimId(null); setActiveMatchId(null); };
   const goCompare = () => { setCurrentView("compare"); setActiveScrimId(null); setActiveMatchId(null); };
 
@@ -304,7 +306,9 @@ function MainApp() {
           end_time: m.end_time,
           result: m.result || "Unknown",
           hasPause: m.has_pause,
-          pauses: m.pauses || []
+          pauses: m.pauses || [],
+          // 승패 보정 — 등록자가 모달에서 수동 선택(맵 종류 무관). 미보정 = 빈값(서버에서 null 저장)
+          winnerOverride: m.winner_override || ""
         })),
         files: []
       };
@@ -349,10 +353,11 @@ function MainApp() {
         FLC Scrim
         </div>
         <nav style={{ display: "flex", gap: "8px", fontSize: "14px", fontWeight: 500 }}>
-          {/* 순서: 대시보드 · 스크림 세션 · 전체 통계 · 한타 분석 · 궁극기 분석 · 첫한타 · 킬데스 통계 · 궁극기 통계 · 개인 통계 · 선수 비교 */}
+          {/* 순서: 대시보드 · 스크림 세션 · 전체 통계 · 맵 분석 · 한타 분석 · 궁극기 분석 · 첫한타 · 킬데스 통계 · 궁극기 통계 · 개인 통계 · 선수 비교 */}
           <button onClick={goHome} style={navButtonStyle(currentView === "home")}> <LayoutDashboard size={16} /> {t.dashboard} </button>
           <button onClick={goSessions} style={navButtonStyle(["sessions", "scrim", "match"].includes(currentView))}> <History size={16} /> {t.sessions} </button>
           <button onClick={goOverall} style={navButtonStyle(currentView === "overall")}> <BarChart3 size={16} /> {t.overall} </button>
+          <button onClick={goMapAnalysis} style={navButtonStyle(currentView === "mapanalysis")}> <MapIcon size={16} /> {t.navMapAnalysis} </button>
           <button onClick={goFightLab} style={navButtonStyle(currentView === "fightlab")}> <FlaskConical size={16} /> {t.navFightLab} </button>
           <button onClick={goUltAnalysis} style={navButtonStyle(currentView === "ultanalysis")}> <Crosshair size={16} /> {t.navUltAnalysis} </button>
           <button onClick={goFirstFight} style={navButtonStyle(currentView === "firstfight")}> <Swords size={16} /> {t.navFirstFight} </button>
@@ -398,6 +403,7 @@ function MainApp() {
     if (currentView === "firstfight") return <FirstFightStats />;
     if (currentView === "fightlab") return <FightLabStats />;
     if (currentView === "ultanalysis") return <UltimateAnalysisStats />;
+    if (currentView === "mapanalysis") return <MapAnalysisStats onGoSession={goToScrim} />;
     if (currentView === "personal") return <div style={{ padding: '24px' }}><PlayerProfileView playersData={dynamicPlayersData} /></div>;
     if (currentView === "compare") return <div style={{ padding: '24px' }}><PlayerCompareView playersData={dynamicPlayersData} /></div>;
 

@@ -101,15 +101,16 @@ MAP_TYPE_DATA = {
     "사모아": "쟁탈", "Samoa": "Control",
     "도라도": "화물", "Dorado": "Escort", "리알토": "화물", "Rialto": "Escort",
     "서킷 로얄": "화물", "Circuit Royal": "Escort", "쓰레기촌": "화물", "Junkertown": "Escort",
-    "66번 국도": "화물", "Route 66": "Escort", "감시 기지: 지브raltar": "화물", "Watchpoint: Gibraltar": "Escort",
+    "66번 국도": "화물", "Route 66": "Escort", "감시 기지: 지브롤터": "화물", "지브롤터": "화물", "Watchpoint: Gibraltar": "Escort",
     "샴발리 수도원": "화물", "Shambali Monastery": "Escort", "하바나": "화물", "Havana": "Escort",
     "눔바니": "혼합", "Numbani": "Hybrid", "미드타운": "혼합", "Midtown": "Hybrid",
     "블리자드 월드": "혼합", "Blizzard World": "Hybrid", "아이헨발데": "혼합", "Eichenwalde": "Hybrid",
-    "왕의 길": "혼합", "King's Row": "Hybrid", "파라이소": "혼합", "Paraíso": "Hybrid",
-    "할리우드": "혼합", "Hollywood": "Hybrid",
+    "왕의 길": "혼합", "King's Row": "Hybrid", "파라이소": "혼합", "파라이수": "혼합", "Paraíso": "Hybrid",
+    "할리우드": "혼합", "Hollywood": "Hybrid", "네온교차로": "혼합",
     "뉴 퀸 스트리트": "밀기", "New Queen Street": "Push", "콜로세오": "밀기", "Colosseo": "Push",
     "에스페란사": "밀기", "Esperança": "Push", "이스페란사": "밀기", "룬아사피": "밀기", "루나사피": "밀기", "Runasapi": "Push",
     "뉴 정크 시티": "플래시포인트", "New Junk City": "Flashpoint", "수라바사": "플래시포인트", "Suravasa": "Flashpoint",
+    "아틀리스": "플래시포인트", "Aatlis": "Flashpoint",
     "하나오카": "격돌", "Hanaoka": "Clash", "아누비스의 왕좌": "격돌", "Throne of Anubis": "Clash"
 }
 
@@ -184,6 +185,8 @@ class MatchSegment(BaseModel):
     video_url: str = Field(default="", alias="videoUrl")
     has_pause: bool = Field(default=False, alias="hasPause")
     pauses: List[PauseInput] = []
+    # 밀기맵 수기 승패 보정(팀명, team1Name/team2Name 중 하나). 빈값/None = 미보정.
+    winner_override: Optional[str] = Field(default=None, alias="winnerOverride")
 
     class Config:
         populate_by_name = True
@@ -1163,10 +1166,16 @@ def _db_match_to_dict(m: "DBMatch", *, full: bool = False) -> dict:
         "team2_name": m.team2_name,
         "team_1_name": m.team1_name,
         "team_2_name": m.team2_name,
-        "winner": m.winner or "",
+        # winner = 유효 승자(수기 보정 우선). 원본/보정은 별도 필드로 구분 노출.
+        "winner": (m.winner_override or m.winner) or "",
+        "winner_original": m.winner or "",
+        "winner_override": m.winner_override or "",
         "score_t1": m.score_t1 or 0,
         "score_t2": m.score_t2 or 0,
-        "result": m.result or "",
+        # result도 유효 승자 기준: 보정이 있으면 "{팀} 승 (a : b)" (calculate_pure_stats와 동일 형식).
+        # 스코어는 원본 그대로 유지(밀기 미기록이면 0 : 0) — DB의 result 원본 문자열은 무변경.
+        "result": (f"{m.winner_override} 승 ({m.score_t1 or 0} : {m.score_t2 or 0})"
+                   if m.winner_override else (m.result or "")),
         "video_url": m.video_url or "",
         "video_offset": m.video_offset or 0,
         "game_setup_sec": m.game_setup_sec,  # None = 기존 매치 (옛날 방식)
@@ -1251,6 +1260,11 @@ async def register_scrim_manual(request: Request):
         
         processed_pauses.sort(key=lambda x: x["start_sec"])
 
+        # 승패 보정: 실제 팀명일 때만 인정(그 외 값은 무시 → 미보정)
+        wo = (match.winner_override or "").strip()
+        if wo not in (match.team1Name, match.team2Name):
+            wo = ""
+
         processed_matches.append({
             "id": str(uuid.uuid4()),
             "match_index": idx + 1,
@@ -1258,6 +1272,7 @@ async def register_scrim_manual(request: Request):
             "team1_name": match.team1Name,
             "team2_name": match.team2Name,
             "result": match.result,
+            "winner_override": wo,
             "video_url": match.video_url or "",
             "video_offset": video_offset,
             "pauses": processed_pauses,
@@ -1298,6 +1313,7 @@ async def register_scrim_manual(request: Request):
                     team1_name=m["team1_name"],
                     team2_name=m["team2_name"],
                     result=m["result"],
+                    winner_override=m.get("winner_override") or None,
                     video_url=m["video_url"],
                     video_offset=m["video_offset"],
                 ))
@@ -1525,6 +1541,11 @@ async def rebuild_database():
     total_sessions = total_matches = total_rounds = total_events = 0
     try:
         async with AsyncSessionLocal() as db:
+            # 수기 승패 보정(winner_override)은 DB에만 있으므로 재구축 전 스냅샷 → 재구축 후 복원
+            # (video_offset/pauses가 meta.json에서 보존되는 것과 같은 원칙)
+            _wo_rows = await db.execute(select(DBMatch.id, DBMatch.winner_override)
+                                        .where(DBMatch.winner_override.isnot(None)))
+            _wo_snapshot = {row[0]: row[1] for row in _wo_rows}
             await db.execute(sa_delete(DBEvent))
             await db.execute(sa_delete(DBPlayerStat))
             await db.execute(sa_delete(DBRound))
@@ -1554,6 +1575,7 @@ async def rebuild_database():
                         team1_name=m.get("team1_name") or m.get("team_1_name", ""),
                         team2_name=m.get("team2_name") or m.get("team_2_name", ""),
                         winner=m.get("winner", ""),
+                        winner_override=_wo_snapshot.get(match_id_val) or m.get("winner_override") or None,
                         score_t1=m.get("score_t1", 0),
                         score_t2=m.get("score_t2", 0),
                         result=m.get("result", ""),
@@ -1676,7 +1698,10 @@ def _db_match_to_dict_events_only(m: "DBMatch") -> dict:
         "team2_name": m.team2_name,
         "team_1_name": m.team1_name,
         "team_2_name": m.team2_name,
-        "winner": m.winner or "",
+        # winner = 유효 승자(수기 보정 우선) — _db_match_to_dict와 동일 규칙.
+        "winner": (m.winner_override or m.winner) or "",
+        "winner_original": m.winner or "",
+        "winner_override": m.winner_override or "",
         "stats": _aggregate_match_stats(m),
         "rounds": [
             {
@@ -1971,6 +1996,20 @@ def _fight_to_record(f: dict, our_side: int, t1: str, t2: str,
         if first_ult_side == "none":
             first_ult_side = "us" if u_side == our_side else "them"
 
+    # 매치(맵) 단위 승패 — 맵 분석 탭용 추가 필드(기존 필드/판정 로직 무수정, 응답 전용 계산).
+    # 유효 승자 = winner_override(수기 보정, 팀명) 우선, 없으면 원본 Match.winner.
+    # 원본 winner: 승리 팀 "이름" 또는 "Draw". 밀기 등 스코어 이벤트가 없는 로그는 0:0 'Draw'로
+    # 저장돼 있어 보정 전까지는 무승부로 집계된다. 미기록(None/빈값)은 null.
+    eff_winner = m.winner_override or m.winner
+    if not eff_winner:
+        match_result = None
+    elif eff_winner == "Draw":
+        match_result = "draw"
+    elif eff_winner == our_team:
+        match_result = "win"
+    else:
+        match_result = "loss"
+
     return {
         "session_id": s.id,
         "session_date": s.date,
@@ -1979,6 +2018,10 @@ def _fight_to_record(f: dict, our_side: int, t1: str, t2: str,
         "map_type": map_type,
         "our_team": our_team,
         "enemy_team": enemy_team,
+        "match_result": match_result,
+        "match_result_overridden": bool(m.winner_override),
+        "our_score": (m.score_t1 if our_side == 1 else m.score_t2) or 0,
+        "enemy_score": (m.score_t2 if our_side == 1 else m.score_t1) or 0,
         "fight_winner": fight_winner,
         "first_kill": first_kill,
         "first_kill_traded": first_kill_traded,

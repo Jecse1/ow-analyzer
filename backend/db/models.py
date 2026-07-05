@@ -37,6 +37,9 @@ class Match(Base):
     score_t1 = Column(Integer, default=0)
     score_t2 = Column(Integer, default=0)
     result = Column(String)
+    # 밀기 등 스코어 이벤트가 없는 매치의 수기 승패 보정(팀명 저장). NULL = 미보정.
+    # 원본 winner 컬럼은 어떤 경로에서도 수정하지 않는다 — 원본/보정 구분 보존.
+    winner_override = Column(String, nullable=True)
     video_url = Column(String)
     video_offset = Column(Integer, default=0)
     game_setup_sec = Column(Integer, nullable=True)
