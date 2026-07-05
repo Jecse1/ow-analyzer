@@ -1,6 +1,7 @@
 // src/ScrimDetail.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { invalidateApiCache } from "./utils/apiCache";
 import { ChevronLeft, BarChart3, Trash2 } from "lucide-react";
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
@@ -84,6 +85,7 @@ export default function ScrimDetail({ scrimId, onSelectMatch, onBack, onGoOveral
     setDeleting(true);
     try {
       const res = await axios.post('/api/matches/delete-batch', { ids });
+      invalidateApiCache(); // 매치 삭제 성공 → 공유 캐시 무효화
       if (res.data.warnings?.length > 0) {
         alert(`${t.sdDeleteDone} (${res.data.deleted_count}${t.msCountUnit})\n${t.sdWarnings}\n${res.data.warnings.join('\n')}`);
       }

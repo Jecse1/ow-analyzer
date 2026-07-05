@@ -7,6 +7,7 @@ import {
 import { ThemeProvider, useTheme } from "./ThemeContext";
 import { LanguageProvider, useLanguage } from "./LanguageContext";
 import { computeFights } from "./utils/fightAnalysis";
+import { fetchCached, invalidateApiCache } from "./utils/apiCache";
 
 import ScrimSessions from "./ScrimSessions";
 import ScrimDetail from "./ScrimDetail";
@@ -62,15 +63,17 @@ function MainApp() {
 
   const API_BASE = "";
 
+  // full-events를 실제로 소비하는 탭: 궁극기 통계 / 킬데스 / 개인 통계 / 선수 비교.
+  // 그 외 탭에서는 발사하지 않고, fetchCached라 세션당 1회만 네트워크를 탄다.
+  const FULL_EVENTS_VIEWS = ["ultimates", "killdeath", "personal", "compare"];
   useEffect(() => {
-    const fetchAllData = async () => {
-      try {
-        const res = await axios.get(`${API_BASE}/api/scrims/full-events`);
-        setAllScrims(res.data || []);
-      } catch (err) { console.error("❌ Failed to fetch all scrims:", err); }
-    };
-    fetchAllData();
-  }, [currentView]); 
+    if (!FULL_EVENTS_VIEWS.includes(currentView)) return;
+    let alive = true;
+    fetchCached(`${API_BASE}/api/scrims/full-events`)
+      .then((data) => { if (alive) setAllScrims(data || []); })
+      .catch((err) => console.error("❌ Failed to fetch all scrims:", err));
+    return () => { alive = false; };
+  }, [currentView]);
 
   const dynamicPlayersData = useMemo(() => {
     if (!allScrims || allScrims.length === 0) return [];
@@ -329,8 +332,10 @@ function MainApp() {
           });
         }
       }
+      invalidateApiCache(); // 등록 성공 → 공유 fetch 캐시 무효화 (다음 접근부터 재요청)
+      setAllScrims([]); // 이미 로드된 full-events 상태도 초기화 (소비 탭 재진입 시 새로 로드)
       alert(t.success);
-      goSessions(); 
+      goSessions();
     } catch (err) {
       let errMsg = err.message;
       if (err.response?.data?.detail) errMsg = JSON.stringify(err.response.data.detail, null, 2);

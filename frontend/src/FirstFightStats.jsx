@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import axios from 'axios';
+import { fetchCached } from './utils/apiCache';
 import { Swords, Youtube, Map as MapIcon, Users, Clock } from 'lucide-react';
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
@@ -35,8 +35,8 @@ export default function FirstFightStats() {
         let alive = true;
         (async () => {
             try {
-                const res = await axios.get(`${API_BASE}/api/first-fights`);
-                if (alive) setItems(res.data || []);
+                const d = await fetchCached(`${API_BASE}/api/first-fights`);
+                if (alive) setItems(d || []);
             } catch (err) {
                 console.error("❌ Failed to fetch first-fights:", err);
                 if (alive) setError(err);

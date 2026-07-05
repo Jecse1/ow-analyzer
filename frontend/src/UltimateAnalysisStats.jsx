@@ -3,7 +3,7 @@
 // 계산·컴포넌트는 FightLabStats.jsx의 것을 그대로 재사용(이동만) — 상태는 이 페이지에서 독립.
 // 서브탭: [상황] [콤보·시퀀스] (B 패턴 분석은 추후 이 줄에 추가 예정).
 import React, { useState, useMemo, useEffect } from 'react';
-import axios from 'axios';
+import { fetchCached } from './utils/apiCache';
 import { useLanguage } from "./LanguageContext";
 import {
     T, pct, tpl, isKnown, buildUltStats, flipRecord,
@@ -724,8 +724,8 @@ export default function UltimateAnalysisStats() {
         let alive = true;
         (async () => {
             try {
-                const res = await axios.get(`${API_BASE}/api/fight-records`);
-                if (alive) setData(res.data || null);
+                const d = await fetchCached(`${API_BASE}/api/fight-records`);
+                if (alive) setData(d || null);
             } catch (err) {
                 console.error("❌ Failed to fetch fight-records:", err);
                 if (alive) setError(err);

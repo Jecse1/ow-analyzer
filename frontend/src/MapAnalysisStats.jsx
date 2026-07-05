@@ -4,7 +4,7 @@
 //         이 탭을 위해 응답에 추가된 필드(기존 필드 무변경). 공용 스코프(useFightScope 등)는
 //         FightLabStats에서 재사용하되 상태는 이 탭에서 독립. 맵 필터는 무의미하므로 hideMap.
 import React, { useState, useMemo, useEffect } from 'react';
-import axios from 'axios';
+import { fetchCached } from './utils/apiCache';
 import { useLanguage } from "./LanguageContext";
 import {
     T, tpl, isKnown,
@@ -162,8 +162,8 @@ export default function MapAnalysisStats({ onGoSession }) {
         let alive = true;
         (async () => {
             try {
-                const res = await axios.get(`${API_BASE}/api/fight-records`);
-                if (alive) setData(res.data || null);
+                const d = await fetchCached(`${API_BASE}/api/fight-records`);
+                if (alive) setData(d || null);
             } catch (err) {
                 console.error("❌ Failed to fetch fight-records:", err);
                 if (alive) setError(err);

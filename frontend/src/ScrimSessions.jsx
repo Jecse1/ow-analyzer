@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
+import { fetchCached, invalidateApiCache } from './utils/apiCache';
 import { Calendar, ChevronRight, Clock, RefreshCw, Filter, Trash2 } from 'lucide-react';
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
@@ -21,8 +22,8 @@ const ScrimSessions = ({ onSelectScrim }) => {
 
   const fetchScrims = async () => {
     try {
-      const res = await axios.get('/api/scrims');
-      setScrims(res.data);
+      const data = await fetchCached('/api/scrims');
+      setScrims(data);
     } catch (err) {
       console.error(err);
     } finally {
@@ -38,6 +39,7 @@ const ScrimSessions = ({ onSelectScrim }) => {
     setRebuilding(true);
     try {
       const res = await axios.post('/api/admin/rebuild-db');
+      invalidateApiCache(); // DB 재구축 성공 → 공유 캐시 무효화 후 재조회
       alert(`Done! ${res.data.count} scrims restored.`);
       fetchScrims();
     } catch (err) {
@@ -95,6 +97,7 @@ const ScrimSessions = ({ onSelectScrim }) => {
     setDeleting(true);
     try {
       const res = await axios.post('/api/sessions/delete-batch', { ids });
+      invalidateApiCache(); // 삭제 성공 → 공유 캐시 무효화 후 재조회
       if (res.data.warnings?.length > 0) {
         alert(`${t.sdDeleteDone} (${res.data.deleted_count}${t.msCountUnit})\n${t.sdWarnings}\n${res.data.warnings.join('\n')}`);
       }

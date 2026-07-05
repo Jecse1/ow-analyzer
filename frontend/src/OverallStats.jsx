@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import axios from "axios";
+import { fetchCached, invalidateApiCache } from "./utils/apiCache";
 import { ChevronLeft, RefreshCw, Search, X, Youtube, Zap, Skull, Trophy, Map as MapIcon, User, Filter, Calendar, Users, Sword, AlertOctagon } from "lucide-react";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, Cell } from "recharts";
 import { useTheme } from "./ThemeContext";
@@ -53,30 +53,29 @@ export default function OverallStats({ onBack, onGoSessions }) {
   async function loadAll() {
     setLoading(true);
     try {
-      const scrimsRes = await axios.get(`${API_BASE}/api/scrims`);
-      const scrims = scrimsRes.data || [];
-      const ids = [];
-      const matchMetaMap = {}; 
-      
-      for (const s of scrims) {
-        for (const m of s.matches || []) {
-            ids.push(m.id);
-            matchMetaMap[m.id] = { url: s.video_url, date: s.date };
-        }
+      // 매치별 개별 호출(N+1) 대신 벌크 2발:
+      //  - /api/scrims            : 경량 메타 (result/winner/영상/퍼즈/스코어)
+      //  - /api/scrims/full-events: stats(매치 합산) + rounds(events + 라운드별 stats)
+      // 두 응답 모두 fetchCached라 다른 탭과 공유되고 세션당 1회만 네트워크를 탄다.
+      const [scrims, fullEvents] = await Promise.all([
+        fetchCached(`${API_BASE}/api/scrims`),
+        fetchCached(`${API_BASE}/api/scrims/full-events`),
+      ]);
+
+      const feById = {};
+      for (const s of fullEvents || []) {
+        for (const m of s.matches || []) feById[m.id] = m;
       }
 
-      const chunks = [];
-      for (let i = 0; i < ids.length; i += 20) chunks.push(ids.slice(i, i + 20));
-      
+      // 순회 순서는 기존과 동일하게 /api/scrims 기준 (세션 최신순 → 매치 순)
       const out = [];
-      for (const c of chunks) {
-        const resList = await Promise.all(c.map(id => axios.get(`${API_BASE}/api/matches/${id}`).then(r => r.data).catch(() => null)));
-        for (const m of resList) {
-            if (m) {
-                if (!m.video_url) m.video_url = matchMetaMap[m.id].url;
-                m.scrim_date = matchMetaMap[m.id].date; 
-                out.push(m);
-            }
+      for (const s of scrims || []) {
+        for (const m of s.matches || []) {
+          const fe = feById[m.id];
+          if (!fe) continue;
+          // fe(stats/rounds/winner)가 경량 메타를 덮어씀 — winner 규칙은 두 응답이 동일.
+          // result/video_url/video_offset/game_setup_sec/pauses는 fe에 없으므로 m 값 유지.
+          out.push({ ...m, ...fe, video_url: m.video_url || s.video_url, scrim_date: s.date });
         }
       }
       setMatches(out);
@@ -89,7 +88,8 @@ export default function OverallStats({ onBack, onGoSessions }) {
   }
 
   useEffect(() => { loadAll(); }, []);
-  const handleReload = () => { setReloading(true); loadAll(); };
+  // 새로고침 버튼 = 명시적 최신화 요청이므로 공유 캐시를 비우고 다시 받는다.
+  const handleReload = () => { setReloading(true); invalidateApiCache(); loadAll(); };
 
   // 존재하는 모든 팀 추출
   const allTeams = useMemo(() => {

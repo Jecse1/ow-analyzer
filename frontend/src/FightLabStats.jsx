@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import axios from 'axios';
+import { fetchCached } from './utils/apiCache';
 import { ChevronDown, ChevronRight, Youtube } from 'lucide-react';
 import { useLanguage } from "./LanguageContext";
 import { buildVideoLink, hasVideo } from "./utils/videoLink";
@@ -1803,10 +1803,10 @@ export default function FightLabStats() {
         let alive = true;
         (async () => {
             try {
-                const res = await axios.get(`${API_BASE}/api/fight-records`);
-                if (alive) setData(res.data || null);
-                const res2 = await axios.get(`${API_BASE}/api/player-fight-stats`);
-                if (alive) setPfs(res2.data || null);
+                const d = await fetchCached(`${API_BASE}/api/fight-records`);
+                if (alive) setData(d || null);
+                const d2 = await fetchCached(`${API_BASE}/api/player-fight-stats`);
+                if (alive) setPfs(d2 || null);
             } catch (err) {
                 console.error("❌ Failed to fetch fight-records:", err);
                 if (alive) setError(err);

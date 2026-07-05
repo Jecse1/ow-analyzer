@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, UploadFile, File, Form, Request
+from fastapi import FastAPI, HTTPException, UploadFile, File, Form, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from pydantic import BaseModel, Field
@@ -47,7 +47,8 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 # 응답 gzip 압축 — 1KB 이상 JSON 전송량 절감 (Accept-Encoding: gzip 클라이언트만)
-app.add_middleware(GZipMiddleware, minimum_size=1000)
+# compresslevel=6: 기본값 9는 압축률 이득이 거의 없이 CPU만 수 배 소모 (저사양 서버 고려)
+app.add_middleware(GZipMiddleware, minimum_size=1000, compresslevel=6)
 
 app.add_middleware(
     CORSMiddleware,
@@ -60,6 +61,38 @@ app.add_middleware(
 DATA_FILE = "scrim_data.json"
 ROW_DATA_DIR = "scrim_rowdata_log"
 _json_lock = threading.Lock()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 응답 레벨 메모리 캐시 — 무거운 조회 엔드포인트(full-events / fight-records /
+# player-fight-stats)의 "최종 응답"을 통째로 저장. compute_fights 등 내부 로직은
+# 무수정, 엔드포인트 바깥에서만 감싼다. DB 변경 API 성공 시 전체 무효화.
+# 서버 재시작 후 첫 요청이 느린 것은 허용(스펙).
+# ─────────────────────────────────────────────────────────────────────────────
+_RESPONSE_CACHE: dict = {}  # key -> 직렬화된 JSON bytes
+
+
+def _response_cache_get(key: str):
+    """캐시 HIT면 재직렬화 없이 바로 보낼 수 있는 Response, MISS면 None."""
+    body = _RESPONSE_CACHE.get(key)
+    if body is None:
+        return None
+    return Response(content=body, media_type="application/json")
+
+
+def _response_cache_store(key: str, payload) -> Response:
+    """payload를 JSON bytes로 1회 직렬화해 캐시하고 그 bytes로 응답을 만든다.
+    직렬화 옵션은 FastAPI(Starlette) JSONResponse.render와 동일 — 응답 바이트 불변."""
+    body = json.dumps(
+        payload, ensure_ascii=False, allow_nan=False, indent=None, separators=(",", ":")
+    ).encode("utf-8")
+    _RESPONSE_CACHE[key] = body
+    return Response(content=body, media_type="application/json")
+
+
+def _invalidate_response_cache():
+    if _RESPONSE_CACHE:
+        print(f"[CACHE] invalidate: {list(_RESPONSE_CACHE.keys())}")
+    _RESPONSE_CACHE.clear()
 
 if not os.path.exists(ROW_DATA_DIR):
     os.makedirs(ROW_DATA_DIR)
@@ -1333,6 +1366,7 @@ async def register_scrim_manual(request: Request):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"DB write failed: {e}")
 
+    _invalidate_response_cache()
     return {"status": "success", "scrim_id": new_scrim_id}
 
 @app.post("/api/matches/upload")
@@ -1445,6 +1479,7 @@ async def upload_match_log(scrim_id: str = Form(...), match_index: int = Form(..
                     ))
             await db.commit()
             print(f"[DB] upload OK: match={match_id_val}")
+            _invalidate_response_cache()
             return {"status": "success"}
     except HTTPException:
         raise
@@ -1659,6 +1694,7 @@ async def rebuild_database():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"DB rebuild failed: {e}")
 
+    _invalidate_response_cache()
     return {
         "success": True,
         "backup_created": backup_path,
@@ -1710,6 +1746,9 @@ def _db_match_to_dict_events_only(m: "DBMatch") -> dict:
         "rounds": [
             {
                 "round_number": r.round_number,
+                # 라운드별 선수 스탯 — 전체 통계 탭이 matches/{id} 대신 이 응답을 쓰기 위해 필요.
+                # (player_stats는 위 stats 집계용으로 이미 로드되어 있어 추가 DB 비용 없음)
+                "stats": [_db_player_stat_to_dict(ps) for ps in (r.player_stats or [])],
                 "events": [_db_event_to_dict(ev) for ev in (r.events or [])]
             }
             for r in (m.rounds or [])
@@ -1736,6 +1775,10 @@ async def get_scrims_full_events():
     stats + rounds.events 포함. fights/pauses/timeline/fight_metrics 제외."""
     if not _DB_AVAILABLE:
         raise HTTPException(status_code=503, detail="Database not available")
+    cache_key = "full-events"
+    cached = _response_cache_get(cache_key)
+    if cached is not None:
+        return cached
     try:
         from sqlalchemy.orm import selectinload
         async with AsyncSessionLocal() as db:
@@ -1753,7 +1796,8 @@ async def get_scrims_full_events():
             sessions = result.scalars().all()
             for s in sessions:
                 s.matches = [m for m in (s.matches or []) if m.deleted_at is None]
-            return [_db_session_to_dict_events_only(s) for s in sessions]
+            payload = [_db_session_to_dict_events_only(s) for s in sessions]
+            return _response_cache_store(cache_key, payload)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"DB error: {e}")
 
@@ -2053,6 +2097,10 @@ async def get_fight_records(base_team: str = "FLC"):
     """
     if not _DB_AVAILABLE:
         raise HTTPException(status_code=503, detail="Database not available")
+    cache_key = f"fight-records:{base_team}"
+    cached = _response_cache_get(cache_key)
+    if cached is not None:
+        return cached
     try:
         from sqlalchemy.orm import selectinload
         async with AsyncSessionLocal() as db:
@@ -2089,7 +2137,7 @@ async def get_fight_records(base_team: str = "FLC"):
 
             total = len(records)
             unknown = sum(1 for rec in records if rec["fight_winner"] == "unknown")
-            return {
+            payload = {
                 "meta": {
                     "base_team": base_team,
                     "trade_window_sec": TRADE_WINDOW_SEC,
@@ -2100,6 +2148,7 @@ async def get_fight_records(base_team: str = "FLC"):
                 },
                 "records": records,
             }
+            return _response_cache_store(cache_key, payload)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"DB error: {e}")
 
@@ -2129,6 +2178,10 @@ async def get_player_fight_stats(base_team: str = "FLC"):
     """
     if not _DB_AVAILABLE:
         raise HTTPException(status_code=503, detail="Database not available")
+    cache_key = f"player-fight-stats:{base_team}"
+    cached = _response_cache_get(cache_key)
+    if cached is not None:
+        return cached
     try:
         from sqlalchemy.orm import selectinload
         async with AsyncSessionLocal() as db:
@@ -2256,7 +2309,7 @@ async def get_player_fight_stats(base_team: str = "FLC"):
                                     if fp["win_side"] == u_side:
                                         acc["ult_fight_wins"] += 1
 
-            return {
+            payload = {
                 "meta": {
                     "base_team": base_team,
                     "min_sample_for_percentile_fights": MIN_SAMPLE_FOR_PERCENTILE_FIGHTS,
@@ -2266,6 +2319,7 @@ async def get_player_fight_stats(base_team: str = "FLC"):
                 },
                 "items": list(items.values()),
             }
+            return _response_cache_store(cache_key, payload)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"DB error: {e}")
 
@@ -2368,6 +2422,7 @@ async def delete_session(scrim_id: str):
 
     print(f"[DELETE] 세션 삭제: {scrim_id}  ({datetime.now().isoformat()})")
     warnings = _delete_scrim_files(scrim_id)
+    _invalidate_response_cache()
     return {"success": True, "deleted_count": 1, "warnings": warnings, "failed_ids": []}
 
 # ── 세션 배치 삭제 ─────────────────────────────────────────────
@@ -2415,6 +2470,7 @@ async def delete_sessions_batch(req: BatchDeleteRequest):
     for sid in deleted_ids:
         warnings.extend(_delete_scrim_files(sid))
 
+    _invalidate_response_cache()
     return {
         "success": len(failed_ids) == 0,
         "deleted_count": len(deleted_ids),
@@ -2451,6 +2507,7 @@ async def delete_match(match_id: str):
 
     print(f"[DELETE] 매치 삭제: {match_id} (scrim={found_scrim_id}, index={found_match_index})  ({datetime.now().isoformat()})")
     warnings.extend(_delete_match_file(found_scrim_id, found_match_index))
+    _invalidate_response_cache()
     return {"success": True, "deleted_count": 1, "warnings": warnings, "failed_ids": []}
 
 # ── 매치 배치 삭제 ─────────────────────────────────────────────
@@ -2491,6 +2548,7 @@ async def delete_matches_batch(req: BatchDeleteRequest):
         if scrim_id and match_index is not None:
             warnings.extend(_delete_match_file(scrim_id, match_index))
 
+    _invalidate_response_cache()
     return {
         "success": len(failed_ids) == 0,
         "deleted_count": len(db_deleted),
