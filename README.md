@@ -1,4 +1,4 @@
-# Falcon Scrim Analyzer
+# Scrim Analyzer
 
 오버워치 스크림 분석 도구. 팀 내부용.
 
