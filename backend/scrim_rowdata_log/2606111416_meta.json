@@ -1,0 +1,123 @@
+{
+    "id": "2606111416",
+    "scrim_name": "260611-VARREL",
+    "date": "2026-06-11",
+    "start_time": "14",
+    "end_time": "16",
+    "matches": [
+        {
+            "id": "70d9e620-b4c6-4abf-bd46-be3dd51f7459",
+            "match_index": 1,
+            "map_name": "일리오스",
+            "team1_name": "VR",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "video_url": "",
+            "video_offset": 0,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "aaa89876-b9d4-4b10-bd8b-cd3ee2bbc178",
+            "match_index": 2,
+            "map_name": "남극반도",
+            "team1_name": "VR",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "video_url": "https://www.youtube.com/live/J1Soife0SHg?si=eLEscWUblRutnPpX",
+            "video_offset": 1494,
+            "pauses": [
+                {
+                    "start_sec": 1766,
+                    "end_sec": 1924,
+                    "duration": 158
+                }
+            ],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "beaaa838-c542-4efd-9aa7-ced1992562b7",
+            "match_index": 3,
+            "map_name": "루나사피",
+            "team1_name": "VR",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "video_url": "https://www.youtube.com/live/J1Soife0SHg?si=eLEscWUblRutnPpX",
+            "video_offset": 2976,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "a815b582-31ef-4f99-ad51-572b3b29abd7",
+            "match_index": 4,
+            "map_name": "뉴퀸스트리트",
+            "team1_name": "VR",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "video_url": "https://www.youtube.com/live/J1Soife0SHg?si=eLEscWUblRutnPpX",
+            "video_offset": 3418,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "c698a363-d4aa-436d-9d19-0c484137e06d",
+            "match_index": 5,
+            "map_name": "서킷로얄",
+            "team1_name": "VR",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "video_url": "https://www.youtube.com/live/J1Soife0SHg?si=eLEscWUblRutnPpX",
+            "video_offset": 4226,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "bb8f09e1-668b-4454-86ba-243d2c174d7c",
+            "match_index": 6,
+            "map_name": "할리우드",
+            "team1_name": "VR",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "video_url": "https://www.youtube.com/live/J1Soife0SHg?si=eLEscWUblRutnPpX",
+            "video_offset": 5281,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        }
+    ]
+}

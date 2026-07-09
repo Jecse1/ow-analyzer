@@ -602,13 +602,45 @@ def parse_overwatch_log(log_text: str, custom_t1: str = None, custom_t2: str = N
                 game_time = float(parts[base_idx + 1])
                 round_num = int(float(parts[base_idx + 2]))
                 team_name = map_team(parts[base_idx + 3])
-                
+                # parts[+4]=현재 거점 인덱스, parts[+5]=다음 거점까지 밀어낸 %
+                obj_idx = None; obj_pct = None
+                try:
+                    obj_idx = int(float(parts[base_idx + 4]))
+                    obj_pct = float(parts[base_idx + 5])
+                except (ValueError, IndexError): pass
+
                 events.append({
                     "event_type": "payload_progress",
                     "timestamp": play_timestamp,
                     "game_timestamp": game_time,
                     "round": round_num,
-                    "team": team_name
+                    "team": team_name,
+                    "prog_idx": obj_idx,
+                    "prog_pct": obj_pct
+                })
+            except: continue
+
+        elif ",point_progress," in clean_line:
+            try:
+                base_idx = parts.index("point_progress")
+                game_time = float(parts[base_idx + 1])
+                round_num = int(float(parts[base_idx + 2]))
+                team_name = map_team(parts[base_idx + 3])
+                # 하이브리드 거점 점령 단계: parts[+4]=거점 인덱스(0), parts[+5]=점령 %
+                obj_idx = None; obj_pct = None
+                try:
+                    obj_idx = int(float(parts[base_idx + 4]))
+                    obj_pct = float(parts[base_idx + 5])
+                except (ValueError, IndexError): pass
+
+                events.append({
+                    "event_type": "point_progress",
+                    "timestamp": play_timestamp,
+                    "game_timestamp": game_time,
+                    "round": round_num,
+                    "team": team_name,
+                    "prog_idx": obj_idx,
+                    "prog_pct": obj_pct
                 })
             except: continue
 
@@ -923,12 +955,56 @@ def calculate_pure_stats(parsed, target_match):
     target_match["score_t1"] = final_t1_score
     target_match["score_t2"] = final_t2_score
 
+    # ── 동점 타이브레이커(하이브리드·호위 전용) ──────────────────────────────
+    # 이 로그는 스크림(OW 워크숍)이라 팀이 끝까지 못 밀어도 다음 팀의 풀맵 연습을 위해
+    # 점수를 강제로 3점 등으로 보정한다 → match_end/round_end 점수가 실제 승부를 안 나타낼 수 있다.
+    # 규칙:
+    #   · 타이브레이커 라운드까지 치러진 경우(라운드 수 > 2): 게임이 실제로 승부를 냈으므로
+    #     match_end 최종 점수로 판정(예: 4:5, 3:4). match_end도 동점이면 진짜 무승부.
+    #   · 본공격만 있고(라운드 수 == 2) 부분 밀기로 끝난 경우: match_end는 워크숍 보정으로 가짜이므로
+    #     실측 진행도(거점 인덱스 → 거리/점령 %)가 더 큰 팀이 승자. 동일하면 무승부.
+    #   · 어느 쪽으로도 못 가리면 무승부 → 밀기맵과 동일하게 winner_override로 수기 보정.
+    tiebreak_note = ""
+    progress_winner = None
+    if final_t1_score == final_t2_score and is_hybrid_escort:
+        num_rounds = len(round_attackers)
+        if num_rounds > 2:
+            # 타이브레이커 라운드가 치러짐 → match_end 최종 점수가 실제 승부 결과
+            if (score_match_end_t1 is not None and score_match_end_t2 is not None
+                    and score_match_end_t1 != score_match_end_t2):
+                final_t1_score = score_match_end_t1
+                final_t2_score = score_match_end_t2
+                target_match["score_t1"] = final_t1_score
+                target_match["score_t2"] = final_t2_score
+        else:
+            # 본공격만(라운드 2) 부분 밀기 → 실측 진행도로 더 멀리 민 팀이 승자
+            def _max_progress(n_team):
+                best = (0, 0.0)
+                for ev in parsed["events"]:
+                    if ev.get("event_type") not in ("payload_progress", "point_progress"):
+                        continue
+                    if normalize_team_name(ev.get("team", "")) != n_team:
+                        continue
+                    cur = (ev.get("prog_idx") or 0, ev.get("prog_pct") or 0.0)
+                    if cur > best:
+                        best = cur
+                return best
+            prog1 = _max_progress(n_team1)
+            prog2 = _max_progress(n_team2)
+            if prog1 != prog2:
+                progress_winner = team1 if prog1 > prog2 else team2
+                wp, lp = (prog1, prog2) if prog1 > prog2 else (prog2, prog1)
+                tiebreak_note = f", 진행도 우세: {wp[0]}거점 {wp[1]:.0f}% vs {lp[0]}거점 {lp[1]:.0f}%"
+
     if final_t1_score > final_t2_score:
         match_winner = team1
         target_match["result"] = f"{team1} 승 ({final_t1_score} : {final_t2_score})"
     elif final_t2_score > final_t1_score:
         match_winner = team2
         target_match["result"] = f"{team2} 승 ({final_t1_score} : {final_t2_score})"
+    elif progress_winner:
+        match_winner = progress_winner
+        target_match["result"] = f"{progress_winner} 승 ({final_t1_score} : {final_t2_score}{tiebreak_note})"
     else:
         match_winner = "Draw"
         target_match["result"] = f"무승부 ({final_t1_score} : {final_t2_score})"
@@ -1120,7 +1196,7 @@ def _db_event_to_dict(ev: "DBEvent") -> dict:
         d["capturing_team"] = ev.capturing_team or ""
     elif et == "objective_updated":
         d.update({"new_index": ev.new_index, "old_index": ev.old_index})
-    elif et == "payload_progress":
+    elif et in ("payload_progress", "point_progress"):
         d["team"] = ev.team or ""
     return d
 
