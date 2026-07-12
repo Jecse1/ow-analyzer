@@ -18,6 +18,10 @@ const KNOWN_HEROES = [ '디바', '둠피스트', '정커퀸', '마우가', '오�
 const COLOR_TEAM1 = '#60a5fa';
 const COLOR_TEAM2 = '#f87171';
 
+// 하이라이트 카드 렌더 상한. 이벤트가 1만+개면 전량 렌더 시 DOM이 폭발해
+// 필터 타이핑 리렌더마다 탭이 메모리 초과로 죽는다. 상위 N개만 그린다.
+const MAX_MOMENTS_RENDERED = 300;
+
 const normalize = (str) => (str || "").replace(/\s+/g, "").toLowerCase();
 
 const getHeroImg = (heroName) => {
@@ -584,11 +588,16 @@ export default function OverallStats({ onBack, onGoSessions }) {
             {activeTab === 'dashboard' && (
                 <div style={{ background: theme.surface, borderRadius: '16px', border: `1px solid ${theme.border}`, padding: '24px' }}>
                     <div style={{ fontSize: '18px', fontWeight: '900', marginBottom: '16px', display:'flex', alignItems:'center', gap:'8px' }}><Youtube size={20} color={theme.danger} />{t.highlights} ({filteredData.moments.length})</div>
+                    {filteredData.moments.length > MAX_MOMENTS_RENDERED && (
+                        <div style={{ fontSize: '12px', color: theme.textSub, marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <Filter size={12}/> {filteredData.moments.length.toLocaleString()}개 중 상위 {MAX_MOMENTS_RENDERED}개만 표시합니다. 검색 필터로 범위를 좁혀 주세요.
+                        </div>
+                    )}
                     {filteredData.moments.length === 0 ? (
                         <div style={{ textAlign: 'center', color: theme.textSub, padding: '40px' }}>{t.noMoments}</div>
                     ) : (
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '12px' }}>
-                            {filteredData.moments.map((moment, idx) => (
+                            {filteredData.moments.slice(0, MAX_MOMENTS_RENDERED).map((moment, idx) => (
                                 <a key={idx} href={getYouTubeLink(moment.videoUrl, moment.videoOffset, moment.timestamp, moment.pauses, moment.gameSetupSec)} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', background: theme.bg, border: `1px solid ${theme.border}`, borderRadius: '12px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '8px', transition: 'transform 0.2s, border-color 0.2s' }} onMouseOver={e => { e.currentTarget.style.borderColor = theme.borderHighlight; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseOut={e => { e.currentTarget.style.borderColor = theme.border; e.currentTarget.style.transform = 'translateY(0)'; }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <div style={{ fontSize: '12px', color: theme.textSub, display:'flex', alignItems:'center', gap:'4px' }}><MapIcon size={12}/> {moment.matchName}</div>
