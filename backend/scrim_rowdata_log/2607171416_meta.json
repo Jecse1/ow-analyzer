@@ -1,0 +1,123 @@
+{
+    "id": "2607171416",
+    "scrim_name": "260717-WBG",
+    "date": "2026-07-17",
+    "start_time": "14",
+    "end_time": "16",
+    "matches": [
+        {
+            "id": "f4cc3851-9f6b-4780-80af-41ac14345a5d",
+            "match_index": 1,
+            "map_name": "부산",
+            "team1_name": "WBG",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "",
+            "video_url": "",
+            "video_offset": 0,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "661b53e1-3c19-4888-949f-6b7105ffe0f8",
+            "match_index": 2,
+            "map_name": "뉴정크시티",
+            "team1_name": "WBG",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "",
+            "video_url": "https://www.youtube.com/live/5k7hna2QTSo?si=Use3i-N7egnpu78r",
+            "video_offset": 850,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "a25c99a0-2bea-43a8-8597-fa39d1547f8f",
+            "match_index": 3,
+            "map_name": "수라바사",
+            "team1_name": "WBG",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "",
+            "video_url": "https://www.youtube.com/live/5k7hna2QTSo?si=BtTy91Q1aumyoYjw",
+            "video_offset": 2043,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "a2e99561-5a1f-485a-a668-1ee8cfc80569",
+            "match_index": 4,
+            "map_name": "샴발리수도원",
+            "team1_name": "WBG",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "",
+            "video_url": "https://www.youtube.com/live/5k7hna2QTSo?si=BtTy91Q1aumyoYjw",
+            "video_offset": 3341,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "8b544586-08ba-4e3c-bf01-25d28fb299a0",
+            "match_index": 5,
+            "map_name": "이스페란사",
+            "team1_name": "WBG",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "FLC",
+            "video_url": "https://www.youtube.com/live/5k7hna2QTSo?si=BtTy91Q1aumyoYjw",
+            "video_offset": 4392,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "4c3ff21c-3339-4287-9fa3-f21e0ee9707d",
+            "match_index": 6,
+            "map_name": "사모아",
+            "team1_name": "WBG",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "",
+            "video_url": "",
+            "video_offset": 0,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        }
+    ]
+}

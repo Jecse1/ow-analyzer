@@ -1,0 +1,1802 @@
+[00:00:00] ,match_start,0,도라도,호위,1팀,2팀
+[00:00:01] ,round_start,0,1,2팀,0,0,0
+[00:00:10] ,hero_spawn,0,2팀,HeeSang,겐지,0,0
+[00:00:12] ,hero_spawn,0,2팀,CH0R0NG,벤데타,0,0
+[00:00:16] ,hero_spawn,0,1팀,ChiYo,브리기테,0,0
+[00:00:17] ,hero_spawn,0,2팀,MAX,둠피스트,0,0
+[00:00:21] ,hero_spawn,0,2팀,vigilante,시온,0,0
+[00:00:27] ,hero_spawn,0,2팀,STALK3R,파라,0,0
+[00:00:43] ,hero_spawn,0,1팀,HanBin,시그마,0,0
+[00:00:57] ,hero_swap,0,2팀,HeeSang,트레이서,겐지,0
+[00:00:59] ,hero_spawn,0,1팀,Fielder,제트팩 캣,0,0
+[00:01:01] ,hero_swap,0,1팀,Fielder,키리코,제트팩 캣,0
+[00:01:01] ,hero_spawn,0,1팀,SP1NT,트레이서,0,0
+[00:01:11] ,hero_swap,0,1팀,HanBin,해저드,시그마,0
+[00:01:15] ,hero_spawn,0,1팀,MER1T,프레야,0,0
+[00:01:46] ,hero_swap,0,1팀,HanBin,라마트라,해저드,0
+[00:01:48] ,hero_swap,0,1팀,HanBin,시그마,라마트라,0
+[00:01:48] ,hero_swap,0,1팀,HanBin,라마트라,시그마,0
+[00:01:49] ,hero_swap,0,1팀,HanBin,시그마,라마트라,0
+[00:01:50] ,hero_swap,0,1팀,HanBin,라마트라,시그마,0
+[00:01:53] ,hero_swap,0,2팀,MAX,오리사,둠피스트,0
+[00:02:05] ,hero_swap,0,1팀,HanBin,해저드,라마트라,0
+[00:02:15] ,hero_swap,0,2팀,CH0R0NG,제트팩 캣,벤데타,0
+[00:02:15] ,hero_swap,0,2팀,STALK3R,프레야,파라,0
+[00:02:19] ,hero_swap,0,2팀,vigilante,아나,시온,0
+[00:02:25] ,setup_complete,0,1,239.99
+[00:02:25] ,ability_1_used,0.02,2팀,CH0R0NG,제트팩 캣,0
+[00:02:25] ,ability_1_used,0.13,1팀,MER1T,프레야,0
+[00:02:26] ,ability_1_used,0.91,1팀,MER1T,프레야,0
+[00:02:26] ,ability_1_used,1.04,2팀,HeeSang,트레이서,0
+[00:02:26] ,ability_2_used,1.10,2팀,MAX,오리사,0
+[00:02:28] ,ability_2_used,2.61,2팀,STALK3R,프레야,0
+[00:02:28] ,ability_1_used,3.17,2팀,STALK3R,프레야,0
+[00:02:29] ,ability_1_used,3.58,2팀,STALK3R,프레야,0
+[00:02:30] ,ability_1_used,4.29,1팀,HanBin,해저드,0
+[00:02:30] ,ability_1_used,4.61,2팀,HeeSang,트레이서,0
+[00:02:31] ,ability_1_used,5.76,1팀,MER1T,프레야,0
+[00:02:32] ,ability_1_used,6.46,2팀,CH0R0NG,제트팩 캣,0
+[00:02:33] ,ability_2_used,7.63,1팀,MER1T,프레야,0
+[00:02:34] ,ability_1_used,8.93,2팀,HeeSang,트레이서,0
+[00:02:34] ,ability_1_used,9.14,1팀,MER1T,프레야,0
+[00:02:35] ,ability_1_used,9.31,2팀,HeeSang,트레이서,0
+[00:02:35] ,ability_2_used,10.06,1팀,ChiYo,브리기테,0
+[00:02:36] ,ability_1_used,10.29,2팀,CH0R0NG,제트팩 캣,0
+[00:02:36] ,ability_2_used,10.61,1팀,HanBin,해저드,0
+[00:02:37] ,ability_1_used,11.36,1팀,ChiYo,브리기테,0
+[00:02:38] ,ability_1_used,12.48,2팀,STALK3R,프레야,0
+[00:02:40] ,ability_2_used,14.32,2팀,STALK3R,프레야,0
+[00:02:40] ,ability_1_used,14.70,1팀,MER1T,프레야,0
+[00:02:40] ,ability_1_used,15.04,2팀,HeeSang,트레이서,0
+[00:02:41] ,ability_2_used,15.49,1팀,ChiYo,브리기테,0
+[00:02:41] ,ability_1_used,15.54,1팀,HanBin,해저드,0
+[00:02:41] ,ability_1_used,15.71,1팀,SP1NT,트레이서,0
+[00:02:41] ,ability_1_used,15.73,2팀,STALK3R,프레야,0
+[00:02:42] ,ability_2_used,16.54,1팀,ChiYo,브리기테,0
+[00:02:43] ,ability_1_used,17.70,1팀,ChiYo,브리기테,0
+[00:02:44] ,ability_2_used,19.14,1팀,MER1T,프레야,0
+[00:02:45] ,ability_1_used,19.34,1팀,SP1NT,트레이서,0
+[00:02:45] ,ability_1_used,19.66,2팀,STALK3R,프레야,0
+[00:02:46] ,ability_1_used,20.83,1팀,SP1NT,트레이서,0
+[00:02:47] ,ability_2_used,22.22,1팀,ChiYo,브리기테,0
+[00:02:48] ,ability_1_used,22.78,1팀,ChiYo,브리기테,0
+[00:02:49] ,ability_1_used,23.41,1팀,MER1T,프레야,0
+[00:02:49] ,ability_1_used,23.57,2팀,HeeSang,트레이서,0
+[00:02:49] ,ability_1_used,24.08,2팀,HeeSang,트레이서,0
+[00:02:49] ,ability_2_used,24.13,2팀,CH0R0NG,제트팩 캣,0
+[00:02:49] ,ability_1_used,24.27,2팀,STALK3R,프레야,0
+[00:02:50] ,ability_2_used,24.90,2팀,MAX,오리사,0
+[00:02:51] ,ability_1_used,25.31,1팀,SP1NT,트레이서,0
+[00:02:51] ,ability_2_used,25.62,1팀,HanBin,해저드,0
+[00:02:52] ,hero_swap,26.45,2팀,STALK3R,시온,프레야,26.45
+[00:02:52] ,ability_2_used,26.64,1팀,ChiYo,브리기테,0
+[00:02:52] ,ability_1_used,26.72,1팀,MER1T,프레야,0
+[00:02:52] ,ability_1_used,26.83,2팀,STALK3R,시온,0
+[00:02:52] ,ability_1_used,27.04,2팀,HeeSang,트레이서,0
+[00:02:53] ,ability_1_used,27.52,1팀,ChiYo,브리기테,0
+[00:02:54] ,ability_1_used,29.04,2팀,HeeSang,트레이서,0
+[00:02:55] ,ability_2_used,29.46,2팀,vigilante,아나,0
+[00:02:55] ,ability_1_used,29.68,1팀,MER1T,프레야,0
+[00:02:55] ,ability_2_used,29.84,2팀,HeeSang,트레이서,0
+[00:02:56] ,ability_1_used,30.59,1팀,HanBin,해저드,0
+[00:02:56] ,ability_1_used,30.70,1팀,SP1NT,트레이서,0
+[00:02:57] ,ability_2_used,31.41,1팀,ChiYo,브리기테,0
+[00:02:57] ,ability_2_used,31.66,2팀,STALK3R,시온,0
+[00:02:57] ,ability_2_used,31.78,1팀,Fielder,키리코,0
+[00:02:57] ,ability_1_used,32.27,1팀,SP1NT,트레이서,0
+[00:02:58] ,ability_1_used,32.78,1팀,ChiYo,브리기테,0
+[00:02:58] ,ability_1_used,33.09,1팀,SP1NT,트레이서,0
+[00:02:59] ,ability_2_used,33.62,1팀,SP1NT,트레이서,0
+[00:03:00] ,ability_1_used,34.32,1팀,MER1T,프레야,0
+[00:03:00] ,ability_2_used,34.62,1팀,ChiYo,브리기테,0
+[00:03:00] ,ability_1_used,34.72,2팀,HeeSang,트레이서,0
+[00:03:00] ,ability_1_used,34.93,1팀,SP1NT,트레이서,0
+[00:03:00] ,ability_1_used,35.12,2팀,STALK3R,시온,0
+[00:03:01] ,ability_2_used,36.06,1팀,ChiYo,브리기테,0
+[00:03:02] ,ability_1_used,36.43,2팀,HeeSang,트레이서,0
+[00:03:02] ,ability_1_used,37.18,1팀,HanBin,해저드,0
+[00:03:03] ,ability_1_used,37.49,1팀,ChiYo,브리기테,0
+[00:03:03] ,ability_1_used,37.97,2팀,HeeSang,트레이서,0
+[00:03:03] ,ability_1_used,38.08,2팀,CH0R0NG,제트팩 캣,0
+[00:03:04] ,ability_1_used,38.69,1팀,SP1NT,트레이서,0
+[00:03:04] ,payload_progress,38.86,1,2팀,0,10.01
+[00:03:04] ,ability_1_used,39.06,1팀,MER1T,프레야,0
+[00:03:07] ,ability_2_used,41.73,2팀,MAX,오리사,0
+[00:03:08] ,ability_1_used,42.51,1팀,SP1NT,트레이서,0
+[00:03:09] ,ability_1_used,43.34,1팀,ChiYo,브리기테,0
+[00:03:09] ,ability_1_used,44.24,1팀,MER1T,프레야,0
+[00:03:10] ,ability_1_used,44.29,1팀,HanBin,해저드,0
+[00:03:10] ,ability_1_used,44.35,2팀,HeeSang,트레이서,0
+[00:03:10] ,ability_1_used,44.77,2팀,MAX,오리사,0
+[00:03:10] ,ability_2_used,45.17,1팀,ChiYo,브리기테,0
+[00:03:11] ,ability_1_used,45.41,2팀,HeeSang,트레이서,0
+[00:03:11] ,ability_2_used,45.65,1팀,HanBin,해저드,0
+[00:03:12] ,ability_2_used,46.99,1팀,ChiYo,브리기테,0
+[00:03:12] ,ability_1_used,47.23,1팀,SP1NT,트레이서,0
+[00:03:14] ,ability_1_used,48.65,1팀,SP1NT,트레이서,0
+[00:03:14] ,ability_1_used,48.69,2팀,STALK3R,시온,0
+[00:03:15] ,ability_2_used,49.50,2팀,STALK3R,시온,0
+[00:03:16] ,ability_1_used,50.46,2팀,CH0R0NG,제트팩 캣,0
+[00:03:18] ,ability_1_used,52.32,2팀,HeeSang,트레이서,0
+[00:03:18] ,ability_1_used,52.40,1팀,SP1NT,트레이서,0
+[00:03:18] ,ability_1_used,53.21,1팀,HanBin,해저드,0
+[00:03:19] ,ability_1_used,53.77,1팀,SP1NT,트레이서,0
+[00:03:20] ,ability_2_used,54.64,1팀,ChiYo,브리기테,0
+[00:03:20] ,ability_1_used,54.69,2팀,STALK3R,시온,0
+[00:03:20] ,ability_1_used,55.13,1팀,MER1T,프레야,0
+[00:03:21] ,ability_1_used,55.73,1팀,ChiYo,브리기테,0
+[00:03:25] ,ability_1_used,59.92,2팀,HeeSang,트레이서,0
+[00:03:25] ,ability_1_used,60.00,1팀,MER1T,프레야,0
+[00:03:28] ,ability_1_used,62.49,1팀,ChiYo,브리기테,0
+[00:03:28] ,ability_1_used,62.51,2팀,STALK3R,시온,0
+[00:03:29] ,ability_1_used,63.61,2팀,HeeSang,트레이서,0
+[00:03:29] ,ability_2_used,63.84,1팀,ChiYo,브리기테,0
+[00:03:30] ,ability_1_used,64.35,1팀,MER1T,프레야,0
+[00:03:31] ,ability_2_used,66.03,1팀,ChiYo,브리기테,0
+[00:03:31] ,ability_1_used,66.25,2팀,HeeSang,트레이서,0
+[00:03:33] ,ability_1_used,67.71,1팀,ChiYo,브리기테,0
+[00:03:34] ,ability_1_used,68.40,1팀,SP1NT,트레이서,0
+[00:03:34] ,ability_1_used,68.81,1팀,HanBin,해저드,0
+[00:03:34] ,ability_2_used,68.93,1팀,ChiYo,브리기테,0
+[00:03:34] ,ability_1_used,69.02,2팀,HeeSang,트레이서,0
+[00:03:34] ,ability_1_used,69.13,1팀,SP1NT,트레이서,0
+[00:03:36] ,ability_1_used,70.69,2팀,HeeSang,트레이서,0
+[00:03:37] ,ability_1_used,71.39,1팀,SP1NT,트레이서,0
+[00:03:37] ,ability_2_used,72.09,1팀,HanBin,해저드,0
+[00:03:37] ,ability_2_used,72.17,2팀,STALK3R,시온,0
+[00:03:38] ,ability_1_used,72.57,1팀,Fielder,키리코,0
+[00:03:38] ,ability_2_used,72.91,2팀,HeeSang,트레이서,0
+[00:03:38] ,payload_progress,72.97,1,2팀,0,20.01
+[00:03:38] ,ultimate_charged,72.99,2팀,HeeSang,트레이서,0,1
+[00:03:38] ,ability_1_used,73.17,1팀,SP1NT,트레이서,0
+[00:03:39] ,ability_2_used,73.58,1팀,ChiYo,브리기테,0
+[00:03:40] ,ability_1_used,74.94,1팀,HanBin,해저드,0
+[00:03:40] ,ability_1_used,75.20,1팀,MER1T,프레야,0
+[00:03:41] ,ability_1_used,75.42,2팀,HeeSang,트레이서,0
+[00:03:41] ,ability_1_used,75.71,2팀,STALK3R,시온,0
+[00:03:41] ,ability_2_used,76.06,2팀,vigilante,아나,0
+[00:03:42] ,ability_1_used,77.00,2팀,HeeSang,트레이서,0
+[00:03:42] ,ability_1_used,77.28,2팀,HeeSang,트레이서,0
+[00:03:43] ,ability_1_used,77.34,1팀,ChiYo,브리기테,0
+[00:03:43] ,ability_2_used,78.11,2팀,CH0R0NG,제트팩 캣,0
+[00:03:44] ,ability_1_used,78.33,1팀,MER1T,프레야,0
+[00:03:44] ,ability_2_used,78.51,2팀,MAX,오리사,0
+[00:03:44] ,ability_2_used,78.54,1팀,Fielder,키리코,0
+[00:03:44] ,ultimate_charged,79.02,1팀,MER1T,프레야,0,1
+[00:03:44] ,ability_2_used,79.05,1팀,ChiYo,브리기테,0
+[00:03:44] ,****,79.20,2팀,STALK3R,시온,1팀,HanBin,해저드,Primary Fire,2.79,0,0
+[00:03:45] ,defensive_assist,79.48,2팀,vigilante,아나,0
+[00:03:45] ,offensive_assist,79.58,2팀,CH0R0NG,제트팩 캣,0
+[00:03:45] ,defensive_assist,79.58,2팀,CH0R0NG,제트팩 캣,0
+[00:03:46] ,ability_1_used,80.41,2팀,MAX,오리사,0
+[00:03:46] ,ability_1_used,80.41,1팀,SP1NT,트레이서,0
+[00:03:46] ,ability_1_used,80.68,1팀,MER1T,프레야,0
+[00:03:47] ,ultimate_start,81.63,1팀,MER1T,프레야,0,1
+[00:03:47] ,ability_1_used,81.72,1팀,SP1NT,트레이서,0
+[00:03:47] ,ability_2_used,82.16,1팀,SP1NT,트레이서,0
+[00:03:47] ,ultimate_end,82.27,1팀,MER1T,프레야,0,1
+[00:03:48] ,ability_1_used,83.23,1팀,ChiYo,브리기테,0
+[00:03:49] ,ability_1_used,84.20,2팀,CH0R0NG,제트팩 캣,0
+[00:03:50] ,ability_1_used,84.49,1팀,MER1T,프레야,0
+[00:03:50] ,ability_2_used,84.81,1팀,ChiYo,브리기테,0
+[00:03:50] ,ability_1_used,85.05,1팀,SP1NT,트레이서,0
+[00:03:52] ,ability_1_used,86.41,2팀,HeeSang,트레이서,0
+[00:03:52] ,ability_1_used,86.86,1팀,SP1NT,트레이서,0
+[00:03:53] ,ability_1_used,87.66,1팀,SP1NT,트레이서,0
+[00:03:53] ,ability_2_used,87.71,2팀,STALK3R,시온,0
+[00:03:53] ,ability_1_used,88.24,1팀,ChiYo,브리기테,0
+[00:03:53] ,ability_2_used,88.25,2팀,MAX,오리사,0
+[00:03:54] ,****,88.49,1팀,Fielder,키리코,2팀,MAX,오리사,0,9.07,0,0
+[00:03:54] ,defensive_assist,88.51,1팀,Fielder,키리코,0
+[00:03:54] ,ability_1_used,88.68,2팀,HeeSang,트레이서,0
+[00:03:54] ,offensive_assist,88.89,1팀,ChiYo,브리기테,0
+[00:03:54] ,defensive_assist,88.89,1팀,ChiYo,브리기테,0
+[00:03:55] ,ability_1_used,89.82,1팀,HanBin,해저드,0
+[00:03:55] ,ability_2_used,90.12,1팀,MER1T,프레야,0
+[00:03:56] ,ability_1_used,90.52,1팀,SP1NT,트레이서,0
+[00:03:56] ,ability_1_used,90.86,1팀,MER1T,프레야,0
+[00:03:56] ,ability_1_used,91.16,2팀,HeeSang,트레이서,0
+[00:03:57] ,ability_1_used,91.39,1팀,Fielder,키리코,0
+[00:03:58] ,ability_2_used,92.33,1팀,ChiYo,브리기테,0
+[00:03:58] ,ability_1_used,93.10,2팀,HeeSang,트레이서,0
+[00:03:58] ,ability_2_used,93.12,2팀,vigilante,아나,0
+[00:03:58] ,hero_swap,93.28,1팀,HanBin,자리야,해저드,93.28
+[00:03:59] ,ultimate_start,93.42,2팀,HeeSang,트레이서,0,1
+[00:03:59] ,ability_1_used,93.50,2팀,STALK3R,시온,0
+[00:03:59] ,ability_2_used,93.60,1팀,Fielder,키리코,0
+[00:03:59] ,ability_2_used,93.61,2팀,HeeSang,트레이서,0
+[00:03:59] ,ultimate_end,93.61,2팀,HeeSang,트레이서,0,1
+[00:03:59] ,****,93.82,2팀,vigilante,아나,1팀,Fielder,키리코,Ability 2,78.27,0,0
+[00:03:59] ,ability_1_used,94.17,1팀,ChiYo,브리기테,0
+[00:04:00] ,ultimate_charged,94.49,2팀,vigilante,아나,0,1
+[00:04:00] ,ability_1_used,94.51,1팀,SP1NT,트레이서,0
+[00:04:00] ,ability_1_used,94.78,2팀,HeeSang,트레이서,0
+[00:04:01] ,****,95.32,1팀,SP1NT,트레이서,2팀,HeeSang,트레이서,Melee,20.63,0,0
+[00:04:01] ,defensive_assist,95.48,1팀,ChiYo,브리기테,0
+[00:04:01] ,defensive_assist,95.56,1팀,Fielder,키리코,0
+[00:04:02] ,ability_1_used,96.44,1팀,SP1NT,트레이서,0
+[00:04:03] ,ability_1_used,97.52,1팀,MER1T,프레야,0
+[00:04:03] ,ability_2_used,97.56,1팀,ChiYo,브리기테,0
+[00:04:03] ,ability_2_used,97.60,2팀,CH0R0NG,제트팩 캣,0
+[00:04:03] ,ultimate_charged,97.64,1팀,SP1NT,트레이서,0,1
+[00:04:04] ,ability_1_used,98.43,1팀,MER1T,프레야,0
+[00:04:04] ,ultimate_start,98.75,2팀,vigilante,아나,0,1
+[00:04:04] ,ability_2_used,99.10,2팀,MAX,오리사,0
+[00:04:05] ,ability_1_used,99.32,1팀,ChiYo,브리기테,0
+[00:04:06] ,ability_1_used,100.38,2팀,vigilante,아나,0
+[00:04:06] ,****,100.48,2팀,STALK3R,시온,1팀,ChiYo,브리기테,Primary Fire,27.69,0,0
+[00:04:06] ,offensive_assist,100.62,2팀,vigilante,아나,0
+[00:04:06] ,defensive_assist,100.62,2팀,vigilante,아나,0
+[00:04:06] ,defensive_assist,100.70,2팀,CH0R0NG,제트팩 캣,0
+[00:04:07] ,ability_1_used,101.44,1팀,SP1NT,트레이서,0
+[00:04:07] ,ability_1_used,101.68,2팀,STALK3R,시온,0
+[00:04:07] ,ability_1_used,102.22,1팀,SP1NT,트레이서,0
+[00:04:08] ,ability_2_used,103.05,1팀,SP1NT,트레이서,0
+[00:04:09] ,ability_1_used,103.63,1팀,MER1T,프레야,0
+[00:04:10] ,ability_2_used,104.57,2팀,STALK3R,시온,0
+[00:04:10] ,ability_1_used,104.95,1팀,HanBin,자리야,0
+[00:04:11] ,ability_1_used,106.19,2팀,HeeSang,트레이서,0
+[00:04:12] ,ability_1_used,106.36,2팀,HeeSang,트레이서,0
+[00:04:12] ,ability_2_used,106.43,1팀,MER1T,프레야,0
+[00:04:12] ,ultimate_end,106.87,2팀,vigilante,아나,0,1
+[00:04:12] ,ability_1_used,106.92,2팀,HeeSang,트레이서,0
+[00:04:13] ,ability_1_used,107.50,1팀,MER1T,프레야,0
+[00:04:14] ,ability_2_used,108.54,2팀,vigilante,아나,0
+[00:04:14] ,****,108.73,2팀,STALK3R,시온,1팀,MER1T,프레야,Primary Fire,37.50,True,0
+[00:04:15] ,ability_2_used,109.29,2팀,MAX,오리사,0
+[00:04:15] ,ability_1_used,109.45,2팀,STALK3R,시온,0
+[00:04:16] ,ability_1_used,110.31,1팀,HanBin,자리야,0
+[00:04:16] ,ultimate_charged,110.99,1팀,ChiYo,브리기테,0,1
+[00:04:18] ,ability_1_used,113.08,1팀,Fielder,키리코,0
+[00:04:18] ,ability_1_used,113.08,1팀,SP1NT,트레이서,0
+[00:04:19] ,ability_1_used,113.31,2팀,HeeSang,트레이서,0
+[00:04:19] ,ability_1_used,113.98,1팀,SP1NT,트레이서,0
+[00:04:20] ,ability_1_used,114.95,1팀,SP1NT,트레이서,0
+[00:04:20] ,ability_2_used,115.07,2팀,HeeSang,트레이서,0
+[00:04:20] ,payload_progress,115.24,1,2팀,0,30.01
+[00:04:22] ,ability_1_used,116.43,2팀,HeeSang,트레이서,0
+[00:04:22] ,ability_1_used,117.10,1팀,SP1NT,트레이서,0
+[00:04:23] ,ability_2_used,117.31,1팀,SP1NT,트레이서,0
+[00:04:23] ,ability_1_used,117.71,2팀,CH0R0NG,제트팩 캣,0
+[00:04:23] ,objective_updated,118.03,1,0,1
+[00:04:23] ,objective_captured,118.03,1,2팀,1,0,0,271.96
+[00:04:23] ,ability_1_used,118.17,2팀,HeeSang,트레이서,0
+[00:04:24] ,ability_2_used,118.35,1팀,ChiYo,브리기테,0
+[00:04:24] ,ability_1_used,118.95,2팀,HeeSang,트레이서,0
+[00:04:24] ,ability_1_used,119.23,1팀,SP1NT,트레이서,0
+[00:04:25] ,ultimate_charged,120.01,2팀,STALK3R,시온,0,1
+[00:04:26] ,ability_2_used,120.28,1팀,ChiYo,브리기테,0
+[00:04:26] ,ability_2_used,121.03,1팀,Fielder,키리코,0
+[00:04:26] ,ability_2_used,121.16,1팀,HanBin,자리야,0
+[00:04:26] ,ability_2_used,121.23,1팀,ChiYo,브리기테,0
+[00:04:27] ,ultimate_charged,121.50,1팀,Fielder,키리코,0,1
+[00:04:28] ,ability_1_used,122.52,1팀,ChiYo,브리기테,0
+[00:04:28] ,ability_1_used,123.18,2팀,STALK3R,시온,0
+[00:04:29] ,ability_1_used,124.06,1팀,SP1NT,트레이서,0
+[00:04:29] ,ability_1_used,124.15,1팀,MER1T,프레야,0
+[00:04:30] ,ability_1_used,124.47,1팀,Fielder,키리코,0
+[00:04:31] ,ability_1_used,125.29,2팀,HeeSang,트레이서,0
+[00:04:31] ,ability_2_used,125.43,2팀,STALK3R,시온,0
+[00:04:32] ,ability_2_used,127.07,1팀,HanBin,자리야,0
+[00:04:33] ,ability_1_used,127.64,1팀,ChiYo,브리기테,0
+[00:04:33] ,ability_2_used,127.90,2팀,CH0R0NG,제트팩 캣,0
+[00:04:33] ,ability_2_used,128.09,2팀,MAX,오리사,0
+[00:04:34] ,ability_2_used,128.36,1팀,ChiYo,브리기테,0
+[00:04:34] ,ability_1_used,128.79,1팀,SP1NT,트레이서,0
+[00:04:34] ,****,129.26,2팀,CH0R0NG,제트팩 캣,1팀,Fielder,키리코,Melee,15.25,0,0
+[00:04:35] ,ability_1_used,129.99,1팀,SP1NT,트레이서,0
+[00:04:36] ,ability_1_used,130.54,2팀,MAX,오리사,0
+[00:04:36] ,ability_1_used,131.13,1팀,SP1NT,트레이서,0
+[00:04:37] ,ability_2_used,131.53,1팀,ChiYo,브리기테,0
+[00:04:38] ,ability_1_used,132.49,1팀,ChiYo,브리기테,0
+[00:04:39] ,ability_2_used,133.64,1팀,ChiYo,브리기테,0
+[00:04:40] ,ability_1_used,134.70,1팀,MER1T,프레야,0
+[00:04:40] ,ability_1_used,135.12,1팀,MER1T,프레야,0
+[00:04:41] ,ability_1_used,135.32,2팀,CH0R0NG,제트팩 캣,0
+[00:04:41] ,ability_1_used,135.84,1팀,SP1NT,트레이서,0
+[00:04:41] ,****,135.98,1팀,MER1T,프레야,2팀,MAX,오리사,0,32.89,0,0
+[00:04:41] ,ability_2_used,136.01,1팀,HanBin,자리야,0
+[00:04:41] ,ultimate_charged,136.03,2팀,MAX,오리사,0,1
+[00:04:42] ,defensive_assist,136.30,1팀,HanBin,자리야,0
+[00:04:42] ,offensive_assist,136.38,1팀,ChiYo,브리기테,0
+[00:04:42] ,defensive_assist,136.38,1팀,ChiYo,브리기테,0
+[00:04:42] ,ability_1_used,136.75,2팀,HeeSang,트레이서,0
+[00:04:43] ,ability_1_used,137.33,1팀,ChiYo,브리기테,0
+[00:04:43] ,ability_1_used,137.39,2팀,STALK3R,시온,0
+[00:04:43] ,ability_1_used,137.42,1팀,SP1NT,트레이서,0
+[00:04:43] ,ability_1_used,137.45,2팀,HeeSang,트레이서,0
+[00:04:43] ,ability_2_used,138.13,1팀,ChiYo,브리기테,0
+[00:04:43] ,ability_1_used,138.19,2팀,HeeSang,트레이서,0
+[00:04:45] ,ability_1_used,139.33,1팀,MER1T,프레야,0
+[00:04:46] ,ability_2_used,140.65,1팀,SP1NT,트레이서,0
+[00:04:46] ,ability_2_used,140.88,2팀,HeeSang,트레이서,0
+[00:04:47] ,ability_1_used,142.26,2팀,HeeSang,트레이서,0
+[00:04:47] ,ability_1_used,142.26,1팀,SP1NT,트레이서,0
+[00:04:49] ,ability_2_used,144.19,2팀,STALK3R,시온,0
+[00:04:50] ,ability_1_used,144.91,1팀,SP1NT,트레이서,0
+[00:04:50] ,ability_1_used,145.09,1팀,MER1T,프레야,0
+[00:04:51] ,ability_1_used,146.08,1팀,Fielder,키리코,0
+[00:04:52] ,ability_2_used,146.29,2팀,vigilante,아나,0
+[00:04:52] ,ability_1_used,146.34,2팀,STALK3R,시온,0
+[00:04:52] ,ability_2_used,146.54,2팀,MAX,오리사,0
+[00:04:52] ,ability_1_used,146.56,1팀,SP1NT,트레이서,0
+[00:04:53] ,ability_1_used,147.67,2팀,CH0R0NG,제트팩 캣,0
+[00:04:53] ,ability_1_used,148.13,2팀,HeeSang,트레이서,0
+[00:04:54] ,ability_1_used,148.29,2팀,HeeSang,트레이서,0
+[00:04:54] ,ability_1_used,149.01,1팀,MER1T,프레야,0
+[00:04:55] ,ability_1_used,149.79,1팀,SP1NT,트레이서,0
+[00:04:56] ,ability_1_used,150.90,2팀,HeeSang,트레이서,0
+[00:04:56] ,payload_progress,151.22,1,2팀,1,40.02
+[00:04:58] ,ability_1_used,152.61,2팀,STALK3R,시온,0
+[00:04:59] ,ability_1_used,154.20,2팀,CH0R0NG,제트팩 캣,0
+[00:05:01] ,ability_2_used,155.72,1팀,ChiYo,브리기테,0
+[00:05:01] ,ability_1_used,156.18,1팀,MER1T,프레야,0
+[00:05:03] ,ability_1_used,157.40,1팀,SP1NT,트레이서,0
+[00:05:03] ,ability_1_used,158.04,2팀,HeeSang,트레이서,0
+[00:05:04] ,ability_1_used,158.65,1팀,SP1NT,트레이서,0
+[00:05:04] ,ability_1_used,158.84,1팀,HanBin,자리야,0
+[00:05:04] ,ability_2_used,159.25,2팀,HeeSang,트레이서,0
+[00:05:06] ,ability_1_used,161.25,1팀,SP1NT,트레이서,0
+[00:05:07] ,ability_2_used,161.33,1팀,SP1NT,트레이서,0
+[00:05:07] ,ability_1_used,161.51,2팀,HeeSang,트레이서,0
+[00:05:07] ,ability_1_used,162.02,1팀,MER1T,프레야,0
+[00:05:07] ,ability_1_used,162.20,2팀,HeeSang,트레이서,0
+[00:05:09] ,ability_1_used,163.56,2팀,CH0R0NG,제트팩 캣,0
+[00:05:10] ,ability_2_used,164.76,2팀,STALK3R,시온,0
+[00:05:10] ,ability_2_used,165.19,1팀,ChiYo,브리기테,0
+[00:05:12] ,ability_1_used,166.41,2팀,STALK3R,시온,0
+[00:05:12] ,ability_1_used,166.41,1팀,SP1NT,트레이서,0
+[00:05:13] ,ability_1_used,167.56,1팀,MER1T,프레야,0
+[00:05:13] ,ability_2_used,167.63,1팀,ChiYo,브리기테,0
+[00:05:13] ,ability_1_used,167.71,1팀,Fielder,키리코,0
+[00:05:14] ,ultimate_start,168.63,1팀,Fielder,키리코,0,1
+[00:05:14] ,ability_1_used,168.70,1팀,MER1T,프레야,0
+[00:05:14] ,ability_2_used,169.03,1팀,ChiYo,브리기테,0
+[00:05:15] ,ultimate_start,169.63,2팀,STALK3R,시온,0,1
+[00:05:15] ,ability_2_used,169.99,2팀,CH0R0NG,제트팩 캣,0
+[00:05:15] ,ability_2_used,170.01,2팀,MAX,오리사,0
+[00:05:15] ,ability_1_used,170.17,2팀,HeeSang,트레이서,0
+[00:05:15] ,ultimate_charged,170.19,1팀,MER1T,프레야,0,2
+[00:05:16] ,ability_1_used,170.51,1팀,ChiYo,브리기테,0
+[00:05:16] ,ability_1_used,170.65,1팀,HanBin,자리야,0
+[00:05:16] ,ability_2_used,170.97,1팀,ChiYo,브리기테,0
+[00:05:16] ,ability_1_used,170.99,2팀,CH0R0NG,제트팩 캣,0
+[00:05:16] ,ultimate_start,171.02,2팀,MAX,오리사,0,1
+[00:05:16] ,ability_2_used,171.08,1팀,MER1T,프레야,0
+[00:05:17] ,ability_2_used,171.39,1팀,Fielder,키리코,0
+[00:05:17] ,ability_2_used,172.25,2팀,vigilante,아나,0
+[00:05:18] ,ability_1_used,172.73,1팀,MER1T,프레야,0
+[00:05:19] ,ability_1_used,173.37,1팀,SP1NT,트레이서,0
+[00:05:19] ,ability_1_used,173.90,1팀,Fielder,키리코,0
+[00:05:20] ,ultimate_end,174.57,2팀,STALK3R,시온,0,1
+[00:05:20] ,ability_1_used,174.72,2팀,vigilante,아나,0
+[00:05:20] ,ability_2_used,174.96,1팀,ChiYo,브리기테,0
+[00:05:20] ,****,175.21,2팀,MAX,오리사,1팀,SP1NT,트레이서,Ultimate,114.29,0,0
+[00:05:21] ,offensive_assist,175.47,2팀,CH0R0NG,제트팩 캣,0
+[00:05:21] ,defensive_assist,175.47,2팀,CH0R0NG,제트팩 캣,0
+[00:05:21] ,ultimate_end,175.53,2팀,MAX,오리사,0,1
+[00:05:22] ,ability_1_used,176.38,2팀,HeeSang,트레이서,0
+[00:05:22] ,****,176.48,1팀,HanBin,자리야,2팀,vigilante,아나,Secondary Fire,24.31,0,0
+[00:05:22] ,ability_1_used,176.86,1팀,ChiYo,브리기테,0
+[00:05:22] ,offensive_assist,176.88,1팀,Fielder,키리코,0
+[00:05:22] ,defensive_assist,176.88,1팀,Fielder,키리코,0
+[00:05:22] ,ability_1_used,177.17,2팀,HeeSang,트레이서,0
+[00:05:23] ,ability_1_used,177.41,1팀,MER1T,프레야,0
+[00:05:23] ,ability_1_used,177.97,2팀,STALK3R,시온,0
+[00:05:24] ,ability_2_used,178.99,1팀,ChiYo,브리기테,0
+[00:05:25] ,ability_1_used,179.53,2팀,HeeSang,트레이서,0
+[00:05:25] ,ultimate_end,179.84,1팀,Fielder,키리코,0,1
+[00:05:26] ,ability_2_used,180.54,1팀,ChiYo,브리기테,0
+[00:05:26] ,ability_2_used,180.83,1팀,Fielder,키리코,0
+[00:05:26] ,ability_1_used,180.94,2팀,HeeSang,트레이서,0
+[00:05:27] ,ability_1_used,182.03,1팀,Fielder,키리코,0
+[00:05:27] ,ultimate_charged,182.05,2팀,HeeSang,트레이서,0,2
+[00:05:27] ,payload_progress,182.08,1,2팀,1,50.01
+[00:05:28] ,ability_1_used,182.40,1팀,ChiYo,브리기테,0
+[00:05:28] ,ability_2_used,182.75,2팀,STALK3R,시온,0
+[00:05:28] ,ability_2_used,182.90,1팀,MER1T,프레야,0
+[00:05:28] ,ability_2_used,183.23,2팀,HeeSang,트레이서,0
+[00:05:29] ,ability_1_used,183.55,1팀,MER1T,프레야,0
+[00:05:29] ,ability_2_used,183.81,2팀,MAX,오리사,0
+[00:05:30] ,****,184.37,1팀,MER1T,프레야,2팀,STALK3R,시온,0,69.50,0,0
+[00:05:30] ,defensive_assist,184.82,1팀,ChiYo,브리기테,0
+[00:05:30] ,ability_2_used,185.28,1팀,HanBin,자리야,0
+[00:05:31] ,ability_2_used,185.38,1팀,ChiYo,브리기테,0
+[00:05:31] ,ability_1_used,185.76,2팀,MAX,오리사,0
+[00:05:31] ,ability_1_used,186.16,1팀,MER1T,프레야,0
+[00:05:32] ,ability_1_used,186.83,1팀,SP1NT,트레이서,0
+[00:05:32] ,ability_2_used,186.93,2팀,CH0R0NG,제트팩 캣,0
+[00:05:32] ,ability_1_used,187.25,1팀,SP1NT,트레이서,0
+[00:05:32] ,ability_1_used,187.25,1팀,ChiYo,브리기테,0
+[00:05:33] ,ability_1_used,187.39,1팀,SP1NT,트레이서,0
+[00:05:33] ,ultimate_start,187.78,1팀,MER1T,프레야,0,2
+[00:05:33] ,****,188.16,2팀,MAX,오리사,1팀,Fielder,키리코,Secondary Fire,10.69,0,0
+[00:05:34] ,ultimate_end,188.43,1팀,MER1T,프레야,0,2
+[00:05:34] ,ability_1_used,188.87,2팀,HeeSang,트레이서,0
+[00:05:34] ,ability_2_used,188.88,1팀,HanBin,자리야,0
+[00:05:35] ,ability_2_used,189.75,1팀,ChiYo,브리기테,0
+[00:05:35] ,ability_1_used,190.05,2팀,CH0R0NG,제트팩 캣,0
+[00:05:38] ,ability_2_used,193.08,1팀,MER1T,프레야,0
+[00:05:38] ,ability_1_used,193.17,1팀,SP1NT,트레이서,0
+[00:05:38] ,ability_1_used,193.27,2팀,HeeSang,트레이서,0
+[00:05:39] ,ability_1_used,193.36,1팀,SP1NT,트레이서,0
+[00:05:39] ,ability_1_used,194.23,1팀,MER1T,프레야,0
+[00:05:39] ,ability_1_used,194.23,2팀,CH0R0NG,제트팩 캣,0
+[00:05:40] ,hero_swap,194.47,2팀,STALK3R,캐서디,시온,168.02
+[00:05:40] ,ability_1_used,194.96,2팀,STALK3R,캐서디,0
+[00:05:40] ,ability_1_used,195.24,1팀,MER1T,프레야,0
+[00:05:40] ,ability_1_used,195.28,2팀,HeeSang,트레이서,0
+[00:05:42] ,ability_2_used,196.71,1팀,ChiYo,브리기테,0
+[00:05:44] ,ability_1_used,198.93,1팀,ChiYo,브리기테,0
+[00:05:44] ,ability_2_used,199.11,2팀,MAX,오리사,0
+[00:05:45] ,ability_1_used,199.48,2팀,HeeSang,트레이서,0
+[00:05:45] ,ability_2_used,200.12,1팀,ChiYo,브리기테,0
+[00:05:46] ,ability_1_used,200.33,2팀,HeeSang,트레이서,0
+[00:05:46] ,ability_1_used,200.36,2팀,STALK3R,캐서디,0
+[00:05:47] ,ability_1_used,201.32,1팀,SP1NT,트레이서,0
+[00:05:47] ,hero_swap,201.45,1팀,Fielder,바티스트,키리코,201.45
+[00:05:47] ,ability_1_used,201.86,1팀,MER1T,프레야,0
+[00:05:47] ,ability_2_used,201.93,2팀,HeeSang,트레이서,0
+[00:05:48] ,ability_1_used,202.81,1팀,SP1NT,트레이서,0
+[00:05:48] ,ability_1_used,202.92,2팀,MAX,오리사,0
+[00:05:49] ,ability_1_used,204.18,2팀,HeeSang,트레이서,0
+[00:05:50] ,ultimate_charged,204.38,1팀,HanBin,자리야,0,1
+[00:05:50] ,ability_2_used,205.16,1팀,ChiYo,브리기테,0
+[00:05:51] ,ultimate_start,205.70,1팀,HanBin,자리야,0,1
+[00:05:51] ,ability_2_used,205.77,2팀,vigilante,아나,0
+[00:05:51] ,ability_1_used,205.78,2팀,STALK3R,캐서디,0
+[00:05:52] ,ability_1_used,207.24,1팀,MER1T,프레야,0
+[00:05:52] ,ability_1_used,207.27,1팀,HanBin,자리야,0
+[00:05:52] ,offensive_assist,207.31,1팀,HanBin,자리야,0
+[00:05:52] ,****,207.31,1팀,MER1T,프레야,2팀,CH0R0NG,제트팩 캣,Secondary Fire,30.89,0,0
+[00:05:53] ,ability_2_used,207.32,1팀,ChiYo,브리기테,0
+[00:05:53] ,defensive_assist,207.43,1팀,ChiYo,브리기테,0
+[00:05:53] ,****,207.56,1팀,HanBin,자리야,2팀,HeeSang,트레이서,Primary Fire,22.36,0,0
+[00:05:53] ,defensive_assist,207.90,1팀,ChiYo,브리기테,0
+[00:05:55] ,ability_1_used,209.64,1팀,MER1T,프레야,0
+[00:05:55] ,ability_2_used,209.83,2팀,MAX,오리사,0
+[00:05:56] ,ultimate_end,210.33,1팀,HanBin,자리야,0,1
+[00:05:56] ,ability_2_used,210.79,1팀,MER1T,프레야,0
+[00:05:56] ,ability_2_used,210.84,1팀,ChiYo,브리기테,0
+[00:05:57] ,ability_1_used,211.42,1팀,HanBin,자리야,0
+[00:05:57] ,ability_1_used,211.42,1팀,SP1NT,트레이서,0
+[00:05:57] ,ability_1_used,212.16,2팀,STALK3R,캐서디,0
+[00:05:58] ,ability_1_used,213.20,1팀,SP1NT,트레이서,0
+[00:05:59] ,ability_1_used,213.48,1팀,MER1T,프레야,0
+[00:05:59] ,****,214.00,1팀,SP1NT,트레이서,2팀,STALK3R,캐서디,Primary Fire,1.37,0,0
+[00:06:00] ,defensive_assist,214.46,1팀,ChiYo,브리기테,0
+[00:06:01] ,ability_1_used,215.32,1팀,SP1NT,트레이서,0
+[00:06:02] ,ability_2_used,216.70,1팀,ChiYo,브리기테,0
+[00:06:03] ,ability_1_used,217.68,1팀,SP1NT,트레이서,0
+[00:06:03] ,ability_1_used,218.06,1팀,MER1T,프레야,0
+[00:06:04] ,ability_2_used,219.26,1팀,HanBin,자리야,0
+[00:06:04] ,ability_1_used,219.26,2팀,MAX,오리사,0
+[00:06:05] ,ability_2_used,219.81,2팀,MAX,오리사,0
+[00:06:05] ,ability_1_used,219.97,2팀,HeeSang,트레이서,0
+[00:06:05] ,ability_1_used,220.21,1팀,SP1NT,트레이서,0
+[00:06:05] ,ability_1_used,220.27,2팀,HeeSang,트레이서,0
+[00:06:06] ,ability_1_used,220.51,1팀,SP1NT,트레이서,0
+[00:06:06] ,ability_2_used,221.31,1팀,SP1NT,트레이서,0
+[00:06:08] ,ultimate_charged,222.93,2팀,vigilante,아나,0,2
+[00:06:08] ,hero_swap,223.01,2팀,MAX,자리야,오리사,223.01
+[00:06:09] ,ability_1_used,223.98,2팀,HeeSang,트레이서,0
+[00:06:10] ,ability_1_used,224.62,2팀,STALK3R,캐서디,0
+[00:06:10] ,ability_1_used,224.93,2팀,CH0R0NG,제트팩 캣,0
+[00:06:10] ,ability_1_used,225.17,1팀,SP1NT,트레이서,0
+[00:06:11] ,ability_1_used,225.41,1팀,MER1T,프레야,0
+[00:06:11] ,ability_1_used,226.21,1팀,MER1T,프레야,0
+[00:06:13] ,ability_1_used,227.91,2팀,CH0R0NG,제트팩 캣,0
+[00:06:13] ,ability_1_used,228.03,1팀,ChiYo,브리기테,0
+[00:06:15] ,ability_1_used,229.52,1팀,SP1NT,트레이서,0
+[00:06:15] ,ability_1_used,230.02,2팀,STALK3R,캐서디,0
+[00:06:16] ,ability_1_used,230.47,2팀,HeeSang,트레이서,0
+[00:06:16] ,ability_1_used,230.91,1팀,MER1T,프레야,0
+[00:06:17] ,ability_1_used,231.38,2팀,HeeSang,트레이서,0
+[00:06:17] ,ability_2_used,232.31,1팀,MER1T,프레야,0
+[00:06:18] ,ability_1_used,233.19,2팀,MAX,자리야,0
+[00:06:19] ,ability_1_used,233.72,1팀,SP1NT,트레이서,0
+[00:06:19] ,ability_1_used,233.84,1팀,HanBin,자리야,0
+[00:06:19] ,ultimate_start,233.91,2팀,CH0R0NG,제트팩 캣,0,0
+[00:06:19] ,ability_2_used,234.29,1팀,ChiYo,브리기테,0
+[00:06:20] ,ability_1_used,234.82,2팀,HeeSang,트레이서,0
+[00:06:20] ,ultimate_end,234.85,2팀,CH0R0NG,제트팩 캣,0,0
+[00:06:20] ,ability_2_used,235.04,2팀,CH0R0NG,제트팩 캣,0
+[00:06:20] ,ability_2_used,235.06,1팀,ChiYo,브리기테,0
+[00:06:21] ,ability_1_used,235.88,2팀,MAX,자리야,0
+[00:06:21] ,ability_1_used,236.10,1팀,MER1T,프레야,0
+[00:06:22] ,ability_1_used,236.45,1팀,SP1NT,트레이서,0
+[00:06:22] ,ability_1_used,236.89,1팀,Fielder,바티스트,0
+[00:06:22] ,ultimate_charged,237.05,1팀,MER1T,프레야,0,3
+[00:06:22] ,ability_1_used,237.17,1팀,ChiYo,브리기테,0
+[00:06:23] ,ability_2_used,237.80,2팀,STALK3R,캐서디,0
+[00:06:23] ,ability_2_used,238.31,1팀,MER1T,프레야,0
+[00:06:24] ,ability_1_used,239.06,2팀,STALK3R,캐서디,0
+[00:06:24] ,ultimate_start,239.14,1팀,ChiYo,브리기테,0,1
+[00:06:24] ,ultimate_start,239.16,1팀,MER1T,프레야,0,3
+[00:06:25] ,ability_1_used,239.61,2팀,HeeSang,트레이서,0
+[00:06:25] ,ultimate_end,239.78,1팀,MER1T,프레야,0,3
+[00:06:25] ,ability_2_used,239.99,1팀,HanBin,자리야,0
+[00:06:25] ,ultimate_start,240.01,2팀,vigilante,아나,0,2
+[00:06:25] ,ability_1_used,240.04,2팀,HeeSang,트레이서,0
+[00:06:26] ,ability_1_used,240.90,1팀,MER1T,프레야,0
+[00:06:27] ,ability_2_used,241.38,2팀,HeeSang,트레이서,0
+[00:06:27] ,ability_2_used,241.78,2팀,vigilante,아나,0
+[00:06:28] ,ability_1_used,243.13,2팀,HeeSang,트레이서,0
+[00:06:29] ,ability_1_used,244.09,1팀,SP1NT,트레이서,0
+[00:06:30] ,ultimate_start,244.57,1팀,SP1NT,트레이서,0,1
+[00:06:30] ,ultimate_end,244.76,1팀,SP1NT,트레이서,0,1
+[00:06:30] ,ability_1_used,244.78,2팀,HeeSang,트레이서,0
+[00:06:30] ,ability_1_used,244.95,1팀,MER1T,프레야,0
+[00:06:30] ,ability_2_used,245.27,1팀,SP1NT,트레이서,0
+[00:06:31] ,ability_2_used,245.59,2팀,MAX,자리야,0
+[00:06:31] ,ability_1_used,245.90,1팀,ChiYo,브리기테,0
+[00:06:31] ,ability_1_used,246.12,2팀,STALK3R,캐서디,0
+[00:06:32] ,ability_1_used,246.35,1팀,SP1NT,트레이서,0
+[00:06:32] ,ability_2_used,246.86,1팀,ChiYo,브리기테,0
+[00:06:33] ,ability_2_used,247.63,1팀,ChiYo,브리기테,0
+[00:06:33] ,****,247.75,1팀,SP1NT,트레이서,2팀,MAX,자리야,Primary Fire,1.34,0,0
+[00:06:33] ,ultimate_end,248.14,2팀,vigilante,아나,0,2
+[00:06:34] ,ability_1_used,248.87,1팀,SP1NT,트레이서,0
+[00:06:34] ,ultimate_end,249.15,1팀,ChiYo,브리기테,0,1
+[00:06:35] ,ability_2_used,249.71,1팀,HanBin,자리야,0
+[00:06:36] ,ability_2_used,250.44,2팀,STALK3R,캐서디,0
+[00:06:36] ,ability_1_used,250.44,1팀,SP1NT,트레이서,0
+[00:06:36] ,ability_1_used,250.52,1팀,Fielder,바티스트,0
+[00:06:36] ,ability_2_used,250.84,1팀,ChiYo,브리기테,0
+[00:06:37] ,ability_2_used,251.55,1팀,Fielder,바티스트,0
+[00:06:37] ,ability_1_used,251.55,1팀,SP1NT,트레이서,0
+[00:06:37] ,ability_1_used,251.58,1팀,MER1T,프레야,0
+[00:06:37] ,ability_2_used,251.80,2팀,CH0R0NG,제트팩 캣,0
+[00:06:37] ,ability_1_used,251.93,2팀,STALK3R,캐서디,0
+[00:06:37] ,ability_1_used,252.08,1팀,ChiYo,브리기테,0
+[00:06:37] ,ability_1_used,252.11,2팀,vigilante,아나,0
+[00:06:38] ,ability_1_used,252.96,2팀,HeeSang,트레이서,0
+[00:06:39] ,ultimate_start,253.36,2팀,HeeSang,트레이서,0,2
+[00:06:39] ,ability_1_used,253.47,2팀,HeeSang,트레이서,0
+[00:06:39] ,ultimate_end,253.55,2팀,HeeSang,트레이서,0,2
+[00:06:39] ,ability_2_used,254.00,1팀,ChiYo,브리기테,0
+[00:06:42] ,ability_1_used,256.44,1팀,SP1NT,트레이서,0
+[00:06:42] ,ability_1_used,256.99,2팀,HeeSang,트레이서,0
+[00:06:42] ,ability_1_used,256.99,1팀,SP1NT,트레이서,0
+[00:06:42] ,ability_1_used,257.02,2팀,STALK3R,캐서디,0
+[00:06:42] ,ability_1_used,257.26,1팀,MER1T,프레야,0
+[00:06:43] ,ability_2_used,257.61,1팀,ChiYo,브리기테,0
+[00:06:43] ,ability_2_used,257.79,2팀,HeeSang,트레이서,0
+[00:06:44] ,ability_1_used,258.57,1팀,MER1T,프레야,0
+[00:06:44] ,ability_1_used,258.59,2팀,CH0R0NG,제트팩 캣,0
+[00:06:44] ,ability_1_used,259.23,1팀,SP1NT,트레이서,0
+[00:06:45] ,ability_2_used,259.39,1팀,MER1T,프레야,0
+[00:06:45] ,****,259.41,2팀,HeeSang,트레이서,1팀,MER1T,프레야,Primary Fire,1.53,0,0
+[00:06:45] ,ability_1_used,259.74,1팀,HanBin,자리야,0
+[00:06:45] ,ability_1_used,259.85,2팀,HeeSang,트레이서,0
+[00:06:47] ,ability_1_used,261.68,2팀,STALK3R,캐서디,0
+[00:06:49] ,ability_1_used,263.60,1팀,SP1NT,트레이서,0
+[00:06:49] ,ability_2_used,263.80,1팀,ChiYo,브리기테,0
+[00:06:52] ,ability_1_used,266.35,2팀,HeeSang,트레이서,0
+[00:06:52] ,ability_1_used,266.40,1팀,SP1NT,트레이서,0
+[00:06:52] ,ability_2_used,267.23,1팀,ChiYo,브리기테,0
+[00:06:53] ,ability_1_used,267.42,2팀,STALK3R,캐서디,0
+[00:06:54] ,****,268.43,2팀,STALK3R,캐서디,1팀,Fielder,바티스트,Primary Fire,52.35,0,0
+[00:06:54] ,ability_1_used,268.43,1팀,Fielder,바티스트,0
+[00:06:54] ,offensive_assist,268.56,2팀,CH0R0NG,제트팩 캣,0
+[00:06:55] ,ability_1_used,270.06,1팀,ChiYo,브리기테,0
+[00:06:55] ,ability_1_used,270.20,2팀,MAX,자리야,0
+[00:06:56] ,ability_1_used,271.17,2팀,HeeSang,트레이서,0
+[00:06:57] ,ability_1_used,271.37,1팀,SP1NT,트레이서,0
+[00:06:57] ,ability_1_used,271.97,2팀,STALK3R,캐서디,0
+[00:06:57] ,ability_1_used,272.18,2팀,HeeSang,트레이서,0
+[00:06:58] ,ability_2_used,272.51,1팀,ChiYo,브리기테,0
+[00:06:58] ,ability_1_used,272.56,1팀,SP1NT,트레이서,0
+[00:06:58] ,ability_2_used,272.80,2팀,CH0R0NG,제트팩 캣,0
+[00:06:58] ,hero_swap,273.14,1팀,MER1T,캐서디,프레야,273.14
+[00:06:58] ,ability_1_used,273.25,1팀,HanBin,자리야,0
+[00:06:59] ,ability_2_used,274.14,2팀,MAX,자리야,0
+[00:06:59] ,ability_1_used,274.24,1팀,MER1T,캐서디,0
+[00:07:00] ,ultimate_charged,274.94,2팀,STALK3R,캐서디,0,2
+[00:07:01] ,ability_1_used,275.78,1팀,SP1NT,트레이서,0
+[00:07:01] ,ability_2_used,275.87,2팀,vigilante,아나,0
+[00:07:01] ,ability_1_used,275.92,2팀,HeeSang,트레이서,0
+[00:07:02] ,****,276.56,2팀,MAX,자리야,1팀,ChiYo,브리기테,Primary Fire,16.44,0,0
+[00:07:02] ,defensive_assist,276.90,2팀,MAX,자리야,0
+[00:07:02] ,defensive_assist,276.93,2팀,vigilante,아나,0
+[00:07:02] ,offensive_assist,277.00,2팀,CH0R0NG,제트팩 캣,0
+[00:07:02] ,defensive_assist,277.00,2팀,CH0R0NG,제트팩 캣,0
+[00:07:02] ,ability_2_used,277.14,1팀,SP1NT,트레이서,0
+[00:07:03] ,ability_2_used,277.38,2팀,HeeSang,트레이서,0
+[00:07:03] ,ability_1_used,277.48,2팀,CH0R0NG,제트팩 캣,0
+[00:07:03] ,ability_1_used,278.07,2팀,STALK3R,캐서디,0
+[00:07:04] ,ability_1_used,278.44,1팀,SP1NT,트레이서,0
+[00:07:04] ,ability_1_used,279.03,2팀,HeeSang,트레이서,0
+[00:07:04] ,ability_2_used,279.05,2팀,STALK3R,캐서디,0
+[00:07:05] ,ability_1_used,279.94,2팀,HeeSang,트레이서,0
+[00:07:06] ,ability_1_used,280.70,1팀,SP1NT,트레이서,0
+[00:07:07] ,ability_1_used,281.85,2팀,HeeSang,트레이서,0
+[00:07:07] ,****,282.31,2팀,HeeSang,트레이서,1팀,SP1NT,트레이서,Melee,0.40,0,0
+[00:07:09] ,ability_1_used,284.25,2팀,STALK3R,캐서디,0
+[00:07:12] ,ability_1_used,287.35,2팀,HeeSang,트레이서,0
+[00:07:13] ,payload_progress,288.34,1,2팀,1,60.02
+[00:07:14] ,ability_1_used,289.22,1팀,SP1NT,트레이서,0
+[00:07:15] ,ability_1_used,290.18,1팀,SP1NT,트레이서,0
+[00:07:15] ,ability_1_used,290.34,1팀,SP1NT,트레이서,0
+[00:07:19] ,ability_1_used,293.90,2팀,HeeSang,트레이서,0
+[00:07:19] ,ability_1_used,294.27,2팀,HeeSang,트레이서,0
+[00:07:20] ,ability_1_used,295.02,2팀,STALK3R,캐서디,0
+[00:07:21] ,ability_2_used,295.44,1팀,ChiYo,브리기테,0
+[00:07:21] ,ability_1_used,295.93,1팀,Fielder,바티스트,0
+[00:07:21] ,ability_2_used,296.17,1팀,ChiYo,브리기테,0
+[00:07:22] ,ability_1_used,296.48,2팀,HeeSang,트레이서,0
+[00:07:22] ,ability_1_used,296.59,1팀,HanBin,자리야,0
+[00:07:22] ,ability_1_used,297.18,2팀,CH0R0NG,제트팩 캣,0
+[00:07:22] ,ability_1_used,297.31,1팀,SP1NT,트레이서,0
+[00:07:24] ,ultimate_start,298.75,2팀,STALK3R,캐서디,0,2
+[00:07:24] ,ability_2_used,298.80,2팀,HeeSang,트레이서,0
+[00:07:24] ,ability_1_used,298.80,1팀,ChiYo,브리기테,0
+[00:07:24] ,ability_1_used,299.10,1팀,MER1T,캐서디,0
+[00:07:24] ,ability_2_used,299.10,2팀,CH0R0NG,제트팩 캣,0
+[00:07:25] ,ability_2_used,299.44,1팀,ChiYo,브리기테,0
+[00:07:25] ,ability_2_used,300.08,2팀,MAX,자리야,0
+[00:07:27] ,ability_2_used,301.53,1팀,MER1T,캐서디,0
+[00:07:28] ,ability_1_used,302.91,1팀,HanBin,자리야,0
+[00:07:28] ,ability_1_used,302.99,1팀,SP1NT,트레이서,0
+[00:07:29] ,ability_1_used,303.47,2팀,HeeSang,트레이서,0
+[00:07:29] ,ability_1_used,303.90,2팀,HeeSang,트레이서,0
+[00:07:29] ,ability_2_used,303.95,1팀,ChiYo,브리기테,0
+[00:07:29] ,****,303.98,2팀,STALK3R,캐서디,1팀,HanBin,자리야,Ultimate,262.83,0,0
+[00:07:29] ,defensive_assist,304.19,2팀,MAX,자리야,0
+[00:07:29] ,defensive_assist,304.22,2팀,vigilante,아나,0
+[00:07:29] ,defensive_assist,304.30,2팀,CH0R0NG,제트팩 캣,0
+[00:07:29] ,ultimate_end,304.32,2팀,STALK3R,캐서디,0,2
+[00:07:30] ,ability_1_used,304.72,1팀,MER1T,캐서디,0
+[00:07:31] ,ability_1_used,305.73,1팀,ChiYo,브리기테,0
+[00:07:32] ,ability_2_used,306.70,1팀,ChiYo,브리기테,0
+[00:07:32] ,ability_1_used,307.13,2팀,STALK3R,캐서디,0
+[00:07:33] ,ability_1_used,307.49,1팀,SP1NT,트레이서,0
+[00:07:33] ,ability_1_used,307.55,2팀,MAX,자리야,0
+[00:07:33] ,ability_2_used,307.71,2팀,STALK3R,캐서디,0
+[00:07:33] ,ability_2_used,308.01,1팀,Fielder,바티스트,0
+[00:07:33] ,****,308.09,2팀,STALK3R,캐서디,1팀,ChiYo,브리기테,Ability 2,37.08,0,0
+[00:07:33] ,ability_1_used,308.30,1팀,SP1NT,트레이서,0
+[00:07:34] ,defensive_assist,308.45,2팀,vigilante,아나,0
+[00:07:34] ,ability_2_used,308.97,2팀,vigilante,아나,0
+[00:07:34] ,ability_1_used,309.02,2팀,HeeSang,트레이서,0
+[00:07:35] ,ability_1_used,309.37,1팀,SP1NT,트레이서,0
+[00:07:35] ,ability_1_used,309.69,1팀,Fielder,바티스트,0
+[00:07:35] ,ability_2_used,309.76,1팀,SP1NT,트레이서,0
+[00:07:35] ,****,310.27,1팀,MER1T,캐서디,2팀,STALK3R,캐서디,Primary Fire,23.19,0,0
+[00:07:35] ,ability_1_used,310.33,1팀,MER1T,캐서디,0
+[00:07:36] ,offensive_assist,310.41,1팀,ChiYo,브리기테,0
+[00:07:36] ,defensive_assist,310.41,1팀,ChiYo,브리기테,0
+[00:07:36] ,defensive_assist,310.43,1팀,Fielder,바티스트,0
+[00:07:36] ,****,310.59,2팀,CH0R0NG,제트팩 캣,1팀,Fielder,바티스트,0,2.99,True,0
+[00:07:37] ,ability_1_used,311.85,2팀,HeeSang,트레이서,0
+[00:07:37] ,ultimate_charged,312.33,2팀,HeeSang,트레이서,0,3
+[00:07:38] ,****,312.48,2팀,HeeSang,트레이서,1팀,MER1T,캐서디,Primary Fire,4.50,0,0
+[00:07:38] ,offensive_assist,312.67,2팀,vigilante,아나,0
+[00:07:39] ,ability_1_used,313.44,1팀,SP1NT,트레이서,0
+[00:07:39] ,ability_1_used,313.97,1팀,SP1NT,트레이서,0
+[00:07:39] ,ability_1_used,313.98,2팀,HeeSang,트레이서,0
+[00:07:39] ,objective_updated,314.03,1,1,2
+[00:07:39] ,objective_captured,314.03,1,2팀,2,0,0,166.04
+[00:07:39] ,ability_1_used,314.17,2팀,HeeSang,트레이서,0
+[00:07:40] ,ability_1_used,314.56,2팀,CH0R0NG,제트팩 캣,0
+[00:07:41] ,ability_2_used,316.32,2팀,CH0R0NG,제트팩 캣,0
+[00:07:42] ,ability_1_used,316.51,2팀,HeeSang,트레이서,0
+[00:07:43] ,****,317.49,2팀,HeeSang,트레이서,1팀,SP1NT,트레이서,Primary Fire,5.30,0,0
+[00:07:43] ,ultimate_charged,317.57,2팀,CH0R0NG,제트팩 캣,0,1
+[00:07:43] ,defensive_assist,317.84,2팀,vigilante,아나,0
+[00:07:43] ,offensive_assist,317.87,2팀,CH0R0NG,제트팩 캣,0
+[00:07:43] ,defensive_assist,317.87,2팀,CH0R0NG,제트팩 캣,0
+[00:07:45] ,ability_1_used,320.05,2팀,CH0R0NG,제트팩 캣,0
+[00:07:47] ,payload_progress,321.51,1,2팀,2,70.02
+[00:07:48] ,ability_1_used,322.51,2팀,HeeSang,트레이서,0
+[00:07:48] ,ability_1_used,323.35,1팀,MER1T,캐서디,0
+[00:07:50] ,ability_1_used,324.53,2팀,STALK3R,캐서디,0
+[00:07:50] ,hero_swap,325.25,1팀,HanBin,라마트라,자리야,231.98
+[00:07:51] ,hero_swap,325.80,1팀,MER1T,프레야,캐서디,52.66
+[00:07:51] ,ability_1_used,326.06,1팀,MER1T,프레야,0
+[00:07:53] ,ability_1_used,327.98,2팀,HeeSang,트레이서,0
+[00:07:53] ,ability_1_used,328.14,1팀,SP1NT,트레이서,0
+[00:07:53] ,ability_1_used,328.30,1팀,SP1NT,트레이서,0
+[00:07:54] ,ability_1_used,328.41,2팀,HeeSang,트레이서,0
+[00:07:54] ,ability_2_used,328.99,2팀,MAX,자리야,0
+[00:07:54] ,ability_1_used,329.26,1팀,SP1NT,트레이서,0
+[00:07:54] ,ability_1_used,329.37,2팀,HeeSang,트레이서,0
+[00:07:55] ,ability_1_used,329.93,2팀,STALK3R,캐서디,0
+[00:07:55] ,ability_1_used,329.99,1팀,MER1T,프레야,0
+[00:07:55] ,ability_1_used,330.11,1팀,Fielder,바티스트,0
+[00:07:56] ,ability_2_used,331.03,1팀,MER1T,프레야,0
+[00:07:56] ,ability_2_used,331.18,2팀,HeeSang,트레이서,0
+[00:07:58] ,ability_1_used,333.23,1팀,SP1NT,트레이서,0
+[00:07:59] ,ultimate_charged,334.04,1팀,SP1NT,트레이서,0,2
+[00:08:00] ,ability_1_used,335.08,1팀,SP1NT,트레이서,0
+[00:08:01] ,ability_1_used,335.42,2팀,HeeSang,트레이서,0
+[00:08:01] ,ability_1_used,335.87,2팀,HeeSang,트레이서,0
+[00:08:01] ,ability_2_used,336.17,1팀,ChiYo,브리기테,0
+[00:08:01] ,ability_2_used,336.24,1팀,MER1T,프레야,0
+[00:08:02] ,ability_1_used,336.67,1팀,MER1T,프레야,0
+[00:08:02] ,ability_1_used,337.13,1팀,MER1T,프레야,0
+[00:08:03] ,ability_1_used,338.08,2팀,STALK3R,캐서디,0
+[00:08:03] ,ability_2_used,338.21,1팀,ChiYo,브리기테,0
+[00:08:04] ,ability_1_used,338.42,2팀,MAX,자리야,0
+[00:08:04] ,ability_1_used,338.51,1팀,ChiYo,브리기테,0
+[00:08:06] ,ability_2_used,340.72,1팀,HanBin,라마트라,0
+[00:08:06] ,ability_1_used,341.32,2팀,HeeSang,트레이서,0
+[00:08:07] ,ability_2_used,341.60,1팀,ChiYo,브리기테,0
+[00:08:07] ,****,341.97,1팀,Fielder,바티스트,2팀,HeeSang,트레이서,Primary Fire,10.97,0,0
+[00:08:07] ,payload_progress,342.21,1,2팀,2,80.02
+[00:08:08] ,ability_1_used,342.53,1팀,SP1NT,트레이서,0
+[00:08:08] ,ability_2_used,342.97,2팀,CH0R0NG,제트팩 캣,0
+[00:08:08] ,ability_2_used,343.16,2팀,vigilante,아나,0
+[00:08:09] ,ability_1_used,343.67,2팀,STALK3R,캐서디,0
+[00:08:09] ,ability_1_used,343.91,1팀,MER1T,프레야,0
+[00:08:09] ,ability_1_used,343.94,1팀,ChiYo,브리기테,0
+[00:08:09] ,ability_1_used,344.15,2팀,CH0R0NG,제트팩 캣,0
+[00:08:10] ,ability_1_used,345.32,1팀,HanBin,라마트라,0
+[00:08:11] ,ability_2_used,345.40,1팀,MER1T,프레야,0
+[00:08:11] ,ability_1_used,345.64,2팀,MAX,자리야,0
+[00:08:11] ,ability_2_used,345.86,2팀,STALK3R,캐서디,0
+[00:08:11] ,ability_1_used,346.31,1팀,SP1NT,트레이서,0
+[00:08:12] ,ability_1_used,346.62,1팀,MER1T,프레야,0
+[00:08:12] ,ultimate_start,346.98,2팀,vigilante,아나,0,2
+[00:08:14] ,ability_1_used,348.73,1팀,SP1NT,트레이서,0
+[00:08:14] ,ability_1_used,349.06,1팀,SP1NT,트레이서,0
+[00:08:14] ,ability_2_used,349.33,1팀,ChiYo,브리기테,0
+[00:08:15] ,ability_1_used,349.70,1팀,SP1NT,트레이서,0
+[00:08:15] ,ability_1_used,349.81,1팀,ChiYo,브리기테,0
+[00:08:15] ,ability_1_used,350.04,1팀,Fielder,바티스트,0
+[00:08:16] ,ability_2_used,350.47,1팀,SP1NT,트레이서,0
+[00:08:16] ,ability_1_used,350.76,1팀,MER1T,프레야,0
+[00:08:16] ,ability_1_used,351.09,2팀,vigilante,아나,0
+[00:08:17] ,ability_1_used,352.18,2팀,STALK3R,캐서디,0
+[00:08:18] ,ability_1_used,352.58,2팀,HeeSang,트레이서,0
+[00:08:18] ,****,352.58,2팀,STALK3R,캐서디,1팀,SP1NT,트레이서,Primary Fire,118.53,True,0
+[00:08:18] ,offensive_assist,352.61,2팀,vigilante,아나,0
+[00:08:19] ,ability_1_used,353.43,2팀,HeeSang,트레이서,0
+[00:08:19] ,ability_2_used,353.49,1팀,ChiYo,브리기테,0
+[00:08:19] ,ability_1_used,353.59,2팀,HeeSang,트레이서,0
+[00:08:20] ,ultimate_end,355.10,2팀,vigilante,아나,0,2
+[00:08:21] ,ability_2_used,356.28,1팀,ChiYo,브리기테,0
+[00:08:22] ,ability_1_used,356.79,2팀,STALK3R,캐서디,0
+[00:08:22] ,ability_2_used,357.34,1팀,ChiYo,브리기테,0
+[00:08:24] ,ability_2_used,358.43,1팀,HanBin,라마트라,0
+[00:08:24] ,ability_1_used,358.48,1팀,ChiYo,브리기테,0
+[00:08:24] ,ability_1_used,358.78,2팀,MAX,자리야,0
+[00:08:24] ,ability_1_used,358.89,2팀,CH0R0NG,제트팩 캣,0
+[00:08:24] ,ultimate_start,358.94,1팀,Fielder,바티스트,0,1
+[00:08:25] ,ability_1_used,359.63,1팀,MER1T,프레야,0
+[00:08:25] ,ability_1_used,359.68,2팀,HeeSang,트레이서,0
+[00:08:25] ,ability_2_used,359.82,2팀,vigilante,아나,0
+[00:08:25] ,ability_2_used,360.09,2팀,STALK3R,캐서디,0
+[00:08:26] ,ultimate_start,360.56,2팀,CH0R0NG,제트팩 캣,0,1
+[00:08:26] ,ability_1_used,361.20,2팀,STALK3R,캐서디,0
+[00:08:27] ,ability_1_used,361.79,2팀,HeeSang,트레이서,0
+[00:08:27] ,****,362.27,2팀,MAX,자리야,1팀,ChiYo,브리기테,Primary Fire,12.45,0,0
+[00:08:28] ,****,362.45,1팀,HanBin,라마트라,2팀,STALK3R,캐서디,0,1.80,0,0
+[00:08:28] ,defensive_assist,362.56,1팀,ChiYo,브리기테,0
+[00:08:28] ,ability_1_used,363.15,1팀,SP1NT,트레이서,0
+[00:08:28] ,ability_1_used,363.33,1팀,SP1NT,트레이서,0
+[00:08:29] ,ability_1_used,364.05,1팀,SP1NT,트레이서,0
+[00:08:30] ,ability_2_used,364.50,1팀,Fielder,바티스트,0
+[00:08:30] ,ability_2_used,364.67,2팀,CH0R0NG,제트팩 캣,0
+[00:08:30] ,ability_2_used,365.09,1팀,MER1T,프레야,0
+[00:08:30] ,ultimate_end,365.09,2팀,CH0R0NG,제트팩 캣,0,1
+[00:08:31] ,ability_2_used,365.60,1팀,MER1T,프레야,0
+[00:08:31] ,ability_1_used,365.83,1팀,MER1T,프레야,0
+[00:08:31] ,ability_1_used,366.00,2팀,HeeSang,트레이서,0
+[00:08:32] ,ability_2_used,366.40,2팀,MAX,자리야,0
+[00:08:32] ,ability_1_used,366.67,1팀,Fielder,바티스트,0
+[00:08:32] ,ability_1_used,366.74,1팀,MER1T,프레야,0
+[00:08:33] ,****,367.60,2팀,HeeSang,트레이서,1팀,Fielder,바티스트,Primary Fire,3.31,0,0
+[00:08:33] ,defensive_assist,367.70,2팀,MAX,자리야,0
+[00:08:33] ,offensive_assist,367.71,2팀,CH0R0NG,제트팩 캣,0
+[00:08:33] ,defensive_assist,367.71,2팀,CH0R0NG,제트팩 캣,0
+[00:08:33] ,ultimate_charged,368.03,2팀,MAX,자리야,0,2
+[00:08:33] ,ability_1_used,368.38,2팀,HeeSang,트레이서,0
+[00:08:34] ,ability_1_used,368.85,2팀,HeeSang,트레이서,0
+[00:08:34] ,****,369.36,2팀,HeeSang,트레이서,1팀,MER1T,프레야,Primary Fire,1.26,0,0
+[00:08:35] ,ultimate_end,369.46,1팀,Fielder,바티스트,0,1
+[00:08:35] ,offensive_assist,369.55,2팀,CH0R0NG,제트팩 캣,0
+[00:08:35] ,defensive_assist,369.55,2팀,CH0R0NG,제트팩 캣,0
+[00:08:35] ,defensive_assist,369.57,2팀,vigilante,아나,0
+[00:08:37] ,ability_1_used,372.14,2팀,MAX,자리야,0
+[00:08:38] ,ability_1_used,372.54,2팀,HeeSang,트레이서,0
+[00:08:38] ,ability_2_used,373.12,2팀,vigilante,아나,0
+[00:08:38] ,ability_1_used,373.17,2팀,STALK3R,캐서디,0
+[00:08:38] ,ability_1_used,373.23,1팀,SP1NT,트레이서,0
+[00:08:39] ,ability_2_used,373.44,2팀,HeeSang,트레이서,0
+[00:08:39] ,ability_1_used,373.76,1팀,HanBin,라마트라,0
+[00:08:39] ,ability_1_used,374.21,1팀,SP1NT,트레이서,0
+[00:08:40] ,ability_2_used,374.42,1팀,HanBin,라마트라,0
+[00:08:41] ,ability_1_used,375.44,1팀,SP1NT,트레이서,0
+[00:08:41] ,ability_1_used,376.21,2팀,vigilante,아나,0
+[00:08:41] ,ability_1_used,376.35,2팀,HeeSang,트레이서,0
+[00:08:43] ,ability_1_used,377.49,2팀,HeeSang,트레이서,0
+[00:08:43] ,hero_swap,377.87,1팀,Fielder,아나,바티스트,176.42
+[00:08:43] ,****,378.14,2팀,CH0R0NG,제트팩 캣,1팀,HanBin,라마트라,0,8.56,0,0
+[00:08:43] ,****,378.37,2팀,HeeSang,트레이서,1팀,SP1NT,트레이서,Primary Fire,10.89,True,0
+[00:08:44] ,offensive_assist,378.49,2팀,vigilante,아나,0
+[00:08:44] ,defensive_assist,378.49,2팀,vigilante,아나,0
+[00:08:44] ,ability_1_used,378.56,2팀,STALK3R,캐서디,0
+[00:08:45] ,hero_swap,379.44,1팀,MER1T,캐서디,프레야,53.64
+[00:08:45] ,ability_1_used,380.30,1팀,MER1T,캐서디,0
+[00:08:46] ,hero_swap,380.86,1팀,MER1T,소전,캐서디,1.43
+[00:08:46] ,ability_1_used,381.28,1팀,MER1T,소전,0
+[00:08:47] ,ability_1_used,381.57,2팀,CH0R0NG,제트팩 캣,0
+[00:08:47] ,ability_1_used,382.39,1팀,ChiYo,브리기테,0
+[00:08:49] ,payload_progress,383.43,1,2팀,2,90.01
+[00:08:49] ,ability_1_used,383.97,2팀,STALK3R,캐서디,0
+[00:08:51] ,ability_2_used,386.13,1팀,ChiYo,브리기테,0
+[00:08:53] ,ability_1_used,387.77,1팀,ChiYo,브리기테,0
+[00:08:53] ,ability_1_used,388.15,2팀,MAX,자리야,0
+[00:08:56] ,ability_1_used,390.89,1팀,SP1NT,트레이서,0
+[00:08:56] ,ability_1_used,391.05,1팀,SP1NT,트레이서,0
+[00:08:57] ,ability_2_used,391.44,1팀,ChiYo,브리기테,0
+[00:08:59] ,ability_1_used,393.70,1팀,MER1T,소전,0
+[00:09:00] ,ability_1_used,394.51,1팀,ChiYo,브리기테,0
+[00:09:01] ,ability_2_used,395.86,1팀,ChiYo,브리기테,0
+[00:09:02] ,ability_1_used,396.44,1팀,SP1NT,트레이서,0
+[00:09:02] ,ability_1_used,397.16,1팀,SP1NT,트레이서,0
+[00:09:03] ,ability_1_used,397.64,1팀,SP1NT,트레이서,0
+[00:09:03] ,ability_1_used,397.67,2팀,HeeSang,트레이서,0
+[00:09:03] ,ability_2_used,397.72,2팀,STALK3R,캐서디,0
+[00:09:03] ,ability_1_used,398.10,2팀,STALK3R,캐서디,0
+[00:09:03] ,ultimate_start,398.29,1팀,SP1NT,트레이서,0,2
+[00:09:04] ,ability_2_used,398.48,1팀,SP1NT,트레이서,0
+[00:09:04] ,ultimate_end,398.48,1팀,SP1NT,트레이서,0,2
+[00:09:04] ,ultimate_start,398.80,2팀,MAX,자리야,0,2
+[00:09:04] ,ability_2_used,398.90,1팀,MER1T,소전,0
+[00:09:05] ,ability_1_used,399.94,2팀,HeeSang,트레이서,0
+[00:09:06] ,player_stat,400.63,1,2팀,HeeSang,겐지,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:09:06] ,player_stat,400.63,1,2팀,HeeSang,트레이서,12,7,3,6054.76,636.29,5355.22,0,1801.93,1194.90,3781.36,0,0,0,3,2,1,3,2,4,0,0,116,0.11,0,0,0,3496,1094,2252,0,0,0.33,400.63
+[00:09:06] ,player_stat,400.63,1,2팀,vigilante,시온,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:09:06] ,player_stat,400.63,1,2팀,vigilante,아나,10,1,1,4289.52,953.39,3336.14,6095.05,755.66,63,1763.19,0,8,4,3,3,0,0,0,4,0,0,0,0,0.70,0,0,243,144,85,146,102,0.63,400.63
+[00:09:06] ,player_stat,400.63,1,1팀,HanBin,시그마,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:09:06] ,player_stat,400.63,1,1팀,HanBin,해저드,0,0,1,2017.88,0,1087.04,0,1983.71,0,2674.51,669.17,0,0,0,0,0,0,0,0,0,0,21,0.19,0,0,0,420,113,303,0,0,0.27,93.28
+[00:09:06] ,player_stat,400.63,1,1팀,HanBin,라마트라,1,1,1,1194.97,266.72,928.25,0,401.15,0,1496.53,1165.91,0,0,0,0,0,0,0,1,0,0,14,0.12,0,0,0,544,115,383,0,0,0.23,75.38
+[00:09:06] ,player_stat,400.63,1,1팀,HanBin,자리야,5,2,1,4110.45,242.79,3867.65,0,4407.46,0,5885.47,1927.37,1,1,1,1,0,0,0,2,0,0,0,0,0,0,0,52,9,43,0,0,0.17,231.98
+[00:09:06] ,player_stat,400.63,1,1팀,MER1T,프레야,7,3,3,6959.50,268.37,6691.13,0,2207.57,0,3130.62,0,0,0,3,3,0,0,0,3,0,0,10,0.14,0,0,0,522,74,300,0,0,0.20,326.77
+[00:09:06] ,player_stat,400.63,1,1팀,MER1T,캐서디,1,1,1,443.19,0,443.19,0,234.60,0,484.60,0,0,0,0,0,0,0,0,0,0,0,1,0.17,0,0,0,19,6,13,0,0,0.32,54.09
+[00:09:06] ,player_stat,400.63,1,1팀,MER1T,소전,0,0,0,191.70,0,191.70,0,121.02,0,274.01,0,0,0,0,0,0,0,0,0,0,0,3,0.20,0,0,0,118,15,98,0,0,0.13,19.77
+[00:09:06] ,player_stat,400.63,1,2팀,STALK3R,파라,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:09:06] ,player_stat,400.63,1,2팀,STALK3R,프레야,0,0,0,196,60,136,0,93.39,0,93.39,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,39,5,23,0,0,0.18,26.45
+[00:09:06] ,player_stat,400.63,1,2팀,STALK3R,시온,5,3,1,3844.85,634.35,3210.50,0,1940.65,0,2712.33,0,0,0,1,1,0,0,1,1,0,0,9,0.13,0,0,0,175,68,100,0,0,0.40,168.02
+[00:09:06] ,player_stat,400.63,1,2팀,STALK3R,캐서디,6,4,3,4206.97,775.45,3431.52,0,1624.71,0,2421.85,0,0,0,1,1,0,0,0,2,0,0,8,0.21,0,0,0,119,39,68,0,0,0.36,206.16
+[00:09:06] ,player_stat,400.63,1,2팀,MAX,둠피스트,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:09:06] ,player_stat,400.63,1,2팀,MAX,오리사,3,2,2,4291.62,1302.97,2988.65,0,5054.05,0,6954.05,0,0,0,1,1,0,0,0,0,0,0,30,0.16,0,0,0,897,191,617,0,0,0.24,223.01
+[00:09:06] ,player_stat,400.63,1,2팀,MAX,자리야,8,2,1,4138.85,1613.06,2441.04,0,2488.45,0,3411.74,1778.70,3,0,1,1,0,0,0,3,0,0,0,0,0,0,0,57,16,37,0,0,0.30,177.62
+[00:09:06] ,player_stat,400.63,1,1팀,Fielder,제트팩 캣,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:09:06] ,player_stat,400.63,1,1팀,Fielder,키리코,1,1,3,911.05,0,911.05,3583.48,898.33,0,1594.41,0,3,1,1,2,0,0,0,1,0,0,3,0.17,0,0,0,98,18,74,0,0,0.20,201.45
+[00:09:06] ,player_stat,400.63,1,1팀,Fielder,바티스트,2,1,3,2045.49,314.25,1731.24,2790.58,841.11,389.14,1634.61,0,1,0,1,1,0,0,0,1,0,0,6,0.09,0,0,0,192,70,103,0,0,0.40,176.42
+[00:09:06] ,player_stat,400.63,1,1팀,Fielder,아나,0,0,0,225,0,225,167.19,0,0,1.73,0,0,0,0,0,0,0,0,0,0,0,0,0,0.63,0,0,12,6,4,8,5,0.60,22.76
+[00:09:06] ,player_stat,400.63,1,1팀,SP1NT,트레이서,8,3,5,5064.67,296.56,4768.11,0,2065.06,1019.45,4183.32,0,0,0,2,2,0,0,0,2,0,0,103,0.11,0,0,0,3066,944,2049,0,0,0.32,400.63
+[00:09:06] ,player_stat,400.63,1,2팀,CH0R0NG,벤데타,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:09:06] ,player_stat,400.63,1,2팀,CH0R0NG,제트팩 캣,12,3,1,3727.81,922.82,2702.99,6841.52,1838.44,0,2327.02,0,8,7,2,2,0,0,0,4,0,0,149,0.12,0,0,0,3575,1202,2213,0,0,0.35,400.63
+[00:09:06] ,player_stat,400.63,1,1팀,ChiYo,브리기테,3,0,4,2509.25,390,2119.25,5976.30,1467.03,504.37,3014.44,3135.87,9,3,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,400.63
+[00:09:06] ,round_end,400.63,1,2팀,0,3,3,0,0,79.51
+[00:09:06] ,objective_updated,400.63,1,2,3
+[00:09:08] ,ultimate_end,400.63,2팀,MAX,자리야,0,2
+[00:09:17] ,objective_updated,400.63,2,3,0
+[00:09:18] ,round_start,400.63,2,1팀,0,3,0
+[00:09:18] ,hero_spawn,400.63,1팀,HanBin,라마트라,,0
+[00:09:18] ,hero_spawn,400.63,1팀,ChiYo,브리기테,,0
+[00:09:19] ,hero_spawn,400.63,2팀,CH0R0NG,제트팩 캣,,0
+[00:09:19] ,hero_spawn,400.63,2팀,vigilante,아나,,0
+[00:09:20] ,hero_spawn,400.63,2팀,HeeSang,트레이서,,0
+[00:09:20] ,hero_spawn,400.63,1팀,MER1T,시온,,0
+[00:09:23] ,hero_spawn,400.63,1팀,SP1NT,트레이서,,0
+[00:09:27] ,hero_spawn,400.63,2팀,STALK3R,프레야,,0
+[00:09:35] ,hero_spawn,400.63,1팀,Fielder,키리코,,0
+[00:09:49] ,hero_spawn,400.63,2팀,MAX,시그마,,0
+[00:10:03] ,hero_swap,400.63,1팀,Fielder,아나,키리코,0
+[00:10:10] ,hero_swap,400.63,1팀,MER1T,위도우메이커,시온,0
+[00:10:14] ,setup_complete,400.63,2,239.99
+[00:10:14] ,ability_2_used,400.65,1팀,MER1T,위도우메이커,0
+[00:10:15] ,hero_swap,401.06,1팀,HanBin,해저드,라마트라,0.43
+[00:10:15] ,ability_1_used,401.85,1팀,SP1NT,트레이서,0
+[00:10:16] ,ability_1_used,402.21,2팀,STALK3R,프레야,0
+[00:10:18] ,ability_1_used,403.90,1팀,ChiYo,브리기테,0
+[00:10:18] ,ability_1_used,404.30,2팀,HeeSang,트레이서,0
+[00:10:18] ,ability_1_used,404.60,1팀,SP1NT,트레이서,0
+[00:10:18] ,ability_1_used,404.86,2팀,HeeSang,트레이서,0
+[00:10:19] ,hero_swap,404.94,1팀,Fielder,키리코,아나,4.30
+[00:10:19] ,ability_1_used,405.19,2팀,STALK3R,프레야,0
+[00:10:19] ,hero_swap,405.24,1팀,MER1T,프레야,위도우메이커,4.61
+[00:10:19] ,ability_1_used,405.69,1팀,Fielder,키리코,0
+[00:10:20] ,ability_2_used,405.86,2팀,CH0R0NG,제트팩 캣,0
+[00:10:20] ,****,405.93,2팀,HeeSang,트레이서,1팀,ChiYo,브리기테,Melee,33.62,0,0
+[00:10:20] ,ability_2_used,406.63,2팀,STALK3R,프레야,0
+[00:10:20] ,ability_1_used,406.65,2팀,HeeSang,트레이서,0
+[00:10:21] ,ability_1_used,407.26,1팀,SP1NT,트레이서,0
+[00:10:21] ,ability_2_used,407.57,1팀,Fielder,키리코,0
+[00:10:21] ,ability_1_used,407.75,2팀,HeeSang,트레이서,0
+[00:10:22] ,ability_1_used,408.33,2팀,STALK3R,프레야,0
+[00:10:26] ,ability_1_used,412.77,1팀,SP1NT,트레이서,0
+[00:10:27] ,ability_1_used,413.38,1팀,SP1NT,트레이서,0
+[00:10:29] ,ability_1_used,415.01,1팀,SP1NT,트레이서,0
+[00:10:29] ,ability_1_used,415.17,2팀,HeeSang,트레이서,0
+[00:10:29] ,ability_1_used,415.35,2팀,HeeSang,트레이서,0
+[00:10:31] ,ability_1_used,417.10,1팀,SP1NT,트레이서,0
+[00:10:32] ,ability_2_used,417.86,1팀,SP1NT,트레이서,0
+[00:10:33] ,ability_1_used,419.05,1팀,SP1NT,트레이서,0
+[00:10:34] ,****,420.12,2팀,HeeSang,트레이서,1팀,SP1NT,트레이서,Primary Fire,10,True,0
+[00:10:34] ,defensive_assist,420.43,2팀,vigilante,아나,0
+[00:10:34] ,ability_1_used,420.71,2팀,HeeSang,트레이서,0
+[00:10:35] ,ability_1_used,421.39,2팀,CH0R0NG,제트팩 캣,0
+[00:10:35] ,ability_2_used,421.61,1팀,ChiYo,브리기테,0
+[00:10:37] ,ability_1_used,423.43,2팀,STALK3R,프레야,0
+[00:10:37] ,ability_1_used,423.66,2팀,HeeSang,트레이서,0
+[00:10:38] ,ability_1_used,424.06,2팀,STALK3R,프레야,0
+[00:10:38] ,ability_2_used,424.75,2팀,vigilante,아나,0
+[00:10:38] ,ability_2_used,424.83,1팀,ChiYo,브리기테,0
+[00:10:39] ,ability_2_used,425.59,2팀,STALK3R,프레야,0
+[00:10:39] ,ability_1_used,425.74,2팀,HeeSang,트레이서,0
+[00:10:40] ,ability_1_used,426.47,2팀,HeeSang,트레이서,0
+[00:10:41] ,ability_1_used,427.26,1팀,MER1T,프레야,0
+[00:10:41] ,ability_1_used,427.32,1팀,Fielder,키리코,0
+[00:10:41] ,ability_1_used,427.48,1팀,ChiYo,브리기테,0
+[00:10:41] ,ability_2_used,427.74,2팀,MAX,시그마,0
+[00:10:42] ,ability_2_used,428.54,1팀,ChiYo,브리기테,0
+[00:10:42] ,ability_2_used,428.78,1팀,Fielder,키리코,0
+[00:10:42] ,****,428.84,2팀,MAX,시그마,1팀,ChiYo,브리기테,Ability 2,30.91,0,0
+[00:10:43] ,defensive_assist,428.87,2팀,vigilante,아나,0
+[00:10:43] ,ability_1_used,429.07,2팀,STALK3R,프레야,0
+[00:10:43] ,ability_2_used,429.08,2팀,HeeSang,트레이서,0
+[00:10:43] ,offensive_assist,429.29,2팀,CH0R0NG,제트팩 캣,0
+[00:10:44] ,ability_2_used,429.98,2팀,CH0R0NG,제트팩 캣,0
+[00:10:44] ,ability_1_used,430.72,1팀,HanBin,해저드,0
+[00:10:45] ,ability_1_used,431.31,2팀,MAX,시그마,0
+[00:10:45] ,****,431.39,2팀,CH0R0NG,제트팩 캣,1팀,Fielder,키리코,0,1.22,0,0
+[00:10:45] ,defensive_assist,431.63,2팀,CH0R0NG,제트팩 캣,0
+[00:10:45] ,defensive_assist,431.69,2팀,vigilante,아나,0
+[00:10:45] ,hero_swap,431.71,1팀,SP1NT,위도우메이커,트레이서,31.08
+[00:10:46] ,ability_1_used,432.11,1팀,SP1NT,위도우메이커,0
+[00:10:46] ,ability_1_used,432.16,2팀,HeeSang,트레이서,0
+[00:10:47] ,ability_1_used,433.76,2팀,STALK3R,프레야,0
+[00:10:48] ,ability_2_used,434.40,1팀,HanBin,해저드,0
+[00:10:49] ,ability_1_used,435.60,2팀,CH0R0NG,제트팩 캣,0
+[00:10:50] ,****,436.00,2팀,MAX,시그마,1팀,MER1T,프레야,Primary Fire,12.88,0,0
+[00:10:50] ,offensive_assist,436.30,2팀,CH0R0NG,제트팩 캣,0
+[00:10:50] ,defensive_assist,436.30,2팀,CH0R0NG,제트팩 캣,0
+[00:10:51] ,ability_1_used,437.35,1팀,HanBin,해저드,0
+[00:10:54] ,ability_1_used,440.70,2팀,HeeSang,트레이서,0
+[00:10:55] ,ability_2_used,441.63,2팀,STALK3R,프레야,0
+[00:10:56] ,ability_1_used,442.57,2팀,STALK3R,프레야,0
+[00:10:57] ,hero_swap,443.41,1팀,SP1NT,트레이서,위도우메이커,11.70
+[00:11:00] ,ability_1_used,446.80,2팀,STALK3R,프레야,0
+[00:11:00] ,ability_1_used,446.82,1팀,MER1T,프레야,0
+[00:11:00] ,ability_1_used,446.82,1팀,SP1NT,트레이서,0
+[00:11:00] ,ability_2_used,446.82,1팀,ChiYo,브리기테,0
+[00:11:01] ,ability_1_used,447.25,1팀,SP1NT,트레이서,0
+[00:11:01] ,ability_2_used,447.44,1팀,SP1NT,트레이서,0
+[00:11:01] ,ability_1_used,447.79,1팀,MER1T,프레야,0
+[00:11:03] ,hero_swap,449.46,1팀,MER1T,캐서디,프레야,44.22
+[00:11:03] ,hero_swap,449.77,1팀,SP1NT,솔저: 76,트레이서,6.36
+[00:11:04] ,hero_swap,450.45,1팀,SP1NT,트레이서,솔저: 76,0.69
+[00:11:05] ,hero_swap,451.62,1팀,ChiYo,제트팩 캣,브리기테,50.99
+[00:11:07] ,hero_swap,453.71,1팀,HanBin,마우가,해저드,52.64
+[00:11:07] ,ability_1_used,453.71,1팀,SP1NT,트레이서,0
+[00:11:08] ,ability_1_used,454.19,1팀,SP1NT,트레이서,0
+[00:11:09] ,ability_1_used,454.97,1팀,SP1NT,트레이서,0
+[00:11:09] ,ability_1_used,455.16,2팀,HeeSang,트레이서,0
+[00:11:10] ,ability_1_used,456.08,2팀,HeeSang,트레이서,0
+[00:11:10] ,ability_1_used,456.24,2팀,HeeSang,트레이서,0
+[00:11:10] ,ability_1_used,456.73,1팀,SP1NT,트레이서,0
+[00:11:10] ,ability_1_used,456.88,1팀,ChiYo,제트팩 캣,0
+[00:11:12] ,ability_1_used,458.78,2팀,STALK3R,프레야,0
+[00:11:16] ,ability_2_used,461.89,1팀,SP1NT,트레이서,0
+[00:11:16] ,ability_2_used,462.88,2팀,CH0R0NG,제트팩 캣,0
+[00:11:17] ,ability_1_used,463.33,1팀,SP1NT,트레이서,0
+[00:11:17] ,ability_1_used,463.78,1팀,SP1NT,트레이서,0
+[00:11:18] ,ability_1_used,464.48,1팀,ChiYo,제트팩 캣,0
+[00:11:19] ,****,464.91,2팀,HeeSang,트레이서,1팀,SP1NT,트레이서,Primary Fire,4.25,0,0
+[00:11:19] ,offensive_assist,465.04,2팀,CH0R0NG,제트팩 캣,0
+[00:11:19] ,defensive_assist,465.04,2팀,CH0R0NG,제트팩 캣,0
+[00:11:19] ,ability_1_used,465.70,2팀,HeeSang,트레이서,0
+[00:11:21] ,ability_1_used,467.23,2팀,HeeSang,트레이서,0
+[00:11:21] ,ultimate_charged,467.58,2팀,HeeSang,트레이서,0,4
+[00:11:21] ,ability_2_used,467.71,1팀,ChiYo,제트팩 캣,0
+[00:11:22] ,ability_1_used,468.05,2팀,CH0R0NG,제트팩 캣,0
+[00:11:23] ,ability_1_used,468.91,2팀,STALK3R,프레야,0
+[00:11:23] ,ability_1_used,469.44,2팀,STALK3R,프레야,0
+[00:11:24] ,ability_2_used,470.83,2팀,STALK3R,프레야,0
+[00:11:25] ,ability_1_used,471.49,2팀,HeeSang,트레이서,0
+[00:11:26] ,ability_1_used,472.22,2팀,HeeSang,트레이서,0
+[00:11:27] ,ability_2_used,473.09,2팀,HeeSang,트레이서,0
+[00:11:27] ,ability_1_used,473.25,1팀,MER1T,캐서디,0
+[00:11:30] ,hero_swap,475.90,1팀,SP1NT,위도우메이커,트레이서,25.45
+[00:11:30] ,ability_1_used,476.22,1팀,SP1NT,위도우메이커,0
+[00:11:31] ,ability_1_used,476.89,2팀,HeeSang,트레이서,0
+[00:11:32] ,ability_1_used,478.32,2팀,STALK3R,프레야,0
+[00:11:33] ,ability_1_used,479.61,2팀,STALK3R,프레야,0
+[00:11:35] ,ability_1_used,481.46,1팀,ChiYo,제트팩 캣,0
+[00:11:37] ,hero_swap,482.93,1팀,SP1NT,트레이서,위도우메이커,7.03
+[00:11:38] ,ability_1_used,484.18,2팀,STALK3R,프레야,0
+[00:11:38] ,ability_2_used,484.69,1팀,ChiYo,제트팩 캣,0
+[00:11:38] ,ability_2_used,484.85,2팀,CH0R0NG,제트팩 캣,0
+[00:11:39] ,ability_2_used,485.54,1팀,MER1T,캐서디,0
+[00:11:39] ,ability_1_used,485.83,2팀,vigilante,아나,0
+[00:11:40] ,****,486.10,1팀,MER1T,캐서디,2팀,HeeSang,트레이서,Primary Fire,100,True,0
+[00:11:40] ,ability_1_used,486.13,1팀,SP1NT,트레이서,0
+[00:11:40] ,ability_2_used,486.27,1팀,Fielder,키리코,0
+[00:11:40] ,ability_2_used,486.77,2팀,STALK3R,프레야,0
+[00:11:41] ,ability_2_used,487.16,2팀,MAX,시그마,0
+[00:11:43] ,ability_1_used,489.08,2팀,STALK3R,프레야,0
+[00:11:44] ,ultimate_charged,489.96,2팀,STALK3R,프레야,0,3
+[00:11:44] ,ability_1_used,490.14,1팀,HanBin,마우가,0
+[00:11:44] ,ability_1_used,490.14,1팀,MER1T,캐서디,0
+[00:11:45] ,ultimate_start,490.97,2팀,STALK3R,프레야,0,3
+[00:11:45] ,ability_1_used,491.40,1팀,SP1NT,트레이서,0
+[00:11:45] ,ultimate_end,491.61,2팀,STALK3R,프레야,0,3
+[00:11:46] ,ability_1_used,492.44,1팀,SP1NT,트레이서,0
+[00:11:46] ,ability_1_used,492.62,2팀,STALK3R,프레야,0
+[00:11:47] ,****,493.42,1팀,SP1NT,트레이서,2팀,STALK3R,프레야,Primary Fire,0.52,0,0
+[00:11:47] ,ability_2_used,493.72,1팀,SP1NT,트레이서,0
+[00:11:48] ,****,494.13,1팀,ChiYo,제트팩 캣,2팀,CH0R0NG,제트팩 캣,0,0.50,0,0
+[00:11:49] ,payload_progress,495.42,2,1팀,0,10.01
+[00:11:50] ,ability_1_used,496.59,1팀,MER1T,캐서디,0
+[00:11:50] ,ability_1_used,496.75,2팀,HeeSang,트레이서,0
+[00:11:51] ,ability_1_used,497.04,2팀,MAX,시그마,0
+[00:11:51] ,ability_1_used,497.36,2팀,HeeSang,트레이서,0
+[00:11:51] ,ability_1_used,497.67,2팀,HeeSang,트레이서,0
+[00:11:53] ,ability_2_used,499.10,1팀,MER1T,캐서디,0
+[00:11:53] ,ability_2_used,499.76,2팀,MAX,시그마,0
+[00:11:53] ,****,499.87,1팀,HanBin,마우가,2팀,MAX,시그마,0,0.99,0,0
+[00:11:54] ,defensive_assist,499.92,1팀,Fielder,키리코,0
+[00:11:54] ,ability_1_used,500.35,1팀,SP1NT,트레이서,0
+[00:11:55] ,ability_2_used,501.01,2팀,vigilante,아나,0
+[00:11:57] ,ability_1_used,503.22,1팀,SP1NT,트레이서,0
+[00:11:57] ,ability_1_used,503.51,1팀,SP1NT,트레이서,0
+[00:11:58] ,ability_1_used,503.97,1팀,SP1NT,트레이서,0
+[00:12:00] ,ability_1_used,506.04,2팀,CH0R0NG,제트팩 캣,0
+[00:12:00] ,ability_1_used,506.10,1팀,MER1T,캐서디,0
+[00:12:00] ,ability_1_used,506.47,2팀,STALK3R,프레야,0
+[00:12:05] ,ability_1_used,511.23,1팀,ChiYo,제트팩 캣,0
+[00:12:06] ,ability_2_used,512.80,2팀,STALK3R,프레야,0
+[00:12:07] ,ability_1_used,513.31,2팀,HeeSang,트레이서,0
+[00:12:07] ,ability_1_used,513.52,2팀,STALK3R,프레야,0
+[00:12:08] ,ability_1_used,513.92,2팀,HeeSang,트레이서,0
+[00:12:08] ,payload_progress,514.75,2,1팀,0,20.01
+[00:12:11] ,ability_1_used,517.56,2팀,STALK3R,프레야,0
+[00:12:12] ,ability_1_used,518.67,2팀,STALK3R,프레야,0
+[00:12:16] ,ability_1_used,522.20,2팀,HeeSang,트레이서,0
+[00:12:16] ,ability_1_used,522.51,2팀,HeeSang,트레이서,0
+[00:12:17] ,ability_1_used,523.26,2팀,STALK3R,프레야,0
+[00:12:17] ,ability_2_used,523.69,2팀,STALK3R,프레야,0
+[00:12:18] ,ability_2_used,524.22,2팀,MAX,시그마,0
+[00:12:19] ,ability_2_used,525.69,1팀,ChiYo,제트팩 캣,0
+[00:12:20] ,ability_1_used,526.30,1팀,HanBin,마우가,0
+[00:12:20] ,ability_1_used,526.38,1팀,ChiYo,제트팩 캣,0
+[00:12:20] ,ultimate_charged,526.65,1팀,Fielder,키리코,0,2
+[00:12:20] ,ability_1_used,526.71,1팀,SP1NT,트레이서,0
+[00:12:21] ,ability_1_used,527.00,1팀,SP1NT,트레이서,0
+[00:12:21] ,ability_1_used,527.16,1팀,SP1NT,트레이서,0
+[00:12:21] ,ability_1_used,527.17,2팀,CH0R0NG,제트팩 캣,0
+[00:12:22] ,ability_1_used,527.91,1팀,MER1T,캐서디,0
+[00:12:22] ,ability_1_used,528.05,2팀,HeeSang,트레이서,0
+[00:12:22] ,ability_2_used,528.55,1팀,Fielder,키리코,0
+[00:12:23] ,ability_1_used,528.98,2팀,MAX,시그마,0
+[00:12:23] ,ability_1_used,529.32,2팀,vigilante,아나,0
+[00:12:23] ,ultimate_charged,529.38,2팀,vigilante,아나,0,3
+[00:12:24] ,ability_1_used,530.23,2팀,STALK3R,프레야,0
+[00:12:24] ,ability_2_used,530.80,1팀,HanBin,마우가,0
+[00:12:25] ,ultimate_start,531.08,1팀,Fielder,키리코,0,2
+[00:12:25] ,ability_2_used,531.60,2팀,vigilante,아나,0
+[00:12:25] ,ability_1_used,531.64,2팀,STALK3R,프레야,0
+[00:12:26] ,ability_1_used,532.26,2팀,HeeSang,트레이서,0
+[00:12:26] ,ability_2_used,532.36,2팀,CH0R0NG,제트팩 캣,0
+[00:12:26] ,ultimate_start,532.53,2팀,HeeSang,트레이서,0,4
+[00:12:26] ,ability_1_used,532.60,1팀,SP1NT,트레이서,0
+[00:12:26] ,ability_1_used,532.69,2팀,HeeSang,트레이서,0
+[00:12:26] ,ultimate_end,532.72,2팀,HeeSang,트레이서,0,4
+[00:12:27] ,ability_1_used,533.33,1팀,SP1NT,트레이서,0
+[00:12:27] ,ability_1_used,533.56,1팀,MER1T,캐서디,0
+[00:12:27] ,ultimate_charged,533.67,2팀,CH0R0NG,제트팩 캣,0,2
+[00:12:27] ,ability_2_used,533.86,2팀,STALK3R,프레야,0
+[00:12:28] ,ability_1_used,533.97,1팀,HanBin,마우가,0
+[00:12:28] ,ultimate_start,534.72,2팀,vigilante,아나,0,3
+[00:12:29] ,ultimate_charged,535.04,1팀,SP1NT,트레이서,0,3
+[00:12:29] ,ability_2_used,535.36,1팀,MER1T,캐서디,0
+[00:12:29] ,****,535.60,2팀,STALK3R,프레야,1팀,MER1T,캐서디,0,15.17,0,0
+[00:12:30] ,defensive_assist,536.00,2팀,CH0R0NG,제트팩 캣,0
+[00:12:30] ,****,536.37,2팀,MAX,시그마,1팀,HanBin,마우가,Primary Fire,53.49,0,0
+[00:12:30] ,ultimate_charged,536.37,2팀,MAX,시그마,0,3
+[00:12:30] ,offensive_assist,536.47,2팀,CH0R0NG,제트팩 캣,0
+[00:12:30] ,defensive_assist,536.47,2팀,CH0R0NG,제트팩 캣,0
+[00:12:30] ,offensive_assist,536.48,2팀,vigilante,아나,0
+[00:12:30] ,defensive_assist,536.48,2팀,vigilante,아나,0
+[00:12:30] ,ability_1_used,536.69,2팀,CH0R0NG,제트팩 캣,0
+[00:12:31] ,ability_1_used,537.15,1팀,SP1NT,트레이서,0
+[00:12:31] ,ability_1_used,537.68,2팀,HeeSang,트레이서,0
+[00:12:32] ,ultimate_start,538.16,1팀,SP1NT,트레이서,0,3
+[00:12:32] ,ability_1_used,538.19,1팀,SP1NT,트레이서,0
+[00:12:32] ,ability_2_used,538.24,1팀,Fielder,키리코,0
+[00:12:32] ,ultimate_end,538.35,1팀,SP1NT,트레이서,0,3
+[00:12:32] ,ability_1_used,538.82,2팀,HeeSang,트레이서,0
+[00:12:33] ,ability_1_used,539.63,1팀,SP1NT,트레이서,0
+[00:12:33] ,ability_1_used,539.65,2팀,STALK3R,프레야,0
+[00:12:34] ,****,539.95,1팀,SP1NT,트레이서,2팀,MAX,시그마,Primary Fire,3.63,0,0
+[00:12:34] ,ability_2_used,540.16,2팀,HeeSang,트레이서,0
+[00:12:34] ,offensive_assist,540.32,1팀,Fielder,키리코,0
+[00:12:34] ,defensive_assist,540.32,1팀,Fielder,키리코,0
+[00:12:34] ,ultimate_charged,540.64,1팀,ChiYo,제트팩 캣,0,2
+[00:12:34] ,ability_1_used,540.74,1팀,SP1NT,트레이서,0
+[00:12:35] ,ability_1_used,541.39,2팀,STALK3R,프레야,0
+[00:12:35] ,ability_1_used,541.44,1팀,SP1NT,트레이서,0
+[00:12:35] ,ability_2_used,541.61,1팀,SP1NT,트레이서,0
+[00:12:36] ,ability_1_used,542.21,2팀,HeeSang,트레이서,0
+[00:12:36] ,ability_2_used,542.27,1팀,ChiYo,제트팩 캣,0
+[00:12:36] ,ultimate_end,542.29,1팀,Fielder,키리코,0,2
+[00:12:36] ,ultimate_end,542.85,2팀,vigilante,아나,0,3
+[00:12:37] ,ability_1_used,542.97,2팀,HeeSang,트레이서,0
+[00:12:37] ,ability_1_used,543.84,1팀,Fielder,키리코,0
+[00:12:37] ,****,543.87,1팀,ChiYo,제트팩 캣,2팀,vigilante,아나,0,19.89,True,0
+[00:12:38] ,ability_1_used,544.53,1팀,ChiYo,제트팩 캣,0
+[00:12:39] ,ability_1_used,545.09,2팀,STALK3R,프레야,0
+[00:12:39] ,ability_1_used,545.29,1팀,SP1NT,트레이서,0
+[00:12:39] ,ability_2_used,545.84,2팀,STALK3R,프레야,0
+[00:12:40] ,ability_1_used,545.96,1팀,SP1NT,트레이서,0
+[00:12:40] ,****,545.98,1팀,SP1NT,트레이서,2팀,HeeSang,트레이서,Melee,37.50,0,0
+[00:12:40] ,****,546.32,2팀,STALK3R,프레야,1팀,Fielder,키리코,0,40.84,0,0
+[00:12:40] ,offensive_assist,546.32,1팀,Fielder,키리코,0
+[00:12:41] ,ability_1_used,547.87,1팀,ChiYo,제트팩 캣,0
+[00:12:42] ,ability_1_used,548.17,1팀,HanBin,마우가,0
+[00:12:42] ,ability_1_used,548.32,1팀,MER1T,캐서디,0
+[00:12:43] ,ability_1_used,548.99,1팀,SP1NT,트레이서,0
+[00:12:43] ,ability_1_used,549.82,2팀,STALK3R,프레야,0
+[00:12:44] ,ability_2_used,550.54,2팀,CH0R0NG,제트팩 캣,0
+[00:12:46] ,ability_1_used,552.23,1팀,ChiYo,제트팩 캣,0
+[00:12:47] ,hero_swap,553.66,2팀,vigilante,루시우,아나,153.02
+[00:12:47] ,ability_1_used,553.66,2팀,vigilante,루시우,0
+[00:12:47] ,ability_2_used,553.75,2팀,vigilante,루시우,0
+[00:12:48] ,ability_1_used,554.34,1팀,MER1T,캐서디,0
+[00:12:49] ,ability_1_used,555.78,2팀,STALK3R,프레야,0
+[00:12:50] ,ability_1_used,556.02,1팀,HanBin,마우가,0
+[00:12:50] ,ability_1_used,556.21,1팀,SP1NT,트레이서,0
+[00:12:50] ,hero_swap,556.33,2팀,vigilante,아나,루시우,2.67
+[00:12:50] ,hero_swap,556.34,1팀,Fielder,루시우,키리코,151.41
+[00:12:50] ,ability_1_used,556.34,1팀,Fielder,루시우,0
+[00:12:50] ,ability_2_used,556.37,1팀,Fielder,루시우,0
+[00:12:50] ,ability_1_used,556.60,2팀,HeeSang,트레이서,0
+[00:12:50] ,ability_1_used,556.61,1팀,ChiYo,제트팩 캣,0
+[00:12:51] ,****,557.08,2팀,STALK3R,프레야,1팀,ChiYo,제트팩 캣,0,3.60,0,0
+[00:12:51] ,ability_1_used,557.14,2팀,HeeSang,트레이서,0
+[00:12:51] ,defensive_assist,557.19,2팀,CH0R0NG,제트팩 캣,0
+[00:12:51] ,ability_1_used,557.43,2팀,HeeSang,트레이서,0
+[00:12:51] ,ability_1_used,557.70,1팀,SP1NT,트레이서,0
+[00:12:52] ,ability_2_used,558.15,2팀,STALK3R,프레야,0
+[00:12:52] ,ability_2_used,558.60,1팀,SP1NT,트레이서,0
+[00:12:53] ,ability_2_used,559.49,2팀,vigilante,아나,0
+[00:12:53] ,ability_1_used,559.73,1팀,MER1T,캐서디,0
+[00:12:54] ,ability_1_used,560.24,2팀,STALK3R,프레야,0
+[00:12:54] ,ultimate_charged,560.60,1팀,MER1T,캐서디,0,4
+[00:12:54] ,ability_2_used,560.84,1팀,HanBin,마우가,0
+[00:12:55] ,****,561.01,1팀,HanBin,마우가,2팀,STALK3R,프레야,0,2.11,0,0
+[00:12:55] ,ability_1_used,561.54,2팀,CH0R0NG,제트팩 캣,0
+[00:12:56] ,payload_progress,562.08,2,1팀,0,30.02
+[00:12:56] ,ability_1_used,562.72,2팀,HeeSang,트레이서,0
+[00:12:57] ,ultimate_start,563.19,2팀,CH0R0NG,제트팩 캣,0,2
+[00:12:58] ,ability_1_used,564.16,1팀,SP1NT,트레이서,0
+[00:12:59] ,ultimate_charged,565.60,2팀,STALK3R,프레야,0,4
+[00:12:59] ,ability_2_used,565.65,2팀,MAX,시그마,0
+[00:12:59] ,ability_1_used,565.78,1팀,SP1NT,트레이서,0
+[00:13:00] ,ultimate_end,566.47,2팀,CH0R0NG,제트팩 캣,0,2
+[00:13:00] ,ability_1_used,566.80,1팀,SP1NT,트레이서,0
+[00:13:01] ,hero_swap,567.33,1팀,Fielder,키리코,루시우,10.99
+[00:13:01] ,ability_2_used,567.36,2팀,CH0R0NG,제트팩 캣,0
+[00:13:01] ,ability_1_used,567.68,1팀,ChiYo,제트팩 캣,0
+[00:13:01] ,ability_1_used,567.71,1팀,SP1NT,트레이서,0
+[00:13:03] ,****,569.06,2팀,HeeSang,트레이서,1팀,HanBin,마우가,Primary Fire,3.05,0,0
+[00:13:03] ,offensive_assist,569.38,2팀,CH0R0NG,제트팩 캣,0
+[00:13:03] ,defensive_assist,569.39,2팀,vigilante,아나,0
+[00:13:03] ,offensive_assist,569.41,2팀,MAX,시그마,0
+[00:13:04] ,ability_1_used,570.11,1팀,MER1T,캐서디,0
+[00:13:04] ,ability_1_used,570.73,2팀,HeeSang,트레이서,0
+[00:13:05] ,ability_1_used,570.99,2팀,HeeSang,트레이서,0
+[00:13:05] ,ability_1_used,571.57,2팀,STALK3R,프레야,0
+[00:13:05] ,ability_1_used,571.77,2팀,HeeSang,트레이서,0
+[00:13:06] ,ability_1_used,572.72,2팀,CH0R0NG,제트팩 캣,0
+[00:13:07] ,****,573.74,2팀,HeeSang,트레이서,1팀,MER1T,캐서디,Primary Fire,1.35,0,0
+[00:13:08] ,ability_2_used,573.90,2팀,HeeSang,트레이서,0
+[00:13:08] ,defensive_assist,574.08,2팀,CH0R0NG,제트팩 캣,0
+[00:13:09] ,ability_1_used,575.24,1팀,SP1NT,트레이서,0
+[00:13:09] ,ability_1_used,575.66,1팀,ChiYo,제트팩 캣,0
+[00:13:10] ,ability_1_used,576.04,2팀,STALK3R,프레야,0
+[00:13:10] ,****,576.59,1팀,SP1NT,트레이서,2팀,CH0R0NG,제트팩 캣,Melee,36.93,0,0
+[00:13:10] ,ability_1_used,576.64,1팀,SP1NT,트레이서,0
+[00:13:10] ,ability_1_used,576.72,2팀,STALK3R,프레야,0
+[00:13:12] ,ability_2_used,578.14,2팀,vigilante,아나,0
+[00:13:12] ,ability_2_used,578.17,2팀,MAX,시그마,0
+[00:13:12] ,ability_2_used,578.78,1팀,SP1NT,트레이서,0
+[00:13:12] ,ability_1_used,578.87,2팀,HeeSang,트레이서,0
+[00:13:13] ,ability_1_used,579.42,2팀,vigilante,아나,0
+[00:13:13] ,ability_1_used,579.87,1팀,SP1NT,트레이서,0
+[00:13:14] ,ability_1_used,580.28,1팀,SP1NT,트레이서,0
+[00:13:15] ,ability_1_used,581.59,1팀,HanBin,마우가,0
+[00:13:15] ,ability_2_used,581.61,2팀,STALK3R,프레야,0
+[00:13:16] ,ability_1_used,582.02,2팀,HeeSang,트레이서,0
+[00:13:16] ,ability_1_used,582.02,1팀,MER1T,캐서디,0
+[00:13:16] ,ability_1_used,582.54,2팀,HeeSang,트레이서,0
+[00:13:17] ,ability_1_used,583.83,2팀,STALK3R,프레야,0
+[00:13:18] ,ability_2_used,584.68,1팀,ChiYo,제트팩 캣,0
+[00:13:19] ,ability_1_used,584.89,1팀,SP1NT,트레이서,0
+[00:13:19] ,objective_updated,585.16,2,0,1
+[00:13:19] ,objective_captured,585.16,2,1팀,1,0,0,205.48
+[00:13:20] ,ability_1_used,586.61,2팀,STALK3R,프레야,0
+[00:13:21] ,ability_1_used,587.14,2팀,CH0R0NG,제트팩 캣,0
+[00:13:21] ,ability_1_used,587.25,1팀,Fielder,키리코,0
+[00:13:22] ,ability_1_used,588.20,1팀,SP1NT,트레이서,0
+[00:13:23] ,ability_1_used,588.93,1팀,MER1T,캐서디,0
+[00:13:25] ,ability_1_used,591.03,2팀,STALK3R,프레야,0
+[00:13:25] ,ability_1_used,591.84,1팀,SP1NT,트레이서,0
+[00:13:26] ,ability_1_used,592.08,2팀,HeeSang,트레이서,0
+[00:13:26] ,ability_1_used,592.47,2팀,HeeSang,트레이서,0
+[00:13:26] ,ability_1_used,592.61,1팀,SP1NT,트레이서,0
+[00:13:26] ,ability_2_used,592.67,2팀,STALK3R,프레야,0
+[00:13:27] ,****,593.01,1팀,MER1T,캐서디,2팀,HeeSang,트레이서,Primary Fire,114.67,True,0
+[00:13:28] ,ability_1_used,594.24,2팀,STALK3R,프레야,0
+[00:13:29] ,ability_2_used,595.06,1팀,Fielder,키리코,0
+[00:13:29] ,ability_1_used,595.70,2팀,MAX,시그마,0
+[00:13:30] ,ability_1_used,596.54,1팀,MER1T,캐서디,0
+[00:13:31] ,ability_1_used,597.26,1팀,SP1NT,트레이서,0
+[00:13:32] ,ability_1_used,597.90,1팀,ChiYo,제트팩 캣,0
+[00:13:32] ,ability_1_used,598.75,1팀,SP1NT,트레이서,0
+[00:13:34] ,ability_1_used,600.03,2팀,STALK3R,프레야,0
+[00:13:34] ,ability_2_used,600.51,1팀,SP1NT,트레이서,0
+[00:13:36] ,ability_2_used,602.43,2팀,vigilante,아나,0
+[00:13:37] ,ability_1_used,603.26,2팀,STALK3R,프레야,0
+[00:13:37] ,ability_2_used,603.64,2팀,CH0R0NG,제트팩 캣,0
+[00:13:37] ,ability_2_used,603.69,1팀,ChiYo,제트팩 캣,0
+[00:13:37] ,ability_1_used,603.79,1팀,HanBin,마우가,0
+[00:13:38] ,ability_1_used,604.41,1팀,MER1T,캐서디,0
+[00:13:38] ,ability_2_used,604.81,2팀,STALK3R,프레야,0
+[00:13:39] ,ability_1_used,604.92,2팀,HeeSang,트레이서,0
+[00:13:39] ,ability_1_used,605.20,2팀,HeeSang,트레이서,0
+[00:13:39] ,ability_2_used,605.47,2팀,MAX,시그마,0
+[00:13:40] ,ability_1_used,605.98,1팀,ChiYo,제트팩 캣,0
+[00:13:40] ,ultimate_start,605.98,1팀,ChiYo,제트팩 캣,0,2
+[00:13:41] ,ability_2_used,606.91,1팀,HanBin,마우가,0
+[00:13:41] ,ability_1_used,607.19,1팀,Fielder,키리코,0
+[00:13:42] ,ability_1_used,607.99,2팀,STALK3R,프레야,0
+[00:13:42] ,ability_2_used,608.17,1팀,MER1T,캐서디,0
+[00:13:42] ,****,608.86,1팀,MER1T,캐서디,2팀,MAX,시그마,Secondary Fire,40.08,0,0
+[00:13:42] ,ultimate_end,608.86,1팀,ChiYo,제트팩 캣,0,2
+[00:13:43] ,ultimate_start,609.10,2팀,STALK3R,프레야,0,4
+[00:13:43] ,offensive_assist,609.29,1팀,HanBin,마우가,0
+[00:13:43] ,defensive_assist,609.32,1팀,Fielder,키리코,0
+[00:13:43] ,offensive_assist,609.34,1팀,ChiYo,제트팩 캣,0
+[00:13:43] ,defensive_assist,609.34,1팀,ChiYo,제트팩 캣,0
+[00:13:43] ,****,609.61,1팀,HanBin,마우가,2팀,STALK3R,프레야,0,1.56,0,0
+[00:13:43] ,ultimate_end,609.61,2팀,STALK3R,프레야,0,4
+[00:13:45] ,ability_1_used,611.27,2팀,vigilante,아나,0
+[00:13:46] ,ability_2_used,611.88,1팀,Fielder,키리코,0
+[00:13:46] ,ability_1_used,612.33,2팀,HeeSang,트레이서,0
+[00:13:46] ,ability_1_used,612.46,2팀,CH0R0NG,제트팩 캣,0
+[00:13:46] ,ability_1_used,612.63,1팀,HanBin,마우가,0
+[00:13:46] ,ability_1_used,612.70,1팀,MER1T,캐서디,0
+[00:13:47] ,****,612.98,2팀,HeeSang,트레이서,1팀,HanBin,마우가,Primary Fire,2.06,0,0
+[00:13:47] ,payload_progress,612.98,2,1팀,1,40.02
+[00:13:47] ,offensive_assist,613.06,2팀,CH0R0NG,제트팩 캣,0
+[00:13:47] ,defensive_assist,613.06,2팀,CH0R0NG,제트팩 캣,0
+[00:13:47] ,offensive_assist,613.11,2팀,vigilante,아나,0
+[00:13:47] ,defensive_assist,613.11,2팀,vigilante,아나,0
+[00:13:47] ,ability_1_used,613.62,1팀,ChiYo,제트팩 캣,0
+[00:13:49] ,ability_1_used,614.89,1팀,Fielder,키리코,0
+[00:13:49] ,ability_1_used,615.37,2팀,HeeSang,트레이서,0
+[00:13:49] ,ability_2_used,615.46,2팀,vigilante,아나,0
+[00:13:49] ,****,615.61,1팀,MER1T,캐서디,2팀,vigilante,아나,Primary Fire,31.11,0,0
+[00:13:50] ,defensive_assist,615.91,1팀,Fielder,키리코,0
+[00:13:50] ,ability_1_used,616.26,2팀,CH0R0NG,제트팩 캣,0
+[00:13:50] ,****,616.29,1팀,Fielder,키리코,2팀,CH0R0NG,제트팩 캣,0,47.50,0,0
+[00:13:50] ,defensive_assist,616.39,1팀,Fielder,키리코,0
+[00:13:51] ,ability_1_used,617.75,1팀,ChiYo,제트팩 캣,0
+[00:13:53] ,ultimate_charged,619.68,2팀,HeeSang,트레이서,0,5
+[00:13:55] ,ability_1_used,621.40,2팀,STALK3R,프레야,0
+[00:13:56] ,ultimate_charged,622.67,1팀,HanBin,마우가,0,2
+[00:13:57] ,ability_1_used,623.15,2팀,STALK3R,프레야,0
+[00:13:57] ,ability_1_used,623.52,1팀,HanBin,마우가,0
+[00:13:57] ,ability_1_used,623.57,1팀,ChiYo,제트팩 캣,0
+[00:13:59] ,ability_1_used,625.38,1팀,MER1T,캐서디,0
+[00:14:02] ,ability_1_used,628.21,2팀,CH0R0NG,제트팩 캣,0
+[00:14:02] ,ability_1_used,628.83,2팀,STALK3R,프레야,0
+[00:14:03] ,payload_progress,629.81,2,1팀,1,50.01
+[00:14:04] ,ability_2_used,630.80,2팀,STALK3R,프레야,0
+[00:14:05] ,ability_1_used,631.50,2팀,STALK3R,프레야,0
+[00:14:05] ,ability_1_used,631.77,1팀,HanBin,마우가,0
+[00:14:07] ,ability_1_used,633.12,1팀,SP1NT,트레이서,0
+[00:14:08] ,ability_1_used,634.03,2팀,HeeSang,트레이서,0
+[00:14:08] ,ability_1_used,634.48,1팀,Fielder,키리코,0
+[00:14:11] ,ability_1_used,637.05,2팀,STALK3R,프레야,0
+[00:14:12] ,ability_1_used,638.22,1팀,MER1T,캐서디,0
+[00:14:12] ,ability_1_used,638.73,1팀,ChiYo,제트팩 캣,0
+[00:14:13] ,ability_1_used,639.10,2팀,HeeSang,트레이서,0
+[00:14:13] ,ability_1_used,639.42,2팀,CH0R0NG,제트팩 캣,0
+[00:14:13] ,ability_1_used,639.75,2팀,STALK3R,프레야,0
+[00:14:14] ,ability_2_used,640.17,1팀,ChiYo,제트팩 캣,0
+[00:14:14] ,ultimate_start,640.18,1팀,MER1T,캐서디,0,4
+[00:14:14] ,ability_1_used,640.78,2팀,vigilante,아나,0
+[00:14:15] ,ability_2_used,641.29,2팀,MAX,시그마,0
+[00:14:16] ,ability_1_used,642.28,2팀,HeeSang,트레이서,0
+[00:14:16] ,ultimate_end,642.41,1팀,MER1T,캐서디,0,4
+[00:14:17] ,ultimate_charged,643.00,1팀,SP1NT,트레이서,0,4
+[00:14:18] ,ability_1_used,644.05,2팀,HeeSang,트레이서,0
+[00:14:19] ,ability_1_used,644.95,2팀,HeeSang,트레이서,0
+[00:14:19] ,ability_1_used,645.25,2팀,MAX,시그마,0
+[00:14:19] ,ability_1_used,645.29,2팀,STALK3R,프레야,0
+[00:14:19] ,ability_2_used,645.53,1팀,Fielder,키리코,0
+[00:14:19] ,ability_1_used,645.61,1팀,SP1NT,트레이서,0
+[00:14:20] ,ability_1_used,646.69,1팀,SP1NT,트레이서,0
+[00:14:21] ,ability_2_used,647.36,2팀,STALK3R,프레야,0
+[00:14:22] ,ability_2_used,648.20,2팀,HeeSang,트레이서,0
+[00:14:22] ,****,648.53,2팀,CH0R0NG,제트팩 캣,1팀,Fielder,키리코,0,8.93,0,0
+[00:14:23] ,ability_1_used,648.90,2팀,STALK3R,프레야,0
+[00:14:23] ,ability_1_used,648.93,1팀,MER1T,캐서디,0
+[00:14:23] ,payload_progress,649.20,2,1팀,1,60.01
+[00:14:24] ,ability_1_used,649.86,1팀,SP1NT,트레이서,0
+[00:14:24] ,ability_2_used,650.10,2팀,CH0R0NG,제트팩 캣,0
+[00:14:25] ,****,651.23,2팀,CH0R0NG,제트팩 캣,1팀,MER1T,캐서디,0,7.60,0,0
+[00:14:25] ,offensive_assist,651.60,2팀,MAX,시그마,0
+[00:14:25] ,ability_2_used,651.79,2팀,vigilante,아나,0
+[00:14:26] ,ability_1_used,652.08,2팀,HeeSang,트레이서,0
+[00:14:26] ,ability_1_used,652.58,2팀,HeeSang,트레이서,0
+[00:14:26] ,ability_1_used,652.67,1팀,SP1NT,트레이서,0
+[00:14:27] ,ability_1_used,653.17,1팀,SP1NT,트레이서,0
+[00:14:27] ,ability_1_used,653.65,1팀,HanBin,마우가,0
+[00:14:28] ,ability_1_used,653.95,2팀,STALK3R,프레야,0
+[00:14:28] ,ability_1_used,654.02,2팀,CH0R0NG,제트팩 캣,0
+[00:14:29] ,ability_1_used,655.26,1팀,ChiYo,제트팩 캣,0
+[00:14:30] ,ability_1_used,655.89,2팀,HeeSang,트레이서,0
+[00:14:30] ,ultimate_charged,656.27,2팀,vigilante,아나,0,4
+[00:14:30] ,ability_1_used,656.32,2팀,HeeSang,트레이서,0
+[00:14:33] ,ability_1_used,659.18,2팀,STALK3R,프레야,0
+[00:14:33] ,ability_1_used,659.57,1팀,SP1NT,트레이서,0
+[00:14:34] ,ability_1_used,660.19,2팀,HeeSang,트레이서,0
+[00:14:34] ,ability_2_used,660.30,1팀,ChiYo,제트팩 캣,0
+[00:14:34] ,ability_1_used,660.69,1팀,SP1NT,트레이서,0
+[00:14:35] ,ability_1_used,661.63,1팀,SP1NT,트레이서,0
+[00:14:36] ,ability_1_used,661.98,2팀,CH0R0NG,제트팩 캣,0
+[00:14:36] ,ability_1_used,662.78,1팀,HanBin,마우가,0
+[00:14:37] ,ability_2_used,663.13,1팀,SP1NT,트레이서,0
+[00:14:38] ,ability_2_used,664.54,2팀,HeeSang,트레이서,0
+[00:14:38] ,hero_swap,664.60,1팀,MER1T,프레야,캐서디,215.14
+[00:14:39] ,ability_1_used,664.97,1팀,MER1T,프레야,0
+[00:14:39] ,ability_1_used,665.32,1팀,SP1NT,트레이서,0
+[00:14:39] ,ability_2_used,665.40,2팀,vigilante,아나,0
+[00:14:39] ,ability_1_used,665.50,2팀,HeeSang,트레이서,0
+[00:14:39] ,ability_1_used,665.77,1팀,MER1T,프레야,0
+[00:14:41] ,ability_1_used,667.11,1팀,ChiYo,제트팩 캣,0
+[00:14:41] ,ability_2_used,667.42,2팀,STALK3R,프레야,0
+[00:14:42] ,ability_1_used,668.20,2팀,CH0R0NG,제트팩 캣,0
+[00:14:44] ,ability_1_used,670.39,1팀,ChiYo,제트팩 캣,0
+[00:14:44] ,ability_2_used,670.55,2팀,MAX,시그마,0
+[00:14:44] ,ability_1_used,670.71,1팀,Fielder,키리코,0
+[00:14:45] ,ability_1_used,671.05,1팀,HanBin,마우가,0
+[00:14:46] ,ability_1_used,672.01,2팀,STALK3R,프레야,0
+[00:14:46] ,ability_1_used,672.02,1팀,SP1NT,트레이서,0
+[00:14:47] ,ability_1_used,673.06,1팀,SP1NT,트레이서,0
+[00:14:48] ,ability_2_used,674.79,1팀,HanBin,마우가,0
+[00:14:49] ,ultimate_charged,674.97,2팀,CH0R0NG,제트팩 캣,0,3
+[00:14:49] ,****,675.16,2팀,CH0R0NG,제트팩 캣,1팀,HanBin,마우가,0,1.28,True,0
+[00:14:49] ,ability_1_used,675.69,2팀,STALK3R,프레야,0
+[00:14:49] ,ability_1_used,675.70,1팀,MER1T,프레야,0
+[00:14:49] ,ability_1_used,675.78,2팀,CH0R0NG,제트팩 캣,0
+[00:14:50] ,ability_1_used,676.05,2팀,HeeSang,트레이서,0
+[00:14:50] ,ability_1_used,676.10,1팀,MER1T,프레야,0
+[00:14:50] ,ability_1_used,676.50,2팀,STALK3R,프레야,0
+[00:14:51] ,ability_1_used,677.14,2팀,HeeSang,트레이서,0
+[00:14:51] ,ability_2_used,677.59,1팀,ChiYo,제트팩 캣,0
+[00:14:51] ,ability_1_used,677.81,1팀,SP1NT,트레이서,0
+[00:14:52] ,****,678.45,1팀,ChiYo,제트팩 캣,2팀,HeeSang,트레이서,0,13.49,0,0
+[00:14:52] ,defensive_assist,678.82,1팀,ChiYo,제트팩 캣,0
+[00:14:53] ,ability_1_used,679.40,1팀,SP1NT,트레이서,0
+[00:14:54] ,ability_1_used,679.97,2팀,vigilante,아나,0
+[00:14:54] ,ability_1_used,680.16,1팀,SP1NT,트레이서,0
+[00:14:54] ,ultimate_start,680.74,1팀,SP1NT,트레이서,0,4
+[00:14:55] ,ultimate_end,680.93,1팀,SP1NT,트레이서,0,4
+[00:14:55] ,ability_2_used,681.06,2팀,vigilante,아나,0
+[00:14:55] ,ability_2_used,681.70,1팀,SP1NT,트레이서,0
+[00:14:56] ,ability_1_used,682.00,1팀,MER1T,프레야,0
+[00:14:57] ,ability_1_used,682.90,1팀,SP1NT,트레이서,0
+[00:14:57] ,ability_1_used,683.38,2팀,STALK3R,프레야,0
+[00:14:58] ,ability_2_used,683.84,2팀,STALK3R,프레야,0
+[00:14:58] ,ability_1_used,683.92,1팀,ChiYo,제트팩 캣,0
+[00:14:58] ,ability_1_used,684.10,1팀,Fielder,키리코,0
+[00:14:58] ,ability_1_used,684.27,2팀,MAX,시그마,0
+[00:14:58] ,ability_2_used,684.69,2팀,CH0R0NG,제트팩 캣,0
+[00:14:59] ,ability_2_used,685.28,1팀,MER1T,프레야,0
+[00:14:59] ,ability_1_used,685.73,1팀,HanBin,마우가,0
+[00:15:00] ,ability_1_used,686.10,2팀,STALK3R,프레야,0
+[00:15:00] ,ability_2_used,686.16,1팀,Fielder,키리코,0
+[00:15:01] ,ability_2_used,687.29,2팀,MAX,시그마,0
+[00:15:01] ,ultimate_start,687.45,2팀,vigilante,아나,0,4
+[00:15:01] ,ability_1_used,687.53,1팀,MER1T,프레야,0
+[00:15:03] ,ability_1_used,689.05,2팀,HeeSang,트레이서,0
+[00:15:03] ,ability_1_used,689.60,1팀,SP1NT,트레이서,0
+[00:15:04] ,ability_1_used,690.03,2팀,HeeSang,트레이서,0
+[00:15:04] ,ability_1_used,690.11,2팀,STALK3R,프레야,0
+[00:15:04] ,ability_1_used,690.24,2팀,HeeSang,트레이서,0
+[00:15:05] ,****,691.56,2팀,STALK3R,프레야,1팀,Fielder,키리코,Primary Fire,25.96,0,0
+[00:15:05] ,ability_1_used,691.76,1팀,MER1T,프레야,0
+[00:15:06] ,offensive_assist,691.93,2팀,CH0R0NG,제트팩 캣,0
+[00:15:06] ,defensive_assist,691.93,2팀,CH0R0NG,제트팩 캣,0
+[00:15:06] ,offensive_assist,692.06,2팀,vigilante,아나,0
+[00:15:06] ,defensive_assist,692.06,2팀,vigilante,아나,0
+[00:15:06] ,ability_1_used,692.76,1팀,ChiYo,제트팩 캣,0
+[00:15:07] ,ability_1_used,692.94,2팀,HeeSang,트레이서,0
+[00:15:07] ,****,693.16,2팀,STALK3R,프레야,1팀,ChiYo,제트팩 캣,Primary Fire,39,0,0
+[00:15:07] ,offensive_assist,693.48,2팀,vigilante,아나,0
+[00:15:07] ,ability_1_used,693.48,1팀,HanBin,마우가,0
+[00:15:08] ,ability_1_used,694.33,1팀,MER1T,프레야,0
+[00:15:08] ,ability_1_used,694.33,1팀,SP1NT,트레이서,0
+[00:15:08] ,ability_2_used,694.60,2팀,vigilante,아나,0
+[00:15:09] ,ability_1_used,695.55,2팀,HeeSang,트레이서,0
+[00:15:09] ,ultimate_end,695.58,2팀,vigilante,아나,0,4
+[00:15:09] ,ability_1_used,695.66,2팀,STALK3R,프레야,0
+[00:15:10] ,ultimate_charged,696.27,1팀,Fielder,키리코,0,3
+[00:15:11] ,ability_1_used,697.56,1팀,SP1NT,트레이서,0
+[00:15:12] ,ability_2_used,697.96,2팀,STALK3R,프레야,0
+[00:15:12] ,ability_1_used,698.26,2팀,CH0R0NG,제트팩 캣,0
+[00:15:12] ,ability_2_used,698.31,2팀,HeeSang,트레이서,0
+[00:15:12] ,ability_1_used,698.31,1팀,SP1NT,트레이서,0
+[00:15:12] ,ability_1_used,698.81,1팀,SP1NT,트레이서,0
+[00:15:14] ,ability_2_used,699.98,1팀,MER1T,프레야,0
+[00:15:15] ,ability_1_used,700.95,1팀,MER1T,프레야,0
+[00:15:15] ,ability_1_used,701.13,2팀,STALK3R,프레야,0
+[00:15:15] ,ability_1_used,701.42,2팀,HeeSang,트레이서,0
+[00:15:15] ,ability_1_used,701.64,2팀,HeeSang,트레이서,0
+[00:15:16] ,ability_2_used,701.85,2팀,STALK3R,프레야,0
+[00:15:17] ,ability_2_used,703.38,1팀,SP1NT,트레이서,0
+[00:15:17] ,ability_1_used,703.51,1팀,MER1T,프레야,0
+[00:15:18] ,ability_1_used,703.81,2팀,STALK3R,프레야,0
+[00:15:18] ,ability_1_used,704.13,1팀,ChiYo,제트팩 캣,0
+[00:15:20] ,ability_1_used,705.97,1팀,SP1NT,트레이서,0
+[00:15:20] ,ability_1_used,706.21,2팀,HeeSang,트레이서,0
+[00:15:20] ,ability_1_used,706.60,1팀,SP1NT,트레이서,0
+[00:15:21] ,ability_1_used,707.32,1팀,Fielder,키리코,0
+[00:15:22] ,ability_1_used,708.04,2팀,STALK3R,프레야,0
+[00:15:22] ,ability_1_used,708.18,2팀,HeeSang,트레이서,0
+[00:15:22] ,ability_1_used,708.71,1팀,SP1NT,트레이서,0
+[00:15:24] ,ability_1_used,709.81,1팀,SP1NT,트레이서,0
+[00:15:24] ,ability_1_used,710.16,2팀,HeeSang,트레이서,0
+[00:15:24] ,ability_1_used,710.29,2팀,CH0R0NG,제트팩 캣,0
+[00:15:25] ,ability_1_used,710.98,1팀,ChiYo,제트팩 캣,0
+[00:15:25] ,ability_1_used,711.59,1팀,MER1T,프레야,0
+[00:15:26] ,ability_2_used,712.78,1팀,MER1T,프레야,0
+[00:15:27] ,ability_1_used,712.94,2팀,STALK3R,프레야,0
+[00:15:27] ,ability_1_used,713.23,2팀,HeeSang,트레이서,0
+[00:15:27] ,ability_1_used,713.63,1팀,SP1NT,트레이서,0
+[00:15:29] ,ability_1_used,715.58,1팀,SP1NT,트레이서,0
+[00:15:31] ,ability_1_used,717.69,1팀,MER1T,프레야,0
+[00:15:32] ,****,718.48,2팀,CH0R0NG,제트팩 캣,1팀,SP1NT,트레이서,0,0.84,0,0
+[00:15:33] ,ability_1_used,719.26,2팀,CH0R0NG,제트팩 캣,0
+[00:15:35] ,ability_2_used,721.39,2팀,STALK3R,프레야,0
+[00:15:36] ,ability_1_used,722.41,1팀,Fielder,키리코,0
+[00:15:36] ,ability_1_used,722.80,2팀,STALK3R,프레야,0
+[00:15:39] ,ability_2_used,725.02,2팀,STALK3R,프레야,0
+[00:15:40] ,ability_2_used,725.98,1팀,ChiYo,제트팩 캣,0
+[00:15:40] ,ability_2_used,726.11,1팀,MER1T,프레야,0
+[00:15:40] ,ability_1_used,726.14,2팀,HeeSang,트레이서,0
+[00:15:40] ,ultimate_charged,726.25,1팀,ChiYo,제트팩 캣,0,3
+[00:15:40] ,ability_1_used,726.41,2팀,STALK3R,프레야,0
+[00:15:41] ,ability_1_used,727.35,2팀,HeeSang,트레이서,0
+[00:15:41] ,ability_1_used,727.67,1팀,MER1T,프레야,0
+[00:15:42] ,ultimate_charged,728.01,2팀,STALK3R,프레야,0,5
+[00:15:42] ,ability_1_used,728.28,1팀,MER1T,프레야,0
+[00:15:42] ,ability_2_used,728.33,2팀,CH0R0NG,제트팩 캣,0
+[00:15:42] ,ability_2_used,728.52,1팀,HanBin,마우가,0
+[00:15:42] ,****,728.73,2팀,vigilante,아나,1팀,ChiYo,제트팩 캣,Primary Fire,4.33,0,0
+[00:15:43] ,ability_1_used,728.84,2팀,STALK3R,프레야,0
+[00:15:43] ,ability_2_used,728.94,2팀,MAX,시그마,0
+[00:15:43] ,offensive_assist,729.05,2팀,CH0R0NG,제트팩 캣,0
+[00:15:43] ,ability_1_used,729.13,1팀,SP1NT,트레이서,0
+[00:15:43] ,ability_1_used,729.19,2팀,HeeSang,트레이서,0
+[00:15:43] ,ability_1_used,729.43,1팀,SP1NT,트레이서,0
+[00:15:43] ,ability_1_used,729.53,2팀,vigilante,아나,0
+[00:15:43] ,ability_1_used,729.61,1팀,SP1NT,트레이서,0
+[00:15:45] ,ability_1_used,731.00,1팀,HanBin,마우가,0
+[00:15:46] ,ability_1_used,732.71,2팀,HeeSang,트레이서,0
+[00:15:47] ,ability_2_used,733.40,2팀,STALK3R,프레야,0
+[00:15:47] ,ability_1_used,733.59,2팀,HeeSang,트레이서,0
+[00:15:47] ,ability_1_used,733.67,1팀,MER1T,프레야,0
+[00:15:48] ,ability_1_used,734.04,1팀,Fielder,키리코,0
+[00:15:49] ,ability_2_used,735.06,1팀,Fielder,키리코,0
+[00:15:49] ,ability_1_used,735.08,2팀,STALK3R,프레야,0
+[00:15:50] ,ability_1_used,736.37,1팀,SP1NT,트레이서,0
+[00:15:51] ,ability_1_used,736.90,2팀,HeeSang,트레이서,0
+[00:15:51] ,ability_1_used,737.51,2팀,CH0R0NG,제트팩 캣,0
+[00:15:52] ,ability_1_used,737.86,2팀,STALK3R,프레야,0
+[00:15:52] ,ability_1_used,738.19,1팀,SP1NT,트레이서,0
+[00:15:52] ,ability_1_used,738.74,1팀,MER1T,프레야,0
+[00:15:53] ,ability_1_used,739.38,1팀,ChiYo,제트팩 캣,0
+[00:15:56] ,ability_1_used,742.56,1팀,MER1T,프레야,0
+[00:15:56] ,ability_1_used,742.70,2팀,HeeSang,트레이서,0
+[00:15:56] ,ability_1_used,742.70,1팀,SP1NT,트레이서,0
+[00:15:57] ,ability_2_used,742.80,2팀,vigilante,아나,0
+[00:15:57] ,ability_1_used,742.94,2팀,HeeSang,트레이서,0
+[00:15:58] ,ability_1_used,743.86,1팀,SP1NT,트레이서,0
+[00:15:59] ,ability_2_used,744.85,2팀,STALK3R,프레야,0
+[00:15:59] ,ability_2_used,745.74,1팀,MER1T,프레야,0
+[00:16:00] ,ability_1_used,746.32,1팀,MER1T,프레야,0
+[00:16:00] ,ability_1_used,746.40,2팀,STALK3R,프레야,0
+[00:16:00] ,ability_2_used,746.64,2팀,HeeSang,트레이서,0
+[00:16:01] ,ultimate_start,747.12,2팀,STALK3R,프레야,0,5
+[00:16:01] ,ability_1_used,747.29,2팀,CH0R0NG,제트팩 캣,0
+[00:16:01] ,ability_2_used,747.36,1팀,ChiYo,제트팩 캣,0
+[00:16:01] ,ultimate_end,747.77,2팀,STALK3R,프레야,0,5
+[00:16:02] ,ability_1_used,747.84,1팀,SP1NT,트레이서,0
+[00:16:02] ,ability_1_used,747.97,1팀,SP1NT,트레이서,0
+[00:16:03] ,ability_1_used,748.94,2팀,STALK3R,프레야,0
+[00:16:03] ,ability_1_used,749.07,2팀,HeeSang,트레이서,0
+[00:16:03] ,ability_1_used,749.10,1팀,ChiYo,제트팩 캣,0
+[00:16:03] ,ability_1_used,749.24,2팀,HeeSang,트레이서,0
+[00:16:04] ,ability_1_used,749.90,1팀,Fielder,키리코,0
+[00:16:04] ,hero_swap,750.78,1팀,MER1T,캐서디,프레야,86.18
+[00:16:05] ,ability_2_used,751.56,2팀,STALK3R,프레야,0
+[00:16:06] ,ability_1_used,752.09,2팀,CH0R0NG,제트팩 캣,0
+[00:16:06] ,ability_1_used,752.41,1팀,SP1NT,트레이서,0
+[00:16:08] ,ability_1_used,754.03,1팀,SP1NT,트레이서,0
+[00:16:08] ,ability_1_used,754.06,2팀,STALK3R,프레야,0
+[00:16:08] ,ability_1_used,754.67,1팀,ChiYo,제트팩 캣,0
+[00:16:09] ,ability_1_used,755.32,1팀,MER1T,캐서디,0
+[00:16:10] ,ability_1_used,755.90,2팀,STALK3R,프레야,0
+[00:16:10] ,ability_1_used,756.04,2팀,HeeSang,트레이서,0
+[00:16:11] ,ability_2_used,757.30,2팀,CH0R0NG,제트팩 캣,0
+[00:16:13] ,ability_1_used,759.10,1팀,ChiYo,제트팩 캣,0
+[00:16:15] ,ability_2_used,761.24,2팀,vigilante,아나,0
+[00:16:15] ,ability_1_used,761.45,2팀,CH0R0NG,제트팩 캣,0
+[00:16:15] ,ability_1_used,761.62,1팀,SP1NT,트레이서,0
+[00:16:16] ,ultimate_start,762.42,2팀,CH0R0NG,제트팩 캣,0,3
+[00:16:16] ,ability_1_used,762.49,2팀,HeeSang,트레이서,0
+[00:16:16] ,ability_1_used,762.63,1팀,MER1T,캐서디,0
+[00:16:16] ,ability_1_used,762.69,2팀,STALK3R,프레야,0
+[00:16:16] ,ability_1_used,762.69,1팀,SP1NT,트레이서,0
+[00:16:17] ,ability_1_used,762.87,2팀,HeeSang,트레이서,0
+[00:16:17] ,ability_2_used,763.11,1팀,Fielder,키리코,0
+[00:16:17] ,ability_2_used,763.17,2팀,STALK3R,프레야,0
+[00:16:18] ,ability_2_used,763.88,1팀,MER1T,캐서디,0
+[00:16:18] ,ultimate_start,764.18,1팀,HanBin,마우가,0,2
+[00:16:18] ,ability_2_used,764.47,1팀,ChiYo,제트팩 캣,0
+[00:16:19] ,ability_1_used,764.82,2팀,STALK3R,프레야,0
+[00:16:19] ,ability_1_used,765.32,1팀,Fielder,키리코,0
+[00:16:20] ,ability_1_used,766.02,2팀,HeeSang,트레이서,0
+[00:16:20] ,ability_1_used,766.42,2팀,HeeSang,트레이서,0
+[00:16:20] ,ultimate_start,766.77,2팀,HeeSang,트레이서,0,5
+[00:16:21] ,ultimate_end,766.95,2팀,HeeSang,트레이서,0,5
+[00:16:21] ,ultimate_end,766.95,2팀,CH0R0NG,제트팩 캣,0,3
+[00:16:21] ,ability_1_used,767.04,1팀,SP1NT,트레이서,0
+[00:16:21] ,ability_1_used,767.41,1팀,SP1NT,트레이서,0
+[00:16:22] ,****,767.94,2팀,HeeSang,트레이서,1팀,MER1T,캐서디,Ultimate,78.25,0,0
+[00:16:22] ,ultimate_end,768.00,1팀,HanBin,마우가,0,2
+[00:16:22] ,offensive_assist,768.18,2팀,vigilante,아나,0
+[00:16:23] ,ability_1_used,768.95,1팀,ChiYo,제트팩 캣,0
+[00:16:23] ,ultimate_start,769.63,1팀,Fielder,키리코,0,3
+[00:16:24] ,ability_2_used,770.23,2팀,MAX,시그마,0
+[00:16:25] ,ability_2_used,771.57,2팀,STALK3R,프레야,0
+[00:16:26] ,ability_1_used,771.79,2팀,MAX,시그마,0
+[00:16:26] ,ability_1_used,772.00,1팀,SP1NT,트레이서,0
+[00:16:26] ,ability_1_used,772.34,2팀,STALK3R,프레야,0
+[00:16:26] ,ability_1_used,772.50,2팀,vigilante,아나,0
+[00:16:27] ,ability_2_used,772.78,1팀,HanBin,마우가,0
+[00:16:27] ,ability_1_used,773.42,2팀,STALK3R,프레야,0
+[00:16:27] ,****,773.52,1팀,ChiYo,제트팩 캣,2팀,vigilante,아나,0,24.39,True,0
+[00:16:28] ,ability_2_used,773.87,1팀,SP1NT,트레이서,0
+[00:16:29] ,ultimate_start,774.94,2팀,MAX,시그마,0,3
+[00:16:29] ,ability_1_used,775.25,1팀,SP1NT,트레이서,0
+[00:16:29] ,ability_2_used,775.42,2팀,CH0R0NG,제트팩 캣,0
+[00:16:31] ,ability_1_used,776.94,1팀,ChiYo,제트팩 캣,0
+[00:16:31] ,ability_1_used,777.01,1팀,HanBin,마우가,0
+[00:16:31] ,ability_1_used,777.23,2팀,CH0R0NG,제트팩 캣,0
+[00:16:31] ,ultimate_charged,777.63,1팀,SP1NT,트레이서,0,5
+[00:16:33] ,ability_1_used,779.02,1팀,MER1T,캐서디,0
+[00:16:33] ,ability_1_used,779.08,2팀,STALK3R,프레야,0
+[00:16:34] ,ability_1_used,780.08,2팀,HeeSang,트레이서,0
+[00:16:34] ,ability_1_used,780.60,1팀,SP1NT,트레이서,0
+[00:16:35] ,ultimate_end,780.83,1팀,Fielder,키리코,0,3
+[00:16:35] ,ability_1_used,781.40,1팀,SP1NT,트레이서,0
+[00:16:35] ,ability_1_used,781.53,2팀,HeeSang,트레이서,0
+[00:16:36] ,ability_2_used,781.91,1팀,Fielder,키리코,0
+[00:16:36] ,ability_2_used,782.20,2팀,HeeSang,트레이서,0
+[00:16:37] ,ultimate_end,783.32,2팀,MAX,시그마,0,3
+[00:16:38] ,ability_1_used,784.04,1팀,ChiYo,제트팩 캣,0
+[00:16:38] ,ability_1_used,784.49,1팀,SP1NT,트레이서,0
+[00:16:38] ,ability_1_used,784.70,2팀,HeeSang,트레이서,0
+[00:16:39] ,ability_2_used,785.18,1팀,ChiYo,제트팩 캣,0
+[00:16:39] ,ability_1_used,785.19,1팀,SP1NT,트레이서,0
+[00:16:39] ,ability_1_used,785.66,2팀,HeeSang,트레이서,0
+[00:16:40] ,ability_1_used,786.18,2팀,MAX,시그마,0
+[00:16:40] ,ability_1_used,786.33,2팀,HeeSang,트레이서,0
+[00:16:40] ,ability_1_used,786.47,2팀,STALK3R,프레야,0
+[00:16:41] ,ability_1_used,786.81,1팀,HanBin,마우가,0
+[00:16:41] ,ability_1_used,786.95,1팀,ChiYo,제트팩 캣,0
+[00:16:41] ,ultimate_start,786.95,1팀,ChiYo,제트팩 캣,0,3
+[00:16:41] ,ability_1_used,786.97,2팀,STALK3R,프레야,0
+[00:16:42] ,ability_1_used,787.77,1팀,SP1NT,트레이서,0
+[00:16:42] ,ability_1_used,787.90,1팀,MER1T,캐서디,0
+[00:16:42] ,ultimate_end,788.44,1팀,ChiYo,제트팩 캣,0,3
+[00:16:42] ,****,788.71,1팀,Fielder,키리코,2팀,MAX,시그마,0,59.54,0,0
+[00:16:42] ,offensive_assist,788.73,1팀,ChiYo,제트팩 캣,0
+[00:16:42] ,defensive_assist,788.73,1팀,ChiYo,제트팩 캣,0
+[00:16:43] ,offensive_assist,788.78,1팀,HanBin,마우가,0
+[00:16:43] ,defensive_assist,788.81,1팀,Fielder,키리코,0
+[00:16:43] ,ability_2_used,789.35,1팀,HanBin,마우가,0
+[00:16:43] ,ability_1_used,789.57,2팀,CH0R0NG,제트팩 캣,0
+[00:16:45] ,ability_1_used,790.95,1팀,ChiYo,제트팩 캣,0
+[00:16:47] ,ability_1_used,793.01,1팀,SP1NT,트레이서,0
+[00:16:47] ,ability_1_used,793.14,2팀,STALK3R,프레야,0
+[00:16:47] ,ability_1_used,793.24,2팀,HeeSang,트레이서,0
+[00:16:47] ,ability_2_used,793.57,2팀,CH0R0NG,제트팩 캣,0
+[00:16:47] ,ability_2_used,793.70,2팀,STALK3R,프레야,0
+[00:16:48] ,ability_1_used,793.99,1팀,MER1T,캐서디,0
+[00:16:48] ,ability_2_used,794.50,2팀,vigilante,아나,0
+[00:16:49] ,ability_1_used,794.95,1팀,ChiYo,제트팩 캣,0
+[00:16:49] ,ability_2_used,795.09,2팀,STALK3R,프레야,0
+[00:16:49] ,ability_1_used,795.68,1팀,SP1NT,트레이서,0
+[00:16:49] ,ability_2_used,795.72,1팀,MER1T,캐서디,0
+[00:16:50] ,ability_1_used,796.16,2팀,STALK3R,프레야,0
+[00:16:51] ,ability_1_used,797.06,1팀,SP1NT,트레이서,0
+[00:16:52] ,ability_2_used,797.94,1팀,Fielder,키리코,0
+[00:16:52] ,ability_1_used,798.61,1팀,HanBin,마우가,0
+[00:16:53] ,ability_1_used,798.82,2팀,HeeSang,트레이서,0
+[00:16:53] ,ultimate_charged,799.52,2팀,vigilante,아나,0,5
+[00:16:53] ,ability_1_used,799.57,1팀,SP1NT,트레이서,0
+[00:16:54] ,ultimate_start,800.21,2팀,vigilante,아나,0,5
+[00:16:54] ,****,800.27,1팀,SP1NT,트레이서,2팀,STALK3R,프레야,Primary Fire,0.49,True,0
+[00:16:55] ,ability_1_used,800.83,2팀,HeeSang,트레이서,0
+[00:16:55] ,ability_1_used,800.91,1팀,MER1T,캐서디,0
+[00:16:55] ,ability_1_used,801.28,2팀,HeeSang,트레이서,0
+[00:16:56] ,ability_2_used,801.76,1팀,ChiYo,제트팩 캣,0
+[00:16:56] ,hero_swap,802.14,2팀,MAX,둠피스트,시그마,401.51
+[00:16:56] ,ability_2_used,802.18,1팀,SP1NT,트레이서,0
+[00:16:56] ,ability_1_used,802.64,2팀,HeeSang,트레이서,0
+[00:16:57] ,ability_1_used,803.22,1팀,ChiYo,제트팩 캣,0
+[00:16:57] ,ability_2_used,803.58,2팀,HeeSang,트레이서,0
+[00:16:57] ,ability_1_used,803.68,2팀,MAX,둠피스트,0
+[00:16:58] ,ability_1_used,804.57,1팀,SP1NT,트레이서,0
+[00:16:58] ,ability_1_used,804.72,2팀,vigilante,아나,0
+[00:16:59] ,ability_2_used,805.15,1팀,HanBin,마우가,0
+[00:17:00] ,ability_1_used,806.48,1팀,HanBin,마우가,0
+[00:17:01] ,ability_1_used,807.21,2팀,CH0R0NG,제트팩 캣,0
+[00:17:01] ,ability_1_used,807.44,1팀,SP1NT,트레이서,0
+[00:17:01] ,ability_1_used,807.50,1팀,ChiYo,제트팩 캣,0
+[00:17:01] ,****,807.71,2팀,HeeSang,트레이서,1팀,ChiYo,제트팩 캣,Primary Fire,0.98,0,0
+[00:17:02] ,offensive_assist,808.09,2팀,vigilante,아나,0
+[00:17:02] ,ultimate_end,808.33,2팀,vigilante,아나,0,5
+[00:17:03] ,ability_1_used,808.91,2팀,HeeSang,트레이서,0
+[00:17:03] ,ability_2_used,809.56,2팀,vigilante,아나,0
+[00:17:04] ,ability_2_used,810.04,2팀,MAX,둠피스트,0
+[00:17:04] ,ability_1_used,810.75,1팀,SP1NT,트레이서,0
+[00:17:05] ,ability_1_used,810.83,2팀,HeeSang,트레이서,0
+[00:17:05] ,ultimate_start,811.10,1팀,SP1NT,트레이서,0,5
+[00:17:05] ,ultimate_end,811.29,1팀,SP1NT,트레이서,0,5
+[00:17:05] ,ability_2_used,811.47,2팀,CH0R0NG,제트팩 캣,0
+[00:17:05] ,ability_1_used,811.64,2팀,MAX,둠피스트,0
+[00:17:06] ,ability_1_used,811.82,1팀,SP1NT,트레이서,0
+[00:17:06] ,ability_1_used,811.87,2팀,HeeSang,트레이서,0
+[00:17:06] ,ability_1_used,812.41,1팀,MER1T,캐서디,0
+[00:17:07] ,ability_2_used,812.79,1팀,Fielder,키리코,0
+[00:17:08] ,ability_1_used,814.41,1팀,SP1NT,트레이서,0
+[00:17:09] ,ability_1_used,814.81,1팀,HanBin,마우가,0
+[00:17:09] ,ability_1_used,814.81,2팀,STALK3R,프레야,0
+[00:17:09] ,ability_1_used,815.24,2팀,HeeSang,트레이서,0
+[00:17:09] ,****,815.38,1팀,SP1NT,트레이서,2팀,vigilante,아나,Primary Fire,2.27,0,0
+[00:17:09] ,defensive_assist,815.53,1팀,HanBin,마우가,0
+[00:17:09] ,defensive_assist,815.58,1팀,Fielder,키리코,0
+[00:17:10] ,ability_2_used,815.99,1팀,MER1T,캐서디,0
+[00:17:10] ,ability_2_used,816.06,1팀,SP1NT,트레이서,0
+[00:17:10] ,ability_1_used,816.26,2팀,STALK3R,프레야,0
+[00:17:11] ,ability_1_used,817.48,1팀,SP1NT,트레이서,0
+[00:17:11] ,ability_2_used,817.64,2팀,HeeSang,트레이서,0
+[00:17:13] ,ability_1_used,819.19,2팀,HeeSang,트레이서,0
+[00:17:13] ,ultimate_charged,819.56,2팀,HeeSang,트레이서,0,6
+[00:17:13] ,ability_1_used,819.61,2팀,MAX,둠피스트,0
+[00:17:14] ,ultimate_start,820.74,2팀,HeeSang,트레이서,0,6
+[00:17:15] ,ability_1_used,820.79,1팀,Fielder,키리코,0
+[00:17:15] ,ability_2_used,820.82,1팀,HanBin,마우가,0
+[00:17:15] ,ultimate_end,820.93,2팀,HeeSang,트레이서,0,6
+[00:17:15] ,ability_1_used,821.38,1팀,MER1T,캐서디,0
+[00:17:15] ,ability_1_used,821.62,2팀,CH0R0NG,제트팩 캣,0
+[00:17:16] ,ability_2_used,822.13,2팀,MAX,둠피스트,0
+[00:17:16] ,ability_1_used,822.26,1팀,ChiYo,제트팩 캣,0
+[00:17:16] ,ability_1_used,822.69,2팀,HeeSang,트레이서,0
+[00:17:16] ,ability_1_used,822.69,2팀,STALK3R,프레야,0
+[00:17:17] ,ability_1_used,823.27,2팀,HeeSang,트레이서,0
+[00:17:18] ,ability_2_used,824.12,2팀,STALK3R,프레야,0
+[00:17:18] ,ability_1_used,824.12,1팀,SP1NT,트레이서,0
+[00:17:19] ,****,825.11,1팀,SP1NT,트레이서,2팀,HeeSang,트레이서,Melee,22.83,0,0
+[00:17:19] ,ability_1_used,825.24,2팀,STALK3R,프레야,0
+[00:17:19] ,defensive_assist,825.39,1팀,HanBin,마우가,0
+[00:17:19] ,ability_1_used,825.73,1팀,MER1T,캐서디,0
+[00:17:20] ,****,826.05,2팀,MAX,둠피스트,1팀,Fielder,키리코,Secondary Fire,42.46,0,0
+[00:17:20] ,ability_1_used,826.23,1팀,SP1NT,트레이서,0
+[00:17:20] ,defensive_assist,826.29,2팀,CH0R0NG,제트팩 캣,0
+[00:17:21] ,ultimate_charged,826.85,2팀,CH0R0NG,제트팩 캣,0,4
+[00:17:21] ,****,827.27,1팀,HanBin,마우가,2팀,STALK3R,프레야,0,0.16,0,0
+[00:17:21] ,defensive_assist,827.28,1팀,HanBin,마우가,0
+[00:17:21] ,defensive_assist,827.31,1팀,Fielder,키리코,0
+[00:17:21] ,ability_1_used,827.68,2팀,MAX,둠피스트,0
+[00:17:22] ,ability_2_used,828.07,2팀,CH0R0NG,제트팩 캣,0
+[00:17:22] ,****,828.66,2팀,CH0R0NG,제트팩 캣,1팀,MER1T,캐서디,0,1.86,0,0
+[00:17:23] ,ability_1_used,828.93,1팀,SP1NT,트레이서,0
+[00:17:23] ,ability_1_used,829.41,2팀,CH0R0NG,제트팩 캣,0
+[00:17:23] ,ultimate_start,829.41,2팀,CH0R0NG,제트팩 캣,0,4
+[00:17:24] ,ability_1_used,830.14,1팀,SP1NT,트레이서,0
+[00:17:25] ,hero_swap,830.83,2팀,vigilante,메르시,아나,274.51
+[00:17:25] ,hero_swap,831.66,2팀,vigilante,루시우,메르시,0.83
+[00:17:25] ,ability_1_used,831.66,2팀,vigilante,루시우,0
+[00:17:26] ,ability_2_used,831.78,2팀,vigilante,루시우,0
+[00:17:26] ,ability_2_used,832.08,2팀,MAX,둠피스트,0
+[00:17:26] ,ability_2_used,832.30,1팀,ChiYo,제트팩 캣,0
+[00:17:27] ,ultimate_end,833.15,2팀,CH0R0NG,제트팩 캣,0,4
+[00:17:27] ,ability_1_used,833.20,1팀,HanBin,마우가,0
+[00:17:29] ,****,835.05,2팀,CH0R0NG,제트팩 캣,1팀,HanBin,마우가,Ultimate,444.95,0,True
+[00:17:29] ,ability_1_used,835.17,2팀,MAX,둠피스트,0
+[00:17:29] ,defensive_assist,835.21,2팀,CH0R0NG,제트팩 캣,0
+[00:17:30] ,ability_1_used,835.85,1팀,SP1NT,트레이서,0
+[00:17:30] ,ability_1_used,836.43,1팀,SP1NT,트레이서,0
+[00:17:32] ,ability_1_used,838.11,1팀,SP1NT,트레이서,0
+[00:17:32] ,****,838.40,1팀,ChiYo,제트팩 캣,2팀,MAX,둠피스트,Melee,7.08,0,0
+[00:17:32] ,defensive_assist,838.51,1팀,ChiYo,제트팩 캣,0
+[00:17:33] ,ability_1_used,838.94,1팀,ChiYo,제트팩 캣,0
+[00:17:33] ,ability_1_used,839.34,2팀,vigilante,루시우,0
+[00:17:34] ,ability_1_used,839.77,2팀,HeeSang,트레이서,0
+[00:17:35] ,ability_1_used,840.87,2팀,vigilante,루시우,0
+[00:17:35] ,ability_1_used,841.02,2팀,HeeSang,트레이서,0
+[00:17:35] ,ability_1_used,841.13,1팀,SP1NT,트레이서,0
+[00:17:35] ,ability_1_used,841.19,2팀,HeeSang,트레이서,0
+[00:17:36] ,ability_1_used,841.82,2팀,STALK3R,프레야,0
+[00:17:36] ,ability_2_used,841.99,1팀,SP1NT,트레이서,0
+[00:17:36] ,ability_2_used,842.27,1팀,Fielder,키리코,0
+[00:17:36] ,ability_1_used,842.41,2팀,vigilante,루시우,0
+[00:17:37] ,ability_1_used,843.07,2팀,HeeSang,트레이서,0
+[00:17:37] ,ability_1_used,843.53,2팀,vigilante,루시우,0
+[00:17:37] ,****,843.69,1팀,ChiYo,제트팩 캣,2팀,vigilante,루시우,0,3.17,0,0
+[00:17:38] ,ability_1_used,843.94,2팀,STALK3R,프레야,0
+[00:17:38] ,ability_1_used,844.46,1팀,MER1T,캐서디,0
+[00:17:38] ,****,844.57,2팀,CH0R0NG,제트팩 캣,1팀,ChiYo,제트팩 캣,0,6.02,0,0
+[00:17:38] ,hero_swap,844.62,1팀,Fielder,루시우,키리코,277.29
+[00:17:38] ,ability_1_used,844.62,1팀,Fielder,루시우,0
+[00:17:38] ,ability_2_used,844.66,2팀,CH0R0NG,제트팩 캣,0
+[00:17:38] ,ability_2_used,844.71,1팀,Fielder,루시우,0
+[00:17:39] ,ability_1_used,845.05,2팀,CH0R0NG,제트팩 캣,0
+[00:17:40] ,****,846.06,2팀,HeeSang,트레이서,1팀,SP1NT,트레이서,Melee,29.79,0,0
+[00:17:40] ,ability_1_used,846.06,1팀,SP1NT,트레이서,0
+[00:17:40] ,ability_1_used,846.41,2팀,STALK3R,프레야,0
+[00:17:40] ,offensive_assist,846.49,2팀,CH0R0NG,제트팩 캣,0
+[00:17:40] ,defensive_assist,846.49,2팀,CH0R0NG,제트팩 캣,0
+[00:17:41] ,round_end,847.57,2,1팀,1,3,1,0,0,0
+[00:17:41] ,match_end,847.57,2,1,3
+[00:17:41] ,player_stat,847.57,2,2팀,HeeSang,겐지,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:17:41] ,player_stat,847.57,2,2팀,HeeSang,트레이서,27,16,8,12778.68,1100.52,11614.92,0,2700.43,2196.37,6758.83,0,0,0,6,5,1,3,2,7,0,0,209,0.10,0,0,0,6524,2177,4101,0,0,0.35,847.57
+[00:17:41] ,player_stat,847.57,2,2팀,vigilante,시온,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:17:41] ,player_stat,847.57,2,2팀,vigilante,아나,19,2,5,8497.89,991.79,7506.10,9769.77,1482.33,97.50,3647.93,0,15,10,6,6,0,0,0,5,0,0,0,0,0.69,0,0,426,254,155,273,189,0.62,828.16
+[00:17:41] ,player_stat,847.57,2,2팀,vigilante,루시우,1,0,1,151,0,151,75.51,74.92,21.37,299.92,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,20,3,17,0,0,0.15,18.58
+[00:17:41] ,player_stat,847.57,2,2팀,vigilante,메르시,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.83
+[00:17:41] ,player_stat,847.57,2,1팀,HanBin,시그마,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:17:41] ,player_stat,847.57,2,1팀,HanBin,해저드,0,0,1,2622.55,150,1541.71,0,2736.45,0,3282.08,1069.17,0,0,0,0,0,0,0,0,0,0,24,0.16,0,0,0,610,147,439,0,0,0.25,145.92
+[00:17:41] ,player_stat,847.57,2,1팀,HanBin,라마트라,1,1,1,1194.97,266.72,928.25,0,401.15,0,1496.53,1165.91,0,0,0,0,0,0,0,1,0,0,14,0.12,0,0,0,544,115,383,0,0,0.23,75.81
+[00:17:41] ,player_stat,847.57,2,1팀,HanBin,자리야,5,2,1,4110.45,242.79,3867.65,0,4407.46,0,5885.47,1927.37,1,1,1,1,0,0,0,2,0,0,0,0,0,0,0,52,9,43,0,0,0.17,231.98
+[00:17:41] ,player_stat,847.57,2,1팀,HanBin,마우가,9,4,5,4872.77,921.59,3951.18,728.37,5985.34,628.15,10633.34,160,3,2,1,1,0,0,1,5,0,1,38,0.06,0,0,0,2003,589,1097,0,0,0.35,393.87
+[00:17:41] ,player_stat,847.57,2,1팀,MER1T,프레야,7,3,4,8547.12,1191.80,7355.31,0,2880.17,0,4089.50,0,0,0,3,3,0,0,0,3,0,0,11,0.13,0,0,0,647,86,368,0,0,0.19,457.17
+[00:17:41] ,player_stat,847.57,2,1팀,MER1T,캐서디,12,5,6,6474.40,2587.35,3887.05,0,2003.52,0,3595.84,0,0,0,1,1,0,0,1,2,0,0,7,0.13,0,0,0,212,55,111,0,0,0.33,366.03
+[00:17:41] ,player_stat,847.57,2,1팀,MER1T,소전,0,0,0,191.70,0,191.70,0,121.02,0,274.01,0,0,0,0,0,0,0,0,0,0,0,3,0.20,0,0,0,118,15,98,0,0,0.13,19.77
+[00:17:41] ,player_stat,847.57,2,1팀,MER1T,시온,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:17:41] ,player_stat,847.57,2,1팀,MER1T,위도우메이커,0,0,0,120,0,120,0,75,0,75,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,3,1,2,1,1,0.33,4.61
+[00:17:41] ,player_stat,847.57,2,2팀,STALK3R,파라,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:17:41] ,player_stat,847.57,2,2팀,STALK3R,프레야,15,5,5,7060.51,175,6885.51,0,2047.86,0,3397.68,0,0,0,3,3,0,0,0,1,0,0,6,0.08,0,0,0,527,75,311,0,0,0.19,473.39
+[00:17:41] ,player_stat,847.57,2,2팀,STALK3R,시온,5,3,1,3844.85,634.35,3210.50,0,1940.65,0,2712.33,0,0,0,1,1,0,0,1,1,0,0,9,0.13,0,0,0,175,68,100,0,0,0.40,168.02
+[00:17:41] ,player_stat,847.57,2,2팀,STALK3R,캐서디,6,4,3,4206.97,775.45,3431.52,0,1624.71,0,2421.85,0,0,0,1,1,0,0,0,2,0,0,8,0.21,0,0,0,119,39,68,0,0,0.36,206.16
+[00:17:41] ,player_stat,847.57,2,2팀,MAX,둠피스트,2,1,1,1007.91,0,1007.91,0,1375.23,0,1982.84,0,0,0,0,0,0,0,0,1,0,0,14,0.13,0,0,0,363,111,250,0,0,0.31,45.43
+[00:17:41] ,player_stat,847.57,2,2팀,MAX,오리사,3,2,2,4291.62,1302.97,2988.65,0,5054.05,0,6954.05,0,0,0,1,1,0,0,0,0,0,0,30,0.16,0,0,0,897,191,617,0,0,0.24,223.01
+[00:17:41] ,player_stat,847.57,2,2팀,MAX,자리야,8,2,1,4138.85,1613.06,2441.04,0,2488.45,0,3411.74,1778.70,3,0,1,1,0,0,0,3,0,0,0,0,0,0,0,57,16,37,0,0,0.30,177.62
+[00:17:41] ,player_stat,847.57,2,2팀,MAX,시그마,12,3,4,5038.27,258.04,4780.23,0,3887.69,0,6868.83,7164.95,0,2,1,1,0,0,0,0,0,0,0,0,0,0,0,122,47,72,0,0,0.39,401.51
+[00:17:41] ,player_stat,847.57,2,1팀,Fielder,제트팩 캣,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:17:41] ,player_stat,847.57,2,1팀,Fielder,키리코,6,3,8,4529.95,1656.85,2873.10,11386.16,2671.83,0,4563.52,0,11,3,3,6,0,0,0,2,0,0,5,0.10,0,0,0,280,49,191,0,0,0.20,630.14
+[00:17:41] ,player_stat,847.57,2,1팀,Fielder,바티스트,2,1,3,2045.49,314.25,1731.24,2790.58,841.11,389.14,1634.61,0,1,0,1,1,0,0,0,1,0,0,6,0.09,0,0,0,192,70,103,0,0,0.40,176.42
+[00:17:41] ,player_stat,847.57,2,1팀,Fielder,아나,0,0,0,300.00,75.00,225,209.19,61.30,0,63.03,0,0,0,0,0,0,0,0,0,0,0,0,0,0.56,0,0,15,7,5,9,5,0.58,27.07
+[00:17:41] ,player_stat,847.57,2,1팀,Fielder,루시우,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,4,0,0,0,13.94
+[00:17:41] ,player_stat,847.57,2,1팀,SP1NT,트레이서,22,10,9,11732.45,781.28,10951.16,0,3692.68,2166.33,8050.36,0,0,0,5,5,0,0,0,6,0,0,224,0.12,0,0,0,6162,1891,4076,0,0,0.32,828.16
+[00:17:41] ,player_stat,847.57,2,1팀,SP1NT,위도우메이커,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,2,2,0,0,18.72
+[00:17:41] ,player_stat,847.57,2,1팀,SP1NT,솔저: 76,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.69
+[00:17:41] ,player_stat,847.57,2,2팀,CH0R0NG,벤데타,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:17:41] ,player_stat,847.57,2,2팀,CH0R0NG,제트팩 캣,32,10,4,7983.40,1030.82,6850.58,12615.52,4051.50,0,5574.47,0,20,16,5,5,0,0,0,7,1,0,229,0.10,0,0,0,7105,2245,4646,0,0,0.33,847.57
+[00:17:41] ,player_stat,847.57,2,1팀,ChiYo,브리기테,3,0,6,2599.25,390,2209.25,6195.15,1667.41,522.43,3733.37,3559.54,9,3,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,451.62
+[00:17:41] ,player_stat,847.57,2,1팀,ChiYo,제트팩 캣,10,6,5,4042.53,366,3676.53,3386.51,2877.18,0,4263.49,0,4,2,2,2,0,0,2,4,0,0,99,0.13,0,0,0,2440,790,1560,0,0,0.34,395.95
