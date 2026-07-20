@@ -106,9 +106,9 @@ TANKS = [
 ]
 SUPPORTS = [
     'Ana', 'Baptiste', 'Brigitte', 'Illari', 'Kiriko', 'Lifeweaver', 'Lucio',
-    'Mercy', 'Moira', 'Zenyatta', 'Juno', 'Mizuki', 'Jetpack Cat',
+    'Mercy', 'Moira', 'Zenyatta', 'Juno', 'Mizuki', 'Jetpack Cat', 'Wuyang',
     '아나', '바티스트', '브리기테', '일리아리', '키리코', '라이프위버', '루시우',
-    '메르시', '모이라', '젠야타', '주노', '미즈키', '제트팩 캣'
+    '메르시', '모이라', '젠야타', '주노', '미즈키', '제트팩 캣', '우양'
 ]
 
 PLAYER_ROLE_OVERRIDES = {
