@@ -1,0 +1,91 @@
+{
+    "id": "2607210002",
+    "scrim_name": "네팔",
+    "date": "2026-07-21",
+    "start_time": "00",
+    "end_time": "02",
+    "matches": [
+        {
+            "id": "bd076096-d35c-44d5-b6c1-d27b9e34926a",
+            "match_index": 1,
+            "map_name": "네팔",
+            "team1_name": "TL",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "",
+            "video_url": "https://www.youtube.com/live/jIRskPaiCow?si=NNARYFlv4NLBrgi4",
+            "video_offset": 167,
+            "pauses": [
+                {
+                    "start_sec": 212,
+                    "end_sec": 269,
+                    "duration": 57
+                }
+            ],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "8df686d5-0c0e-44ac-8757-7662863fa6fc",
+            "match_index": 2,
+            "map_name": "이스페란사",
+            "team1_name": "TL",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "FLC",
+            "video_url": "https://www.youtube.com/live/jIRskPaiCow?si=NNARYFlv4NLBrgi4",
+            "video_offset": 1300,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "477bf6a1-818b-433f-a336-a49287bff205",
+            "match_index": 3,
+            "map_name": "아틀리스",
+            "team1_name": "TL",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "",
+            "video_url": "https://www.youtube.com/live/jIRskPaiCow?si=NNARYFlv4NLBrgi4",
+            "video_offset": 2796,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "adac4f6f-313c-4fda-bd76-c4a96828a727",
+            "match_index": 4,
+            "map_name": "사모아",
+            "team1_name": "TL",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "",
+            "video_url": "https://www.youtube.com/live/jIRskPaiCow?si=NNARYFlv4NLBrgi4",
+            "video_offset": 5120,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        }
+    ]
+}
