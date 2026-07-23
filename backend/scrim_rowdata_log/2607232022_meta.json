@@ -1,0 +1,85 @@
+{
+    "id": "2607232022",
+    "scrim_name": "260723-PEPS",
+    "date": "2026-07-23",
+    "start_time": "20",
+    "end_time": "22",
+    "matches": [
+        {
+            "id": "349451ad-7b6f-4f48-bf49-c4810c8f05f7",
+            "match_index": 1,
+            "map_name": "부산",
+            "team1_name": "PEPS",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "",
+            "video_url": "https://www.youtube.com/live/FfM_NysREp4?si=bhQw8mZvFFyvoYmO",
+            "video_offset": 217,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "d517d971-1f6b-4604-9bde-db832142a2f1",
+            "match_index": 2,
+            "map_name": "뉴정크시티",
+            "team1_name": "PEPS",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "",
+            "video_url": "https://www.youtube.com/live/FfM_NysREp4?si=bhQw8mZvFFyvoYmO",
+            "video_offset": 1394,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "e8a144ba-cc4c-4a28-aaf2-ef0bb75724a3",
+            "match_index": 3,
+            "map_name": "이스페란사",
+            "team1_name": "PEPS",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "FLC",
+            "video_url": "https://www.youtube.com/live/FfM_NysREp4?si=bhQw8mZvFFyvoYmO",
+            "video_offset": 2705,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "91fa5e54-bb31-4e51-beeb-84ed2bd807b4",
+            "match_index": 4,
+            "map_name": "쓰레기촌",
+            "team1_name": "PEPS",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "",
+            "video_url": "https://www.youtube.com/live/FfM_NysREp4?si=bhQw8mZvFFyvoYmO",
+            "video_offset": 5361,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        }
+    ]
+}

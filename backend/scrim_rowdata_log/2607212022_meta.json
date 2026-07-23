@@ -1,0 +1,123 @@
+{
+    "id": "2607212022",
+    "scrim_name": "260721-SSG",
+    "date": "2026-07-21",
+    "start_time": "20",
+    "end_time": "22",
+    "matches": [
+        {
+            "id": "97cd0711-8a46-4fd2-9958-3e1d92820f83",
+            "match_index": 1,
+            "map_name": "사모아",
+            "team1_name": "SSG",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "",
+            "video_url": "https://www.youtube.com/live/Ub_2V62gtJE?si=p9jUtbV-jhexBCbv",
+            "video_offset": 263,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "eb325e75-0e59-4661-8b89-03f437e9e58c",
+            "match_index": 2,
+            "map_name": "이스페란사",
+            "team1_name": "SSG",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "FLC",
+            "video_url": "https://www.youtube.com/live/Ub_2V62gtJE?si=p9jUtbV-jhexBCbv",
+            "video_offset": 1421,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "5fcb76ed-3492-4692-9895-71428169ca21",
+            "match_index": 3,
+            "map_name": "아틀리스",
+            "team1_name": "SSG",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "",
+            "video_url": "https://www.youtube.com/live/Ub_2V62gtJE?si=p9jUtbV-jhexBCbv",
+            "video_offset": 2469,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "f55d985a-c1db-4f9d-9c9f-d79b80aaf3f6",
+            "match_index": 4,
+            "map_name": "아이헨발데",
+            "team1_name": "SSG",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "",
+            "video_url": "https://www.youtube.com/live/Ub_2V62gtJE?si=p9jUtbV-jhexBCbv",
+            "video_offset": 4043,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "62868ba9-384d-474b-aae7-5a75c8af0b5a",
+            "match_index": 5,
+            "map_name": "쓰레기촌",
+            "team1_name": "SSG",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "",
+            "video_url": "https://www.youtube.com/live/Ub_2V62gtJE?si=p9jUtbV-jhexBCbv",
+            "video_offset": 4986,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "68c2d9b6-752b-490e-9b19-1925f3d3cdd9",
+            "match_index": 6,
+            "map_name": "네팔",
+            "team1_name": "SSG",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "",
+            "video_url": "https://www.youtube.com/live/Ub_2V62gtJE?si=p9jUtbV-jhexBCbv",
+            "video_offset": 6289,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        }
+    ]
+}

@@ -1,0 +1,97 @@
+{
+    "id": "2607222022",
+    "scrim_name": "260722-GK",
+    "date": "2026-07-22",
+    "start_time": "20",
+    "end_time": "22",
+    "matches": [
+        {
+            "id": "58f434de-cc54-44d2-b51a-e35433a4b2b9",
+            "match_index": 1,
+            "map_name": "사모아",
+            "team1_name": "GK",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "",
+            "video_url": "https://www.youtube.com/live/jS6ppsqwW9A?si=OlHT642C_4jGz5YD",
+            "video_offset": 2662,
+            "pauses": [
+                {
+                    "start_sec": 2756,
+                    "end_sec": 2828,
+                    "duration": 72
+                }
+            ],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "95cadcd4-5cb8-41f6-8114-0fb4ca232b59",
+            "match_index": 2,
+            "map_name": "네팔",
+            "team1_name": "GK",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "",
+            "video_url": "https://www.youtube.com/live/jS6ppsqwW9A?si=OlHT642C_4jGz5YD",
+            "video_offset": 4009,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "db7af1bf-83a3-454e-ba25-9a9b48b8dff6",
+            "match_index": 3,
+            "map_name": "샴발리수도원",
+            "team1_name": "GK",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "",
+            "video_url": "https://www.youtube.com/live/jS6ppsqwW9A?si=OlHT642C_4jGz5YD",
+            "video_offset": 5237,
+            "pauses": [
+                {
+                    "start_sec": 5825,
+                    "end_sec": 6100,
+                    "duration": 275
+                }
+            ],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "f6f7f3d4-2607-418a-8950-32c1d86d821b",
+            "match_index": 4,
+            "map_name": "네온교차로",
+            "team1_name": "GK",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "",
+            "video_url": "https://www.youtube.com/live/jS6ppsqwW9A?si=OlHT642C_4jGz5YD",
+            "video_offset": 6618,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        }
+    ]
+}
