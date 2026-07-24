@@ -1,0 +1,1271 @@
+[00:00:00] ,match_start,0,수라바사,플래시포인트,1팀,2팀
+[00:00:01] ,round_start,0,1,2팀,0,0,0
+[00:00:14] ,hero_spawn,0,1팀,sugarfree,에코,0,0
+[00:00:15] ,hero_spawn,0,2팀,Fielder,키리코,0,0
+[00:00:16] ,hero_spawn,0,1팀,Lethal,바스티온,0,0
+[00:00:16] ,hero_spawn,0,1팀,UltraViolet,키리코,0,0
+[00:00:18] ,hero_spawn,0,2팀,SP1NT,캐서디,0,0
+[00:00:19] ,hero_spawn,0,2팀,Someone,라마트라,0,0
+[00:00:22] ,hero_spawn,0,1팀,Admiral,주노,0,0
+[00:00:23] ,hero_swap,0,1팀,Admiral,제트팩 캣,주노,0
+[00:00:23] ,hero_spawn,0,2팀,ChiYo,브리기테,0,0
+[00:00:32] ,hero_swap,0,2팀,Fielder,제트팩 캣,키리코,0
+[00:00:35] ,hero_spawn,0,2팀,MER1T,프레야,0,0
+[00:00:36] ,hero_spawn,0,1팀,Hawk,D.Va,0,0
+[00:00:38] ,hero_swap,0,2팀,SP1NT,시온,캐서디,0
+[00:00:44] ,hero_swap,0,2팀,ChiYo,모이라,브리기테,0
+[00:00:46] ,hero_swap,0,1팀,sugarfree,트레이서,에코,0
+[00:00:47] ,hero_swap,0,2팀,ChiYo,브리기테,모이라,0
+[00:00:47] ,hero_swap,0,1팀,UltraViolet,루시우,키리코,0
+[00:00:48] ,setup_complete,0,1,29.99
+[00:00:48] ,ability_1_used,0.02,1팀,UltraViolet,루시우,0
+[00:00:48] ,ability_1_used,0.02,1팀,Admiral,제트팩 캣,0
+[00:00:48] ,ability_2_used,0.13,1팀,UltraViolet,루시우,0
+[00:00:49] ,ability_1_used,1.04,1팀,sugarfree,트레이서,0
+[00:00:49] ,ability_1_used,1.17,1팀,sugarfree,트레이서,0
+[00:00:49] ,hero_swap,1.18,2팀,Fielder,키리코,제트팩 캣,1.18
+[00:00:49] ,ability_1_used,1.38,1팀,Hawk,D.Va,0
+[00:00:50] ,ability_1_used,1.79,2팀,SP1NT,시온,0
+[00:00:50] ,ability_2_used,2.19,2팀,SP1NT,시온,0
+[00:00:50] ,hero_swap,2.26,1팀,UltraViolet,키리코,루시우,2.26
+[00:00:51] ,ability_1_used,3.18,1팀,UltraViolet,키리코,0
+[00:00:51] ,ability_1_used,3.36,2팀,MER1T,프레야,0
+[00:00:53] ,ability_1_used,5.31,2팀,MER1T,프레야,0
+[00:00:53] ,ability_1_used,5.42,1팀,sugarfree,트레이서,0
+[00:00:57] ,ability_1_used,9.01,2팀,MER1T,프레야,0
+[00:00:58] ,ability_1_used,9.87,1팀,Admiral,제트팩 캣,0
+[00:00:58] ,ability_1_used,10.46,2팀,Fielder,키리코,0
+[00:00:59] ,ability_1_used,11.68,1팀,UltraViolet,키리코,0
+[00:01:01] ,ability_1_used,12.86,1팀,sugarfree,트레이서,0
+[00:01:03] ,ability_1_used,15.25,1팀,Hawk,D.Va,0
+[00:01:06] ,ability_1_used,17.76,1팀,sugarfree,트레이서,0
+[00:01:08] ,ability_1_used,20.02,1팀,Admiral,제트팩 캣,0
+[00:01:09] ,ability_1_used,20.72,2팀,ChiYo,브리기테,0
+[00:01:09] ,ability_2_used,21.41,1팀,Admiral,제트팩 캣,0
+[00:01:10] ,ability_1_used,22.38,1팀,sugarfree,트레이서,0
+[00:01:11] ,ability_1_used,23.06,1팀,Lethal,바스티온,0
+[00:01:11] ,ability_2_used,23.14,2팀,SP1NT,시온,0
+[00:01:12] ,ability_1_used,23.82,2팀,MER1T,프레야,0
+[00:01:12] ,ability_1_used,24.53,1팀,Hawk,D.Va,0
+[00:01:12] ,ability_2_used,24.56,1팀,Hawk,D.Va,0
+[00:01:13] ,ability_1_used,24.72,1팀,sugarfree,트레이서,0
+[00:01:13] ,ability_2_used,24.86,2팀,MER1T,프레야,0
+[00:01:13] ,ability_2_used,25.49,2팀,ChiYo,브리기테,0
+[00:01:13] ,ability_1_used,25.55,2팀,Fielder,키리코,0
+[00:01:14] ,ability_1_used,25.86,2팀,MER1T,프레야,0
+[00:01:14] ,ability_2_used,26.30,2팀,ChiYo,브리기테,0
+[00:01:15] ,ability_1_used,27.09,1팀,sugarfree,트레이서,0
+[00:01:15] ,****,27.58,1팀,Hawk,D.Va,2팀,MER1T,프레야,0,14.97,0,0
+[00:01:15] ,ability_1_used,27.68,2팀,ChiYo,브리기테,0
+[00:01:16] ,ability_1_used,27.74,2팀,Someone,라마트라,0
+[00:01:16] ,offensive_assist,27.79,1팀,Admiral,제트팩 캣,0
+[00:01:16] ,defensive_assist,27.79,1팀,Admiral,제트팩 캣,0
+[00:01:16] ,ability_2_used,28.03,1팀,UltraViolet,키리코,0
+[00:01:16] ,ability_2_used,28.43,2팀,ChiYo,브리기테,0
+[00:01:18] ,ability_1_used,29.86,1팀,UltraViolet,키리코,0
+[00:01:20] ,ability_1_used,31.70,1팀,sugarfree,트레이서,0
+[00:01:20] ,ability_2_used,31.92,2팀,Fielder,키리코,0
+[00:01:20] ,ability_1_used,32.21,2팀,SP1NT,시온,0
+[00:01:21] ,****,33.25,2팀,Someone,라마트라,1팀,Hawk,D.Va,Ability 1,40,0,0
+[00:01:21] ,ability_1_used,33.26,2팀,ChiYo,브리기테,0
+[00:01:21] ,defensive_assist,33.42,2팀,Fielder,키리코,0
+[00:01:22] ,ability_2_used,33.94,2팀,ChiYo,브리기테,0
+[00:01:22] ,ability_2_used,34.00,2팀,Someone,라마트라,0
+[00:01:24] ,ability_2_used,36.24,2팀,ChiYo,브리기테,0
+[00:01:24] ,ability_1_used,36.40,1팀,sugarfree,트레이서,0
+[00:01:25] ,ability_1_used,37.09,1팀,sugarfree,트레이서,0
+[00:01:26] ,****,37.76,1팀,UltraViolet,키리코,2팀,SP1NT,시온,0,10,0,0
+[00:01:26] ,ability_1_used,38.21,2팀,MER1T,프레야,0
+[00:01:26] ,ability_1_used,38.27,1팀,sugarfree,트레이서,0
+[00:01:27] ,ability_1_used,39.22,1팀,Admiral,제트팩 캣,0
+[00:01:27] ,hero_swap,39.47,2팀,MER1T,바스티온,프레야,39.47
+[00:01:27] ,ability_2_used,39.58,1팀,sugarfree,트레이서,0
+[00:01:27] ,point_progress,39.62,1,2팀,0,33.50
+[00:01:28] ,ability_1_used,40.16,2팀,Fielder,키리코,0
+[00:01:29] ,ability_1_used,41.02,1팀,UltraViolet,키리코,0
+[00:01:29] ,point_progress,41.14,1,2팀,0,66.80
+[00:01:29] ,ability_2_used,41.15,2팀,ChiYo,브리기테,0
+[00:01:30] ,ability_1_used,42.05,2팀,ChiYo,브리기테,0
+[00:01:30] ,ability_2_used,42.66,1팀,Admiral,제트팩 캣,0
+[00:01:30] ,objective_captured,42.66,1,2팀,0,0,0,0
+[00:01:31] ,****,42.80,1팀,Lethal,바스티온,2팀,Fielder,키리코,Primary Fire,16.70,0,0
+[00:01:31] ,defensive_assist,42.83,1팀,UltraViolet,키리코,0
+[00:01:31] ,offensive_assist,42.91,1팀,Admiral,제트팩 캣,0
+[00:01:31] ,ability_1_used,43.17,1팀,sugarfree,트레이서,0
+[00:01:31] ,ability_1_used,43.22,1팀,Lethal,바스티온,0
+[00:01:32] ,ability_1_used,44.34,1팀,Hawk,D.Va,0
+[00:01:32] ,ability_1_used,44.51,2팀,Someone,라마트라,0
+[00:01:33] ,****,44.99,1팀,Lethal,바스티온,2팀,ChiYo,브리기테,Primary Fire,3.12,0,0
+[00:01:33] ,offensive_assist,45.18,1팀,Admiral,제트팩 캣,0
+[00:01:33] ,ability_1_used,45.31,1팀,sugarfree,트레이서,0
+[00:01:36] ,ability_2_used,48.34,2팀,Someone,라마트라,0
+[00:01:37] ,point_progress,48.78,1,2팀,0,33.49
+[00:01:37] ,ability_2_used,49.42,1팀,UltraViolet,키리코,0
+[00:01:38] ,point_progress,50.13,1,2팀,0,67.09
+[00:01:38] ,ability_1_used,50.42,2팀,SP1NT,시온,0
+[00:01:38] ,ability_1_used,50.62,1팀,sugarfree,트레이서,0
+[00:01:38] ,ability_1_used,50.64,1팀,Hawk,D.Va,0
+[00:01:39] ,****,51.17,1팀,sugarfree,트레이서,2팀,Someone,라마트라,Primary Fire,0.95,0,0
+[00:01:39] ,offensive_assist,51.28,1팀,Admiral,제트팩 캣,0
+[00:01:39] ,defensive_assist,51.28,1팀,Admiral,제트팩 캣,0
+[00:01:39] ,defensive_assist,51.31,1팀,UltraViolet,키리코,0
+[00:01:39] ,objective_captured,51.45,1,1팀,0,0.02,12.55,0
+[00:01:40] ,ability_1_used,52.53,1팀,Admiral,제트팩 캣,0
+[00:01:45] ,ability_1_used,57.34,1팀,sugarfree,트레이서,0
+[00:01:45] ,ability_1_used,57.61,1팀,Hawk,D.Va,0
+[00:01:46] ,ability_1_used,58.62,1팀,sugarfree,트레이서,0
+[00:01:48] ,ability_2_used,60.46,2팀,ChiYo,브리기테,0
+[00:01:50] ,ability_1_used,62.56,2팀,SP1NT,시온,0
+[00:01:52] ,ability_2_used,64.32,2팀,ChiYo,브리기테,0
+[00:01:53] ,ability_2_used,64.83,2팀,SP1NT,시온,0
+[00:01:53] ,ability_2_used,65.66,1팀,Hawk,D.Va,0
+[00:01:54] ,ability_1_used,66.67,2팀,ChiYo,브리기테,0
+[00:01:57] ,ability_2_used,68.73,2팀,ChiYo,브리기테,0
+[00:01:57] ,ability_1_used,69.42,1팀,sugarfree,트레이서,0
+[00:01:59] ,ability_1_used,71.37,1팀,sugarfree,트레이서,0
+[00:01:59] ,ability_1_used,71.61,2팀,SP1NT,시온,0
+[00:02:00] ,ability_1_used,72.22,2팀,ChiYo,브리기테,0
+[00:02:01] ,ability_2_used,72.75,1팀,sugarfree,트레이서,0
+[00:02:02] ,ability_1_used,74.65,1팀,sugarfree,트레이서,0
+[00:02:03] ,ability_1_used,75.12,1팀,sugarfree,트레이서,0
+[00:02:04] ,ability_1_used,75.76,1팀,sugarfree,트레이서,0
+[00:02:05] ,ability_1_used,76.99,1팀,Hawk,D.Va,0
+[00:02:06] ,ability_2_used,77.98,2팀,ChiYo,브리기테,0
+[00:02:06] ,ability_1_used,78.11,1팀,Admiral,제트팩 캣,0
+[00:02:06] ,ultimate_charged,78.24,1팀,sugarfree,트레이서,0,1
+[00:02:07] ,ability_1_used,79.36,2팀,SP1NT,시온,0
+[00:02:09] ,ultimate_charged,81.40,1팀,Lethal,바스티온,0,1
+[00:02:11] ,ability_2_used,82.91,2팀,ChiYo,브리기테,0
+[00:02:12] ,ultimate_start,84.67,1팀,Lethal,바스티온,0,1
+[00:02:13] ,ability_2_used,85.36,2팀,ChiYo,브리기테,0
+[00:02:15] ,ability_1_used,87.55,2팀,SP1NT,시온,0
+[00:02:16] ,ability_1_used,88.22,1팀,sugarfree,트레이서,0
+[00:02:18] ,ability_1_used,90.60,1팀,Hawk,D.Va,0
+[00:02:18] ,ability_1_used,90.68,1팀,Admiral,제트팩 캣,0
+[00:02:19] ,ultimate_end,91.34,1팀,Lethal,바스티온,0,1
+[00:02:19] ,ability_1_used,91.39,2팀,ChiYo,브리기테,0
+[00:02:19] ,ability_1_used,91.39,1팀,sugarfree,트레이서,0
+[00:02:20] ,ability_2_used,91.92,1팀,Hawk,D.Va,0
+[00:02:21] ,ability_2_used,93.23,2팀,SP1NT,시온,0
+[00:02:21] ,ability_1_used,93.50,2팀,Fielder,키리코,0
+[00:02:22] ,****,93.84,1팀,Hawk,D.Va,2팀,ChiYo,브리기테,Ability 2,7.35,0,0
+[00:02:22] ,ability_2_used,93.96,2팀,Fielder,키리코,0
+[00:02:22] ,offensive_assist,94.01,1팀,Admiral,제트팩 캣,0
+[00:02:22] ,defensive_assist,94.04,1팀,UltraViolet,키리코,0
+[00:02:22] ,ability_2_used,94.09,1팀,Admiral,제트팩 캣,0
+[00:02:22] ,ability_1_used,94.64,1팀,sugarfree,트레이서,0
+[00:02:23] ,ability_2_used,95.26,2팀,Someone,라마트라,0
+[00:02:24] ,****,95.71,1팀,Lethal,바스티온,2팀,Fielder,키리코,Secondary Fire,84.44,0,0
+[00:02:24] ,ability_1_used,95.79,1팀,Lethal,바스티온,0
+[00:02:24] ,defensive_assist,95.90,1팀,Admiral,제트팩 캣,0
+[00:02:24] ,defensive_assist,95.93,1팀,UltraViolet,키리코,0
+[00:02:25] ,ability_1_used,97.13,1팀,Hawk,D.Va,0
+[00:02:26] ,ability_1_used,97.85,1팀,sugarfree,트레이서,0
+[00:02:26] ,ability_1_used,98.04,1팀,sugarfree,트레이서,0
+[00:02:27] ,ability_1_used,98.81,2팀,SP1NT,시온,0
+[00:02:27] ,ability_1_used,99.12,1팀,Admiral,제트팩 캣,0
+[00:02:27] ,ability_1_used,99.12,2팀,Someone,라마트라,0
+[00:02:28] ,ability_1_used,100.41,1팀,sugarfree,트레이서,0
+[00:02:29] ,ability_1_used,100.80,2팀,MER1T,바스티온,0
+[00:02:29] ,ability_2_used,101.18,1팀,Hawk,D.Va,0
+[00:02:30] ,ability_1_used,101.90,1팀,UltraViolet,키리코,0
+[00:02:30] ,****,102.28,1팀,sugarfree,트레이서,2팀,SP1NT,시온,Primary Fire,3.23,True,0
+[00:02:30] ,defensive_assist,102.54,1팀,UltraViolet,키리코,0
+[00:02:30] ,defensive_assist,102.56,1팀,Admiral,제트팩 캣,0
+[00:02:30] ,ability_2_used,102.68,1팀,UltraViolet,키리코,0
+[00:02:32] ,ability_1_used,103.72,1팀,Hawk,D.Va,0
+[00:02:32] ,****,104.60,1팀,Lethal,바스티온,2팀,MER1T,바스티온,Primary Fire,6.60,0,0
+[00:02:32] ,ultimate_charged,104.64,1팀,Admiral,제트팩 캣,0,1
+[00:02:33] ,defensive_assist,104.88,1팀,UltraViolet,키리코,0
+[00:02:33] ,offensive_assist,104.89,1팀,Admiral,제트팩 캣,0
+[00:02:33] ,point_progress,105.40,1,2팀,0,33.36
+[00:02:34] ,ability_1_used,105.76,1팀,sugarfree,트레이서,0
+[00:02:34] ,ability_1_used,106.11,1팀,sugarfree,트레이서,0
+[00:02:36] ,ultimate_charged,108.46,1팀,UltraViolet,키리코,0,1
+[00:02:36] ,ability_1_used,108.63,1팀,Admiral,제트팩 캣,0
+[00:02:37] ,ability_2_used,109.27,2팀,Someone,라마트라,0
+[00:02:40] ,****,111.88,1팀,Hawk,D.Va,2팀,Someone,라마트라,0,34.83,True,0
+[00:02:40] ,defensive_assist,111.90,1팀,UltraViolet,키리코,0
+[00:02:42] ,ability_1_used,114.01,1팀,Admiral,제트팩 캣,0
+[00:02:45] ,hero_swap,117.10,2팀,SP1NT,캐서디,시온,117.10
+[00:02:49] ,objective_updated,121.45,2,0,1
+[00:02:49] ,objective_captured,121.45,2,All Teams,1,0,0,39.99
+[00:02:49] ,player_stat,121.47,2,2팀,ChiYo,브리기테,1,0,2,491,0,491,854.62,340.20,95.23,884.83,580.37,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,121.47
+[00:02:49] ,player_stat,121.47,2,2팀,ChiYo,모이라,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:02:49] ,player_stat,121.47,2,1팀,Lethal,바스티온,8,4,0,3713.57,714.89,2998.67,0,1738.00,0,1819.59,0,0,0,1,1,0,0,0,3,0,0,5,0.02,0,0,0,588,203,343,0,0,0.37,121.47
+[00:02:49] ,player_stat,121.47,2,1팀,Hawk,D.Va,5,3,1,1224.77,312.63,912.15,0,1496.54,0,2661.11,1787,0,0,0,0,0,0,0,0,0,0,41,0.10,0,0,0,1713,395,1199,0,0,0.25,121.47
+[00:02:49] ,player_stat,121.47,2,1팀,UltraViolet,키리코,3,1,0,1402,300,1102,1778.15,592.51,0,618.93,0,7,0,1,0,0,0,1,1,0,0,3,0.17,0,0,0,61,18,32,0,0,0.36,119.21
+[00:02:49] ,player_stat,121.47,2,1팀,UltraViolet,루시우,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2.26
+[00:02:49] ,player_stat,121.47,2,1팀,Admiral,주노,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:02:49] ,player_stat,121.47,2,1팀,Admiral,제트팩 캣,4,0,0,282.50,61.50,221,2061.28,43.37,0,108.09,0,4,6,1,0,0,0,0,2,0,0,26,0.06,0,0,0,1080,431,634,0,0,0.40,121.47
+[00:02:49] ,player_stat,121.47,2,1팀,sugarfree,에코,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:02:49] ,player_stat,121.47,2,1팀,sugarfree,트레이서,7,2,0,1602.21,47.34,1554.87,0,291.79,201,512.79,0,0,0,1,0,0,0,0,2,0,0,43,0.10,0,0,0,966,435,502,0,0,0.46,121.47
+[00:02:49] ,player_stat,121.47,2,2팀,Someone,라마트라,1,1,2,1635.45,0,1635.43,0,864.52,0,2759.44,856,0,0,0,0,0,0,0,0,0,0,8,0.05,0,0,0,888,161,618,0,0,0.21,121.47
+[00:02:49] ,player_stat,121.47,2,2팀,SP1NT,캐서디,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4.37
+[00:02:49] ,player_stat,121.47,2,2팀,SP1NT,시온,0,0,2,1612.34,0,1612.34,0,631.96,0,1223.57,0,0,0,0,0,0,0,0,0,0,0,5,0.11,0,0,0,107,47,53,0,0,0.47,117.10
+[00:02:49] ,player_stat,121.47,2,2팀,MER1T,프레야,0,0,1,294,0,294,0,249.63,0,474.63,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,30,4,17,0,0,0.19,39.47
+[00:02:49] ,player_stat,121.47,2,2팀,MER1T,바스티온,0,0,1,1136.97,0,1136.97,0,347.00,0,758.48,0,0,0,0,0,0,0,0,0,0,0,8,0.11,0,0,0,236,70,151,0,0,0.32,81.99
+[00:02:49] ,player_stat,121.47,2,2팀,Fielder,키리코,0,0,2,452,0,452,1617.06,251.25,0,730.74,0,1,0,0,0,0,0,0,0,0,0,2,0.29,0,0,0,64,7,42,0,0,0.14,120.28
+[00:02:49] ,player_stat,121.47,2,2팀,Fielder,제트팩 캣,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,5,0,0,0,1.18
+[00:02:50] ,ability_1_used,122.01,1팀,Hawk,D.Va,0
+[00:02:51] ,ability_1_used,122.89,1팀,sugarfree,트레이서,0
+[00:02:53] ,ability_1_used,125.05,1팀,sugarfree,트레이서,0
+[00:02:54] ,ability_1_used,126.15,1팀,UltraViolet,키리코,0
+[00:02:55] ,ability_1_used,127.45,1팀,sugarfree,트레이서,0
+[00:02:55] ,ability_1_used,127.59,1팀,sugarfree,트레이서,0
+[00:02:56] ,ability_1_used,128.62,1팀,Hawk,D.Va,0
+[00:03:00] ,ability_2_used,132.32,2팀,ChiYo,브리기테,0
+[00:03:01] ,ability_1_used,133.64,2팀,SP1NT,캐서디,0
+[00:03:03] ,ability_1_used,135.29,1팀,sugarfree,트레이서,0
+[00:03:06] ,ability_2_used,138.56,2팀,ChiYo,브리기테,0
+[00:03:07] ,ability_1_used,139.09,1팀,Hawk,D.Va,0
+[00:03:08] ,ability_1_used,139.69,2팀,SP1NT,캐서디,0
+[00:03:09] ,ability_2_used,140.78,2팀,ChiYo,브리기테,0
+[00:03:10] ,ability_1_used,142.32,2팀,ChiYo,브리기테,0
+[00:03:11] ,ability_1_used,142.77,1팀,sugarfree,트레이서,0
+[00:03:11] ,ability_1_used,143.49,1팀,sugarfree,트레이서,0
+[00:03:14] ,ability_1_used,145.76,1팀,Hawk,D.Va,0
+[00:03:15] ,ability_2_used,146.93,1팀,Admiral,제트팩 캣,0
+[00:03:15] ,ability_1_used,146.99,1팀,Lethal,바스티온,0
+[00:03:15] ,ultimate_charged,147.04,2팀,Someone,라마트라,0,1
+[00:03:15] ,ability_1_used,147.31,2팀,SP1NT,캐서디,0
+[00:03:16] ,ability_1_used,148.05,1팀,sugarfree,트레이서,0
+[00:03:16] ,ability_2_used,148.18,2팀,ChiYo,브리기테,0
+[00:03:16] ,ability_1_used,148.19,1팀,sugarfree,트레이서,0
+[00:03:16] ,ability_1_used,148.59,1팀,UltraViolet,키리코,0
+[00:03:16] ,ultimate_start,148.66,1팀,Admiral,제트팩 캣,0,1
+[00:03:18] ,****,149.71,1팀,Lethal,바스티온,2팀,ChiYo,브리기테,Primary Fire,1.73,0,0
+[00:03:18] ,ability_1_used,149.92,1팀,sugarfree,트레이서,0
+[00:03:18] ,offensive_assist,150.03,1팀,Admiral,제트팩 캣,0
+[00:03:18] ,defensive_assist,150.03,1팀,Admiral,제트팩 캣,0
+[00:03:19] ,ability_2_used,150.77,2팀,SP1NT,캐서디,0
+[00:03:19] ,ultimate_end,151.03,1팀,Admiral,제트팩 캣,0,1
+[00:03:19] ,****,151.07,1팀,UltraViolet,키리코,2팀,SP1NT,캐서디,0,43.49,0,0
+[00:03:19] ,offensive_assist,151.44,1팀,Admiral,제트팩 캣,0
+[00:03:19] ,defensive_assist,151.44,1팀,Admiral,제트팩 캣,0
+[00:03:20] ,ability_1_used,152.23,2팀,MER1T,바스티온,0
+[00:03:21] ,ability_2_used,153.16,1팀,Hawk,D.Va,0
+[00:03:21] ,ability_1_used,153.22,1팀,Admiral,제트팩 캣,0
+[00:03:21] ,ultimate_charged,153.44,2팀,MER1T,바스티온,0,1
+[00:03:22] ,ultimate_charged,153.89,2팀,Fielder,키리코,0,1
+[00:03:22] ,ability_1_used,154.05,2팀,Someone,라마트라,0
+[00:03:22] ,ability_1_used,154.18,1팀,Hawk,D.Va,0
+[00:03:22] ,ability_2_used,154.68,2팀,Someone,라마트라,0
+[00:03:23] ,ability_1_used,154.96,1팀,sugarfree,트레이서,0
+[00:03:24] ,ability_1_used,156.65,1팀,sugarfree,트레이서,0
+[00:03:26] ,ability_2_used,158.10,1팀,sugarfree,트레이서,0
+[00:03:26] ,ability_2_used,158.39,2팀,Fielder,키리코,0
+[00:03:29] ,****,160.92,2팀,MER1T,바스티온,1팀,Hawk,D.Va,Primary Fire,6.76,0,0
+[00:03:29] ,defensive_assist,161.22,2팀,Fielder,키리코,0
+[00:03:30] ,ultimate_start,162.04,1팀,UltraViolet,키리코,0,1
+[00:03:30] ,remech_charged,162.20,1팀,Hawk,D.Va,0,1
+[00:03:30] ,ability_1_used,162.26,2팀,SP1NT,캐서디,0
+[00:03:31] ,ultimate_start,162.76,2팀,Fielder,키리코,0,1
+[00:03:31] ,ability_1_used,163.38,1팀,sugarfree,트레이서,0
+[00:03:32] ,ability_1_used,164.34,1팀,sugarfree,트레이서,0
+[00:03:32] ,ultimate_start,164.54,1팀,sugarfree,트레이서,0,1
+[00:03:33] ,ultimate_end,164.73,1팀,sugarfree,트레이서,0,1
+[00:03:33] ,ability_1_used,164.76,1팀,sugarfree,트레이서,0
+[00:03:33] ,ability_1_used,164.81,1팀,Admiral,제트팩 캣,0
+[00:03:33] ,ultimate_start,165.29,2팀,Someone,라마트라,0,1
+[00:03:33] ,point_progress,165.51,2,2팀,1,33.38
+[00:03:33] ,ability_2_used,165.58,1팀,Admiral,제트팩 캣,0
+[00:03:34] ,ability_1_used,166.38,1팀,UltraViolet,키리코,0
+[00:03:35] ,ability_1_used,166.86,1팀,Lethal,바스티온,0
+[00:03:35] ,ability_2_used,166.89,1팀,UltraViolet,키리코,0
+[00:03:35] ,ability_1_used,167.21,1팀,sugarfree,트레이서,0
+[00:03:35] ,ability_1_used,167.39,2팀,MER1T,바스티온,0
+[00:03:36] ,ability_1_used,168.38,1팀,Admiral,제트팩 캣,0
+[00:03:36] ,ultimate_charged,168.46,1팀,Lethal,바스티온,0,2
+[00:03:37] ,ability_2_used,169.18,2팀,Fielder,키리코,0
+[00:03:37] ,ability_1_used,169.51,2팀,SP1NT,캐서디,0
+[00:03:39] ,point_progress,170.94,2,2팀,1,66.86
+[00:03:39] ,ultimate_charged,171.07,1팀,Hawk,D.Va,0,2
+[00:03:39] ,****,171.35,2팀,MER1T,바스티온,1팀,Lethal,바스티온,Primary Fire,8.81,0,0
+[00:03:39] ,offensive_assist,171.60,2팀,Fielder,키리코,0
+[00:03:39] ,defensive_assist,171.60,2팀,Fielder,키리코,0
+[00:03:40] ,ability_1_used,171.93,1팀,sugarfree,트레이서,0
+[00:03:40] ,ability_1_used,171.96,1팀,Hawk,D.Va,0
+[00:03:41] ,ultimate_end,173.15,1팀,UltraViolet,키리코,0,1
+[00:03:41] ,ability_1_used,173.64,1팀,Admiral,제트팩 캣,0
+[00:03:41] ,ability_1_used,173.66,1팀,sugarfree,트레이서,0
+[00:03:42] ,objective_captured,173.71,2,2팀,1,0,0,0
+[00:03:42] ,ultimate_end,173.80,2팀,Someone,라마트라,0,1
+[00:03:42] ,ultimate_end,173.95,2팀,Fielder,키리코,0,1
+[00:03:43] ,ability_1_used,174.96,2팀,SP1NT,캐서디,0
+[00:03:44] ,ability_1_used,175.95,2팀,Fielder,키리코,0
+[00:03:44] ,ability_1_used,176.12,1팀,UltraViolet,키리코,0
+[00:03:52] ,ability_1_used,183.95,1팀,sugarfree,트레이서,0
+[00:03:52] ,ability_1_used,184.00,2팀,SP1NT,캐서디,0
+[00:03:52] ,ability_2_used,184.03,2팀,ChiYo,브리기테,0
+[00:03:54] ,ability_1_used,186.40,2팀,Fielder,키리코,0
+[00:03:56] ,ability_1_used,188.40,1팀,sugarfree,트레이서,0
+[00:03:59] ,ability_2_used,190.98,2팀,ChiYo,브리기테,0
+[00:03:59] ,ability_1_used,191.25,1팀,sugarfree,트레이서,0
+[00:03:59] ,ability_1_used,191.51,1팀,UltraViolet,키리코,0
+[00:04:01] ,ability_1_used,192.90,2팀,ChiYo,브리기테,0
+[00:04:01] ,ability_1_used,193.51,1팀,sugarfree,트레이서,0
+[00:04:02] ,ability_1_used,193.72,2팀,SP1NT,캐서디,0
+[00:04:05] ,ability_1_used,196.98,2팀,Fielder,키리코,0
+[00:04:06] ,ability_1_used,198.18,1팀,sugarfree,트레이서,0
+[00:04:06] ,ability_2_used,198.69,2팀,ChiYo,브리기테,0
+[00:04:14] ,ability_1_used,206.41,2팀,SP1NT,캐서디,0
+[00:04:15] ,ability_1_used,206.92,1팀,Lethal,바스티온,0
+[00:04:15] ,ability_1_used,207.63,1팀,sugarfree,트레이서,0
+[00:04:15] ,ability_1_used,207.67,1팀,UltraViolet,키리코,0
+[00:04:17] ,ability_2_used,209.34,2팀,ChiYo,브리기테,0
+[00:04:18] ,point_progress,210.36,2,2팀,1,33.38
+[00:04:18] ,ability_1_used,210.59,1팀,Hawk,D.Va,0
+[00:04:19] ,ability_1_used,211.12,2팀,MER1T,바스티온,0
+[00:04:20] ,ability_2_used,212.36,1팀,Admiral,제트팩 캣,0
+[00:04:20] ,ability_2_used,212.38,2팀,SP1NT,캐서디,0
+[00:04:20] ,ability_2_used,212.67,2팀,Someone,라마트라,0
+[00:04:21] ,ability_1_used,212.73,2팀,SP1NT,캐서디,0
+[00:04:21] ,ability_2_used,213.15,1팀,Hawk,D.Va,0
+[00:04:21] ,ability_2_used,213.32,2팀,ChiYo,브리기테,0
+[00:04:21] ,ultimate_charged,213.47,2팀,ChiYo,브리기테,0,1
+[00:04:21] ,ultimate_start,213.66,1팀,Lethal,바스티온,0,2
+[00:04:22] ,ability_1_used,214.54,1팀,sugarfree,트레이서,0
+[00:04:23] ,ability_1_used,214.73,1팀,Admiral,제트팩 캣,0
+[00:04:23] ,ability_1_used,215.08,2팀,Someone,라마트라,0
+[00:04:24] ,ability_1_used,215.79,1팀,sugarfree,트레이서,0
+[00:04:24] ,****,215.96,1팀,UltraViolet,키리코,2팀,MER1T,바스티온,0,35.53,0,0
+[00:04:24] ,ability_1_used,216.09,2팀,ChiYo,브리기테,0
+[00:04:24] ,defensive_assist,216.24,1팀,UltraViolet,키리코,0
+[00:04:25] ,ability_2_used,216.93,2팀,ChiYo,브리기테,0
+[00:04:25] ,ultimate_end,216.94,1팀,Lethal,바스티온,0,2
+[00:04:25] ,ability_1_used,217.53,1팀,Hawk,D.Va,0
+[00:04:26] ,****,217.81,2팀,Someone,라마트라,1팀,Lethal,바스티온,Ability 1,58.29,0,0
+[00:04:26] ,ultimate_start,218.05,2팀,ChiYo,브리기테,0,1
+[00:04:26] ,ability_1_used,218.13,2팀,Fielder,키리코,0
+[00:04:26] ,offensive_assist,218.14,2팀,ChiYo,브리기테,0
+[00:04:26] ,defensive_assist,218.14,2팀,ChiYo,브리기테,0
+[00:04:26] ,defensive_assist,218.16,2팀,Fielder,키리코,0
+[00:04:26] ,ability_1_used,218.19,2팀,SP1NT,캐서디,0
+[00:04:26] ,ability_1_used,218.64,1팀,Admiral,제트팩 캣,0
+[00:04:27] ,ability_1_used,218.93,1팀,sugarfree,트레이서,0
+[00:04:27] ,ability_2_used,218.94,2팀,ChiYo,브리기테,0
+[00:04:27] ,ability_2_used,219.34,2팀,Fielder,키리코,0
+[00:04:27] ,ability_1_used,219.45,1팀,sugarfree,트레이서,0
+[00:04:27] ,ability_2_used,219.63,2팀,ChiYo,브리기테,0
+[00:04:30] ,ability_2_used,221.94,1팀,Hawk,D.Va,0
+[00:04:33] ,ability_1_used,224.80,1팀,sugarfree,트레이서,0
+[00:04:33] ,ability_2_used,224.98,1팀,sugarfree,트레이서,0
+[00:04:34] ,ability_2_used,225.76,2팀,SP1NT,캐서디,0
+[00:04:34] ,ultimate_charged,225.94,2팀,SP1NT,캐서디,0,1
+[00:04:34] ,****,226.40,2팀,ChiYo,브리기테,1팀,sugarfree,트레이서,Primary Fire,30,0,0
+[00:04:34] ,ability_1_used,226.42,2팀,ChiYo,브리기테,0
+[00:04:34] ,ability_1_used,226.59,2팀,SP1NT,캐서디,0
+[00:04:34] ,defensive_assist,226.61,2팀,ChiYo,브리기테,0
+[00:04:34] ,defensive_assist,226.64,2팀,Fielder,키리코,0
+[00:04:35] ,ability_1_used,227.71,1팀,Hawk,D.Va,0
+[00:04:36] ,ultimate_end,228.05,2팀,ChiYo,브리기테,0,1
+[00:04:36] ,ability_2_used,228.67,2팀,ChiYo,브리기테,0
+[00:04:37] ,ability_2_used,228.88,2팀,Someone,라마트라,0
+[00:04:37] ,ability_1_used,229.23,1팀,Admiral,제트팩 캣,0
+[00:04:39] ,hero_swap,231.11,1팀,Lethal,소전,바스티온,109.64
+[00:04:39] ,ability_1_used,231.33,2팀,Fielder,키리코,0
+[00:04:40] ,ability_1_used,232.50,2팀,ChiYo,브리기테,0
+[00:04:41] ,ability_1_used,232.88,1팀,Lethal,소전,0
+[00:04:41] ,ability_1_used,232.93,1팀,Hawk,D.Va,0
+[00:04:41] ,ability_1_used,233.59,2팀,SP1NT,캐서디,0
+[00:04:43] ,ability_1_used,235.22,1팀,Admiral,제트팩 캣,0
+[00:04:43] ,ability_2_used,235.28,1팀,UltraViolet,키리코,0
+[00:04:45] ,ability_1_used,236.79,1팀,UltraViolet,키리코,0
+[00:04:45] ,ability_1_used,237.14,1팀,sugarfree,트레이서,0
+[00:04:45] ,ability_1_used,237.29,1팀,sugarfree,트레이서,0
+[00:04:46] ,****,237.97,2팀,SP1NT,캐서디,1팀,UltraViolet,키리코,Primary Fire,37.14,0,0
+[00:04:46] ,ability_2_used,238.17,1팀,Admiral,제트팩 캣,0
+[00:04:46] ,defensive_assist,238.37,2팀,Fielder,키리코,0
+[00:04:48] ,ability_2_used,240.12,1팀,Lethal,소전,0
+[00:04:48] ,ability_2_used,240.65,2팀,ChiYo,브리기테,0
+[00:04:48] ,ability_1_used,240.69,2팀,SP1NT,캐서디,0
+[00:04:52] ,objective_updated,243.74,3,1,3
+[00:04:52] ,objective_captured,243.74,3,All Teams,3,0,0,40
+[00:04:52] ,player_stat,243.75,3,2팀,ChiYo,브리기테,3,1,3,831,0,831,2009.62,696.49,170.52,1558.56,1103.16,2,1,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,243.75
+[00:04:52] ,player_stat,243.75,3,2팀,ChiYo,모이라,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:04:52] ,player_stat,243.75,3,1팀,Lethal,바스티온,10,5,2,7610.21,2475.54,5134.66,0,2647.75,0,3435.60,0,0,0,2,2,0,0,0,3,0,0,7,0.02,0,0,0,1094,346,575,0,0,0.38,231.11
+[00:04:52] ,player_stat,243.75,3,1팀,Lethal,소전,0,0,0,137.22,0,137.22,0,52.80,0,55,0,0,0,0,0,0,0,0,0,0,0,3,0.14,0,0,0,89,21,66,0,0,0.24,12.65
+[00:04:52] ,player_stat,243.75,3,1팀,Hawk,D.Va,6,3,2,2032.14,475.97,1556.17,0,3473.16,0,5564.57,4328,0,0,1,0,0,0,0,0,0,0,48,0.06,0,0,0,3303,837,2239,0,0,0.27,243.75
+[00:04:52] ,player_stat,243.75,3,1팀,UltraViolet,키리코,6,3,1,3217.02,540,2677.02,3593.98,1016.35,0,1356.06,0,8,0,1,2,0,0,1,1,0,0,5,0.11,0,0,0,142,45,82,0,0,0.35,241.50
+[00:04:52] ,player_stat,243.75,3,1팀,UltraViolet,루시우,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2.26
+[00:04:52] ,player_stat,243.75,3,1팀,Admiral,주노,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:04:52] ,player_stat,243.75,3,1팀,Admiral,제트팩 캣,6,0,0,878.75,328,550.75,3596.58,285.45,0,319.92,0,6,8,1,1,0,0,0,2,0,0,50,0.07,0,0,0,1840,671,1097,0,0,0.38,243.75
+[00:04:52] ,player_stat,243.75,3,1팀,sugarfree,에코,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:04:52] ,player_stat,243.75,3,1팀,sugarfree,트레이서,7,2,1,3774.23,665.51,3108.73,0,672.34,315.70,1250.84,0,0,0,1,1,0,0,0,2,0,0,62,0.08,0,0,0,1912,817,986,0,0,0.45,243.75
+[00:04:52] ,player_stat,243.75,3,2팀,Someone,라마트라,6,2,2,2864.62,0,2864.60,0,2654.59,0,5466.01,3381.86,0,0,1,1,0,0,0,1,0,0,19,0.06,0,0,0,1845,324,1287,0,0,0.20,243.75
+[00:04:52] ,player_stat,243.75,3,2팀,SP1NT,캐서디,3,1,1,1707.66,0,1707.66,0,751.91,0,1369.72,0,0,0,1,0,0,0,0,0,0,0,3,0.12,0,0,0,53,25,25,0,0,0.50,126.65
+[00:04:52] ,player_stat,243.75,3,2팀,SP1NT,시온,0,0,2,1612.34,0,1612.34,0,631.96,0,1223.57,0,0,0,0,0,0,0,0,0,0,0,5,0.11,0,0,0,107,47,53,0,0,0.47,117.10
+[00:04:52] ,player_stat,243.75,3,2팀,MER1T,프레야,0,0,1,294,0,294,0,249.63,0,474.63,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,30,4,17,0,0,0.19,39.47
+[00:04:52] ,player_stat,243.75,3,2팀,MER1T,바스티온,2,2,2,3377.63,0,3377.61,0,1252.28,0,2142.76,0,0,0,1,0,0,0,0,0,0,0,13,0.05,0,0,0,795,275,445,0,0,0.38,204.28
+[00:04:52] ,player_stat,243.75,3,2팀,Fielder,키리코,2,0,2,1196,0,1196,4640.46,701.10,0,1221.28,0,6,1,1,2,0,0,0,1,0,0,2,0.10,0,0,0,130,21,81,0,0,0.21,242.57
+[00:04:52] ,player_stat,243.75,3,2팀,Fielder,제트팩 캣,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,5,0,0,0,1.18
+[00:04:52] ,ability_1_used,243.77,1팀,sugarfree,트레이서,0
+[00:04:53] ,ability_1_used,244.94,2팀,Fielder,키리코,0
+[00:04:53] ,ability_1_used,245.72,1팀,Admiral,제트팩 캣,0
+[00:04:54] ,ability_1_used,245.75,1팀,Lethal,소전,0
+[00:04:54] ,ability_1_used,245.80,1팀,sugarfree,트레이서,0
+[00:04:57] ,ability_1_used,248.95,1팀,sugarfree,트레이서,0
+[00:04:57] ,ability_1_used,249.21,1팀,sugarfree,트레이서,0
+[00:04:57] ,ability_1_used,249.43,1팀,Hawk,D.Va,0
+[00:04:57] ,ability_1_used,249.56,1팀,Admiral,제트팩 캣,0
+[00:05:04] ,ability_1_used,255.77,1팀,Hawk,D.Va,0
+[00:05:04] ,ability_1_used,256.00,1팀,Lethal,소전,0
+[00:05:04] ,ability_1_used,256.16,1팀,sugarfree,트레이서,0
+[00:05:08] ,ability_1_used,260.16,1팀,sugarfree,트레이서,0
+[00:05:09] ,ability_2_used,261.08,2팀,ChiYo,브리기테,0
+[00:05:10] ,ability_1_used,262.25,2팀,SP1NT,캐서디,0
+[00:05:13] ,ability_1_used,265.45,1팀,Hawk,D.Va,0
+[00:05:16] ,ability_2_used,268.44,1팀,Lethal,소전,0
+[00:05:17] ,ability_1_used,268.89,1팀,sugarfree,트레이서,0
+[00:05:18] ,ability_1_used,269.77,2팀,SP1NT,캐서디,0
+[00:05:18] ,ability_1_used,269.93,1팀,sugarfree,트레이서,0
+[00:05:18] ,ability_2_used,269.99,1팀,Admiral,제트팩 캣,0
+[00:05:18] ,ability_2_used,270.31,2팀,ChiYo,브리기테,0
+[00:05:18] ,ability_2_used,270.55,1팀,Hawk,D.Va,0
+[00:05:20] ,ultimate_charged,271.99,1팀,Admiral,제트팩 캣,0,2
+[00:05:21] ,ability_1_used,273.34,1팀,sugarfree,트레이서,0
+[00:05:21] ,ability_1_used,273.38,1팀,Hawk,D.Va,0
+[00:05:21] ,ability_1_used,273.64,2팀,Fielder,키리코,0
+[00:05:23] ,ability_1_used,275.40,1팀,Lethal,소전,0
+[00:05:24] ,ability_1_used,275.96,1팀,UltraViolet,키리코,0
+[00:05:24] ,ability_1_used,276.17,1팀,sugarfree,트레이서,0
+[00:05:24] ,ability_2_used,276.66,2팀,SP1NT,캐서디,0
+[00:05:24] ,ability_1_used,276.68,1팀,sugarfree,트레이서,0
+[00:05:25] ,ability_2_used,276.86,1팀,sugarfree,트레이서,0
+[00:05:26] ,ability_1_used,278.25,1팀,sugarfree,트레이서,0
+[00:05:26] ,ability_2_used,278.55,2팀,ChiYo,브리기테,0
+[00:05:27] ,****,279.00,1팀,sugarfree,트레이서,2팀,ChiYo,브리기테,Primary Fire,2.98,0,0
+[00:05:27] ,ability_1_used,279.64,1팀,Hawk,D.Va,0
+[00:05:29] ,ability_1_used,280.76,2팀,SP1NT,캐서디,0
+[00:05:29] ,ultimate_start,281.16,2팀,MER1T,바스티온,0,1
+[00:05:30] ,ability_2_used,281.83,1팀,Hawk,D.Va,0
+[00:05:30] ,ability_2_used,282.57,2팀,Someone,라마트라,0
+[00:05:31] ,****,282.84,1팀,Hawk,D.Va,2팀,SP1NT,캐서디,Ability 2,1.91,0,0
+[00:05:31] ,defensive_assist,282.98,1팀,UltraViolet,키리코,0
+[00:05:31] ,ability_1_used,283.09,1팀,sugarfree,트레이서,0
+[00:05:31] ,ability_1_used,283.45,1팀,Admiral,제트팩 캣,0
+[00:05:33] ,point_progress,285.52,3,2팀,3,33.58
+[00:05:34] ,ability_1_used,286.72,1팀,Lethal,소전,0
+[00:05:35] ,point_progress,287.43,3,2팀,3,66.68
+[00:05:36] ,ultimate_charged,287.76,1팀,sugarfree,트레이서,0,2
+[00:05:36] ,ultimate_end,287.76,2팀,MER1T,바스티온,0,1
+[00:05:36] ,ability_1_used,287.97,1팀,Hawk,D.Va,0
+[00:05:36] ,ability_1_used,288.56,2팀,Someone,라마트라,0
+[00:05:36] ,ability_2_used,288.66,1팀,Admiral,제트팩 캣,0
+[00:05:37] ,ability_1_used,288.98,2팀,MER1T,바스티온,0
+[00:05:37] ,ability_1_used,289.35,1팀,sugarfree,트레이서,0
+[00:05:38] ,ability_1_used,289.80,1팀,sugarfree,트레이서,0
+[00:05:38] ,ability_1_used,290.45,1팀,UltraViolet,키리코,0
+[00:05:39] ,ability_1_used,291.04,1팀,sugarfree,트레이서,0
+[00:05:39] ,ability_1_used,291.54,2팀,SP1NT,캐서디,0
+[00:05:40] ,objective_captured,291.91,3,2팀,3,0,0.02,0
+[00:05:40] ,ability_2_used,292.20,1팀,sugarfree,트레이서,0
+[00:05:40] ,ability_2_used,292.26,1팀,Lethal,소전,0
+[00:05:40] ,ability_2_used,292.40,1팀,Hawk,D.Va,0
+[00:05:41] ,ability_2_used,293.00,1팀,UltraViolet,키리코,0
+[00:05:41] ,ability_2_used,293.38,2팀,Fielder,키리코,0
+[00:05:42] ,ultimate_charged,293.87,2팀,Fielder,키리코,0,2
+[00:05:42] ,ability_1_used,293.91,1팀,sugarfree,트레이서,0
+[00:05:43] ,ability_1_used,295.49,1팀,Admiral,제트팩 캣,0
+[00:05:43] ,point_progress,295.60,3,2팀,3,34.09
+[00:05:44] ,ultimate_start,295.83,1팀,Hawk,D.Va,0,2
+[00:05:44] ,ability_1_used,296.64,2팀,Fielder,키리코,0
+[00:05:45] ,point_progress,296.93,3,2팀,3,66.89
+[00:05:45] ,remech_charged,297.07,1팀,Hawk,D.Va,0,3
+[00:05:45] ,ability_1_used,297.31,2팀,SP1NT,캐서디,0
+[00:05:46] ,hero_swap,298.34,2팀,ChiYo,젠야타,브리기테,54.59
+[00:05:46] ,objective_captured,298.61,3,1팀,3,0,9.60,0
+[00:05:47] ,hero_swap,298.95,2팀,ChiYo,제트팩 캣,젠야타,0.61
+[00:05:47] ,ultimate_end,299.04,1팀,Hawk,D.Va,0,3
+[00:05:47] ,ability_1_used,299.28,2팀,ChiYo,제트팩 캣,0
+[00:05:47] ,ability_1_used,299.60,1팀,sugarfree,트레이서,0
+[00:05:49] ,ability_1_used,301.68,1팀,Hawk,D.Va,0
+[00:05:50] ,ability_1_used,301.83,1팀,Admiral,제트팩 캣,0
+[00:05:50] ,ability_1_used,302.26,1팀,sugarfree,트레이서,0
+[00:05:51] ,ability_2_used,303.01,1팀,Hawk,D.Va,0
+[00:05:51] ,ultimate_start,303.46,2팀,Fielder,키리코,0,2
+[00:05:52] ,ultimate_start,303.78,2팀,SP1NT,캐서디,0,1
+[00:05:52] ,ability_2_used,303.95,2팀,Someone,라마트라,0
+[00:05:52] ,ability_1_used,304.29,1팀,Lethal,소전,0
+[00:05:52] ,ability_1_used,304.30,1팀,sugarfree,트레이서,0
+[00:05:52] ,ability_1_used,304.69,1팀,UltraViolet,키리코,0
+[00:05:53] ,ultimate_start,304.75,1팀,Admiral,제트팩 캣,0,2
+[00:05:53] ,ability_1_used,305.50,2팀,MER1T,바스티온,0
+[00:05:54] ,ability_1_used,306.70,2팀,Someone,라마트라,0
+[00:05:56] ,ability_1_used,308.03,1팀,Hawk,D.Va,0
+[00:05:56] ,ability_2_used,308.10,1팀,Lethal,소전,0
+[00:05:56] ,ultimate_charged,308.10,1팀,UltraViolet,키리코,0,2
+[00:05:56] ,ultimate_end,308.40,1팀,Admiral,제트팩 캣,0,2
+[00:05:56] ,****,308.40,1팀,Admiral,제트팩 캣,2팀,Fielder,키리코,Ultimate,200,0,True
+[00:05:56] ,ability_1_used,308.42,1팀,sugarfree,트레이서,0
+[00:05:56] ,****,308.54,1팀,Hawk,D.Va,2팀,MER1T,바스티온,0,4.52,0,0
+[00:05:56] ,ultimate_start,308.64,1팀,sugarfree,트레이서,0,2
+[00:05:57] ,defensive_assist,308.83,1팀,UltraViolet,키리코,0
+[00:05:57] ,ultimate_end,308.83,1팀,sugarfree,트레이서,0,2
+[00:05:57] ,offensive_assist,308.94,1팀,Admiral,제트팩 캣,0
+[00:05:57] ,ability_2_used,309.07,1팀,UltraViolet,키리코,0
+[00:05:57] ,ability_2_used,309.20,2팀,ChiYo,제트팩 캣,0
+[00:05:57] ,ability_1_used,309.60,1팀,sugarfree,트레이서,0
+[00:05:58] ,ultimate_end,309.76,2팀,SP1NT,캐서디,0,1
+[00:05:58] ,ability_1_used,309.82,2팀,SP1NT,캐서디,0
+[00:05:58] ,ability_2_used,309.92,1팀,sugarfree,트레이서,0
+[00:05:58] ,ability_2_used,310.22,1팀,Admiral,제트팩 캣,0
+[00:05:58] ,ability_2_used,310.48,2팀,SP1NT,캐서디,0
+[00:05:59] ,point_progress,310.96,3,2팀,3,33.68
+[00:06:00] ,****,311.93,2팀,SP1NT,캐서디,1팀,Lethal,소전,Primary Fire,62.51,0,0
+[00:06:00] ,ability_2_used,312.02,1팀,Hawk,D.Va,0
+[00:06:00] ,****,312.05,2팀,Someone,라마트라,1팀,UltraViolet,키리코,Ability 1,1,0,0
+[00:06:00] ,defensive_assist,312.18,2팀,ChiYo,제트팩 캣,0
+[00:06:00] ,offensive_assist,312.19,2팀,Fielder,키리코,0
+[00:06:00] ,offensive_assist,312.19,2팀,Fielder,키리코,0
+[00:06:00] ,defensive_assist,312.19,2팀,Fielder,키리코,0
+[00:06:00] ,defensive_assist,312.19,2팀,Fielder,키리코,0
+[00:06:02] ,point_progress,314.32,3,2팀,3,66.76
+[00:06:02] ,ultimate_end,314.43,2팀,Fielder,키리코,0,2
+[00:06:02] ,ability_1_used,314.57,1팀,Hawk,D.Va,0
+[00:06:04] ,objective_captured,316.09,3,2팀,3,24.96,9.62,0
+[00:06:04] ,ability_1_used,316.33,2팀,SP1NT,캐서디,0
+[00:06:06] ,ability_2_used,318.01,2팀,Someone,라마트라,0
+[00:06:08] ,ability_1_used,320.20,1팀,sugarfree,트레이서,0
+[00:06:08] ,hero_swap,320.41,2팀,MER1T,트레이서,바스티온,76.66
+[00:06:08] ,hero_swap,320.43,2팀,Fielder,루시우,키리코,76.68
+[00:06:08] ,ability_1_used,320.43,2팀,Fielder,루시우,0
+[00:06:08] ,ability_2_used,320.48,2팀,Fielder,루시우,0
+[00:06:08] ,ultimate_charged,320.67,2팀,Someone,라마트라,0,2
+[00:06:09] ,ability_1_used,320.76,2팀,SP1NT,캐서디,0
+[00:06:09] ,ability_1_used,320.80,2팀,MER1T,트레이서,0
+[00:06:09] ,ability_1_used,320.81,1팀,Admiral,제트팩 캣,0
+[00:06:09] ,ability_1_used,321.05,2팀,MER1T,트레이서,0
+[00:06:09] ,****,321.68,2팀,SP1NT,캐서디,1팀,Hawk,D.Va,Primary Fire,37.68,0,0
+[00:06:10] ,offensive_assist,322.01,2팀,Someone,라마트라,0
+[00:06:10] ,hero_swap,322.14,2팀,MER1T,메이,트레이서,1.73
+[00:06:11] ,ability_1_used,323.36,1팀,sugarfree,트레이서,0
+[00:06:12] ,hero_swap,324.17,2팀,Fielder,키리코,루시우,3.74
+[00:06:13] ,ability_1_used,324.86,1팀,sugarfree,트레이서,0
+[00:06:15] ,ability_2_used,327.59,1팀,Admiral,제트팩 캣,0
+[00:06:16] ,ability_1_used,327.72,2팀,SP1NT,캐서디,0
+[00:06:20] ,ability_1_used,332.71,1팀,Hawk,D.Va,0
+[00:06:21] ,ability_1_used,332.73,2팀,Fielder,키리코,0
+[00:06:25] ,hero_swap,337.21,1팀,Hawk,라마트라,D.Va,93.46
+[00:06:38] ,ability_1_used,350.10,2팀,ChiYo,제트팩 캣,0
+[00:06:40] ,ability_2_used,352.43,2팀,Someone,라마트라,0
+[00:06:42] ,ability_2_used,354.18,1팀,Hawk,라마트라,0
+[00:06:43] ,ultimate_charged,355.11,1팀,Lethal,소전,0,3
+[00:06:44] ,ability_1_used,356.35,2팀,Fielder,키리코,0
+[00:06:46] ,ability_1_used,357.71,1팀,sugarfree,트레이서,0
+[00:06:46] ,ability_1_used,358.27,1팀,UltraViolet,키리코,0
+[00:06:48] ,ability_1_used,360.48,2팀,SP1NT,캐서디,0
+[00:06:51] ,ultimate_start,363.70,1팀,Lethal,소전,0,3
+[00:06:52] ,ability_2_used,364.21,2팀,ChiYo,제트팩 캣,0
+[00:06:52] ,ability_1_used,364.42,1팀,Lethal,소전,0
+[00:06:53] ,ability_1_used,364.82,2팀,ChiYo,제트팩 캣,0
+[00:06:53] ,****,365.15,1팀,Lethal,소전,2팀,ChiYo,제트팩 캣,Ultimate,90.85,0,0
+[00:06:53] ,defensive_assist,365.22,1팀,UltraViolet,키리코,0
+[00:06:55] ,ability_2_used,366.90,1팀,Lethal,소전,0
+[00:06:55] ,ability_1_used,366.96,1팀,sugarfree,트레이서,0
+[00:06:55] ,ability_2_used,367.26,2팀,SP1NT,캐서디,0
+[00:06:55] ,ability_2_used,367.28,2팀,Someone,라마트라,0
+[00:06:55] ,ability_1_used,367.49,1팀,sugarfree,트레이서,0
+[00:06:56] ,ability_1_used,368.53,1팀,UltraViolet,키리코,0
+[00:06:57] ,ability_2_used,368.91,1팀,sugarfree,트레이서,0
+[00:06:58] ,ability_1_used,369.84,2팀,SP1NT,캐서디,0
+[00:06:58] ,ability_2_used,370.29,1팀,Admiral,제트팩 캣,0
+[00:06:58] ,ability_1_used,370.41,1팀,Hawk,라마트라,0
+[00:06:59] ,ability_1_used,371.36,2팀,Someone,라마트라,0
+[00:07:00] ,ability_1_used,372.01,1팀,sugarfree,트레이서,0
+[00:07:00] ,ability_2_used,372.11,2팀,MER1T,메이,0
+[00:07:00] ,ultimate_end,372.43,1팀,Lethal,소전,0,3
+[00:07:03] ,ability_1_used,375.05,2팀,SP1NT,캐서디,0
+[00:07:03] ,ability_1_used,375.66,1팀,sugarfree,트레이서,0
+[00:07:04] ,ability_1_used,375.74,2팀,ChiYo,제트팩 캣,0
+[00:07:04] ,ability_1_used,376.11,1팀,sugarfree,트레이서,0
+[00:07:04] ,ability_2_used,376.29,1팀,UltraViolet,키리코,0
+[00:07:05] ,ability_2_used,376.94,2팀,Fielder,키리코,0
+[00:07:05] ,ability_1_used,377.18,1팀,sugarfree,트레이서,0
+[00:07:06] ,ultimate_start,377.89,2팀,Someone,라마트라,0,2
+[00:07:06] ,ultimate_start,378.62,1팀,UltraViolet,키리코,0,2
+[00:07:07] ,ability_1_used,378.78,1팀,Lethal,소전,0
+[00:07:07] ,ability_1_used,379.66,1팀,sugarfree,트레이서,0
+[00:07:07] ,****,379.68,2팀,Someone,라마트라,1팀,sugarfree,트레이서,Ultimate,5.28,0,0
+[00:07:08] ,ability_1_used,379.71,2팀,SP1NT,캐서디,0
+[00:07:08] ,defensive_assist,379.80,2팀,Fielder,키리코,0
+[00:07:08] ,ability_2_used,379.98,1팀,Hawk,라마트라,0
+[00:07:08] ,ability_2_used,380.27,2팀,Someone,라마트라,0
+[00:07:09] ,ability_1_used,381.26,1팀,UltraViolet,키리코,0
+[00:07:10] ,ability_1_used,381.88,2팀,MER1T,메이,0
+[00:07:10] ,ability_2_used,382.44,2팀,SP1NT,캐서디,0
+[00:07:11] ,****,382.89,2팀,SP1NT,캐서디,1팀,Lethal,소전,Ability 2,8.09,0,0
+[00:07:11] ,defensive_assist,383.08,2팀,Fielder,키리코,0
+[00:07:11] ,ability_2_used,383.69,1팀,Admiral,제트팩 캣,0
+[00:07:12] ,****,384.14,1팀,Admiral,제트팩 캣,2팀,SP1NT,캐서디,0,4.05,0,0
+[00:07:12] ,offensive_assist,384.49,1팀,UltraViolet,키리코,0
+[00:07:12] ,defensive_assist,384.49,1팀,UltraViolet,키리코,0
+[00:07:12] ,defensive_assist,384.56,1팀,Admiral,제트팩 캣,0
+[00:07:13] ,ability_2_used,385.36,2팀,ChiYo,제트팩 캣,0
+[00:07:14] ,****,386.01,2팀,Someone,라마트라,1팀,Hawk,라마트라,Ultimate,33.13,0,0
+[00:07:14] ,offensive_assist,386.40,2팀,ChiYo,제트팩 캣,0
+[00:07:14] ,defensive_assist,386.40,2팀,ChiYo,제트팩 캣,0
+[00:07:14] ,ability_1_used,386.41,2팀,Fielder,키리코,0
+[00:07:14] ,offensive_assist,386.46,2팀,MER1T,메이,0
+[00:07:15] ,ability_2_used,387.56,1팀,UltraViolet,키리코,0
+[00:07:16] ,ultimate_end,388.51,2팀,Someone,라마트라,0,2
+[00:07:17] ,ultimate_end,389.28,1팀,UltraViolet,키리코,0,2
+[00:07:17] ,ultimate_charged,389.68,1팀,Admiral,제트팩 캣,0,3
+[00:07:18] ,****,389.84,2팀,Someone,라마트라,1팀,Admiral,제트팩 캣,0,6.56,0,0
+[00:07:18] ,defensive_assist,390.12,2팀,Fielder,키리코,0
+[00:07:18] ,defensive_assist,390.15,2팀,ChiYo,제트팩 캣,0
+[00:07:20] ,ability_1_used,392.28,1팀,sugarfree,트레이서,0
+[00:07:20] ,ability_2_used,392.30,2팀,MER1T,메이,0
+[00:07:20] ,ability_2_used,392.36,2팀,Fielder,키리코,0
+[00:07:20] ,ultimate_charged,392.39,2팀,ChiYo,제트팩 캣,0,2
+[00:07:22] ,****,394.31,2팀,ChiYo,제트팩 캣,1팀,UltraViolet,키리코,Melee,3.10,0,0
+[00:07:22] ,defensive_assist,394.35,2팀,Fielder,키리코,0
+[00:07:23] ,player_stat,394.83,4,2팀,Fielder,키리코,3,0,3,2068,0,2068,7355.15,1279.56,0,2046.41,0,12,3,2,4,0,0,0,2,0,1,4,0.12,0,0,0,196,34,130,0,0,0.21,389.90
+[00:07:23] ,player_stat,394.83,4,2팀,Fielder,제트팩 캣,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,5,0,0,0,1.18
+[00:07:23] ,player_stat,394.83,4,2팀,Fielder,루시우,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3.74
+[00:07:23] ,objective_updated,394.83,4,3,4
+[00:07:23] ,player_stat,394.84,4,2팀,ChiYo,브리기테,3,1,4,831,0,831,2075.12,696.49,170.52,1845.28,1402.16,2,1,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,298.34
+[00:07:23] ,player_stat,394.84,4,2팀,ChiYo,모이라,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:07:23] ,player_stat,394.84,4,2팀,ChiYo,젠야타,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0.61
+[00:07:23] ,player_stat,394.84,4,2팀,ChiYo,제트팩 캣,4,1,1,649.68,0,649.66,1350.66,263.04,0,591.16,0,3,1,1,0,0,0,0,2,0,0,21,0.08,0,0,0,780,253,507,0,0,0.33,95.90
+[00:07:23] ,player_stat,394.84,4,1팀,Lethal,바스티온,10,5,2,7610.21,2475.54,5134.66,0,2647.75,0,3435.60,0,0,0,2,2,0,0,0,3,0,0,7,0.02,0,0,0,1094,346,575,0,0,0.38,231.11
+[00:07:23] ,player_stat,394.84,4,1팀,Lethal,소전,5,1,2,2978.17,705,2273.17,0,1051.20,0,1523.04,0,0,0,1,1,0,0,0,0,0,0,15,0.10,0,0,0,758,156,545,0,0,0.22,163.73
+[00:07:23] ,player_stat,394.84,4,1팀,Hawk,D.Va,9,5,3,3382.37,963.30,2419.07,0,4858.46,0,8424.83,5976,0,0,1,2,0,0,0,0,0,0,60,0.05,0,0,0,4563,1238,2943,0,0,0.30,337.21
+[00:07:23] ,player_stat,394.84,4,1팀,Hawk,라마트라,0,0,1,1444.21,684.36,759.85,0,940.40,0,1590.40,471.12,0,0,0,0,0,0,0,0,0,0,6,0.06,0,0,0,449,93,293,0,0,0.24,57.63
+[00:07:23] ,player_stat,394.84,4,1팀,UltraViolet,키리코,7,3,3,4646.23,1078.21,3568.02,5840.97,1371.73,0,2161.44,0,12,1,2,4,0,0,1,1,0,0,5,0.08,0,0,0,213,60,128,0,0,0.32,392.59
+[00:07:23] ,player_stat,394.84,4,1팀,UltraViolet,루시우,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2.26
+[00:07:23] ,player_stat,394.84,4,1팀,Admiral,주노,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:07:23] ,player_stat,394.84,4,1팀,Admiral,제트팩 캣,9,1,1,2993.12,972.25,2020.87,5616.35,973.56,0,1346.00,0,7,9,3,2,0,0,0,2,1,0,73,0.06,0,0,0,3150,1126,1842,0,0,0.38,394.84
+[00:07:23] ,player_stat,394.84,4,1팀,sugarfree,에코,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:07:23] ,player_stat,394.84,4,1팀,sugarfree,트레이서,11,3,2,5358.82,1133.44,4225.38,0,1141.18,637.50,2252.64,0,0,0,2,2,0,0,0,2,0,0,76,0.07,0,0,0,2798,1050,1562,0,0,0.40,394.84
+[00:07:23] ,player_stat,394.84,4,2팀,Someone,라마트라,13,6,2,6130.77,191.12,5939.63,0,4510.30,0,8201.92,5919.69,0,1,2,2,1,4,0,4,0,0,53,0.10,0,0,0,3136,522,2254,0,0,0.19,394.84
+[00:07:23] ,player_stat,394.84,4,2팀,SP1NT,캐서디,7,4,3,3763.86,0,3763.86,0,1674.11,0,2713.83,0,0,0,1,1,0,0,0,1,0,0,7,0.13,0,0,0,120,56,58,0,0,0.49,277.74
+[00:07:23] ,player_stat,394.84,4,2팀,SP1NT,시온,0,0,2,1612.34,0,1612.34,0,631.96,0,1223.57,0,0,0,0,0,0,0,0,0,0,0,5,0.11,0,0,0,107,47,53,0,0,0.47,117.10
+[00:07:23] ,player_stat,394.84,4,2팀,MER1T,프레야,0,0,1,294,0,294,0,249.63,0,474.63,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,30,4,17,0,0,0.19,39.47
+[00:07:23] ,player_stat,394.84,4,2팀,MER1T,바스티온,3,2,3,4498.50,0,4498.48,0,1848.19,0,3131.67,0,0,0,1,1,0,0,0,0,0,0,16,0.05,0,0,0,1053,346,568,0,0,0.38,280.94
+[00:07:23] ,player_stat,394.84,4,2팀,MER1T,트레이서,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1.73
+[00:07:23] ,player_stat,394.84,4,2팀,MER1T,메이,1,0,0,1814.82,280,975.08,0,365.55,201.03,387.55,690.25,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,93,57,13,0,0,0.81,72.70
+[00:07:23] ,objective_captured,394.84,4,All Teams,4,0,0,39.98
+[00:07:23] ,hero_swap,394.91,1팀,Lethal,바스티온,소전,0.06
+[00:07:25] ,ability_1_used,396.75,2팀,SP1NT,캐서디,0
+[00:07:26] ,ability_1_used,397.77,1팀,sugarfree,트레이서,0
+[00:07:26] ,ability_1_used,398.39,2팀,Fielder,키리코,0
+[00:07:27] ,ability_1_used,399.54,1팀,Hawk,라마트라,0
+[00:07:28] ,ability_1_used,399.70,2팀,ChiYo,제트팩 캣,0
+[00:07:30] ,ability_1_used,402.18,2팀,SP1NT,캐서디,0
+[00:07:30] ,ability_1_used,402.47,1팀,Admiral,제트팩 캣,0
+[00:07:31] ,ability_1_used,402.81,1팀,sugarfree,트레이서,0
+[00:07:35] ,ability_1_used,406.98,1팀,UltraViolet,키리코,0
+[00:07:39] ,ability_1_used,411.64,2팀,Fielder,키리코,0
+[00:07:40] ,ability_1_used,412.61,1팀,Admiral,제트팩 캣,0
+[00:07:43] ,ultimate_charged,415.33,2팀,SP1NT,캐서디,0,2
+[00:07:44] ,ability_1_used,416.60,1팀,sugarfree,트레이서,0
+[00:07:45] ,ability_1_used,417.59,1팀,UltraViolet,키리코,0
+[00:07:48] ,ability_1_used,420.26,2팀,SP1NT,캐서디,0
+[00:07:50] ,ability_1_used,421.83,2팀,ChiYo,제트팩 캣,0
+[00:07:50] ,ability_1_used,422.19,1팀,sugarfree,트레이서,0
+[00:07:55] ,ability_1_used,427.63,1팀,sugarfree,트레이서,0
+[00:07:57] ,ability_2_used,429.44,1팀,Hawk,라마트라,0
+[00:07:57] ,ultimate_charged,429.57,2팀,MER1T,메이,0,2
+[00:07:58] ,ability_1_used,429.78,1팀,sugarfree,트레이서,0
+[00:07:58] ,ability_2_used,430.16,2팀,MER1T,메이,0
+[00:07:59] ,ability_1_used,430.86,2팀,MER1T,메이,0
+[00:07:59] ,ability_2_used,431.66,2팀,Someone,라마트라,0
+[00:07:59] ,ultimate_start,431.68,2팀,SP1NT,캐서디,0,2
+[00:08:00] ,ability_1_used,431.73,1팀,Admiral,제트팩 캣,0
+[00:08:00] ,ability_2_used,431.74,2팀,ChiYo,제트팩 캣,0
+[00:08:00] ,ability_1_used,431.81,1팀,Lethal,바스티온,0
+[00:08:00] ,ability_2_used,432.19,1팀,Admiral,제트팩 캣,0
+[00:08:01] ,ability_1_used,432.75,1팀,Hawk,라마트라,0
+[00:08:01] ,****,433.60,2팀,SP1NT,캐서디,1팀,Admiral,제트팩 캣,Ultimate,207.83,0,0
+[00:08:02] ,offensive_assist,433.84,2팀,ChiYo,제트팩 캣,0
+[00:08:02] ,defensive_assist,433.84,2팀,ChiYo,제트팩 캣,0
+[00:08:02] ,ability_1_used,433.87,1팀,UltraViolet,키리코,0
+[00:08:02] ,offensive_assist,433.93,2팀,Someone,라마트라,0
+[00:08:02] ,ultimate_end,434.03,2팀,SP1NT,캐서디,0,2
+[00:08:02] ,ability_1_used,434.27,2팀,SP1NT,캐서디,0
+[00:08:02] ,ability_2_used,434.37,1팀,UltraViolet,키리코,0
+[00:08:03] ,ultimate_charged,435.13,2팀,Fielder,키리코,0,3
+[00:08:03] ,ability_2_used,435.33,2팀,SP1NT,캐서디,0
+[00:08:03] ,ability_1_used,435.52,1팀,sugarfree,트레이서,0
+[00:08:04] ,ability_1_used,435.73,2팀,Someone,라마트라,0
+[00:08:04] ,****,436.33,2팀,SP1NT,캐서디,1팀,Lethal,바스티온,Primary Fire,40.09,0,0
+[00:08:04] ,offensive_assist,436.65,2팀,ChiYo,제트팩 캣,0
+[00:08:04] ,defensive_assist,436.65,2팀,ChiYo,제트팩 캣,0
+[00:08:04] ,defensive_assist,436.69,2팀,Fielder,키리코,0
+[00:08:05] ,offensive_assist,436.77,2팀,Someone,라마트라,0
+[00:08:05] ,ability_2_used,437.25,1팀,sugarfree,트레이서,0
+[00:08:06] ,ability_1_used,438.27,1팀,sugarfree,트레이서,0
+[00:08:06] ,ability_1_used,438.41,1팀,sugarfree,트레이서,0
+[00:08:06] ,****,438.49,2팀,ChiYo,제트팩 캣,1팀,UltraViolet,키리코,0,3.49,0,0
+[00:08:06] ,defensive_assist,438.54,2팀,ChiYo,제트팩 캣,0
+[00:08:07] ,ability_1_used,438.85,2팀,ChiYo,제트팩 캣,0
+[00:08:07] ,ultimate_charged,439.05,1팀,sugarfree,트레이서,0,3
+[00:08:07] ,****,439.55,1팀,sugarfree,트레이서,2팀,Someone,라마트라,Primary Fire,0.04,0,0
+[00:08:07] ,point_progress,439.65,4,2팀,4,33.78
+[00:08:08] ,defensive_assist,439.97,1팀,UltraViolet,키리코,0
+[00:08:09] ,ability_1_used,440.77,2팀,SP1NT,캐서디,0
+[00:08:09] ,ability_1_used,441.60,1팀,sugarfree,트레이서,0
+[00:08:10] ,point_progress,441.69,4,2팀,4,66.68
+[00:08:10] ,ability_1_used,442.06,1팀,sugarfree,트레이서,0
+[00:08:10] ,ability_1_used,442.52,2팀,Fielder,키리코,0
+[00:08:11] ,****,443.04,2팀,SP1NT,캐서디,1팀,Hawk,라마트라,Primary Fire,18.26,0,0
+[00:08:11] ,defensive_assist,443.24,2팀,Fielder,키리코,0
+[00:08:11] ,ultimate_start,443.52,1팀,sugarfree,트레이서,0,3
+[00:08:12] ,ultimate_end,443.71,1팀,sugarfree,트레이서,0,3
+[00:08:12] ,ability_2_used,444.12,2팀,Fielder,키리코,0
+[00:08:13] ,point_progress,445.13,4,2팀,4,99.97
+[00:08:13] ,objective_captured,445.15,4,2팀,4,0,0.02,0
+[00:08:14] ,ability_1_used,446.14,1팀,Admiral,제트팩 캣,0
+[00:08:14] ,ability_1_used,446.64,1팀,sugarfree,트레이서,0
+[00:08:16] ,****,448.17,2팀,SP1NT,캐서디,1팀,sugarfree,트레이서,Primary Fire,6.50,0,0
+[00:08:17] ,ability_1_used,448.92,2팀,SP1NT,캐서디,0
+[00:08:18] ,ability_1_used,450.11,2팀,Someone,라마트라,0
+[00:08:18] ,ability_1_used,450.68,1팀,Admiral,제트팩 캣,0
+[00:08:22] ,ability_1_used,454.68,1팀,Admiral,제트팩 캣,0
+[00:08:23] ,ability_1_used,455.00,2팀,SP1NT,캐서디,0
+[00:08:23] ,ability_1_used,455.58,1팀,sugarfree,트레이서,0
+[00:08:24] ,ability_1_used,455.74,1팀,sugarfree,트레이서,0
+[00:08:24] ,ability_1_used,456.63,2팀,ChiYo,제트팩 캣,0
+[00:08:29] ,ability_2_used,461.14,1팀,Lethal,바스티온,0
+[00:08:30] ,ultimate_charged,462.18,1팀,Hawk,라마트라,0,4
+[00:08:31] ,ability_1_used,462.78,2팀,ChiYo,제트팩 캣,0
+[00:08:35] ,ability_2_used,466.71,1팀,Admiral,제트팩 캣,0
+[00:08:37] ,ability_2_used,468.84,1팀,Hawk,라마트라,0
+[00:08:37] ,ability_1_used,469.65,1팀,sugarfree,트레이서,0
+[00:08:39] ,ability_1_used,470.82,2팀,MER1T,메이,0
+[00:08:39] ,ability_1_used,471.13,1팀,sugarfree,트레이서,0
+[00:08:39] ,ability_1_used,471.51,1팀,UltraViolet,키리코,0
+[00:08:40] ,ability_1_used,471.93,1팀,sugarfree,트레이서,0
+[00:08:40] ,ability_1_used,471.94,1팀,Lethal,바스티온,0
+[00:08:40] ,ability_1_used,472.20,2팀,ChiYo,제트팩 캣,0
+[00:08:41] ,ability_1_used,473.01,2팀,SP1NT,캐서디,0
+[00:08:41] ,ability_1_used,473.08,1팀,sugarfree,트레이서,0
+[00:08:41] ,ability_1_used,473.51,2팀,Fielder,키리코,0
+[00:08:41] ,ability_1_used,473.65,1팀,Admiral,제트팩 캣,0
+[00:08:41] ,ultimate_start,473.65,1팀,Admiral,제트팩 캣,0,3
+[00:08:42] ,ability_2_used,473.97,2팀,MER1T,메이,0
+[00:08:42] ,ability_2_used,474.13,2팀,Fielder,키리코,0
+[00:08:42] ,ultimate_start,474.36,2팀,Fielder,키리코,0,3
+[00:08:43] ,ultimate_end,474.72,1팀,Admiral,제트팩 캣,0,3
+[00:08:43] ,ability_2_used,474.76,2팀,Someone,라마트라,0
+[00:08:43] ,ability_1_used,474.92,1팀,Hawk,라마트라,0
+[00:08:43] ,ability_2_used,475.03,2팀,ChiYo,제트팩 캣,0
+[00:08:44] ,ability_1_used,476.58,1팀,sugarfree,트레이서,0
+[00:08:46] ,ability_2_used,478.36,1팀,UltraViolet,키리코,0
+[00:08:46] ,ability_1_used,478.45,2팀,Someone,라마트라,0
+[00:08:46] ,ability_1_used,478.48,2팀,ChiYo,제트팩 캣,0
+[00:08:46] ,ability_1_used,478.66,2팀,SP1NT,캐서디,0
+[00:08:47] ,ability_2_used,478.93,1팀,Lethal,바스티온,0
+[00:08:49] ,ability_1_used,480.74,1팀,UltraViolet,키리코,0
+[00:08:49] ,ability_1_used,480.79,1팀,sugarfree,트레이서,0
+[00:08:49] ,****,481.16,2팀,SP1NT,캐서디,1팀,sugarfree,트레이서,Primary Fire,54.87,0,0
+[00:08:49] ,ability_2_used,481.36,2팀,SP1NT,캐서디,0
+[00:08:50] ,****,482.08,1팀,UltraViolet,키리코,2팀,SP1NT,캐서디,0,46.35,0,0
+[00:08:50] ,defensive_assist,482.28,1팀,UltraViolet,키리코,0
+[00:08:51] ,ultimate_start,483.54,1팀,Hawk,라마트라,0,4
+[00:08:52] ,ability_2_used,483.94,2팀,MER1T,메이,0
+[00:08:52] ,ultimate_charged,484.08,1팀,Lethal,바스티온,0,4
+[00:08:52] ,ability_2_used,484.12,2팀,Someone,라마트라,0
+[00:08:52] ,ultimate_start,484.64,2팀,MER1T,메이,0,2
+[00:08:53] ,ability_1_used,485.39,2팀,MER1T,메이,0
+[00:08:53] ,ultimate_end,485.55,2팀,Fielder,키리코,0,3
+[00:08:54] ,ability_2_used,485.94,1팀,Admiral,제트팩 캣,0
+[00:08:54] ,ultimate_start,486.37,1팀,Lethal,바스티온,0,4
+[00:08:54] ,ability_1_used,486.42,1팀,Admiral,제트팩 캣,0
+[00:08:55] ,ability_2_used,486.91,2팀,Fielder,키리코,0
+[00:08:57] ,****,489.06,2팀,MER1T,메이,1팀,Hawk,라마트라,Secondary Fire,56.80,True,0
+[00:08:57] ,ultimate_end,489.06,1팀,Hawk,라마트라,0,4
+[00:08:57] ,defensive_assist,489.27,2팀,ChiYo,제트팩 캣,0
+[00:08:57] ,ability_1_used,489.28,1팀,UltraViolet,키리코,0
+[00:08:57] ,offensive_assist,489.31,2팀,Fielder,키리코,0
+[00:08:57] ,defensive_assist,489.31,2팀,Fielder,키리코,0
+[00:08:57] ,offensive_assist,489.36,2팀,Someone,라마트라,0
+[00:08:58] ,ultimate_end,490.43,2팀,MER1T,메이,0,2
+[00:08:58] ,ultimate_end,490.63,1팀,Lethal,바스티온,0,4
+[00:08:59] ,ability_1_used,491.51,1팀,Admiral,제트팩 캣,0
+[00:09:00] ,ability_1_used,491.73,1팀,sugarfree,트레이서,0
+[00:09:00] ,ability_1_used,491.89,1팀,sugarfree,트레이서,0
+[00:09:00] ,ability_1_used,492.63,2팀,SP1NT,캐서디,0
+[00:09:04] ,****,495.82,2팀,MER1T,메이,1팀,UltraViolet,키리코,Secondary Fire,155,True,0
+[00:09:04] ,ability_1_used,496.03,1팀,sugarfree,트레이서,0
+[00:09:05] ,ability_2_used,497.30,2팀,Someone,라마트라,0
+[00:09:06] ,ability_1_used,498.34,2팀,SP1NT,캐서디,0
+[00:09:07] ,hero_swap,499.09,1팀,Hawk,D.Va,라마트라,104.25
+[00:09:07] ,ability_1_used,499.15,1팀,sugarfree,트레이서,0
+[00:09:08] ,ability_2_used,500.06,1팀,sugarfree,트레이서,0
+[00:09:08] ,ability_1_used,500.10,1팀,Hawk,D.Va,0
+[00:09:10] ,ability_1_used,501.89,1팀,sugarfree,트레이서,0
+[00:09:12] ,ability_1_used,503.73,2팀,SP1NT,캐서디,0
+[00:09:12] ,ability_1_used,504.06,1팀,Admiral,제트팩 캣,0
+[00:09:13] ,ability_1_used,504.81,1팀,sugarfree,트레이서,0
+[00:09:14] ,ability_2_used,506.30,1팀,Hawk,D.Va,0
+[00:09:14] ,ability_2_used,506.32,1팀,Lethal,바스티온,0
+[00:09:15] ,ability_2_used,507.23,2팀,MER1T,메이,0
+[00:09:15] ,****,507.31,2팀,SP1NT,캐서디,1팀,Admiral,제트팩 캣,0,1.74,0,0
+[00:09:15] ,defensive_assist,507.63,2팀,Fielder,키리코,0
+[00:09:17] ,ability_1_used,508.69,1팀,UltraViolet,키리코,0
+[00:09:17] ,ability_1_used,509.49,1팀,Hawk,D.Va,0
+[00:09:19] ,ability_1_used,510.86,1팀,sugarfree,트레이서,0
+[00:09:19] ,ability_1_used,511.00,1팀,sugarfree,트레이서,0
+[00:09:20] ,ability_1_used,511.68,1팀,sugarfree,트레이서,0
+[00:09:23] ,point_progress,515.23,4,2팀,4,33.39
+[00:09:23] ,ability_1_used,515.64,1팀,Hawk,D.Va,0
+[00:09:24] ,ability_2_used,516.23,1팀,Hawk,D.Va,0
+[00:09:25] ,ability_1_used,516.78,2팀,SP1NT,캐서디,0
+[00:09:25] ,ability_2_used,516.94,2팀,ChiYo,제트팩 캣,0
+[00:09:25] ,ability_1_used,517.08,1팀,UltraViolet,키리코,0
+[00:09:25] ,ability_2_used,517.27,2팀,SP1NT,캐서디,0
+[00:09:25] ,ability_1_used,517.35,2팀,Fielder,키리코,0
+[00:09:25] ,ultimate_charged,517.45,1팀,sugarfree,트레이서,0,4
+[00:09:25] ,ultimate_charged,517.55,2팀,SP1NT,캐서디,0,3
+[00:09:26] ,ability_2_used,517.67,1팀,sugarfree,트레이서,0
+[00:09:26] ,ability_1_used,517.90,1팀,Admiral,제트팩 캣,0
+[00:09:26] ,ability_1_used,518.57,1팀,Lethal,바스티온,0
+[00:09:27] ,ability_1_used,518.95,1팀,sugarfree,트레이서,0
+[00:09:27] ,ability_1_used,519.46,1팀,sugarfree,트레이서,0
+[00:09:28] ,****,519.96,1팀,Lethal,바스티온,2팀,SP1NT,캐서디,Primary Fire,7.55,0,0
+[00:09:28] ,ability_2_used,519.99,2팀,Fielder,키리코,0
+[00:09:28] ,ability_2_used,520.02,2팀,MER1T,메이,0
+[00:09:28] ,ability_2_used,520.14,2팀,Someone,라마트라,0
+[00:09:28] ,defensive_assist,520.33,1팀,UltraViolet,키리코,0
+[00:09:29] ,ability_1_used,520.78,2팀,ChiYo,제트팩 캣,0
+[00:09:29] ,ability_1_used,521.56,2팀,Someone,라마트라,0
+[00:09:31] ,ability_1_used,522.77,1팀,sugarfree,트레이서,0
+[00:09:31] ,ability_1_used,523.45,1팀,sugarfree,트레이서,0
+[00:09:32] ,ability_1_used,523.91,2팀,ChiYo,제트팩 캣,0
+[00:09:32] ,player_stat,523.96,5,2팀,MER1T,프레야,0,0,1,294,0,294,0,249.63,0,474.63,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,30,4,17,0,0,0.19,39.47
+[00:09:32] ,player_stat,523.96,5,2팀,MER1T,바스티온,3,2,3,4498.50,0,4498.48,0,1848.19,0,3131.67,0,0,0,1,1,0,0,0,0,0,0,16,0.05,0,0,0,1053,346,568,0,0,0.38,280.94
+[00:09:32] ,player_stat,523.96,5,2팀,MER1T,트레이서,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1.73
+[00:09:32] ,player_stat,523.96,5,2팀,MER1T,메이,4,2,0,7538.62,384.50,2493.53,0,2333.70,597.95,2523.59,2766.66,0,1,1,1,0,0,0,2,0,0,0,0,0,0,0,287,105,141,0,0,0.43,201.82
+[00:09:32] ,objective_updated,523.96,5,4,2
+[00:09:32] ,player_stat,523.97,5,2팀,ChiYo,브리기테,3,1,4,831,0,831,2075.12,696.49,170.52,1845.28,1402.16,2,1,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,298.34
+[00:09:32] ,player_stat,523.97,5,2팀,ChiYo,모이라,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:09:32] ,player_stat,523.97,5,2팀,ChiYo,젠야타,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0.61
+[00:09:32] ,player_stat,523.97,5,2팀,ChiYo,제트팩 캣,9,2,1,1665.19,30,1635.17,3134.95,442.52,0,852.04,0,7,3,1,0,1,3,0,2,0,0,60,0.08,0,0,0,2100,732,1263,0,0,0.37,225.03
+[00:09:32] ,player_stat,523.97,5,1팀,Lethal,바스티온,12,6,3,12180.25,4978.76,7201.49,0,4163.47,0,5305.58,0,0,0,3,3,0,0,0,3,0,0,11,0.02,0,0,0,1683,453,923,0,0,0.33,360.17
+[00:09:32] ,player_stat,523.97,5,1팀,Lethal,소전,5,1,2,2978.17,705,2273.17,0,1051.20,0,1523.04,0,0,0,1,1,0,0,0,0,0,0,15,0.10,0,0,0,758,156,545,0,0,0.22,163.80
+[00:09:32] ,player_stat,523.97,5,1팀,Hawk,D.Va,10,5,3,3606.17,1095.96,2510.21,0,5594.37,0,9163.14,6734.50,0,0,1,2,0,0,0,0,0,0,67,0.05,0,0,0,4926,1298,3202,0,0,0.29,362.09
+[00:09:32] ,player_stat,523.97,5,1팀,Hawk,라마트라,1,0,3,3807.64,1133.95,2673.69,0,1420.40,0,3945.40,885.62,0,0,1,1,0,0,0,0,0,0,18,0.08,0,0,0,1034,219,727,0,0,0.23,161.88
+[00:09:32] ,player_stat,523.97,5,1팀,UltraViolet,키리코,10,4,5,5685.58,1378.21,4307.36,7161.45,1795.78,0,3134.82,0,15,1,2,4,0,0,1,1,0,0,7,0.10,0,0,0,267,70,166,0,0,0.30,521.72
+[00:09:32] ,player_stat,523.97,5,1팀,UltraViolet,루시우,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2.26
+[00:09:32] ,player_stat,523.97,5,1팀,Admiral,주노,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:09:32] ,player_stat,523.97,5,1팀,Admiral,제트팩 캣,9,1,3,3504.87,1333.25,2171.62,7033.19,1127.20,0,1941.09,0,7,9,3,3,0,0,0,2,1,0,96,0.07,0,0,0,3855,1425,2232,0,0,0.39,523.97
+[00:09:32] ,player_stat,523.97,5,1팀,sugarfree,에코,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:09:32] ,player_stat,523.97,5,1팀,sugarfree,트레이서,13,4,4,7333.88,1341.97,5991.91,0,1195.63,872.05,3039.98,0,0,0,4,3,0,0,0,2,0,0,115,0.09,0,0,0,3600,1322,2041,0,0,0.39,523.97
+[00:09:32] ,ultimate_charged,523.97,2팀,Someone,라마트라,0,3
+[00:09:32] ,player_stat,523.97,5,2팀,Someone,라마트라,20,6,3,8085.73,291.12,7794.59,0,5745.05,0,10646.72,7834.27,0,4,2,2,2,4,0,4,0,0,77,0.10,0,0,0,4403,740,3244,0,0,0.19,523.97
+[00:09:32] ,player_stat,523.97,5,2팀,SP1NT,캐서디,14,10,5,6017.65,0,6017.65,0,2467.20,0,4026.17,0,0,0,3,2,1,3,1,1,0,0,12,0.14,0,0,0,169,84,75,0,0,0.53,406.88
+[00:09:32] ,player_stat,523.97,5,2팀,SP1NT,시온,0,0,2,1612.34,0,1612.34,0,631.96,0,1223.57,0,0,0,0,0,0,0,0,0,0,0,5,0.11,0,0,0,107,47,53,0,0,0.47,117.10
+[00:09:32] ,player_stat,523.97,5,2팀,Fielder,키리코,5,0,3,2952,180,2772,9612.16,1836.17,0,2620.78,0,16,4,3,6,0,0,0,2,0,1,6,0.14,0,0,0,284,44,198,0,0,0.18,519.05
+[00:09:32] ,player_stat,523.97,5,2팀,Fielder,제트팩 캣,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,5,0,0,0,1.18
+[00:09:32] ,player_stat,523.97,5,2팀,Fielder,루시우,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3.74
+[00:09:32] ,objective_captured,523.97,5,All Teams,2,0,0,39.98
+[00:09:33] ,****,525.13,2팀,Someone,라마트라,1팀,sugarfree,트레이서,Ability 1,16.66,0,0
+[00:09:34] ,ultimate_charged,526.23,1팀,UltraViolet,키리코,0,3
+[00:09:35] ,ability_1_used,526.72,1팀,Hawk,D.Va,0
+[00:09:36] ,ability_2_used,528.10,1팀,Hawk,D.Va,0
+[00:09:36] ,ability_1_used,528.31,2팀,MER1T,메이,0
+[00:09:36] ,ability_1_used,528.42,2팀,ChiYo,제트팩 캣,0
+[00:09:38] ,ability_1_used,530.08,2팀,ChiYo,제트팩 캣,0
+[00:09:38] ,ultimate_start,530.08,2팀,ChiYo,제트팩 캣,0,2
+[00:09:39] ,ability_1_used,531.03,1팀,UltraViolet,키리코,0
+[00:09:39] ,ability_2_used,531.12,1팀,Admiral,제트팩 캣,0
+[00:09:39] ,ability_1_used,531.23,2팀,Fielder,키리코,0
+[00:09:41] ,ability_1_used,532.69,2팀,SP1NT,캐서디,0
+[00:09:41] ,****,532.75,1팀,Lethal,바스티온,2팀,MER1T,메이,Primary Fire,7.21,0,0
+[00:09:42] ,ability_2_used,534.14,2팀,ChiYo,제트팩 캣,0
+[00:09:43] ,****,535.04,2팀,ChiYo,제트팩 캣,2팀,ChiYo,제트팩 캣,0,39.75,0,True
+[00:09:43] ,ultimate_end,535.04,2팀,ChiYo,제트팩 캣,0,2
+[00:09:43] ,ability_1_used,535.06,1팀,Hawk,D.Va,0
+[00:09:43] ,ability_2_used,535.33,2팀,Fielder,키리코,0
+[00:09:43] ,defensive_assist,535.34,1팀,UltraViolet,키리코,0
+[00:09:43] ,ability_2_used,535.42,1팀,UltraViolet,키리코,0
+[00:09:43] ,****,535.57,2팀,ChiYo,제트팩 캣,1팀,Hawk,D.Va,Ultimate,175,0,True
+[00:09:44] ,ability_1_used,535.73,1팀,sugarfree,트레이서,0
+[00:09:44] ,ability_1_used,535.87,1팀,sugarfree,트레이서,0
+[00:09:44] ,****,536.62,1팀,UltraViolet,키리코,1팀,UltraViolet,키리코,0,130.71,0,True
+[00:09:47] ,ability_1_used,539.42,1팀,sugarfree,트레이서,0
+[00:09:49] ,****,541.18,1팀,Lethal,바스티온,2팀,Fielder,키리코,Primary Fire,22.68,0,0
+[00:09:50] ,ability_1_used,541.80,1팀,Admiral,제트팩 캣,0
+[00:09:51] ,ability_1_used,543.02,1팀,sugarfree,트레이서,0
+[00:09:53] ,hero_swap,544.81,2팀,ChiYo,브리기테,제트팩 캣,20.84
+[00:09:53] ,hero_swap,544.83,2팀,MER1T,트레이서,메이,20.87
+[00:09:53] ,ability_1_used,545.19,2팀,Someone,라마트라,0
+[00:09:53] ,ability_1_used,545.40,2팀,MER1T,트레이서,0
+[00:09:54] ,hero_swap,546.35,2팀,MER1T,바스티온,트레이서,1.52
+[00:09:56] ,ability_1_used,548.65,1팀,Hawk,D.Va,0
+[00:09:57] ,ability_1_used,548.73,1팀,sugarfree,트레이서,0
+[00:09:59] ,ability_1_used,551.06,1팀,sugarfree,트레이서,0
+[00:09:59] ,ability_1_used,551.24,1팀,UltraViolet,키리코,0
+[00:10:00] ,ability_1_used,552.44,1팀,sugarfree,트레이서,0
+[00:10:01] ,ability_1_used,553.22,2팀,SP1NT,캐서디,0
+[00:10:01] ,ability_1_used,553.27,1팀,sugarfree,트레이서,0
+[00:10:02] ,ability_2_used,554.60,2팀,ChiYo,브리기테,0
+[00:10:03] ,ability_1_used,555.09,1팀,Hawk,D.Va,0
+[00:10:04] ,ability_1_used,556.50,2팀,Fielder,키리코,0
+[00:10:06] ,ability_1_used,558.31,1팀,UltraViolet,키리코,0
+[00:10:06] ,ability_1_used,558.32,1팀,Admiral,제트팩 캣,0
+[00:10:07] ,ability_1_used,558.72,1팀,sugarfree,트레이서,0
+[00:10:07] ,ultimate_start,559.04,2팀,SP1NT,캐서디,0,3
+[00:10:07] ,ability_2_used,559.62,1팀,Admiral,제트팩 캣,0
+[00:10:09] ,ability_2_used,560.82,2팀,ChiYo,브리기테,0
+[00:10:09] ,ability_1_used,560.99,1팀,sugarfree,트레이서,0
+[00:10:09] ,ability_1_used,561.15,1팀,sugarfree,트레이서,0
+[00:10:10] ,****,561.68,2팀,SP1NT,캐서디,1팀,sugarfree,트레이서,Ultimate,60,0,0
+[00:10:10] ,ultimate_end,562.02,2팀,SP1NT,캐서디,0,3
+[00:10:10] ,offensive_assist,562.08,2팀,ChiYo,브리기테,0
+[00:10:10] ,defensive_assist,562.08,2팀,ChiYo,브리기테,0
+[00:10:12] ,ability_2_used,564.48,2팀,Fielder,키리코,0
+[00:10:14] ,point_progress,565.73,5,2팀,2,33.58
+[00:10:15] ,point_progress,567.50,5,2팀,2,66.88
+[00:10:16] ,ability_2_used,567.98,1팀,Hawk,D.Va,0
+[00:10:16] ,ability_1_used,568.51,2팀,MER1T,바스티온,0
+[00:10:17] ,ability_2_used,569.12,2팀,ChiYo,브리기테,0
+[00:10:17] ,objective_captured,569.28,5,1팀,2,0.02,0,0
+[00:10:18] ,ability_2_used,570.08,2팀,Someone,라마트라,0
+[00:10:20] ,ability_1_used,571.76,2팀,Someone,라마트라,0
+[00:10:20] ,ability_1_used,571.92,1팀,Hawk,D.Va,0
+[00:10:20] ,ability_1_used,572.28,1팀,sugarfree,트레이서,0
+[00:10:20] ,ability_1_used,572.44,1팀,sugarfree,트레이서,0
+[00:10:20] ,ability_1_used,572.46,2팀,SP1NT,캐서디,0
+[00:10:21] ,ability_1_used,572.83,1팀,sugarfree,트레이서,0
+[00:10:21] ,ability_1_used,573.11,1팀,Lethal,바스티온,0
+[00:10:21] ,ability_2_used,573.13,1팀,UltraViolet,키리코,0
+[00:10:22] ,hero_swap,574.01,1팀,sugarfree,리퍼,트레이서,50.04
+[00:10:23] ,ability_2_used,574.75,1팀,sugarfree,리퍼,0
+[00:10:23] ,ultimate_charged,575.18,1팀,Lethal,바스티온,0,5
+[00:10:24] ,ability_2_used,576.38,1팀,Admiral,제트팩 캣,0
+[00:10:24] ,ability_2_used,576.39,2팀,ChiYo,브리기테,0
+[00:10:25] ,ability_2_used,576.76,1팀,Hawk,D.Va,0
+[00:10:25] ,ability_1_used,576.76,2팀,Fielder,키리코,0
+[00:10:25] ,ability_2_used,577.48,2팀,ChiYo,브리기테,0
+[00:10:26] ,ability_2_used,577.77,2팀,MER1T,바스티온,0
+[00:10:26] ,ability_1_used,577.82,1팀,Hawk,D.Va,0
+[00:10:26] ,ability_2_used,578.02,2팀,ChiYo,브리기테,0
+[00:10:26] ,ability_1_used,578.47,1팀,UltraViolet,키리코,0
+[00:10:27] ,ultimate_start,579.54,2팀,Someone,라마트라,0,3
+[00:10:28] ,ability_2_used,580.12,2팀,MER1T,바스티온,0
+[00:10:28] ,****,580.15,2팀,Someone,라마트라,1팀,UltraViolet,키리코,Ultimate,5.78,0,0
+[00:10:28] ,ability_2_used,580.55,1팀,Lethal,바스티온,0
+[00:10:29] ,ability_1_used,581.11,2팀,SP1NT,캐서디,0
+[00:10:29] ,ability_1_used,581.35,2팀,ChiYo,브리기테,0
+[00:10:29] ,ultimate_charged,581.51,1팀,Admiral,제트팩 캣,0,4
+[00:10:30] ,ability_2_used,581.94,2팀,SP1NT,캐서디,0
+[00:10:30] ,****,582.37,2팀,ChiYo,브리기테,1팀,Lethal,바스티온,Primary Fire,39.42,0,0
+[00:10:31] ,defensive_assist,582.74,2팀,ChiYo,브리기테,0
+[00:10:31] ,defensive_assist,582.77,2팀,Fielder,키리코,0
+[00:10:31] ,ability_1_used,582.98,1팀,Hawk,D.Va,0
+[00:10:31] ,ability_2_used,583.08,2팀,Fielder,키리코,0
+[00:10:31] ,ability_1_used,583.09,1팀,Admiral,제트팩 캣,0
+[00:10:31] ,ability_2_used,583.40,2팀,ChiYo,브리기테,0
+[00:10:31] ,point_progress,583.41,5,2팀,2,33.47
+[00:10:33] ,ability_2_used,584.66,2팀,Someone,라마트라,0
+[00:10:33] ,point_progress,585.19,5,2팀,2,66.78
+[00:10:33] ,ability_1_used,585.20,2팀,Fielder,키리코,0
+[00:10:34] ,ability_2_used,585.80,1팀,Hawk,D.Va,0
+[00:10:35] ,ultimate_end,587.25,2팀,Someone,라마트라,0,3
+[00:10:36] ,objective_captured,587.75,5,2팀,2,26.40,0.02,0
+[00:10:36] ,ultimate_charged,588.13,2팀,Fielder,키리코,0,4
+[00:10:36] ,ability_1_used,588.27,2팀,Someone,라마트라,0
+[00:10:36] ,****,588.37,2팀,MER1T,바스티온,1팀,Admiral,제트팩 캣,Primary Fire,22,0,0
+[00:10:36] ,offensive_assist,588.40,2팀,ChiYo,브리기테,0
+[00:10:36] ,defensive_assist,588.40,2팀,ChiYo,브리기테,0
+[00:10:36] ,defensive_assist,588.45,2팀,Fielder,키리코,0
+[00:10:36] ,ability_1_used,588.63,2팀,ChiYo,브리기테,0
+[00:10:37] ,ability_1_used,588.88,1팀,sugarfree,리퍼,0
+[00:10:37] ,ability_1_used,589.30,2팀,SP1NT,캐서디,0
+[00:10:39] ,ability_1_used,591.18,2팀,MER1T,바스티온,0
+[00:10:43] ,ability_2_used,595.55,2팀,ChiYo,브리기테,0
+[00:10:44] ,****,595.66,2팀,SP1NT,캐서디,1팀,sugarfree,리퍼,Primary Fire,48.42,True,0
+[00:10:44] ,ability_1_used,595.81,2팀,ChiYo,브리기테,0
+[00:10:44] ,****,596.09,2팀,Someone,라마트라,1팀,Hawk,D.Va,Ability 1,36.56,0,0
+[00:10:45] ,ability_1_used,597.02,2팀,SP1NT,캐서디,0
+[00:10:47] ,ability_1_used,598.91,1팀,Admiral,제트팩 캣,0
+[00:10:55] ,ability_2_used,607.46,1팀,Lethal,바스티온,0
+[00:10:57] ,ability_1_used,608.87,1팀,Hawk,D.Va,0
+[00:11:02] ,ability_1_used,614.15,1팀,Admiral,제트팩 캣,0
+[00:11:09] ,ability_1_used,621.07,1팀,Admiral,제트팩 캣,0
+[00:11:09] ,ability_1_used,621.31,1팀,Hawk,D.Va,0
+[00:11:10] ,ability_1_used,621.62,2팀,SP1NT,캐서디,0
+[00:11:10] ,ultimate_charged,621.73,1팀,Hawk,D.Va,0,5
+[00:11:11] ,ability_1_used,623.04,2팀,ChiYo,브리기테,0
+[00:11:11] ,ability_1_used,623.28,1팀,UltraViolet,키리코,0
+[00:11:13] ,ability_2_used,625.52,2팀,ChiYo,브리기테,0
+[00:11:14] ,ability_2_used,625.89,1팀,Hawk,D.Va,0
+[00:11:15] ,ability_2_used,627.10,2팀,ChiYo,브리기테,0
+[00:11:15] ,ability_1_used,627.47,2팀,SP1NT,캐서디,0
+[00:11:16] ,ability_1_used,628.03,1팀,Admiral,제트팩 캣,0
+[00:11:17] ,ability_2_used,628.96,1팀,sugarfree,리퍼,0
+[00:11:17] ,ability_1_used,629.18,2팀,ChiYo,브리기테,0
+[00:11:19] ,ability_1_used,631.47,1팀,Hawk,D.Va,0
+[00:11:22] ,ability_1_used,634.20,2팀,ChiYo,브리기테,0
+[00:11:23] ,ultimate_start,634.82,1팀,Lethal,바스티온,0,5
+[00:11:24] ,ability_2_used,636.54,2팀,ChiYo,브리기테,0
+[00:11:25] ,ability_2_used,636.62,2팀,MER1T,바스티온,0
+[00:11:25] ,ability_2_used,637.54,1팀,Admiral,제트팩 캣,0
+[00:11:27] ,ability_1_used,639.05,2팀,ChiYo,브리기테,0
+[00:11:28] ,ability_1_used,639.78,1팀,Hawk,D.Va,0
+[00:11:28] ,ultimate_end,640.29,1팀,Lethal,바스티온,0,5
+[00:11:28] ,ability_1_used,640.55,1팀,Lethal,바스티온,0
+[00:11:28] ,ability_1_used,640.55,1팀,Admiral,제트팩 캣,0
+[00:11:29] ,ability_2_used,641.52,1팀,Hawk,D.Va,0
+[00:11:30] ,****,642.00,1팀,Hawk,D.Va,2팀,ChiYo,브리기테,Ability 2,6.26,0,0
+[00:11:30] ,ability_2_used,642.16,2팀,SP1NT,캐서디,0
+[00:11:30] ,ability_1_used,642.18,2팀,MER1T,바스티온,0
+[00:11:30] ,ability_2_used,642.29,2팀,Someone,라마트라,0
+[00:11:30] ,ability_1_used,642.40,1팀,UltraViolet,키리코,0
+[00:11:30] ,defensive_assist,642.42,1팀,UltraViolet,키리코,0
+[00:11:30] ,defensive_assist,642.44,1팀,Admiral,제트팩 캣,0
+[00:11:31] ,ability_2_used,643.03,1팀,UltraViolet,키리코,0
+[00:11:31] ,ultimate_charged,643.22,2팀,MER1T,바스티온,0,3
+[00:11:31] ,ability_1_used,643.36,2팀,SP1NT,캐서디,0
+[00:11:32] ,ability_2_used,643.73,1팀,sugarfree,리퍼,0
+[00:11:33] ,ability_1_used,645.59,1팀,sugarfree,리퍼,0
+[00:11:35] ,ability_1_used,646.95,1팀,Hawk,D.Va,0
+[00:11:37] ,ability_1_used,648.83,2팀,SP1NT,캐서디,0
+[00:11:38] ,ultimate_start,650.10,2팀,MER1T,바스티온,0,3
+[00:11:39] ,ability_1_used,651.22,1팀,Admiral,제트팩 캣,0
+[00:11:41] ,ability_2_used,653.23,1팀,Hawk,D.Va,0
+[00:11:42] ,****,653.82,1팀,Hawk,D.Va,2팀,SP1NT,캐서디,Ability 2,2.90,0,0
+[00:11:42] ,ability_1_used,654.16,1팀,Hawk,D.Va,0
+[00:11:42] ,defensive_assist,654.16,1팀,UltraViolet,키리코,0
+[00:11:42] ,ability_2_used,654.17,2팀,Someone,라마트라,0
+[00:11:43] ,ability_2_used,655.26,1팀,Lethal,바스티온,0
+[00:11:43] ,ultimate_end,655.33,2팀,MER1T,바스티온,0,3
+[00:11:43] ,ability_2_used,655.49,1팀,sugarfree,리퍼,0
+[00:11:44] ,ability_2_used,656.00,1팀,Admiral,제트팩 캣,0
+[00:11:47] ,ability_2_used,659.32,1팀,UltraViolet,키리코,0
+[00:11:48] ,ability_1_used,660.03,1팀,Lethal,바스티온,0
+[00:11:49] ,ability_1_used,660.76,2팀,MER1T,바스티온,0
+[00:11:49] ,ultimate_start,661.58,2팀,Fielder,키리코,0,4
+[00:11:50] ,ability_1_used,661.96,1팀,sugarfree,리퍼,0
+[00:11:50] ,ability_1_used,662.06,1팀,Hawk,D.Va,0
+[00:11:50] ,****,662.15,1팀,Lethal,바스티온,2팀,MER1T,바스티온,Primary Fire,4.29,0,0
+[00:11:50] ,ability_1_used,662.23,1팀,Admiral,제트팩 캣,0
+[00:11:50] ,ultimate_start,662.23,1팀,Admiral,제트팩 캣,0,4
+[00:11:50] ,ability_2_used,662.36,2팀,Fielder,키리코,0
+[00:11:51] ,defensive_assist,662.62,1팀,UltraViolet,키리코,0
+[00:11:51] ,ultimate_end,663.13,1팀,Admiral,제트팩 캣,0,4
+[00:11:51] ,ability_1_used,663.18,1팀,UltraViolet,키리코,0
+[00:11:51] ,ability_2_used,663.46,1팀,Hawk,D.Va,0
+[00:11:52] ,ability_1_used,664.41,2팀,Someone,라마트라,0
+[00:11:53] ,ability_2_used,665,2팀,ChiYo,브리기테,0
+[00:11:54] ,ability_2_used,665.80,2팀,ChiYo,브리기테,0
+[00:11:54] ,ability_1_used,666.10,2팀,ChiYo,브리기테,0
+[00:11:54] ,ability_1_used,666.36,2팀,SP1NT,캐서디,0
+[00:11:55] ,ability_2_used,666.95,2팀,ChiYo,브리기테,0
+[00:11:58] ,ability_2_used,669.73,2팀,Someone,라마트라,0
+[00:11:58] ,ability_2_used,670.28,2팀,ChiYo,브리기테,0
+[00:11:59] ,ability_1_used,670.71,1팀,Admiral,제트팩 캣,0
+[00:11:59] ,ability_1_used,670.95,2팀,Fielder,키리코,0
+[00:11:59] ,ultimate_start,670.96,1팀,Hawk,D.Va,0,5
+[00:11:59] ,ability_1_used,671.09,1팀,UltraViolet,키리코,0
+[00:11:59] ,ability_1_used,671.33,2팀,ChiYo,브리기테,0
+[00:11:59] ,ability_2_used,671.51,2팀,Fielder,키리코,0
+[00:12:00] ,ability_1_used,672.16,2팀,SP1NT,캐서디,0
+[00:12:00] ,remech_charged,672.21,1팀,Hawk,D.Va,0,6
+[00:12:00] ,ultimate_end,672.53,1팀,Hawk,D.Va,0,6
+[00:12:01] ,ultimate_end,672.77,2팀,Fielder,키리코,0,4
+[00:12:01] ,ability_1_used,672.96,1팀,sugarfree,리퍼,0
+[00:12:01] ,ability_2_used,673.12,1팀,Admiral,제트팩 캣,0
+[00:12:02] ,dva_remech,674.53,1팀,Hawk,D.Va,6
+[00:12:03] ,ability_2_used,675.33,2팀,ChiYo,브리기테,0
+[00:12:03] ,ultimate_charged,675.52,2팀,ChiYo,브리기테,0,3
+[00:12:04] ,hero_swap,675.70,2팀,MER1T,트레이서,바스티온,129.35
+[00:12:04] ,ability_1_used,675.97,2팀,MER1T,트레이서,0
+[00:12:04] ,ability_1_used,676.27,2팀,MER1T,트레이서,0
+[00:12:04] ,ability_1_used,676.40,2팀,MER1T,트레이서,0
+[00:12:05] ,ability_2_used,676.63,1팀,Hawk,D.Va,0
+[00:12:05] ,ability_1_used,676.72,2팀,ChiYo,브리기테,0
+[00:12:07] ,ability_1_used,678.77,2팀,Someone,라마트라,0
+[00:12:07] ,ability_1_used,678.98,2팀,SP1NT,캐서디,0
+[00:12:07] ,ability_1_used,679.06,2팀,MER1T,트레이서,0
+[00:12:07] ,ultimate_start,679.14,2팀,ChiYo,브리기테,0,3
+[00:12:08] ,ability_1_used,680.06,1팀,Lethal,바스티온,0
+[00:12:08] ,ultimate_start,680.14,1팀,UltraViolet,키리코,0,3
+[00:12:08] ,ultimate_charged,680.16,2팀,SP1NT,캐서디,0,4
+[00:12:09] ,ability_2_used,680.90,2팀,Someone,라마트라,0
+[00:12:10] ,ability_1_used,682.08,2팀,ChiYo,브리기테,0
+[00:12:11] ,ability_1_used,682.73,1팀,UltraViolet,키리코,0
+[00:12:11] ,ability_1_used,683.05,1팀,Hawk,D.Va,0
+[00:12:11] ,ability_1_used,683.39,2팀,MER1T,트레이서,0
+[00:12:11] ,****,683.53,1팀,Lethal,바스티온,2팀,Someone,라마트라,Primary Fire,6.52,0,0
+[00:12:12] ,defensive_assist,683.76,1팀,Admiral,제트팩 캣,0
+[00:12:12] ,offensive_assist,683.77,1팀,UltraViolet,키리코,0
+[00:12:12] ,defensive_assist,683.77,1팀,UltraViolet,키리코,0
+[00:12:12] ,ultimate_charged,684.21,2팀,Someone,라마트라,0,4
+[00:12:13] ,point_progress,685.53,5,2팀,2,33.49
+[00:12:14] ,ability_2_used,685.68,1팀,Hawk,D.Va,0
+[00:12:14] ,ability_2_used,686.57,1팀,Admiral,제트팩 캣,0
+[00:12:15] ,ability_1_used,686.86,2팀,ChiYo,브리기테,0
+[00:12:15] ,point_progress,686.92,5,2팀,2,67.19
+[00:12:15] ,ability_2_used,687.32,2팀,Fielder,키리코,0
+[00:12:15] ,ability_1_used,687.34,1팀,sugarfree,리퍼,0
+[00:12:16] ,point_progress,688.24,5,2팀,2,99.99
+[00:12:16] ,ability_1_used,688.25,2팀,MER1T,트레이서,0
+[00:12:16] ,objective_captured,688.25,5,1팀,2,26.42,99.99,0
+[00:12:17] ,ability_1_used,688.91,1팀,Hawk,D.Va,0
+[00:12:17] ,ultimate_end,689.13,2팀,ChiYo,브리기테,0,3
+[00:12:18] ,ability_2_used,689.77,2팀,MER1T,트레이서,0
+[00:12:19] ,ability_2_used,690.73,1팀,Lethal,바스티온,0
+[00:12:19] ,ultimate_end,690.95,1팀,UltraViolet,키리코,0,3
+[00:12:19] ,ability_1_used,691.18,2팀,MER1T,트레이서,0
+[00:12:20] ,ability_1_used,691.66,2팀,ChiYo,브리기테,0
+[00:12:20] ,ability_1_used,692.25,2팀,MER1T,트레이서,0
+[00:12:20] ,ability_1_used,692.41,2팀,SP1NT,캐서디,0
+[00:12:20] ,ability_2_used,692.42,2팀,ChiYo,브리기테,0
+[00:12:20] ,ability_1_used,692.54,1팀,UltraViolet,키리코,0
+[00:12:21] ,ability_2_used,692.63,1팀,sugarfree,리퍼,0
+[00:12:22] ,ability_1_used,693.91,2팀,Fielder,키리코,0
+[00:12:22] ,ultimate_charged,694.07,1팀,sugarfree,리퍼,0,5
+[00:12:22] ,ability_1_used,694.09,1팀,Admiral,제트팩 캣,0
+[00:12:23] ,ability_2_used,694.86,1팀,Hawk,D.Va,0
+[00:12:23] ,ability_2_used,695.24,2팀,ChiYo,브리기테,0
+[00:12:23] ,ability_1_used,695.48,1팀,Hawk,D.Va,0
+[00:12:24] ,ability_1_used,695.89,2팀,MER1T,트레이서,0
+[00:12:24] ,ability_2_used,696.02,2팀,ChiYo,브리기테,0
+[00:12:24] ,ability_2_used,696.18,2팀,SP1NT,캐서디,0
+[00:12:24] ,ability_1_used,696.28,2팀,ChiYo,브리기테,0
+[00:12:24] ,****,696.33,1팀,Lethal,바스티온,2팀,Fielder,키리코,Primary Fire,37.85,True,0
+[00:12:24] ,offensive_assist,696.47,1팀,UltraViolet,키리코,0
+[00:12:24] ,defensive_assist,696.47,1팀,UltraViolet,키리코,0
+[00:12:25] ,ability_2_used,697.19,1팀,UltraViolet,키리코,0
+[00:12:25] ,ability_1_used,697.46,2팀,MER1T,트레이서,0
+[00:12:26] ,ability_2_used,698.29,2팀,ChiYo,브리기테,0
+[00:12:28] ,ability_1_used,699.86,2팀,SP1NT,캐서디,0
+[00:12:29] ,ability_1_used,700.64,2팀,MER1T,트레이서,0
+[00:12:29] ,ability_1_used,701.04,1팀,Hawk,D.Va,0
+[00:12:30] ,ability_2_used,701.68,1팀,sugarfree,리퍼,0
+[00:12:30] ,ability_1_used,701.78,2팀,ChiYo,브리기테,0
+[00:12:30] ,ultimate_charged,702.16,1팀,Lethal,바스티온,0,6
+[00:12:31] ,ability_2_used,703.08,2팀,ChiYo,브리기테,0
+[00:12:31] ,ability_1_used,703.09,2팀,MER1T,트레이서,0
+[00:12:31] ,ability_1_used,703.23,1팀,sugarfree,리퍼,0
+[00:12:33] ,hero_swap,705.27,2팀,MER1T,바스티온,트레이서,29.57
+[00:12:33] ,ability_1_used,705.44,1팀,Admiral,제트팩 캣,0
+[00:12:34] ,ability_1_used,706.35,2팀,SP1NT,캐서디,0
+[00:12:37] ,ability_2_used,708.61,2팀,ChiYo,브리기테,0
+[00:12:39] ,ability_1_used,711.05,2팀,Fielder,키리코,0
+[00:12:41] ,ability_1_used,712.70,1팀,Admiral,제트팩 캣,0
+[00:12:43] ,ultimate_charged,714.62,1팀,Admiral,제트팩 캣,0,5
+[00:12:46] ,ability_2_used,718.27,2팀,MER1T,바스티온,0
+[00:12:47] ,ability_2_used,719.35,1팀,Admiral,제트팩 캣,0
+[00:12:47] ,ability_2_used,719.48,1팀,sugarfree,리퍼,0
+[00:12:47] ,ability_1_used,719.55,1팀,Hawk,D.Va,0
+[00:12:48] ,ability_1_used,719.75,1팀,Lethal,바스티온,0
+[00:12:48] ,ability_2_used,720.43,2팀,ChiYo,브리기테,0
+[00:12:49] ,ability_1_used,720.73,1팀,UltraViolet,키리코,0
+[00:12:49] ,ability_1_used,720.94,1팀,sugarfree,리퍼,0
+[00:12:49] ,ability_1_used,721.03,2팀,ChiYo,브리기테,0
+[00:12:50] ,ability_1_used,721.58,2팀,SP1NT,캐서디,0
+[00:12:50] ,ability_2_used,721.59,1팀,Hawk,D.Va,0
+[00:12:50] ,****,721.80,1팀,Lethal,바스티온,2팀,ChiYo,브리기테,Primary Fire,10.62,0,0
+[00:12:50] ,offensive_assist,722.26,1팀,Admiral,제트팩 캣,0
+[00:12:50] ,defensive_assist,722.26,1팀,Admiral,제트팩 캣,0
+[00:12:52] ,ultimate_start,723.80,1팀,Lethal,바스티온,0,6
+[00:12:52] ,ability_2_used,723.88,2팀,SP1NT,캐서디,0
+[00:12:54] ,ability_2_used,725.83,2팀,Someone,라마트라,0
+[00:12:54] ,point_progress,726.04,5,2팀,2,33.39
+[00:12:55] ,ability_1_used,727.06,1팀,Hawk,D.Va,0
+[00:12:56] ,ultimate_end,728.49,1팀,Lethal,바스티온,0,6
+[00:12:56] ,ability_1_used,728.53,2팀,SP1NT,캐서디,0
+[00:12:57] ,ability_2_used,728.57,1팀,sugarfree,리퍼,0
+[00:12:57] ,ability_2_used,729.11,1팀,Lethal,바스티온,0
+[00:12:57] ,****,729.12,2팀,Fielder,키리코,1팀,Lethal,바스티온,0,26.58,0,0
+[00:12:57] ,ability_1_used,729.27,2팀,Someone,라마트라,0
+[00:12:57] ,ability_1_used,729.32,1팀,UltraViolet,키리코,0
+[00:12:57] ,offensive_assist,729.38,2팀,Someone,라마트라,0
+[00:12:58] ,ability_1_used,729.78,1팀,Admiral,제트팩 캣,0
+[00:12:59] ,****,730.72,1팀,Hawk,D.Va,2팀,SP1NT,캐서디,0,3.27,0,0
+[00:12:59] ,defensive_assist,730.74,1팀,UltraViolet,키리코,0
+[00:13:00] ,hero_swap,732.34,2팀,ChiYo,루시우,브리기테,187.53
+[00:13:00] ,ability_1_used,732.34,2팀,ChiYo,루시우,0
+[00:13:00] ,ability_2_used,732.47,2팀,ChiYo,루시우,0
+[00:13:04] ,ability_2_used,735.67,1팀,Hawk,D.Va,0
+[00:13:05] ,ability_1_used,737.49,1팀,UltraViolet,키리코,0
+[00:13:06] ,ability_2_used,737.63,1팀,sugarfree,리퍼,0
+[00:13:07] ,ability_2_used,738.93,2팀,Someone,라마트라,0
+[00:13:07] ,hero_swap,739.15,1팀,Lethal,트레이서,바스티온,215.18
+[00:13:08] ,ability_1_used,739.66,1팀,Lethal,트레이서,0
+[00:13:08] ,ability_1_used,739.79,1팀,Lethal,트레이서,0
+[00:13:08] ,ability_1_used,739.93,1팀,Lethal,트레이서,0
+[00:13:08] ,ability_2_used,740.33,1팀,Admiral,제트팩 캣,0
+[00:13:08] ,ability_1_used,740.40,2팀,ChiYo,루시우,0
+[00:13:09] ,hero_swap,740.75,2팀,SP1NT,시온,캐서디,216.78
+[00:13:09] ,ability_1_used,740.81,2팀,Someone,라마트라,0
+[00:13:09] ,ability_1_used,741.04,2팀,SP1NT,시온,0
+[00:13:09] ,ability_1_used,741.04,2팀,MER1T,바스티온,0
+[00:13:09] ,ability_2_used,741.44,2팀,SP1NT,시온,0
+[00:13:10] ,ability_1_used,741.79,2팀,ChiYo,루시우,0
+[00:13:11] ,ability_1_used,743.01,1팀,Lethal,트레이서,0
+[00:13:11] ,ability_1_used,743.23,2팀,Fielder,키리코,0
+[00:13:12] ,****,744.04,2팀,MER1T,바스티온,1팀,sugarfree,리퍼,Primary Fire,6,0,0
+[00:13:12] ,defensive_assist,744.40,2팀,Fielder,키리코,0
+[00:13:12] ,ability_2_used,744.46,2팀,Fielder,키리코,0
+[00:13:12] ,ability_2_used,744.51,1팀,Hawk,D.Va,0
+[00:13:13] ,ultimate_start,745.21,2팀,Someone,라마트라,0,4
+[00:13:14] ,ability_1_used,745.93,1팀,Hawk,D.Va,0
+[00:13:15] ,****,746.94,1팀,UltraViolet,키리코,2팀,Fielder,키리코,0,18.65,True,0
+[00:13:15] ,ability_1_used,747.02,1팀,Admiral,제트팩 캣,0
+[00:13:15] ,ultimate_start,747.02,1팀,Admiral,제트팩 캣,0,5
+[00:13:15] ,ability_1_used,747.03,2팀,SP1NT,시온,0
+[00:13:15] ,defensive_assist,747.19,1팀,UltraViolet,키리코,0
+[00:13:16] ,ability_2_used,747.95,1팀,UltraViolet,키리코,0
+[00:13:16] ,****,748.07,2팀,SP1NT,시온,1팀,Admiral,제트팩 캣,Secondary Fire,13.16,True,0
+[00:13:16] ,ultimate_end,748.07,1팀,Admiral,제트팩 캣,0,5
+[00:13:16] ,defensive_assist,748.15,2팀,Fielder,키리코,0
+[00:13:17] ,ability_2_used,748.97,2팀,ChiYo,루시우,0
+[00:13:17] ,ability_1_used,749.32,2팀,ChiYo,루시우,0
+[00:13:19] ,ultimate_end,750.82,2팀,Someone,라마트라,0,4
+[00:13:19] ,point_progress,751.05,5,2팀,2,66.68
+[00:13:19] ,ability_1_used,751.43,2팀,ChiYo,루시우,0
+[00:13:20] ,ability_2_used,752.17,2팀,Someone,라마트라,0
+[00:13:20] ,ability_1_used,752.25,1팀,Hawk,D.Va,0
+[00:13:20] ,point_progress,752.50,5,2팀,2,99.98
+[00:13:20] ,objective_captured,752.52,5,2팀,2,99.99,99.99,0
+[00:13:21] ,ability_1_used,752.95,2팀,ChiYo,루시우,0
+[00:13:23] ,****,754.76,2팀,ChiYo,루시우,1팀,UltraViolet,키리코,Secondary Fire,9.48,0,0
+[00:13:23] ,ability_2_used,755.43,2팀,MER1T,바스티온,0
+[00:13:23] ,ability_1_used,755.49,1팀,Lethal,트레이서,0
+[00:13:24] ,ability_1_used,755.64,1팀,Lethal,트레이서,0
+[00:13:25] ,ability_2_used,756.74,1팀,sugarfree,리퍼,0
+[00:13:26] ,ability_1_used,758.18,1팀,sugarfree,리퍼,0
+[00:13:26] ,ability_1_used,758.37,2팀,ChiYo,루시우,0
+[00:13:27] ,****,758.92,2팀,SP1NT,시온,1팀,Lethal,트레이서,Melee,34,0,0
+[00:13:28] ,hero_swap,760.42,2팀,Fielder,제트팩 캣,키리코,236.45
+[00:13:29] ,ability_1_used,760.58,2팀,Fielder,제트팩 캣,0
+[00:13:29] ,ability_1_used,760.61,1팀,Admiral,제트팩 캣,0
+[00:13:30] ,ability_1_used,761.54,1팀,Hawk,D.Va,0
+[00:13:30] ,ability_2_used,761.95,1팀,Hawk,D.Va,0
+[00:13:31] ,objective_updated,762.79,6,2,0
+[00:13:32] ,round_end,762.80,6,2팀,1,4,0,0,0,40
+[00:13:32] ,match_end,762.80,6,1,4
+[00:13:32] ,player_stat,762.80,6,2팀,ChiYo,브리기테,6,2,6,2010.42,0,2010.42,4414.56,1270.23,470.45,3026.81,2735.35,5,3,2,2,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,485.87
+[00:13:32] ,player_stat,762.80,6,2팀,ChiYo,모이라,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:13:32] ,player_stat,762.80,6,2팀,ChiYo,젠야타,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0.61
+[00:13:32] ,player_stat,762.80,6,2팀,ChiYo,제트팩 캣,10,2,2,2552.77,30,2347.75,3296.14,771.51,0,1416.63,0,7,3,1,1,1,3,1,2,1,1,76,0.10,0,0,0,2140,767,1268,0,0,0.38,245.86
+[00:13:32] ,player_stat,762.80,6,2팀,ChiYo,루시우,2,1,0,455.48,0,455.48,292.39,81.48,81.48,190.34,0,0,0,0,0,0,0,0,0,0,0,2,0.13,0,0,0,56,15,36,0,0,0.29,30.46
+[00:13:32] ,player_stat,762.80,6,1팀,Lethal,바스티온,18,12,5,19841.81,7456.55,12385.26,0,6967.15,0,8852.26,0,0,0,5,5,0,0,0,3,0,0,33,0.04,0,0,0,2667,739,1472,0,0,0.33,575.35
+[00:13:32] ,player_stat,762.80,6,1팀,Lethal,소전,5,1,2,2978.17,705,2273.17,0,1051.20,0,1523.04,0,0,0,1,1,0,0,0,0,0,0,15,0.10,0,0,0,758,156,545,0,0,0.22,163.80
+[00:13:32] ,player_stat,762.80,6,1팀,Lethal,트레이서,0,0,1,194.80,86.25,108.55,0,0,0,175,0,0,0,0,0,0,0,0,0,0,0,3,0.06,0,0,0,126,48,63,0,0,0.43,23.65
+[00:13:32] ,player_stat,762.80,6,1팀,Hawk,D.Va,18,8,5,7725.27,1703.99,6021.28,0,10070.21,0,16437.93,11788.75,0,0,3,4,0,0,0,0,0,1,259,0.07,0,0,0,10420,3554,6237,0,0,0.36,600.92
+[00:13:32] ,player_stat,762.80,6,1팀,Hawk,라마트라,1,0,3,3807.64,1133.95,2673.69,0,1420.40,0,3945.40,885.62,0,0,1,1,0,0,0,0,0,0,18,0.08,0,0,0,1034,219,727,0,0,0.23,161.88
+[00:13:32] ,player_stat,762.80,6,1팀,UltraViolet,키리코,15,5,8,8619.22,2218.21,6401.01,10980.62,2900.90,0,4984.56,0,23,3,3,6,0,0,1,2,0,1,10,0.09,0,0,0,397,106,248,0,0,0.30,760.55
+[00:13:32] ,player_stat,762.80,6,1팀,UltraViolet,루시우,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2.26
+[00:13:32] ,player_stat,762.80,6,1팀,Admiral,주노,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:13:32] ,player_stat,762.80,6,1팀,Admiral,제트팩 캣,14,1,5,5263.99,1965.75,3298.24,10994.81,1776.37,0,3105.66,0,10,10,5,5,0,0,0,2,1,0,133,0.06,0,0,0,6125,2293,3519,0,0,0.39,762.80
+[00:13:32] ,player_stat,762.80,6,1팀,sugarfree,에코,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:13:32] ,player_stat,762.80,6,1팀,sugarfree,트레이서,13,4,6,7373.75,1341.97,6031.79,0,1302.24,872.05,3468.24,0,0,0,4,3,0,0,0,2,0,0,115,0.09,0,0,0,3656,1340,2079,0,0,0.39,574.01
+[00:13:32] ,player_stat,762.80,6,1팀,sugarfree,리퍼,6,0,2,3875.24,1731.79,2143.45,0,1110.88,343.58,1673.38,0,0,0,1,0,0,0,0,1,0,0,29,0.05,0,0,0,2280,636,1279,0,0,0.33,188.79
+[00:13:32] ,player_stat,762.80,6,2팀,Someone,라마트라,27,9,4,12418.94,291.12,12127.80,0,9970.22,0,16889.29,12458.70,0,5,4,4,2,4,3,6,0,0,122,0.10,0,0,0,6511,1199,4632,0,0,0.21,762.80
+[00:13:32] ,player_stat,762.80,6,2팀,SP1NT,캐서디,18,12,7,9025.53,0,9025.53,0,3541.72,0,5700.69,0,0,0,4,3,1,3,1,1,0,0,16,0.13,0,0,0,248,126,105,0,0,0.55,623.65
+[00:13:32] ,player_stat,762.80,6,2팀,SP1NT,시온,2,2,2,1902.16,0,1902.16,0,646.34,0,1237.95,0,0,0,0,0,0,0,0,2,0,0,5,0.09,0,0,0,128,53,64,0,0,0.45,139.15
+[00:13:32] ,player_stat,762.80,6,2팀,MER1T,프레야,0,0,1,294,0,294,0,249.63,0,474.63,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,30,4,17,0,0,0.19,39.47
+[00:13:32] ,player_stat,762.80,6,2팀,MER1T,바스티온,10,4,4,8008.37,0,8008.35,0,3446.89,0,5252.37,0,0,0,2,2,0,0,0,5,0,0,28,0.05,0,0,0,2001,564,1138,0,0,0.33,467.83
+[00:13:32] ,player_stat,762.80,6,2팀,MER1T,트레이서,0,0,0,229.90,0,229.90,0,160.08,105.51,265.59,0,0,0,0,0,0,0,0,0,0,0,5,0.06,0,0,0,174,84,66,0,0,0.56,32.81
+[00:13:32] ,player_stat,762.80,6,2팀,MER1T,메이,4,2,1,7734.12,384.50,2499.03,0,2677.91,846.15,3071.79,3149.41,0,1,1,1,0,0,0,2,0,0,0,0,0,0,0,345,106,198,0,0,0.35,222.69
+[00:13:32] ,player_stat,762.80,6,2팀,Fielder,키리코,7,1,6,4947.42,180,4767.40,14573.40,2643.33,0,4237.10,0,20,4,4,8,0,0,1,2,0,1,8,0.10,0,0,0,411,81,279,0,0,0.22,755.49
+[00:13:32] ,player_stat,762.80,6,2팀,Fielder,제트팩 캣,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,5,0,0,0,3.57
+[00:13:32] ,player_stat,762.80,6,2팀,Fielder,루시우,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3.74

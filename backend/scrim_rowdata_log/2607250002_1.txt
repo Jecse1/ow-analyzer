@@ -1,0 +1,1237 @@
+[00:00:00] ,match_start,0,부산,쟁탈,1팀,2팀
+[00:00:00] ,objective_updated,0,1,0,1
+[00:00:01] ,round_start,0,1,0,0,0,1
+[00:00:07] ,hero_spawn,0,2팀,Someone,시그마,0,0
+[00:00:16] ,hero_spawn,0,2팀,CheckMate,위도우메이커,0,0
+[00:00:17] ,hero_spawn,0,1팀,Viol2t,제트팩 캣,0,0
+[00:00:19] ,hero_spawn,0,2팀,ChiYo,브리기테,0,0
+[00:00:19] ,hero_spawn,0,1팀,shu,아나,0,0
+[00:00:23] ,hero_spawn,0,1팀,Proper,시메트라,0,0
+[00:00:26] ,hero_swap,0,2팀,ChiYo,바티스트,브리기테,0
+[00:00:27] ,hero_swap,0,2팀,ChiYo,미즈키,바티스트,0
+[00:00:28] ,hero_spawn,0,1팀,Bernar,도미나,0,0
+[00:00:29] ,hero_spawn,0,2팀,Fielder,바티스트,0,0
+[00:00:30] ,hero_swap,0,2팀,CheckMate,시메트라,위도우메이커,0
+[00:00:31] ,hero_spawn,0,1팀,knife,애쉬,0,0
+[00:00:31] ,hero_swap,0,1팀,Bernar,D.Va,도미나,0
+[00:00:33] ,hero_swap,0,1팀,knife,소전,애쉬,0
+[00:00:33] ,hero_spawn,0,2팀,MER1T,프레야,0,0
+[00:00:34] ,hero_swap,0,1팀,Bernar,시그마,D.Va,0
+[00:00:35] ,hero_swap,0,2팀,ChiYo,브리기테,미즈키,0
+[00:00:36] ,hero_swap,0,1팀,Viol2t,주노,제트팩 캣,0
+[00:00:39] ,hero_swap,0,1팀,Viol2t,젠야타,주노,0
+[00:00:41] ,hero_swap,0,1팀,Viol2t,주노,젠야타,0
+[00:00:41] ,hero_swap,0,2팀,MER1T,바스티온,프레야,0
+[00:00:48] ,ability_2_used,0,1팀,Proper,시메트라,0
+[00:00:48] ,setup_complete,0,1,29.99
+[00:00:48] ,ability_2_used,0.05,1팀,Viol2t,주노,0
+[00:00:49] ,ability_2_used,0.86,2팀,CheckMate,시메트라,0
+[00:00:52] ,hero_swap,3.44,1팀,Proper,트레이서,시메트라,3.44
+[00:00:52] ,hero_swap,3.65,1팀,Viol2t,우양,주노,3.65
+[00:00:52] ,ability_1_used,3.78,1팀,Proper,트레이서,0
+[00:00:52] ,ability_1_used,4,1팀,Proper,트레이서,0
+[00:00:52] ,ability_1_used,4.05,1팀,Viol2t,우양,0
+[00:00:52] ,ability_1_used,4.13,1팀,Proper,트레이서,0
+[00:00:54] ,ability_1_used,5.49,2팀,CheckMate,시메트라,0
+[00:00:55] ,ability_1_used,6.72,2팀,CheckMate,시메트라,0
+[00:00:59] ,ability_2_used,10.48,2팀,ChiYo,브리기테,0
+[00:01:00] ,ability_2_used,11.62,1팀,knife,소전,0
+[00:01:00] ,ability_1_used,11.94,1팀,Proper,트레이서,0
+[00:01:00] ,ability_1_used,12.03,2팀,ChiYo,브리기테,0
+[00:01:01] ,ability_2_used,13.06,2팀,ChiYo,브리기테,0
+[00:01:03] ,ability_1_used,14.46,1팀,Proper,트레이서,0
+[00:01:04] ,ability_2_used,15.87,1팀,Bernar,시그마,0
+[00:01:05] ,ability_1_used,16.56,1팀,Viol2t,우양,0
+[00:01:05] ,ability_1_used,17.07,2팀,ChiYo,브리기테,0
+[00:01:06] ,ability_2_used,18.10,2팀,ChiYo,브리기테,0
+[00:01:07] ,ability_1_used,18.50,1팀,Proper,트레이서,0
+[00:01:07] ,ability_2_used,19.25,2팀,ChiYo,브리기테,0
+[00:01:08] ,ability_2_used,20.30,1팀,Proper,트레이서,0
+[00:01:11] ,ability_1_used,22.48,1팀,Proper,트레이서,0
+[00:01:11] ,ability_2_used,23.23,2팀,ChiYo,브리기테,0
+[00:01:12] ,ability_1_used,23.78,2팀,Fielder,바티스트,0
+[00:01:12] ,****,23.84,1팀,Bernar,시그마,2팀,MER1T,바스티온,Primary Fire,1.27,0,0
+[00:01:12] ,defensive_assist,24.03,1팀,shu,아나,0
+[00:01:13] ,ability_1_used,24.67,1팀,Proper,트레이서,0
+[00:01:16] ,ability_1_used,27.71,1팀,Proper,트레이서,0
+[00:01:16] ,ability_1_used,28.03,1팀,knife,소전,0
+[00:01:16] ,ability_1_used,28.35,1팀,Proper,트레이서,0
+[00:01:18] ,ability_1_used,29.38,1팀,Proper,트레이서,0
+[00:01:18] ,ability_2_used,30.00,2팀,ChiYo,브리기테,0
+[00:01:19] ,ability_2_used,31.25,2팀,CheckMate,시메트라,0
+[00:01:20] ,ability_1_used,31.38,1팀,Viol2t,우양,0
+[00:01:20] ,ability_1_used,31.87,2팀,ChiYo,브리기테,0
+[00:01:21] ,point_progress,32.67,1,All Teams,1,33.39
+[00:01:23] ,ability_2_used,35.12,1팀,Bernar,시그마,0
+[00:01:23] ,point_progress,35.34,1,All Teams,1,66.79
+[00:01:24] ,ability_2_used,36.11,1팀,knife,소전,0
+[00:01:24] ,ability_2_used,36.18,1팀,Viol2t,우양,0
+[00:01:24] ,ability_1_used,36.21,2팀,Someone,시그마,0
+[00:01:24] ,ability_2_used,36.34,2팀,ChiYo,브리기테,0
+[00:01:25] ,ability_1_used,36.88,2팀,Fielder,바티스트,0
+[00:01:25] ,hero_swap,37.33,2팀,MER1T,프레야,바스티온,37.33
+[00:01:26] ,ability_2_used,37.50,2팀,ChiYo,브리기테,0
+[00:01:26] ,ability_1_used,37.57,1팀,Proper,트레이서,0
+[00:01:26] ,ability_1_used,37.92,1팀,Proper,트레이서,0
+[00:01:26] ,objective_captured,38.02,1,1팀,1,0,0,0
+[00:01:27] ,ability_1_used,38.38,1팀,knife,소전,0
+[00:01:27] ,ability_1_used,39.14,2팀,MER1T,프레야,0
+[00:01:27] ,ability_1_used,39.23,1팀,Proper,트레이서,0
+[00:01:28] ,ability_1_used,39.71,2팀,ChiYo,브리기테,0
+[00:01:29] ,ability_2_used,40.50,1팀,shu,아나,0
+[00:01:30] ,ability_2_used,42.26,2팀,Fielder,바티스트,0
+[00:01:31] ,ability_1_used,42.69,1팀,shu,아나,0
+[00:01:32] ,ability_1_used,43.70,2팀,MER1T,프레야,0
+[00:01:32] ,ability_2_used,43.76,2팀,Someone,시그마,0
+[00:01:32] ,ability_1_used,44.10,2팀,CheckMate,시메트라,0
+[00:01:32] ,****,44.35,1팀,Bernar,시그마,2팀,ChiYo,브리기테,Primary Fire,54.02,0,0
+[00:01:33] ,ability_1_used,45.01,2팀,CheckMate,시메트라,0
+[00:01:33] ,ability_1_used,45.31,1팀,Proper,트레이서,0
+[00:01:34] ,****,45.36,2팀,Someone,시그마,1팀,shu,아나,Melee,34.70,0,0
+[00:01:34] ,defensive_assist,45.65,2팀,Fielder,바티스트,0
+[00:01:34] ,ability_1_used,46.27,1팀,Proper,트레이서,0
+[00:01:35] ,ability_1_used,46.56,1팀,knife,소전,0
+[00:01:36] ,ability_2_used,47.74,2팀,CheckMate,시메트라,0
+[00:01:36] ,ability_2_used,47.74,1팀,Bernar,시그마,0
+[00:01:37] ,ability_1_used,48.50,1팀,Proper,트레이서,0
+[00:01:37] ,****,49.09,1팀,Bernar,시그마,2팀,CheckMate,시메트라,Primary Fire,10,0,0
+[00:01:37] ,****,49.25,1팀,knife,소전,2팀,Fielder,바티스트,Primary Fire,8,0,0
+[00:01:39] ,ability_1_used,50.81,1팀,Viol2t,우양,0
+[00:01:39] ,****,50.96,1팀,Bernar,시그마,2팀,Someone,시그마,Primary Fire,39.93,0,0
+[00:01:39] ,offensive_assist,51.28,1팀,shu,아나,0
+[00:01:40] ,ability_2_used,52.00,1팀,Viol2t,우양,0
+[00:01:40] ,ability_1_used,52.32,2팀,MER1T,프레야,0
+[00:01:44] ,ability_1_used,55.61,1팀,knife,소전,0
+[00:01:47] ,hero_swap,58.80,2팀,CheckMate,트레이서,시메트라,58.80
+[00:01:47] ,ability_1_used,58.89,1팀,Proper,트레이서,0
+[00:01:48] ,ability_1_used,60.17,2팀,CheckMate,트레이서,0
+[00:01:50] ,ability_1_used,61.82,2팀,MER1T,프레야,0
+[00:01:51] ,ability_2_used,62.49,1팀,Bernar,시그마,0
+[00:01:54] ,ability_2_used,65.49,1팀,knife,소전,0
+[00:01:54] ,ability_1_used,65.89,2팀,CheckMate,트레이서,0
+[00:01:55] ,ability_1_used,66.77,2팀,CheckMate,트레이서,0
+[00:01:56] ,ability_1_used,68.05,2팀,MER1T,프레야,0
+[00:01:57] ,ability_1_used,68.46,2팀,MER1T,프레야,0
+[00:02:02] ,ability_1_used,73.44,2팀,MER1T,프레야,0
+[00:02:02] ,ability_1_used,74.27,1팀,Proper,트레이서,0
+[00:02:03] ,ability_1_used,74.46,1팀,Proper,트레이서,0
+[00:02:06] ,ability_1_used,77.50,2팀,CheckMate,트레이서,0
+[00:02:06] ,ability_1_used,78.03,2팀,MER1T,프레야,0
+[00:02:06] ,ability_1_used,78.05,2팀,CheckMate,트레이서,0
+[00:02:06] ,ability_1_used,78.33,1팀,Proper,트레이서,0
+[00:02:07] ,ability_1_used,78.46,1팀,Viol2t,우양,0
+[00:02:07] ,ability_1_used,79.13,1팀,Proper,트레이서,0
+[00:02:07] ,ability_1_used,79.16,2팀,CheckMate,트레이서,0
+[00:02:08] ,ability_2_used,80.20,2팀,ChiYo,브리기테,0
+[00:02:09] ,ability_2_used,80.38,1팀,Bernar,시그마,0
+[00:02:09] ,ability_2_used,80.49,2팀,CheckMate,트레이서,0
+[00:02:10] ,ability_1_used,82.01,2팀,Fielder,바티스트,0
+[00:02:12] ,ability_2_used,83.42,2팀,ChiYo,브리기테,0
+[00:02:12] ,ability_1_used,83.93,1팀,Bernar,시그마,0
+[00:02:14] ,ability_1_used,85.77,2팀,ChiYo,브리기테,0
+[00:02:14] ,ability_1_used,85.79,1팀,Proper,트레이서,0
+[00:02:15] ,ability_1_used,86.49,2팀,CheckMate,트레이서,0
+[00:02:15] ,ability_2_used,86.96,2팀,ChiYo,브리기테,0
+[00:02:16] ,ability_1_used,87.58,2팀,MER1T,프레야,0
+[00:02:16] ,ability_1_used,87.80,2팀,CheckMate,트레이서,0
+[00:02:17] ,ability_1_used,88.62,2팀,CheckMate,트레이서,0
+[00:02:17] ,ability_1_used,88.68,1팀,Proper,트레이서,0
+[00:02:18] ,ability_1_used,89.53,2팀,MER1T,프레야,0
+[00:02:18] ,ability_1_used,89.56,1팀,Proper,트레이서,0
+[00:02:19] ,ultimate_charged,90.67,1팀,Proper,트레이서,0,1
+[00:02:19] ,ability_2_used,90.73,2팀,ChiYo,브리기테,0
+[00:02:19] ,ability_1_used,91.32,1팀,Proper,트레이서,0
+[00:02:19] ,ability_2_used,91.34,2팀,ChiYo,브리기테,0
+[00:02:20] ,ultimate_start,91.47,1팀,Proper,트레이서,0,1
+[00:02:20] ,ability_2_used,91.66,1팀,Proper,트레이서,0
+[00:02:20] ,ultimate_end,91.66,1팀,Proper,트레이서,0,1
+[00:02:20] ,ability_2_used,91.74,1팀,knife,소전,0
+[00:02:20] ,ability_2_used,92.09,2팀,Fielder,바티스트,0
+[00:02:21] ,ability_1_used,92.91,2팀,Someone,시그마,0
+[00:02:21] ,ability_1_used,93.16,2팀,ChiYo,브리기테,0
+[00:02:22] ,ability_1_used,93.36,2팀,MER1T,프레야,0
+[00:02:22] ,****,93.40,1팀,Viol2t,우양,2팀,Fielder,바티스트,0,10,0,0
+[00:02:22] ,ability_2_used,93.45,1팀,Bernar,시그마,0
+[00:02:22] ,ability_1_used,93.50,2팀,CheckMate,트레이서,0
+[00:02:22] ,ability_1_used,93.85,1팀,Viol2t,우양,0
+[00:02:22] ,ability_2_used,94.08,1팀,Viol2t,우양,0
+[00:02:23] ,ability_1_used,94.78,1팀,Proper,트레이서,0
+[00:02:23] ,ability_1_used,94.89,2팀,CheckMate,트레이서,0
+[00:02:25] ,ability_1_used,96.91,1팀,Proper,트레이서,0
+[00:02:25] ,ability_2_used,96.94,2팀,ChiYo,브리기테,0
+[00:02:26] ,ability_1_used,97.92,2팀,CheckMate,트레이서,0
+[00:02:26] ,ability_1_used,98.30,1팀,shu,아나,0
+[00:02:27] ,ability_2_used,98.56,2팀,Someone,시그마,0
+[00:02:27] ,ability_1_used,99.20,1팀,Proper,트레이서,0
+[00:02:28] ,ability_1_used,99.53,2팀,MER1T,프레야,0
+[00:02:28] ,ability_1_used,99.60,1팀,knife,소전,0
+[00:02:29] ,ability_2_used,101.13,2팀,ChiYo,브리기테,0
+[00:02:30] ,ability_2_used,101.48,1팀,shu,아나,0
+[00:02:30] ,****,101.90,1팀,knife,소전,2팀,CheckMate,트레이서,Secondary Fire,14.60,True,0
+[00:02:30] ,ability_1_used,102.01,2팀,MER1T,프레야,0
+[00:02:30] ,offensive_assist,102.08,1팀,shu,아나,0
+[00:02:30] ,defensive_assist,102.08,1팀,shu,아나,0
+[00:02:30] ,ability_1_used,102.28,1팀,Proper,트레이서,0
+[00:02:32] ,ability_1_used,103.47,2팀,ChiYo,브리기테,0
+[00:02:32] ,****,103.55,1팀,shu,아나,2팀,MER1T,프레야,Primary Fire,1.80,0,0
+[00:02:32] ,defensive_assist,103.93,1팀,shu,아나,0
+[00:02:34] ,ability_1_used,106.09,1팀,Bernar,시그마,0
+[00:02:34] ,ability_2_used,106.16,2팀,ChiYo,브리기테,0
+[00:02:36] ,ability_1_used,108.17,1팀,Proper,트레이서,0
+[00:02:36] ,ability_1_used,108.22,1팀,knife,소전,0
+[00:02:37] ,ultimate_charged,108.76,2팀,Fielder,바티스트,0,1
+[00:02:37] ,ability_2_used,108.94,1팀,Viol2t,우양,0
+[00:02:39] ,ability_2_used,111.05,2팀,ChiYo,브리기테,0
+[00:02:39] ,ability_1_used,111.13,1팀,Proper,트레이서,0
+[00:02:40] ,ability_2_used,112.03,2팀,Someone,시그마,0
+[00:02:41] ,ability_1_used,112.60,1팀,Proper,트레이서,0
+[00:02:41] ,ultimate_charged,112.63,1팀,Viol2t,우양,0,1
+[00:02:41] ,ability_2_used,112.75,1팀,knife,소전,0
+[00:02:42] ,ability_1_used,113.37,1팀,Proper,트레이서,0
+[00:02:42] ,hero_swap,113.96,2팀,MER1T,소전,프레야,76.63
+[00:02:44] ,ultimate_charged,115.35,2팀,Someone,시그마,0,1
+[00:02:44] ,ability_2_used,115.55,1팀,Bernar,시그마,0
+[00:02:45] ,ultimate_charged,117.00,1팀,shu,아나,0,1
+[00:02:45] ,ability_2_used,117.19,2팀,ChiYo,브리기테,0
+[00:02:46] ,ultimate_charged,117.58,2팀,ChiYo,브리기테,0,1
+[00:02:46] ,ability_1_used,118.22,2팀,CheckMate,트레이서,0
+[00:02:48] ,ability_1_used,119.87,2팀,MER1T,소전,0
+[00:02:50] ,ability_2_used,121.74,2팀,MER1T,소전,0
+[00:02:50] ,ability_1_used,122.09,1팀,knife,소전,0
+[00:02:50] ,ability_1_used,122.11,1팀,Bernar,시그마,0
+[00:02:51] ,ultimate_charged,123.00,1팀,Bernar,시그마,0,1
+[00:02:52] ,ability_1_used,124.22,1팀,Proper,트레이서,0
+[00:02:55] ,ability_1_used,126.51,2팀,CheckMate,트레이서,0
+[00:02:55] ,ability_1_used,126.51,2팀,Someone,시그마,0
+[00:02:55] ,ability_2_used,127.19,1팀,Bernar,시그마,0
+[00:02:56] ,ability_1_used,127.67,1팀,Proper,트레이서,0
+[00:02:56] ,ultimate_start,127.67,2팀,Fielder,바티스트,0,1
+[00:02:56] ,****,128.06,1팀,knife,소전,2팀,Fielder,바티스트,Secondary Fire,119.55,0,0
+[00:02:56] ,ability_1_used,128.25,1팀,Proper,트레이서,0
+[00:02:57] ,ultimate_start,128.62,1팀,Bernar,시그마,0,1
+[00:02:57] ,ability_1_used,128.89,1팀,Proper,트레이서,0
+[00:02:57] ,ability_2_used,129.08,2팀,ChiYo,브리기테,0
+[00:02:58] ,ability_2_used,129.45,2팀,Someone,시그마,0
+[00:02:59] ,ability_2_used,130.39,1팀,knife,소전,0
+[00:02:59] ,ability_2_used,130.68,2팀,ChiYo,브리기테,0
+[00:02:59] ,ability_1_used,131.08,2팀,CheckMate,트레이서,0
+[00:03:00] ,ability_1_used,131.69,2팀,CheckMate,트레이서,0
+[00:03:00] ,ultimate_charged,132.01,1팀,knife,소전,0,1
+[00:03:00] ,ability_2_used,132.06,2팀,ChiYo,브리기테,0
+[00:03:01] ,ability_1_used,132.76,2팀,ChiYo,브리기테,0
+[00:03:01] ,ultimate_end,132.80,1팀,Bernar,시그마,0,1
+[00:03:01] ,****,133.05,1팀,Bernar,시그마,2팀,Someone,시그마,Primary Fire,40.82,0,0
+[00:03:01] ,defensive_assist,133.07,1팀,shu,아나,0
+[00:03:01] ,ability_1_used,133.07,1팀,Proper,트레이서,0
+[00:03:01] ,****,133.31,2팀,MER1T,소전,1팀,Viol2t,우양,Secondary Fire,207,0,0
+[00:03:02] ,offensive_assist,133.52,2팀,Fielder,바티스트,0
+[00:03:03] ,****,134.36,2팀,MER1T,소전,1팀,knife,소전,Primary Fire,26.64,True,0
+[00:03:03] ,ability_1_used,134.41,1팀,Proper,트레이서,0
+[00:03:03] ,offensive_assist,134.43,2팀,Fielder,바티스트,0
+[00:03:03] ,defensive_assist,134.48,2팀,ChiYo,브리기테,0
+[00:03:03] ,ability_1_used,134.49,2팀,CheckMate,트레이서,0
+[00:03:03] ,ability_1_used,134.67,2팀,MER1T,소전,0
+[00:03:03] ,ability_1_used,135.20,2팀,CheckMate,트레이서,0
+[00:03:04] ,ability_2_used,135.42,2팀,ChiYo,브리기테,0
+[00:03:05] ,ability_2_used,136.37,2팀,CheckMate,트레이서,0
+[00:03:05] ,ability_1_used,136.80,1팀,Bernar,시그마,0
+[00:03:06] ,ability_2_used,137.95,2팀,MER1T,소전,0
+[00:03:06] ,ultimate_end,138.19,2팀,Fielder,바티스트,0,1
+[00:03:07] ,ability_1_used,138.38,2팀,CheckMate,트레이서,0
+[00:03:07] ,ability_2_used,138.67,2팀,ChiYo,브리기테,0
+[00:03:08] ,ability_2_used,139.50,1팀,Bernar,시그마,0
+[00:03:08] ,ultimate_start,139.53,1팀,shu,아나,0,1
+[00:03:08] ,hero_swap,140.09,2팀,Fielder,루시우,바티스트,140.09
+[00:03:08] ,ability_1_used,140.09,2팀,Fielder,루시우,0
+[00:03:08] ,ability_2_used,140.13,2팀,Fielder,루시우,0
+[00:03:09] ,****,140.56,2팀,CheckMate,트레이서,1팀,Proper,트레이서,Primary Fire,2.61,0,0
+[00:03:09] ,ability_2_used,141.15,1팀,shu,아나,0
+[00:03:09] ,ability_2_used,141.15,2팀,ChiYo,브리기테,0
+[00:03:09] ,****,141.26,1팀,Bernar,시그마,2팀,MER1T,소전,Primary Fire,51.17,0,0
+[00:03:10] ,ability_1_used,141.39,2팀,CheckMate,트레이서,0
+[00:03:10] ,offensive_assist,141.57,1팀,shu,아나,0
+[00:03:10] ,ability_1_used,141.78,2팀,ChiYo,브리기테,0
+[00:03:10] ,****,142.18,1팀,shu,아나,2팀,CheckMate,트레이서,Primary Fire,0.27,0,0
+[00:03:11] ,defensive_assist,142.50,1팀,shu,아나,0
+[00:03:12] ,hero_swap,143.46,2팀,Fielder,아나,루시우,3.36
+[00:03:13] ,ultimate_start,144.78,2팀,ChiYo,브리기테,0,1
+[00:03:14] ,ability_1_used,145.90,1팀,Viol2t,우양,0
+[00:03:14] ,ability_1_used,145.94,1팀,knife,소전,0
+[00:03:14] ,ability_2_used,145.98,2팀,Fielder,아나,0
+[00:03:15] ,ability_1_used,146.59,2팀,ChiYo,브리기테,0
+[00:03:16] ,****,147.54,1팀,Bernar,시그마,2팀,ChiYo,브리기테,Melee,49.79,0,0
+[00:03:16] ,ultimate_end,147.54,2팀,ChiYo,브리기테,0,1
+[00:03:16] ,ultimate_end,147.67,1팀,shu,아나,0,1
+[00:03:16] ,offensive_assist,147.70,1팀,shu,아나,0
+[00:03:16] ,defensive_assist,147.70,1팀,shu,아나,0
+[00:03:19] ,ability_1_used,151.25,1팀,Proper,트레이서,0
+[00:03:20] ,ability_1_used,151.44,1팀,Proper,트레이서,0
+[00:03:22] ,ability_1_used,154.15,2팀,MER1T,소전,0
+[00:03:22] ,ability_1_used,154.20,2팀,CheckMate,트레이서,0
+[00:03:23] ,ability_1_used,154.45,1팀,knife,소전,0
+[00:03:23] ,ability_1_used,154.68,2팀,CheckMate,트레이서,0
+[00:03:23] ,ability_1_used,154.79,1팀,Proper,트레이서,0
+[00:03:24] ,ability_1_used,156.04,2팀,CheckMate,트레이서,0
+[00:03:25] ,ability_2_used,156.47,1팀,Bernar,시그마,0
+[00:03:25] ,ability_2_used,157.16,1팀,knife,소전,0
+[00:03:25] ,ultimate_start,157.24,1팀,knife,소전,0,1
+[00:03:26] ,ability_1_used,157.49,1팀,Proper,트레이서,0
+[00:03:26] ,hero_swap,157.57,2팀,ChiYo,루시우,브리기테,157.57
+[00:03:26] ,ability_1_used,157.57,2팀,ChiYo,루시우,0
+[00:03:26] ,ability_1_used,157.64,2팀,Someone,시그마,0
+[00:03:26] ,ability_2_used,157.80,2팀,ChiYo,루시우,0
+[00:03:26] ,ability_1_used,157.93,2팀,Fielder,아나,0
+[00:03:26] ,player_stat,158.02,1,2팀,CheckMate,위도우메이커,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:03:26] ,player_stat,158.02,1,2팀,CheckMate,시메트라,0,0,1,339.20,206.61,132.59,0,631.20,0,906.20,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22,1,16,0,0,0.06,58.80
+[00:03:26] ,player_stat,158.02,1,2팀,CheckMate,트레이서,1,1,2,965.42,118.81,846.61,0,46.22,295.33,712.35,0,0,0,0,0,0,0,1,0,0,0,19,0.12,0,0,0,542,165,338,0,0,0.33,99.22
+[00:03:26] ,player_stat,158.02,1,1팀,Viol2t,제트팩 캣,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:03:26] ,player_stat,158.02,1,1팀,Viol2t,주노,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,13,0,13,0,0,0,3.65
+[00:03:26] ,player_stat,158.02,1,1팀,Viol2t,젠야타,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:03:26] ,player_stat,158.02,1,1팀,Viol2t,우양,5,1,1,3302.06,1219.23,1982.83,0,389.21,0,966.15,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,81,22,40,0,0,0.35,154.37
+[00:03:26] ,player_stat,158.02,1,1팀,shu,아나,6,2,1,1477.67,128.00,1309.67,2255.02,482.94,63,1007.77,0,6,4,1,1,0,0,0,0,0,0,0,0,0.68,0,0,87,52,33,57,39,0.61,158.02
+[00:03:26] ,player_stat,158.02,1,1팀,Proper,시메트라,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3.44
+[00:03:26] ,player_stat,158.02,1,1팀,Proper,트레이서,7,0,1,3200.35,555.42,2179.93,0,665.86,117,1044.66,0,0,0,1,1,0,0,0,0,0,0,45,0.09,0,0,0,1224,484,605,0,0,0.44,154.58
+[00:03:26] ,player_stat,158.02,1,2팀,Someone,시그마,2,1,2,3983.83,1672.86,2310.97,0,3327.36,0,5049.20,4548.96,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,66,19,34,0,0,0.36,158.02
+[00:03:26] ,player_stat,158.02,1,1팀,Bernar,도미나,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:03:26] ,player_stat,158.02,1,1팀,Bernar,D.Va,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:03:26] ,player_stat,158.02,1,1팀,Bernar,시그마,7,7,0,6074.05,2307.06,3451.81,0,2418.94,0,2891.37,3350.67,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,75,30,27,0,0,0.53,158.02
+[00:03:26] ,player_stat,158.02,1,2팀,Fielder,바티스트,0,0,3,802.48,450,352.48,2674.48,574.25,174.17,1360.03,0,1,2,1,1,0,0,0,0,0,0,2,0.15,0,0,0,79,13,42,0,0,0.24,140.09
+[00:03:26] ,player_stat,158.02,1,2팀,Fielder,루시우,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3.36
+[00:03:26] ,player_stat,158.02,1,2팀,Fielder,아나,0,0,0,84.60,0,84.60,60,0,0,159.60,0,0,0,0,0,0,0,0,0,0,0,0,0,0.40,0,0,9,3,5,5,2,0.38,14.57
+[00:03:26] ,player_stat,158.02,1,1팀,knife,애쉬,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:03:26] ,player_stat,158.02,1,1팀,knife,소전,8,3,1,4062.59,1703.54,2298.05,0,521.59,0,816.85,0,0,0,1,1,0,0,0,0,0,0,14,0.10,0,0,0,856,146,535,0,0,0.21,158.02
+[00:03:26] ,player_stat,158.02,1,2팀,MER1T,프레야,0,0,1,755,225,530,0,535.31,0,760.31,0,0,0,0,0,0,0,0,0,0,0,1,0.11,0,0,0,65,9,27,0,0,0.25,76.63
+[00:03:26] ,player_stat,158.02,1,2팀,MER1T,바스티온,0,0,1,437.09,51.68,385.41,0,117.54,0,467.54,0,0,0,0,0,0,0,0,0,0,0,4,0.22,0,0,0,71,18,50,0,0,0.26,37.33
+[00:03:26] ,player_stat,158.02,1,2팀,MER1T,소전,2,2,1,987.34,375.70,611.64,0,253.62,0,485.52,0,0,0,0,0,0,0,0,0,0,0,3,0.09,0,0,0,191,33,119,0,0,0.22,44.06
+[00:03:26] ,round_end,158.02,1,0,1,0,1,100,0,0
+[00:03:26] ,player_stat,158.02,1,2팀,ChiYo,브리기테,0,0,2,1722.50,250,1472.50,2568.23,526.66,286.09,1321.54,1364.29,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,157.57
+[00:03:26] ,player_stat,158.02,1,2팀,ChiYo,바티스트,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:03:26] ,player_stat,158.02,1,2팀,ChiYo,미즈키,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:03:26] ,player_stat,158.02,1,2팀,ChiYo,루시우,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.45
+[00:03:34] ,ultimate_end,158.02,1팀,knife,소전,0,1
+[00:03:36] ,objective_updated,158.02,2,1,2
+[00:03:37] ,round_start,158.02,2,0,1,0,2
+[00:03:40] ,hero_swap,158.02,2팀,CheckMate,시메트라,트레이서,0
+[00:03:40] ,hero_swap,158.02,1팀,Proper,시메트라,트레이서,0
+[00:03:52] ,hero_swap,158.02,2팀,MER1T,캐서디,소전,0
+[00:04:07] ,hero_swap,158.02,1팀,Viol2t,제트팩 캣,우양,0
+[00:04:15] ,hero_swap,158.02,1팀,Viol2t,주노,제트팩 캣,0
+[00:04:18] ,hero_swap,158.02,2팀,Fielder,바티스트,아나,0
+[00:04:24] ,hero_swap,158.02,1팀,Viol2t,제트팩 캣,주노,0
+[00:04:25] ,hero_swap,158.02,2팀,ChiYo,브리기테,루시우,0
+[00:04:25] ,hero_swap,158.02,1팀,Viol2t,주노,제트팩 캣,0
+[00:04:26] ,ability_2_used,158.02,1팀,Proper,시메트라,0
+[00:04:26] ,setup_complete,158.02,2,29.99
+[00:04:27] ,ability_2_used,158.60,1팀,Viol2t,주노,0
+[00:04:28] ,ability_2_used,159.54,2팀,CheckMate,시메트라,0
+[00:04:29] ,hero_swap,161.00,1팀,Viol2t,미즈키,주노,2.98
+[00:04:30] ,ability_1_used,161.50,1팀,Viol2t,미즈키,0
+[00:04:30] ,ability_1_used,161.64,2팀,MER1T,캐서디,0
+[00:04:31] ,hero_swap,162.60,1팀,Proper,트레이서,시메트라,4.58
+[00:04:31] ,ability_1_used,162.60,1팀,knife,소전,0
+[00:04:31] ,ability_1_used,162.62,2팀,CheckMate,시메트라,0
+[00:04:31] ,ability_1_used,162.90,1팀,Proper,트레이서,0
+[00:04:31] ,ability_1_used,163.06,1팀,Proper,트레이서,0
+[00:04:34] ,ability_1_used,166.07,2팀,CheckMate,시메트라,0
+[00:04:39] ,ability_1_used,170.52,2팀,ChiYo,브리기테,0
+[00:04:40] ,ability_1_used,172.00,1팀,knife,소전,0
+[00:04:41] ,ability_2_used,172.59,2팀,ChiYo,브리기테,0
+[00:04:41] ,ability_1_used,173.36,1팀,Proper,트레이서,0
+[00:04:43] ,ability_1_used,174.70,2팀,Fielder,바티스트,0
+[00:04:43] ,ability_2_used,174.73,2팀,ChiYo,브리기테,0
+[00:04:46] ,ability_2_used,177.55,2팀,CheckMate,시메트라,0
+[00:04:47] ,ability_2_used,178.61,1팀,knife,소전,0
+[00:04:48] ,ability_1_used,179.41,2팀,CheckMate,시메트라,0
+[00:04:48] ,ability_1_used,179.47,1팀,Proper,트레이서,0
+[00:04:48] ,ability_2_used,179.82,2팀,ChiYo,브리기테,0
+[00:04:49] ,ability_1_used,180.48,2팀,MER1T,캐서디,0
+[00:04:49] ,ability_1_used,180.49,1팀,Proper,트레이서,0
+[00:04:49] ,****,180.78,1팀,knife,소전,2팀,CheckMate,시메트라,Secondary Fire,159,True,0
+[00:04:49] ,defensive_assist,181.09,1팀,shu,아나,0
+[00:04:50] ,ability_2_used,181.50,1팀,Bernar,시그마,0
+[00:04:50] ,ability_1_used,181.66,1팀,Proper,트레이서,0
+[00:04:51] ,ability_1_used,182.78,2팀,Someone,시그마,0
+[00:04:51] ,ability_2_used,183.07,1팀,Proper,트레이서,0
+[00:04:53] ,ability_1_used,184.51,1팀,Proper,트레이서,0
+[00:04:53] ,ability_2_used,185.02,2팀,ChiYo,브리기테,0
+[00:04:54] ,ability_1_used,186.02,1팀,Viol2t,미즈키,0
+[00:04:54] ,ability_1_used,186.35,2팀,MER1T,캐서디,0
+[00:04:55] ,ability_2_used,186.42,1팀,shu,아나,0
+[00:04:55] ,ability_2_used,186.95,2팀,ChiYo,브리기테,0
+[00:04:55] ,****,187.04,1팀,shu,아나,2팀,MER1T,캐서디,Ability 2,37.46,0,0
+[00:04:55] ,defensive_assist,187.15,1팀,shu,아나,0
+[00:04:55] ,ability_2_used,187.27,2팀,Someone,시그마,0
+[00:04:56] ,ability_1_used,187.47,1팀,Proper,트레이서,0
+[00:04:56] ,ability_1_used,187.51,2팀,Fielder,바티스트,0
+[00:04:56] ,ability_1_used,187.87,2팀,ChiYo,브리기테,0
+[00:04:57] ,ability_2_used,188.83,2팀,ChiYo,브리기테,0
+[00:04:57] ,ability_2_used,189.15,1팀,Viol2t,미즈키,0
+[00:04:57] ,ability_2_used,189.36,2팀,Fielder,바티스트,0
+[00:05:00] ,ability_1_used,191.64,1팀,shu,아나,0
+[00:05:01] ,****,192.55,1팀,Bernar,시그마,2팀,ChiYo,브리기테,Primary Fire,43.50,0,0
+[00:05:01] ,defensive_assist,192.77,1팀,Viol2t,미즈키,0
+[00:05:01] ,ability_2_used,192.82,1팀,Bernar,시그마,0
+[00:05:01] ,point_progress,193.27,2,All Teams,2,33.77
+[00:05:01] ,****,193.28,1팀,Proper,트레이서,2팀,Fielder,바티스트,Primary Fire,2.05,0,0
+[00:05:02] ,defensive_assist,193.67,1팀,shu,아나,0
+[00:05:02] ,defensive_assist,193.72,1팀,Viol2t,미즈키,0
+[00:05:03] ,point_progress,194.80,2,All Teams,2,66.97
+[00:05:03] ,****,194.88,2팀,Someone,시그마,2팀,Someone,시그마,0,600,0,True
+[00:05:03] ,defensive_assist,195.12,1팀,Viol2t,미즈키,0
+[00:05:04] ,objective_captured,196.13,2,1팀,2,0.01,0,0
+[00:05:04] ,ability_1_used,196.34,1팀,knife,소전,0
+[00:05:06] ,ability_1_used,197.67,1팀,Proper,트레이서,0
+[00:05:06] ,ability_1_used,197.78,1팀,Viol2t,미즈키,0
+[00:05:09] ,ability_1_used,201.21,1팀,Proper,트레이서,0
+[00:05:13] ,ability_2_used,205.05,2팀,ChiYo,브리기테,0
+[00:05:13] ,ability_1_used,205.11,2팀,MER1T,캐서디,0
+[00:05:15] ,ability_2_used,206.68,1팀,shu,아나,0
+[00:05:16] ,ability_1_used,207.43,1팀,Proper,트레이서,0
+[00:05:16] ,ability_1_used,207.67,1팀,Proper,트레이서,0
+[00:05:16] ,ability_1_used,207.95,1팀,shu,아나,0
+[00:05:17] ,ability_1_used,208.86,1팀,Viol2t,미즈키,0
+[00:05:18] ,ability_2_used,209.96,2팀,ChiYo,브리기테,0
+[00:05:20] ,ability_2_used,212.08,1팀,knife,소전,0
+[00:05:22] ,ability_1_used,213.76,1팀,Proper,트레이서,0
+[00:05:23] ,ability_2_used,215.34,2팀,ChiYo,브리기테,0
+[00:05:24] ,ability_1_used,216.16,1팀,Proper,트레이서,0
+[00:05:25] ,ability_2_used,216.45,1팀,Bernar,시그마,0
+[00:05:26] ,ability_2_used,217.53,2팀,CheckMate,시메트라,0
+[00:05:27] ,ability_1_used,218.59,1팀,knife,소전,0
+[00:05:27] ,ability_1_used,218.96,2팀,Someone,시그마,0
+[00:05:27] ,ability_1_used,219.31,2팀,Fielder,바티스트,0
+[00:05:28] ,ability_1_used,219.55,1팀,Proper,트레이서,0
+[00:05:28] ,ability_2_used,219.68,2팀,MER1T,캐서디,0
+[00:05:28] ,ability_1_used,220.13,1팀,Proper,트레이서,0
+[00:05:29] ,ability_1_used,220.46,1팀,Viol2t,미즈키,0
+[00:05:29] ,ability_1_used,220.72,2팀,MER1T,캐서디,0
+[00:05:29] ,ability_2_used,221.39,2팀,ChiYo,브리기테,0
+[00:05:30] ,ability_1_used,221.74,1팀,Bernar,시그마,0
+[00:05:30] ,****,222.08,2팀,CheckMate,시메트라,1팀,Bernar,시그마,Primary Fire,12.93,0,0
+[00:05:30] ,ability_1_used,222.26,1팀,Proper,트레이서,0
+[00:05:31] ,defensive_assist,222.45,2팀,Fielder,바티스트,0
+[00:05:31] ,offensive_assist,222.46,2팀,ChiYo,브리기테,0
+[00:05:31] ,defensive_assist,222.46,2팀,ChiYo,브리기테,0
+[00:05:31] ,ability_2_used,223.09,2팀,Someone,시그마,0
+[00:05:31] ,ability_2_used,223.20,1팀,shu,아나,0
+[00:05:32] ,ability_1_used,223.81,2팀,ChiYo,브리기테,0
+[00:05:32] ,ability_2_used,223.84,2팀,Fielder,바티스트,0
+[00:05:32] ,ability_2_used,224.16,1팀,Viol2t,미즈키,0
+[00:05:33] ,****,224.54,2팀,Someone,시그마,1팀,shu,아나,Primary Fire,18.52,0,0
+[00:05:33] ,ability_2_used,224.72,2팀,ChiYo,브리기테,0
+[00:05:33] ,defensive_assist,224.78,2팀,Fielder,바티스트,0
+[00:05:33] ,defensive_assist,224.80,2팀,ChiYo,브리기테,0
+[00:05:34] ,ability_2_used,226.07,1팀,Proper,트레이서,0
+[00:05:35] ,ability_1_used,226.85,1팀,knife,소전,0
+[00:05:35] ,ability_1_used,227.17,2팀,MER1T,캐서디,0
+[00:05:36] ,****,227.76,2팀,ChiYo,브리기테,1팀,Viol2t,미즈키,Primary Fire,32.45,0,0
+[00:05:36] ,defensive_assist,228.15,2팀,Fielder,바티스트,0
+[00:05:36] ,ability_2_used,228.26,1팀,knife,소전,0
+[00:05:37] ,****,228.98,1팀,knife,소전,2팀,ChiYo,브리기테,Melee,27.33,0,0
+[00:05:37] ,offensive_assist,229.39,1팀,shu,아나,0
+[00:05:38] ,ability_1_used,230.40,1팀,Proper,트레이서,0
+[00:05:39] ,ability_1_used,231.33,1팀,Proper,트레이서,0
+[00:05:40] ,****,231.67,2팀,CheckMate,시메트라,1팀,knife,소전,Primary Fire,10.61,0,0
+[00:05:40] ,defensive_assist,231.86,2팀,ChiYo,브리기테,0
+[00:05:40] ,defensive_assist,231.89,2팀,Fielder,바티스트,0
+[00:05:40] ,ability_1_used,232.13,1팀,Proper,트레이서,0
+[00:05:40] ,ability_2_used,232.40,2팀,MER1T,캐서디,0
+[00:05:41] ,ability_1_used,232.69,2팀,Fielder,바티스트,0
+[00:05:41] ,ability_1_used,232.90,2팀,MER1T,캐서디,0
+[00:05:41] ,ability_2_used,233.01,2팀,CheckMate,시메트라,0
+[00:05:42] ,****,233.43,2팀,MER1T,캐서디,1팀,Proper,트레이서,Secondary Fire,35,0,0
+[00:05:42] ,defensive_assist,233.76,2팀,Fielder,바티스트,0
+[00:05:43] ,ability_1_used,235.01,1팀,Viol2t,미즈키,0
+[00:05:44] ,ability_1_used,235.91,2팀,CheckMate,시메트라,0
+[00:05:46] ,ability_1_used,238.12,2팀,CheckMate,시메트라,0
+[00:05:48] ,point_progress,239.51,2,2팀,2,33.59
+[00:05:49] ,point_progress,240.97,2,2팀,2,66.89
+[00:05:51] ,objective_captured,242.74,2,2팀,2,38.83,0.01,0
+[00:05:51] ,ability_1_used,243.08,2팀,MER1T,캐서디,0
+[00:05:52] ,ability_1_used,244.26,1팀,Proper,트레이서,0
+[00:05:52] ,ability_1_used,244.28,1팀,knife,소전,0
+[00:05:53] ,ability_1_used,244.94,1팀,Bernar,시그마,0
+[00:05:54] ,ability_1_used,245.43,2팀,CheckMate,시메트라,0
+[00:05:58] ,ultimate_charged,249.64,1팀,Proper,트레이서,0,2
+[00:05:59] ,ability_2_used,250.78,2팀,ChiYo,브리기테,0
+[00:06:00] ,ability_1_used,251.77,1팀,Proper,트레이서,0
+[00:06:01] ,ability_1_used,252.76,1팀,Proper,트레이서,0
+[00:06:01] ,ability_2_used,253.40,2팀,CheckMate,시메트라,0
+[00:06:03] ,ability_2_used,254.60,2팀,ChiYo,브리기테,0
+[00:06:03] ,ability_1_used,255.31,1팀,Proper,트레이서,0
+[00:06:04] ,ability_2_used,255.47,1팀,knife,소전,0
+[00:06:05] ,ability_1_used,256.67,1팀,knife,소전,0
+[00:06:05] ,ability_1_used,256.77,1팀,Proper,트레이서,0
+[00:06:07] ,ability_1_used,258.97,1팀,Viol2t,미즈키,0
+[00:06:08] ,ability_1_used,259.80,2팀,MER1T,캐서디,0
+[00:06:08] ,ability_2_used,260.12,2팀,ChiYo,브리기테,0
+[00:06:09] ,ability_1_used,260.43,1팀,Proper,트레이서,0
+[00:06:09] ,ability_2_used,261.18,1팀,Bernar,시그마,0
+[00:06:09] ,ability_2_used,261.40,2팀,MER1T,캐서디,0
+[00:06:10] ,****,261.66,2팀,MER1T,캐서디,1팀,Bernar,시그마,Ability 2,32.20,0,0
+[00:06:10] ,point_progress,262.04,2,1팀,2,33.59
+[00:06:11] ,ability_2_used,263.37,2팀,ChiYo,브리기테,0
+[00:06:12] ,ability_1_used,263.56,2팀,Fielder,바티스트,0
+[00:06:13] ,point_progress,264.70,2,1팀,2,66.79
+[00:06:13] ,ability_1_used,265.10,2팀,MER1T,캐서디,0
+[00:06:13] ,ability_1_used,265.12,2팀,ChiYo,브리기테,0
+[00:06:14] ,ability_1_used,265.45,1팀,Proper,트레이서,0
+[00:06:14] ,ultimate_charged,266.19,2팀,MER1T,캐서디,0,1
+[00:06:14] ,ability_2_used,266.36,2팀,Someone,시그마,0
+[00:06:15] ,ability_2_used,266.59,1팀,Proper,트레이서,0
+[00:06:15] ,ultimate_charged,266.76,1팀,shu,아나,0,2
+[00:06:16] ,ability_1_used,267.82,1팀,Proper,트레이서,0
+[00:06:16] ,ability_1_used,268.23,1팀,Proper,트레이서,0
+[00:06:17] ,ability_2_used,268.46,2팀,CheckMate,시메트라,0
+[00:06:18] ,ability_1_used,269.82,1팀,Proper,트레이서,0
+[00:06:19] ,ability_2_used,270.97,1팀,Viol2t,미즈키,0
+[00:06:20] ,ability_2_used,271.56,1팀,knife,소전,0
+[00:06:20] ,ability_2_used,271.59,1팀,shu,아나,0
+[00:06:20] ,ability_2_used,271.74,2팀,Fielder,바티스트,0
+[00:06:20] ,ultimate_start,272.01,1팀,shu,아나,0,2
+[00:06:21] ,ultimate_start,272.99,2팀,Fielder,바티스트,0,1
+[00:06:21] ,ability_2_used,273.18,2팀,ChiYo,브리기테,0
+[00:06:21] ,****,273.32,1팀,knife,소전,2팀,Fielder,바티스트,Primary Fire,10.90,True,0
+[00:06:22] ,offensive_assist,273.59,1팀,shu,아나,0
+[00:06:22] ,defensive_assist,273.59,1팀,shu,아나,0
+[00:06:22] ,ability_1_used,273.61,2팀,ChiYo,브리기테,0
+[00:06:22] ,ability_1_used,273.63,1팀,Viol2t,미즈키,0
+[00:06:22] ,defensive_assist,273.69,1팀,Viol2t,미즈키,0
+[00:06:23] ,ability_2_used,274.60,2팀,ChiYo,브리기테,0
+[00:06:23] ,ability_1_used,274.65,2팀,MER1T,캐서디,0
+[00:06:23] ,ability_2_used,275.18,2팀,MER1T,캐서디,0
+[00:06:24] ,ability_1_used,275.58,2팀,CheckMate,시메트라,0
+[00:06:24] ,ability_1_used,275.77,1팀,shu,아나,0
+[00:06:24] ,ultimate_charged,275.93,1팀,Viol2t,미즈키,0,2
+[00:06:24] ,ability_1_used,276.30,2팀,CheckMate,시메트라,0
+[00:06:26] ,****,277.61,2팀,Someone,시그마,1팀,shu,아나,Primary Fire,9.87,0,0
+[00:06:26] ,defensive_assist,277.93,2팀,ChiYo,브리기테,0
+[00:06:27] ,point_progress,278.74,2,1팀,2,99.99
+[00:06:27] ,objective_captured,278.76,2,1팀,2,38.84,30.01,0
+[00:06:27] ,ability_2_used,278.87,2팀,ChiYo,브리기테,0
+[00:06:27] ,ability_1_used,279.14,1팀,Proper,트레이서,0
+[00:06:28] ,ability_1_used,280.01,1팀,Proper,트레이서,0
+[00:06:28] ,ultimate_end,280.14,1팀,shu,아나,0,2
+[00:06:28] ,ultimate_charged,280.17,2팀,ChiYo,브리기테,0,2
+[00:06:29] ,ability_2_used,280.89,1팀,Bernar,시그마,0
+[00:06:29] ,ability_1_used,281.16,1팀,Proper,트레이서,0
+[00:06:29] ,ability_1_used,281.27,1팀,knife,소전,0
+[00:06:30] ,ability_2_used,281.69,2팀,ChiYo,브리기테,0
+[00:06:30] ,ability_1_used,282.15,2팀,Someone,시그마,0
+[00:06:31] ,ability_1_used,282.46,2팀,ChiYo,브리기테,0
+[00:06:31] ,ability_2_used,283.24,1팀,Proper,트레이서,0
+[00:06:32] ,ultimate_end,283.50,2팀,Fielder,바티스트,0,1
+[00:06:32] ,ultimate_charged,283.74,1팀,knife,소전,0,2
+[00:06:32] ,ultimate_start,284.26,1팀,knife,소전,0,2
+[00:06:32] ,ultimate_start,284.38,1팀,Proper,트레이서,0,2
+[00:06:33] ,ability_1_used,284.47,1팀,Proper,트레이서,0
+[00:06:33] ,****,284.50,1팀,Bernar,시그마,2팀,MER1T,캐서디,Primary Fire,52.50,0,0
+[00:06:33] ,ultimate_end,284.57,1팀,Proper,트레이서,0,2
+[00:06:33] ,ability_1_used,284.68,1팀,Viol2t,미즈키,0
+[00:06:33] ,offensive_assist,284.87,1팀,shu,아나,0
+[00:06:33] ,ability_2_used,285.03,2팀,ChiYo,브리기테,0
+[00:06:33] ,ultimate_charged,285.37,2팀,Someone,시그마,0,2
+[00:06:34] ,ability_2_used,285.93,2팀,CheckMate,시메트라,0
+[00:06:35] ,ability_2_used,286.74,2팀,Someone,시그마,0
+[00:06:36] ,****,287.42,1팀,Proper,트레이서,2팀,CheckMate,시메트라,Primary Fire,1.84,0,0
+[00:06:36] ,ultimate_charged,287.56,1팀,Bernar,시그마,0,2
+[00:06:37] ,ability_1_used,288.63,1팀,Proper,트레이서,0
+[00:06:37] ,ability_2_used,288.79,2팀,ChiYo,브리기테,0
+[00:06:37] ,ability_1_used,289.01,1팀,knife,소전,0
+[00:06:37] ,ability_1_used,289.38,1팀,Bernar,시그마,0
+[00:06:37] ,****,289.40,2팀,ChiYo,브리기테,1팀,Bernar,시그마,Primary Fire,41.96,0,0
+[00:06:38] ,offensive_assist,289.65,2팀,Someone,시그마,0
+[00:06:38] ,defensive_assist,289.69,2팀,ChiYo,브리기테,0
+[00:06:38] ,ability_2_used,289.72,1팀,Viol2t,미즈키,0
+[00:06:38] ,ability_2_used,289.83,1팀,knife,소전,0
+[00:06:38] ,ability_2_used,290.20,2팀,ChiYo,브리기테,0
+[00:06:40] ,ultimate_start,291.45,2팀,ChiYo,브리기테,0,2
+[00:06:40] ,ability_1_used,291.75,1팀,knife,소전,0
+[00:06:40] ,ability_1_used,291.89,1팀,Proper,트레이서,0
+[00:06:40] ,ability_1_used,292.34,1팀,Proper,트레이서,0
+[00:06:41] ,ability_1_used,292.79,2팀,ChiYo,브리기테,0
+[00:06:41] ,ultimate_end,293.00,1팀,knife,소전,0,2
+[00:06:43] ,ability_2_used,294.53,2팀,Fielder,바티스트,0
+[00:06:44] ,ability_2_used,295.81,2팀,ChiYo,브리기테,0
+[00:06:44] ,ability_1_used,295.83,1팀,Proper,트레이서,0
+[00:06:44] ,ability_1_used,296.15,2팀,Someone,시그마,0
+[00:06:45] ,ability_1_used,296.50,2팀,Fielder,바티스트,0
+[00:06:45] ,ability_1_used,297.29,1팀,Viol2t,미즈키,0
+[00:06:46] ,ability_1_used,297.46,2팀,MER1T,캐서디,0
+[00:06:47] ,ability_1_used,298.52,2팀,ChiYo,브리기테,0
+[00:06:47] ,****,298.71,2팀,ChiYo,브리기테,1팀,Viol2t,미즈키,Ability 1,32.65,0,0
+[00:06:47] ,ability_1_used,298.93,1팀,knife,소전,0
+[00:06:47] ,defensive_assist,299.01,2팀,Fielder,바티스트,0
+[00:06:47] ,ability_2_used,299.14,1팀,Proper,트레이서,0
+[00:06:47] ,ability_2_used,299.33,2팀,ChiYo,브리기테,0
+[00:06:48] ,ability_2_used,299.65,2팀,CheckMate,시메트라,0
+[00:06:48] ,ability_1_used,300.16,1팀,Proper,트레이서,0
+[00:06:49] ,ability_2_used,300.92,1팀,shu,아나,0
+[00:06:49] ,ability_2_used,301.09,2팀,Someone,시그마,0
+[00:06:50] ,ultimate_end,301.44,2팀,ChiYo,브리기테,0,2
+[00:06:50] ,point_progress,301.81,2,2팀,2,33.69
+[00:06:51] ,****,302.47,2팀,Someone,시그마,1팀,knife,소전,Primary Fire,48.86,0,0
+[00:06:51] ,defensive_assist,302.80,2팀,ChiYo,브리기테,0
+[00:06:52] ,ability_1_used,303.80,1팀,Proper,트레이서,0
+[00:06:52] ,ability_1_used,303.80,2팀,MER1T,캐서디,0
+[00:06:52] ,ability_2_used,304.24,2팀,ChiYo,브리기테,0
+[00:06:53] ,point_progress,304.45,2,2팀,2,66.69
+[00:06:55] ,objective_captured,306.66,2,2팀,2,62.08,30.03,0
+[00:06:55] ,ability_1_used,307.22,2팀,CheckMate,시메트라,0
+[00:06:56] ,ability_1_used,308.08,1팀,Proper,트레이서,0
+[00:06:58] ,ability_2_used,309.71,2팀,ChiYo,브리기테,0
+[00:06:59] ,ability_1_used,311.06,1팀,Viol2t,미즈키,0
+[00:07:00] ,ability_1_used,311.47,1팀,knife,소전,0
+[00:07:00] ,ability_1_used,311.91,2팀,CheckMate,시메트라,0
+[00:07:01] ,ability_1_used,312.80,1팀,knife,소전,0
+[00:07:02] ,ability_1_used,314.05,2팀,ChiYo,브리기테,0
+[00:07:03] ,ability_1_used,314.50,1팀,Proper,트레이서,0
+[00:07:03] ,ability_1_used,315.09,1팀,Proper,트레이서,0
+[00:07:06] ,ability_1_used,317.82,1팀,Proper,트레이서,0
+[00:07:06] ,ability_2_used,318.16,1팀,knife,소전,0
+[00:07:07] ,ability_2_used,318.75,2팀,ChiYo,브리기테,0
+[00:07:07] ,ability_1_used,318.98,2팀,Fielder,바티스트,0
+[00:07:07] ,ability_1_used,319.26,2팀,MER1T,캐서디,0
+[00:07:08] ,ultimate_start,319.90,1팀,Bernar,시그마,0,2
+[00:07:08] ,ability_1_used,320.27,1팀,Proper,트레이서,0
+[00:07:09] ,ability_2_used,320.74,2팀,CheckMate,시메트라,0
+[00:07:10] ,point_progress,321.46,2,1팀,2,33.38
+[00:07:10] ,ultimate_start,321.58,2팀,MER1T,캐서디,0,1
+[00:07:10] ,ability_2_used,322.21,2팀,ChiYo,브리기테,0
+[00:07:11] ,ability_2_used,322.93,2팀,Fielder,바티스트,0
+[00:07:11] ,****,323.23,1팀,Viol2t,미즈키,2팀,CheckMate,시메트라,Primary Fire,24.18,0,0
+[00:07:12] ,ability_1_used,323.97,1팀,Viol2t,미즈키,0
+[00:07:12] ,ultimate_end,324.10,1팀,Bernar,시그마,0,2
+[00:07:12] ,point_progress,324.13,2,1팀,2,66.77
+[00:07:12] ,ability_2_used,324.30,2팀,ChiYo,브리기테,0
+[00:07:13] ,ability_2_used,325.06,1팀,Viol2t,미즈키,0
+[00:07:14] ,ability_2_used,326.13,1팀,Bernar,시그마,0
+[00:07:14] ,****,326.40,1팀,Viol2t,미즈키,2팀,MER1T,캐서디,Primary Fire,8.42,0,0
+[00:07:14] ,ultimate_end,326.40,2팀,MER1T,캐서디,0,1
+[00:07:15] ,ability_1_used,326.75,1팀,Proper,트레이서,0
+[00:07:15] ,ability_1_used,326.98,1팀,knife,소전,0
+[00:07:15] ,ability_1_used,327.25,2팀,ChiYo,브리기테,0
+[00:07:16] ,ability_2_used,327.49,1팀,Proper,트레이서,0
+[00:07:16] ,****,327.98,1팀,Bernar,시그마,2팀,Fielder,바티스트,Primary Fire,19.56,0,0
+[00:07:17] ,ability_1_used,328.80,1팀,Proper,트레이서,0
+[00:07:18] ,ability_2_used,330.06,1팀,shu,아나,0
+[00:07:18] ,ability_1_used,330.25,1팀,Proper,트레이서,0
+[00:07:19] ,ability_2_used,330.77,2팀,Someone,시그마,0
+[00:07:19] ,****,330.83,1팀,shu,아나,2팀,ChiYo,브리기테,Ability 2,59.18,0,0
+[00:07:19] ,defensive_assist,330.96,1팀,Viol2t,미즈키,0
+[00:07:20] ,ability_1_used,331.50,1팀,shu,아나,0
+[00:07:20] ,ability_1_used,331.58,1팀,Proper,트레이서,0
+[00:07:20] ,****,332.27,1팀,Bernar,시그마,2팀,Someone,시그마,Primary Fire,18.83,0,0
+[00:07:20] ,offensive_assist,332.33,1팀,shu,아나,0
+[00:07:20] ,defensive_assist,332.37,1팀,Viol2t,미즈키,0
+[00:07:22] ,point_progress,333.45,2,1팀,2,99.95
+[00:07:22] ,objective_captured,333.47,2,1팀,2,62.09,52.36,0
+[00:07:22] ,ability_1_used,334.09,1팀,knife,소전,0
+[00:07:23] ,ability_1_used,335.28,1팀,Viol2t,미즈키,0
+[00:07:25] ,ultimate_charged,337.05,2팀,CheckMate,시메트라,0,1
+[00:07:30] ,ability_1_used,341.40,2팀,MER1T,캐서디,0
+[00:07:32] ,ability_1_used,344.40,1팀,Proper,트레이서,0
+[00:07:40] ,ability_1_used,352.22,1팀,Viol2t,미즈키,0
+[00:07:40] ,ability_1_used,352.30,1팀,Proper,트레이서,0
+[00:07:41] ,ability_1_used,352.73,1팀,knife,소전,0
+[00:07:42] ,ability_1_used,353.43,2팀,MER1T,캐서디,0
+[00:07:42] ,ability_2_used,353.85,1팀,Viol2t,미즈키,0
+[00:07:42] ,ability_2_used,353.99,2팀,CheckMate,시메트라,0
+[00:07:42] ,ultimate_charged,354.36,2팀,Fielder,바티스트,0,2
+[00:07:43] ,ability_1_used,354.58,2팀,Fielder,바티스트,0
+[00:07:43] ,ability_2_used,354.79,2팀,ChiYo,브리기테,0
+[00:07:43] ,ability_2_used,354.81,1팀,shu,아나,0
+[00:07:44] ,ability_2_used,355.46,1팀,Bernar,시그마,0
+[00:07:44] ,ability_2_used,355.58,2팀,MER1T,캐서디,0
+[00:07:44] ,ability_1_used,355.83,1팀,shu,아나,0
+[00:07:44] ,ultimate_start,356.04,2팀,CheckMate,시메트라,0,1
+[00:07:45] ,ability_1_used,356.50,1팀,Proper,트레이서,0
+[00:07:45] ,point_progress,356.63,2,2팀,2,33.39
+[00:07:45] ,ability_2_used,356.87,1팀,knife,소전,0
+[00:07:45] ,ability_2_used,357.27,2팀,Someone,시그마,0
+[00:07:45] ,ability_2_used,357.30,2팀,ChiYo,브리기테,0
+[00:07:46] ,ability_1_used,357.56,1팀,Proper,트레이서,0
+[00:07:46] ,point_progress,357.98,2,2팀,2,66.99
+[00:07:46] ,ability_1_used,358.20,2팀,ChiYo,브리기테,0
+[00:07:47] ,ability_1_used,358.44,1팀,Proper,트레이서,0
+[00:07:47] ,objective_captured,359.30,2,2팀,2,83.61,52.37,0
+[00:07:49] ,ability_2_used,360.58,2팀,ChiYo,브리기테,0
+[00:07:50] ,ability_2_used,361.96,2팀,ChiYo,브리기테,0
+[00:07:51] ,ultimate_charged,362.89,1팀,Proper,트레이서,0,3
+[00:07:51] ,ability_1_used,363.19,2팀,CheckMate,시메트라,0
+[00:07:52] ,ultimate_start,363.72,2팀,Someone,시그마,0,2
+[00:07:52] ,ability_1_used,364.17,2팀,ChiYo,브리기테,0
+[00:07:53] ,ability_1_used,364.47,1팀,Proper,트레이서,0
+[00:07:54] ,ability_1_used,365.69,1팀,knife,소전,0
+[00:07:54] ,ability_1_used,365.83,1팀,Proper,트레이서,0
+[00:07:54] ,ability_1_used,366.07,2팀,CheckMate,시메트라,0
+[00:07:54] ,ultimate_start,366.18,1팀,Proper,트레이서,0,3
+[00:07:54] ,ultimate_end,366.37,1팀,Proper,트레이서,0,3
+[00:07:55] ,ability_2_used,366.58,1팀,Bernar,시그마,0
+[00:07:55] ,ability_1_used,366.68,1팀,Proper,트레이서,0
+[00:07:55] ,ability_1_used,366.79,2팀,CheckMate,시메트라,0
+[00:07:55] ,ultimate_start,366.95,1팀,Viol2t,미즈키,0,2
+[00:07:56] ,ability_1_used,367.72,2팀,MER1T,캐서디,0
+[00:07:56] ,ability_1_used,368.25,1팀,Viol2t,미즈키,0
+[00:07:56] ,ultimate_end,368.28,2팀,CheckMate,시메트라,0,1
+[00:07:56] ,ultimate_end,368.37,2팀,Someone,시그마,0,2
+[00:07:57] ,ability_2_used,368.45,1팀,Proper,트레이서,0
+[00:07:57] ,ability_2_used,368.73,2팀,CheckMate,시메트라,0
+[00:07:57] ,ability_1_used,369.17,2팀,ChiYo,브리기테,0
+[00:07:58] ,ability_2_used,369.78,2팀,Someone,시그마,0
+[00:07:58] ,ability_2_used,370.10,1팀,Viol2t,미즈키,0
+[00:07:58] ,ability_1_used,370.29,1팀,knife,소전,0
+[00:07:59] ,ability_2_used,370.55,2팀,ChiYo,브리기테,0
+[00:07:59] ,ability_2_used,370.58,2팀,MER1T,캐서디,0
+[00:08:00] ,ability_1_used,371.45,2팀,Fielder,바티스트,0
+[00:08:00] ,****,371.53,2팀,Someone,시그마,1팀,shu,아나,Primary Fire,13.30,0,0
+[00:08:00] ,ability_1_used,372.05,1팀,Proper,트레이서,0
+[00:08:00] ,****,372.05,2팀,MER1T,캐서디,1팀,knife,소전,Primary Fire,135.90,True,0
+[00:08:00] ,defensive_assist,372.31,2팀,ChiYo,브리기테,0
+[00:08:00] ,defensive_assist,372.33,2팀,Fielder,바티스트,0
+[00:08:01] ,****,372.52,2팀,CheckMate,시메트라,1팀,Viol2t,미즈키,Secondary Fire,67.20,0,0
+[00:08:01] ,ability_1_used,372.60,2팀,MER1T,캐서디,0
+[00:08:01] ,defensive_assist,372.79,2팀,ChiYo,브리기테,0
+[00:08:01] ,defensive_assist,372.81,2팀,Fielder,바티스트,0
+[00:08:02] ,ultimate_end,373.46,1팀,Viol2t,미즈키,0,2
+[00:08:02] ,point_progress,373.69,2,1팀,2,33.48
+[00:08:02] ,ability_1_used,374.13,1팀,Proper,트레이서,0
+[00:08:03] ,ability_1_used,374.60,1팀,Proper,트레이서,0
+[00:08:03] ,ability_2_used,375.22,2팀,ChiYo,브리기테,0
+[00:08:06] ,ability_1_used,378.23,1팀,Proper,트레이서,0
+[00:08:07] ,ability_2_used,378.72,1팀,Bernar,시그마,0
+[00:08:07] ,ability_1_used,379.12,2팀,ChiYo,브리기테,0
+[00:08:08] ,ability_2_used,380.04,2팀,Fielder,바티스트,0
+[00:08:09] ,****,381.08,2팀,ChiYo,브리기테,1팀,Bernar,시그마,Ability 1,19.48,0,True
+[00:08:09] ,ability_1_used,381.16,1팀,Proper,트레이서,0
+[00:08:09] ,defensive_assist,381.25,2팀,Fielder,바티스트,0
+[00:08:09] ,ability_1_used,381.35,2팀,MER1T,캐서디,0
+[00:08:10] ,****,381.94,2팀,MER1T,캐서디,1팀,Proper,트레이서,0,35,0,0
+[00:08:10] ,offensive_assist,382.16,2팀,ChiYo,브리기테,0
+[00:08:10] ,defensive_assist,382.16,2팀,ChiYo,브리기테,0
+[00:08:10] ,defensive_assist,382.19,2팀,Fielder,바티스트,0
+[00:08:10] ,ability_2_used,382.31,2팀,ChiYo,브리기테,0
+[00:08:11] ,ability_1_used,383.27,2팀,CheckMate,시메트라,0
+[00:08:12] ,ability_1_used,384.34,1팀,knife,소전,0
+[00:08:13] ,ability_1_used,384.59,2팀,CheckMate,시메트라,0
+[00:08:13] ,hero_swap,384.87,1팀,Viol2t,주노,미즈키,223.87
+[00:08:13] ,ability_2_used,385.12,1팀,Viol2t,주노,0
+[00:08:16] ,hero_swap,387.41,1팀,Viol2t,루시우,주노,2.54
+[00:08:16] ,ability_1_used,387.41,1팀,Viol2t,루시우,0
+[00:08:16] ,ability_2_used,387.60,1팀,Viol2t,루시우,0
+[00:08:18] ,ability_2_used,390.18,2팀,ChiYo,브리기테,0
+[00:08:19] ,hero_swap,390.78,1팀,Viol2t,일리아리,루시우,3.37
+[00:08:20] ,hero_swap,391.57,1팀,Viol2t,루시우,일리아리,0.78
+[00:08:20] ,ability_1_used,391.57,1팀,Viol2t,루시우,0
+[00:08:20] ,ability_2_used,391.82,1팀,Viol2t,루시우,0
+[00:08:22] ,ability_1_used,394.11,1팀,Proper,트레이서,0
+[00:08:23] ,hero_swap,395.22,1팀,Viol2t,우양,루시우,3.65
+[00:08:24] ,ability_2_used,395.60,2팀,Someone,시그마,0
+[00:08:24] ,ability_2_used,396.26,2팀,ChiYo,브리기테,0
+[00:08:24] ,ability_1_used,396.29,1팀,Viol2t,우양,0
+[00:08:25] ,ability_1_used,396.42,1팀,Proper,트레이서,0
+[00:08:25] ,ability_1_used,397.31,1팀,shu,아나,0
+[00:08:26] ,ability_1_used,397.53,1팀,knife,소전,0
+[00:08:26] ,ability_2_used,398.09,1팀,Bernar,시그마,0
+[00:08:26] ,ability_2_used,398.25,1팀,knife,소전,0
+[00:08:26] ,ability_2_used,398.27,1팀,Viol2t,우양,0
+[00:08:27] ,ability_1_used,398.86,2팀,MER1T,캐서디,0
+[00:08:28] ,ability_1_used,399.60,2팀,Someone,시그마,0
+[00:08:28] ,ability_1_used,399.74,1팀,Bernar,시그마,0
+[00:08:29] ,ability_2_used,400.85,2팀,ChiYo,브리기테,0
+[00:08:30] ,ability_1_used,401.58,1팀,Proper,트레이서,0
+[00:08:30] ,ability_2_used,402.19,2팀,ChiYo,브리기테,0
+[00:08:31] ,ability_1_used,402.91,1팀,Proper,트레이서,0
+[00:08:31] ,ability_2_used,403.28,2팀,CheckMate,시메트라,0
+[00:08:32] ,ability_2_used,403.73,1팀,shu,아나,0
+[00:08:33] ,ability_1_used,404.56,1팀,knife,소전,0
+[00:08:33] ,ability_1_used,405.05,2팀,MER1T,캐서디,0
+[00:08:33] ,ultimate_start,405.15,2팀,Fielder,바티스트,0,2
+[00:08:34] ,ability_2_used,405.65,2팀,MER1T,캐서디,0
+[00:08:34] ,****,405.68,2팀,Someone,시그마,1팀,Viol2t,우양,Primary Fire,55,0,0
+[00:08:34] ,ability_1_used,405.77,2팀,ChiYo,브리기테,0
+[00:08:35] ,ability_1_used,406.46,2팀,Fielder,바티스트,0
+[00:08:35] ,ability_1_used,406.88,1팀,knife,소전,0
+[00:08:35] ,ability_2_used,406.94,2팀,ChiYo,브리기테,0
+[00:08:36] ,ultimate_charged,407.76,2팀,ChiYo,브리기테,0,3
+[00:08:36] ,point_progress,408.05,2,1팀,2,33.39
+[00:08:36] ,ability_2_used,408.06,2팀,ChiYo,브리기테,0
+[00:08:37] ,ultimate_charged,409.07,1팀,Bernar,시그마,0,3
+[00:08:38] ,ultimate_charged,409.39,2팀,MER1T,캐서디,0,2
+[00:08:39] ,point_progress,410.72,2,1팀,2,66.79
+[00:08:40] ,ability_1_used,411.82,2팀,CheckMate,시메트라,0
+[00:08:40] ,ability_1_used,411.92,2팀,MER1T,캐서디,0
+[00:08:40] ,ability_1_used,411.95,1팀,Proper,트레이서,0
+[00:08:41] ,ultimate_start,413.05,1팀,Bernar,시그마,0,3
+[00:08:41] ,ability_1_used,413.28,1팀,Proper,트레이서,0
+[00:08:42] ,ability_1_used,413.42,2팀,ChiYo,브리기테,0
+[00:08:42] ,ultimate_start,414.11,2팀,MER1T,캐서디,0,2
+[00:08:43] ,ability_2_used,414.73,2팀,ChiYo,브리기테,0
+[00:08:43] ,ability_2_used,414.92,1팀,knife,소전,0
+[00:08:44] ,ultimate_end,415.66,2팀,Fielder,바티스트,0,2
+[00:08:44] ,hero_swap,415.76,1팀,Viol2t,제트팩 캣,우양,20.54
+[00:08:44] ,ability_1_used,415.98,1팀,Viol2t,제트팩 캣,0
+[00:08:44] ,ability_1_used,416.04,1팀,Proper,트레이서,0
+[00:08:45] ,ability_2_used,416.92,2팀,ChiYo,브리기테,0
+[00:08:46] ,ability_2_used,417.82,2팀,Someone,시그마,0
+[00:08:47] ,ultimate_charged,418.47,1팀,shu,아나,0,3
+[00:08:47] ,ability_1_used,419.03,2팀,Fielder,바티스트,0
+[00:08:47] ,ultimate_end,419.13,1팀,Bernar,시그마,0,3
+[00:08:48] ,ability_2_used,419.58,1팀,Bernar,시그마,0
+[00:08:48] ,ability_1_used,419.75,1팀,Proper,트레이서,0
+[00:08:48] ,ability_2_used,419.77,2팀,CheckMate,시메트라,0
+[00:08:48] ,****,420.15,2팀,MER1T,캐서디,1팀,Proper,트레이서,Ultimate,117.56,0,0
+[00:08:48] ,defensive_assist,420.28,2팀,Fielder,바티스트,0
+[00:08:49] ,ultimate_end,420.47,2팀,MER1T,캐서디,0,2
+[00:08:49] ,ability_1_used,420.86,1팀,knife,소전,0
+[00:08:49] ,ultimate_start,420.99,1팀,shu,아나,0,3
+[00:08:50] ,****,421.79,1팀,Viol2t,제트팩 캣,2팀,MER1T,캐서디,0,8.26,0,0
+[00:08:50] ,offensive_assist,422.23,1팀,Bernar,시그마,0
+[00:08:51] ,ability_2_used,422.41,1팀,Viol2t,제트팩 캣,0
+[00:08:51] ,ability_1_used,422.78,2팀,ChiYo,브리기테,0
+[00:08:51] ,ability_1_used,422.78,2팀,Someone,시그마,0
+[00:08:51] ,ability_1_used,422.86,1팀,shu,아나,0
+[00:08:51] ,ultimate_start,423.18,2팀,ChiYo,브리기테,0,3
+[00:08:51] ,ability_1_used,423.24,2팀,CheckMate,시메트라,0
+[00:08:53] ,ability_1_used,424.39,2팀,CheckMate,시메트라,0
+[00:08:53] ,ability_2_used,424.91,1팀,shu,아나,0
+[00:08:55] ,ability_1_used,426.66,1팀,knife,소전,0
+[00:08:55] ,****,427.02,2팀,Someone,시그마,1팀,shu,아나,Primary Fire,37.96,0,0
+[00:08:55] ,ability_2_used,427.14,2팀,ChiYo,브리기테,0
+[00:08:56] ,ability_2_used,427.42,2팀,Fielder,바티스트,0
+[00:08:56] ,ability_2_used,427.74,2팀,ChiYo,브리기테,0
+[00:08:56] ,ultimate_charged,427.75,1팀,knife,소전,0,3
+[00:08:56] ,ultimate_start,428.18,1팀,knife,소전,0,3
+[00:08:57] ,ultimate_end,429.11,1팀,shu,아나,0,3
+[00:08:57] ,ability_1_used,429.11,1팀,Bernar,시그마,0
+[00:08:58] ,****,429.70,2팀,CheckMate,시메트라,1팀,Bernar,시그마,Primary Fire,2.32,0,0
+[00:08:58] ,ability_1_used,429.99,2팀,ChiYo,브리기테,0
+[00:08:58] ,defensive_assist,430.09,2팀,ChiYo,브리기테,0
+[00:08:58] ,defensive_assist,430.15,2팀,Fielder,바티스트,0
+[00:08:58] ,****,430.20,2팀,ChiYo,브리기테,1팀,knife,소전,Ability 1,47.18,0,0
+[00:08:58] ,ultimate_end,430.20,1팀,knife,소전,0,3
+[00:08:59] ,ability_2_used,430.46,2팀,Someone,시그마,0
+[00:08:59] ,defensive_assist,430.55,2팀,ChiYo,브리기테,0
+[00:08:59] ,defensive_assist,430.60,2팀,Fielder,바티스트,0
+[00:08:59] ,ability_2_used,430.94,2팀,ChiYo,브리기테,0
+[00:09:00] ,ability_1_used,431.86,1팀,Viol2t,제트팩 캣,0
+[00:09:00] ,****,432.15,2팀,Someone,시그마,1팀,Viol2t,제트팩 캣,Primary Fire,18.28,0,0
+[00:09:01] ,offensive_assist,432.44,2팀,ChiYo,브리기테,0
+[00:09:01] ,defensive_assist,432.44,2팀,ChiYo,브리기테,0
+[00:09:01] ,defensive_assist,432.49,2팀,Fielder,바티스트,0
+[00:09:01] ,ultimate_end,433.18,2팀,ChiYo,브리기테,0,3
+[00:09:03] ,ability_1_used,434.71,1팀,Proper,트레이서,0
+[00:09:04] ,ability_1_used,435.45,1팀,Proper,트레이서,0
+[00:09:04] ,player_stat,435.70,2,2팀,CheckMate,위도우메이커,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:09:04] ,player_stat,435.70,2,2팀,CheckMate,시메트라,11,4,4,5284.66,2176.74,3107.92,0,3598.26,0,4758.26,1801.36,0,0,1,1,0,0,0,2,0,0,0,0,0,0,0,102,18,67,0,0,0.21,336.48
+[00:09:04] ,player_stat,435.70,2,2팀,CheckMate,트레이서,1,1,2,965.42,118.81,846.61,0,46.22,295.33,712.35,0,0,0,0,0,0,0,1,0,0,0,19,0.12,0,0,0,542,165,338,0,0,0.33,99.22
+[00:09:04] ,player_stat,435.70,2,1팀,Viol2t,제트팩 캣,1,1,1,400.26,162,238.26,137.28,0,0,225,0,0,0,0,0,0,0,0,0,0,0,7,0.13,0,0,0,195,52,113,0,0,0.32,19.95
+[00:09:04] ,player_stat,435.70,2,1팀,Viol2t,주노,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,46,0,46,0,0,0,9.17
+[00:09:04] ,player_stat,435.70,2,1팀,Viol2t,젠야타,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:09:04] ,player_stat,435.70,2,1팀,Viol2t,우양,5,1,2,3644.92,1432.09,2112.83,0,389.21,0,1191.15,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,89,24,42,0,0,0.36,174.91
+[00:09:04] ,player_stat,435.70,2,1팀,Viol2t,미즈키,6,2,3,3996.71,1390.77,2462.51,2544.51,1101.65,0,2019.24,0,6,0,1,1,0,0,0,2,0,0,4,0.11,0,0,0,120,36,60,0,0,0.38,223.87
+[00:09:04] ,player_stat,435.70,2,1팀,Viol2t,루시우,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,0,9,0,0,0,7.02
+[00:09:04] ,player_stat,435.70,2,1팀,Viol2t,일리아리,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0.78
+[00:09:04] ,player_stat,435.70,2,1팀,shu,아나,12,4,5,5171.81,808.08,3607.31,4937.18,1223.61,189,3102.07,0,10,8,3,3,0,0,0,2,0,0,0,0,0.70,0,0,207,129,65,91,64,0.66,435.70
+[00:09:04] ,player_stat,435.70,2,2팀,ChiYo,브리기테,10,4,5,4873.71,520,4353.71,7486.10,2377.88,1066.46,4199.72,3895.42,13,3,3,3,0,0,0,2,1,0,0,0,0,0,0,0,0,0,0,0,0,435.25
+[00:09:04] ,player_stat,435.70,2,2팀,ChiYo,바티스트,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:09:04] ,player_stat,435.70,2,2팀,ChiYo,미즈키,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:09:04] ,player_stat,435.70,2,2팀,ChiYo,루시우,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.45
+[00:09:04] ,player_stat,435.70,2,1팀,Proper,시메트라,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8.02
+[00:09:04] ,player_stat,435.70,2,1팀,Proper,트레이서,14,2,4,8697.41,2515.53,5144.18,0,2190.18,687.87,3787.35,0,0,0,3,3,1,3,0,6,0,0,119,0.10,0,0,0,3204,1194,1604,0,0,0.43,427.68
+[00:09:04] ,player_stat,435.70,2,2팀,Someone,시그마,13,8,4,10642.22,3398.42,7243.79,0,7859.81,0,11578.44,11714.80,0,1,2,1,0,0,1,1,0,1,0,0,0,0,0,168,59,82,0,0,0.42,435.70
+[00:09:04] ,player_stat,435.70,2,1팀,Bernar,도미나,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:09:04] ,player_stat,435.70,2,1팀,Bernar,D.Va,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:09:04] ,player_stat,435.70,2,1팀,Bernar,시그마,17,11,5,15090.97,4949.47,8911.62,0,4883.01,0,8542.25,8876.39,0,1,3,3,1,5,0,3,0,1,0,0,0,0,0,181,83,64,0,0,0.56,435.70
+[00:09:04] ,player_stat,435.70,2,2팀,Fielder,바티스트,6,0,6,2743.91,1036.28,1707.63,9288.25,1769.32,537.86,3417.84,0,15,2,3,3,0,0,0,0,0,0,7,0.11,0,0,0,287,65,166,0,0,0.28,417.78
+[00:09:04] ,player_stat,435.70,2,2팀,Fielder,루시우,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3.36
+[00:09:04] ,player_stat,435.70,2,2팀,Fielder,아나,0,0,0,84.60,0,84.60,60,0,0,159.60,0,0,0,0,0,0,0,0,0,0,0,0,0,0.40,0,0,9,3,5,5,2,0.38,14.57
+[00:09:04] ,player_stat,435.70,2,1팀,knife,애쉬,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:09:04] ,player_stat,435.70,2,1팀,knife,소전,18,6,5,13819.21,6153.64,6723.63,0,2299.43,0,3614.84,0,0,0,3,3,0,0,0,1,0,0,47,0.12,0,0,0,2283,399,1339,0,0,0.23,435.70
+[00:09:04] ,player_stat,435.70,2,2팀,MER1T,프레야,0,0,1,755,225,530,0,535.31,0,760.31,0,0,0,0,0,0,0,0,0,0,0,1,0.11,0,0,0,65,9,27,0,0,0.25,76.63
+[00:09:04] ,player_stat,435.70,2,2팀,MER1T,바스티온,0,0,1,437.09,51.68,385.41,0,117.54,0,467.54,0,0,0,0,0,0,0,0,0,0,0,4,0.22,0,0,0,71,18,50,0,0,0.26,37.33
+[00:09:04] ,player_stat,435.70,2,2팀,MER1T,소전,2,2,1,987.34,375.70,611.64,0,253.62,0,485.52,0,0,0,0,0,0,0,0,0,0,0,3,0.09,0,0,0,191,33,119,0,0,0.22,44.06
+[00:09:04] ,player_stat,435.70,2,2팀,MER1T,캐서디,9,5,4,4584.33,973.75,3610.58,0,2320.77,0,3320.77,0,0,0,2,2,0,0,0,2,0,0,6,0.12,0,0,0,161,49,96,0,0,0.34,277.68
+[00:09:04] ,round_end,435.70,2,0,1,1,2,83.61,100,0
+[00:09:12] ,hero_swap,435.70,1팀,knife,프레야,소전,0
+[00:09:14] ,objective_updated,435.70,3,2,0
+[00:09:15] ,round_start,435.70,3,0,1,1,0
+[00:09:24] ,hero_swap,435.70,1팀,Proper,시메트라,트레이서,0
+[00:09:29] ,hero_swap,435.70,1팀,knife,소전,프레야,0
+[00:09:37] ,ability_2_used,435.70,1팀,Proper,시메트라,0
+[00:09:37] ,setup_complete,435.70,3,29.99
+[00:09:39] ,ability_2_used,437.03,2팀,CheckMate,시메트라,0
+[00:09:40] ,ability_1_used,438.02,1팀,Viol2t,제트팩 캣,0
+[00:09:42] ,hero_swap,440.52,1팀,Proper,트레이서,시메트라,4.81
+[00:09:42] ,ability_1_used,440.79,1팀,Proper,트레이서,0
+[00:09:43] ,ability_1_used,440.97,1팀,Proper,트레이서,0
+[00:09:45] ,ability_2_used,443.57,1팀,knife,소전,0
+[00:09:47] ,ability_1_used,445.16,2팀,MER1T,캐서디,0
+[00:09:47] ,ability_2_used,445.20,2팀,ChiYo,브리기테,0
+[00:09:48] ,ability_2_used,446.08,2팀,ChiYo,브리기테,0
+[00:09:48] ,ability_1_used,446.82,2팀,CheckMate,시메트라,0
+[00:09:49] ,ability_2_used,447.01,2팀,ChiYo,브리기테,0
+[00:09:49] ,ability_1_used,447.38,2팀,CheckMate,시메트라,0
+[00:09:52] ,ability_2_used,450.74,1팀,shu,아나,0
+[00:09:53] ,ability_2_used,451.44,1팀,Bernar,시그마,0
+[00:09:54] ,ability_1_used,451.84,1팀,Proper,트레이서,0
+[00:09:54] ,ability_1_used,452.35,1팀,shu,아나,0
+[00:09:55] ,ability_2_used,453.19,2팀,ChiYo,브리기테,0
+[00:09:55] ,ability_1_used,453.22,2팀,Fielder,바티스트,0
+[00:09:55] ,ability_1_used,453.28,1팀,Proper,트레이서,0
+[00:09:56] ,ability_2_used,454.61,2팀,CheckMate,시메트라,0
+[00:09:57] ,ability_1_used,454.95,1팀,Proper,트레이서,0
+[00:09:57] ,ability_1_used,455.09,2팀,Someone,시그마,0
+[00:09:58] ,ability_1_used,455.98,2팀,MER1T,캐서디,0
+[00:09:59] ,ability_1_used,457.49,1팀,knife,소전,0
+[00:10:00] ,ability_1_used,458.03,2팀,ChiYo,브리기테,0
+[00:10:00] ,****,458.16,2팀,MER1T,캐서디,1팀,shu,아나,Primary Fire,85,True,0
+[00:10:00] ,defensive_assist,458.27,2팀,ChiYo,브리기테,0
+[00:10:00] ,defensive_assist,458.37,2팀,Fielder,바티스트,0
+[00:10:01] ,ability_1_used,458.93,1팀,Proper,트레이서,0
+[00:10:01] ,****,459.62,2팀,CheckMate,시메트라,1팀,Proper,트레이서,Secondary Fire,46.43,0,0
+[00:10:03] ,ability_1_used,461.36,2팀,MER1T,캐서디,0
+[00:10:03] ,ability_1_used,461.73,2팀,CheckMate,시메트라,0
+[00:10:03] ,ability_2_used,461.74,2팀,Someone,시그마,0
+[00:10:05] ,ability_2_used,463.20,1팀,knife,소전,0
+[00:10:05] ,ability_2_used,463.76,1팀,Viol2t,제트팩 캣,0
+[00:10:06] ,ability_2_used,463.86,2팀,ChiYo,브리기테,0
+[00:10:06] ,ability_2_used,463.90,1팀,Bernar,시그마,0
+[00:10:06] ,ability_2_used,464.06,2팀,MER1T,캐서디,0
+[00:10:06] ,ability_2_used,464.59,2팀,Fielder,바티스트,0
+[00:10:07] ,ability_1_used,464.86,1팀,knife,소전,0
+[00:10:08] ,ability_1_used,466.22,2팀,Fielder,바티스트,0
+[00:10:08] ,ability_1_used,466.24,1팀,Bernar,시그마,0
+[00:10:08] ,ability_2_used,466.43,2팀,ChiYo,브리기테,0
+[00:10:08] ,ability_1_used,466.48,1팀,knife,소전,0
+[00:10:09] ,ability_1_used,467.09,2팀,MER1T,캐서디,0
+[00:10:09] ,****,467.77,2팀,Fielder,바티스트,1팀,knife,소전,Primary Fire,5.86,0,0
+[00:10:09] ,defensive_assist,467.79,2팀,Fielder,바티스트,0
+[00:10:10] ,defensive_assist,468.17,2팀,ChiYo,브리기테,0
+[00:10:12] ,ability_2_used,470.14,2팀,ChiYo,브리기테,0
+[00:10:12] ,ability_1_used,470.51,2팀,ChiYo,브리기테,0
+[00:10:13] ,ability_1_used,470.85,1팀,Proper,트레이서,0
+[00:10:13] ,ability_1_used,471.39,1팀,Proper,트레이서,0
+[00:10:14] ,ability_2_used,472.27,2팀,CheckMate,시메트라,0
+[00:10:14] ,ability_1_used,472.75,2팀,MER1T,캐서디,0
+[00:10:15] ,ability_2_used,473.71,2팀,ChiYo,브리기테,0
+[00:10:16] ,point_progress,474.30,3,All Teams,0,33.39
+[00:10:17] ,ability_1_used,474.84,1팀,Viol2t,제트팩 캣,0
+[00:10:18] ,****,476.22,2팀,MER1T,캐서디,1팀,Bernar,시그마,Primary Fire,1.76,0,0
+[00:10:18] ,ability_1_used,476.38,1팀,Proper,트레이서,0
+[00:10:18] ,defensive_assist,476.60,2팀,ChiYo,브리기테,0
+[00:10:18] ,offensive_assist,476.62,2팀,Someone,시그마,0
+[00:10:19] ,point_progress,476.97,3,All Teams,0,66.79
+[00:10:20] ,ability_1_used,478.38,1팀,knife,소전,0
+[00:10:20] ,ability_1_used,478.76,2팀,Someone,시그마,0
+[00:10:21] ,point_progress,479.63,3,All Teams,0,99.99
+[00:10:21] ,objective_captured,479.64,3,2팀,0,0,0.01,0
+[00:10:21] ,hero_swap,479.69,1팀,knife,엠레,소전,43.99
+[00:10:23] ,ability_1_used,481.13,1팀,Viol2t,제트팩 캣,0
+[00:10:25] ,ability_1_used,483.23,1팀,Proper,트레이서,0
+[00:10:29] ,ability_2_used,486.94,2팀,ChiYo,브리기테,0
+[00:10:31] ,ability_1_used,489.34,2팀,CheckMate,시메트라,0
+[00:10:31] ,ability_1_used,489.37,1팀,Proper,트레이서,0
+[00:10:32] ,ability_1_used,490.23,2팀,CheckMate,시메트라,0
+[00:10:32] ,ability_1_used,490.52,1팀,Viol2t,제트팩 캣,0
+[00:10:32] ,ability_2_used,490.63,2팀,ChiYo,브리기테,0
+[00:10:33] ,ability_1_used,491.18,1팀,Proper,트레이서,0
+[00:10:34] ,ability_1_used,492.18,1팀,Proper,트레이서,0
+[00:10:37] ,ability_2_used,495.19,2팀,CheckMate,시메트라,0
+[00:10:38] ,ability_1_used,495.96,2팀,MER1T,캐서디,0
+[00:10:38] ,ability_2_used,496.01,1팀,knife,엠레,0
+[00:10:38] ,ability_2_used,496.69,1팀,Viol2t,제트팩 캣,0
+[00:10:39] ,ability_1_used,497.16,2팀,Someone,시그마,0
+[00:10:39] ,ability_2_used,497.17,2팀,ChiYo,브리기테,0
+[00:10:39] ,ability_2_used,497.40,2팀,MER1T,캐서디,0
+[00:10:40] ,ability_2_used,497.85,2팀,ChiYo,브리기테,0
+[00:10:40] ,ability_1_used,498.10,1팀,Proper,트레이서,0
+[00:10:40] ,ability_1_used,498.44,1팀,Proper,트레이서,0
+[00:10:41] ,ability_2_used,498.87,1팀,knife,엠레,0
+[00:10:41] ,ability_1_used,499.54,1팀,Proper,트레이서,0
+[00:10:43] ,ability_1_used,501.80,2팀,MER1T,캐서디,0
+[00:10:44] ,ability_2_used,502.56,2팀,ChiYo,브리기테,0
+[00:10:46] ,ability_2_used,503.84,2팀,ChiYo,브리기테,0
+[00:10:46] ,ability_1_used,504.48,1팀,Viol2t,제트팩 캣,0
+[00:10:47] ,ability_1_used,504.95,2팀,Fielder,바티스트,0
+[00:10:47] ,ability_1_used,505.09,2팀,CheckMate,시메트라,0
+[00:10:48] ,ability_1_used,506.56,2팀,ChiYo,브리기테,0
+[00:10:50] ,ability_1_used,508.28,1팀,Proper,트레이서,0
+[00:10:51] ,ability_2_used,509.19,2팀,ChiYo,브리기테,0
+[00:10:51] ,ability_1_used,509.41,1팀,Proper,트레이서,0
+[00:10:51] ,ability_2_used,509.73,1팀,Bernar,시그마,0
+[00:10:52] ,ability_1_used,510.15,2팀,MER1T,캐서디,0
+[00:10:52] ,ability_2_used,510.36,2팀,CheckMate,시메트라,0
+[00:10:52] ,ability_2_used,510.53,1팀,shu,아나,0
+[00:10:54] ,ability_1_used,511.81,2팀,Someone,시그마,0
+[00:10:55] ,ability_2_used,512.98,2팀,Fielder,바티스트,0
+[00:10:55] ,ability_2_used,513.51,1팀,knife,엠레,0
+[00:10:56] ,****,514.08,1팀,knife,엠레,2팀,MER1T,캐서디,Primary Fire,36.35,True,0
+[00:10:56] ,ability_1_used,514.18,1팀,knife,엠레,0
+[00:10:56] ,ability_1_used,514.19,1팀,shu,아나,0
+[00:10:56] ,offensive_assist,514.27,1팀,shu,아나,0
+[00:10:56] ,ability_2_used,514.53,2팀,ChiYo,브리기테,0
+[00:10:56] ,ability_2_used,514.59,1팀,Viol2t,제트팩 캣,0
+[00:10:56] ,****,514.77,2팀,Someone,시그마,1팀,shu,아나,Primary Fire,40,0,0
+[00:10:56] ,offensive_assist,514.77,1팀,shu,아나,0
+[00:10:56] ,****,514.77,1팀,knife,엠레,2팀,Fielder,바티스트,Ability 2,94.39,0,0
+[00:10:56] ,defensive_assist,514.77,2팀,Fielder,바티스트,0
+[00:10:57] ,point_progress,515.09,3,1팀,0,33.38
+[00:10:58] ,ability_2_used,516.05,2팀,Someone,시그마,0
+[00:10:59] ,point_progress,517.76,3,1팀,0,66.78
+[00:11:00] ,ability_1_used,518.34,2팀,ChiYo,브리기테,0
+[00:11:01] ,****,519.26,1팀,knife,엠레,2팀,CheckMate,시메트라,Primary Fire,15.71,0,0
+[00:11:01] ,offensive_assist,519.39,1팀,shu,아나,0
+[00:11:01] ,offensive_assist,519.47,1팀,Viol2t,제트팩 캣,0
+[00:11:02] ,ability_2_used,520.19,2팀,ChiYo,브리기테,0
+[00:11:02] ,point_progress,520.41,3,1팀,0,99.98
+[00:11:02] ,objective_captured,520.43,3,1팀,0,0.01,34.00,0
+[00:11:03] ,ability_2_used,520.91,1팀,knife,엠레,0
+[00:11:03] ,ability_1_used,521.02,1팀,Proper,트레이서,0
+[00:11:03] ,ability_1_used,521.49,1팀,Proper,트레이서,0
+[00:11:05] ,ability_2_used,522.93,2팀,ChiYo,브리기테,0
+[00:11:06] ,ability_2_used,524.72,1팀,Proper,트레이서,0
+[00:11:06] ,ability_2_used,524.78,1팀,Bernar,시그마,0
+[00:11:08] ,ability_1_used,526.08,1팀,Proper,트레이서,0
+[00:11:08] ,****,526.51,1팀,Bernar,시그마,2팀,ChiYo,브리기테,Primary Fire,28.15,0,0
+[00:11:09] ,****,526.89,1팀,Viol2t,제트팩 캣,2팀,Someone,시그마,0,4.73,0,0
+[00:11:09] ,ability_1_used,527.21,2팀,MER1T,캐서디,0
+[00:11:12] ,ability_1_used,530.19,1팀,Proper,트레이서,0
+[00:11:12] ,ultimate_charged,530.55,1팀,Viol2t,제트팩 캣,0,3
+[00:11:13] ,ability_1_used,531.02,1팀,Viol2t,제트팩 캣,0
+[00:11:14] ,ability_1_used,532.07,1팀,Proper,트레이서,0
+[00:11:18] ,ability_1_used,536.15,1팀,Viol2t,제트팩 캣,0
+[00:11:22] ,ability_1_used,539.96,1팀,Proper,트레이서,0
+[00:11:23] ,ability_2_used,541.24,2팀,ChiYo,브리기테,0
+[00:11:26] ,ability_2_used,544.67,2팀,ChiYo,브리기테,0
+[00:11:29] ,ability_1_used,547.23,1팀,Proper,트레이서,0
+[00:11:30] ,ability_1_used,548.61,1팀,Proper,트레이서,0
+[00:11:31] ,ability_2_used,549.41,2팀,CheckMate,시메트라,0
+[00:11:31] ,ability_1_used,549.44,1팀,Proper,트레이서,0
+[00:11:31] ,ability_2_used,549.68,1팀,Bernar,시그마,0
+[00:11:32] ,ability_2_used,549.93,1팀,Viol2t,제트팩 캣,0
+[00:11:32] ,ultimate_charged,549.98,1팀,Bernar,시그마,0,4
+[00:11:32] ,ability_2_used,550.05,2팀,ChiYo,브리기테,0
+[00:11:32] ,ability_2_used,550.06,1팀,knife,엠레,0
+[00:11:32] ,ability_2_used,550.75,1팀,knife,엠레,0
+[00:11:33] ,ability_1_used,550.96,2팀,MER1T,캐서디,0
+[00:11:33] ,ability_2_used,551.13,2팀,ChiYo,브리기테,0
+[00:11:33] ,ability_1_used,551.13,2팀,Fielder,바티스트,0
+[00:11:33] ,ability_1_used,551.17,1팀,knife,엠레,0
+[00:11:33] ,ability_2_used,551.34,2팀,Someone,시그마,0
+[00:11:33] ,ability_1_used,551.45,1팀,Viol2t,제트팩 캣,0
+[00:11:34] ,ultimate_start,552.43,1팀,Bernar,시그마,0,4
+[00:11:34] ,ultimate_charged,552.53,2팀,ChiYo,브리기테,0,4
+[00:11:34] ,ultimate_start,552.54,1팀,Viol2t,제트팩 캣,0,3
+[00:11:34] ,ultimate_start,552.62,2팀,Fielder,바티스트,0,2
+[00:11:34] ,ability_2_used,552.72,2팀,ChiYo,브리기테,0
+[00:11:36] ,ability_1_used,553.80,2팀,ChiYo,브리기테,0
+[00:11:36] ,ability_2_used,553.92,1팀,shu,아나,0
+[00:11:36] ,****,554.04,1팀,Bernar,시그마,2팀,MER1T,캐서디,Ultimate,13.31,0,0
+[00:11:36] ,offensive_assist,554.17,1팀,Viol2t,제트팩 캣,0
+[00:11:36] ,defensive_assist,554.17,1팀,Viol2t,제트팩 캣,0
+[00:11:37] ,ultimate_end,554.86,1팀,Viol2t,제트팩 캣,0,3
+[00:11:37] ,ability_1_used,555.76,2팀,Someone,시그마,0
+[00:11:38] ,ability_2_used,555.80,2팀,ChiYo,브리기테,0
+[00:11:38] ,ability_2_used,556.12,2팀,Fielder,바티스트,0
+[00:11:38] ,****,556.30,1팀,Bernar,시그마,2팀,CheckMate,시메트라,Ultimate,63.69,0,0
+[00:11:38] ,offensive_assist,556.54,1팀,Viol2t,제트팩 캣,0
+[00:11:38] ,defensive_assist,556.54,1팀,Viol2t,제트팩 캣,0
+[00:11:38] ,ultimate_end,556.54,1팀,Bernar,시그마,0,4
+[00:11:41] ,****,559.03,1팀,Proper,트레이서,2팀,Fielder,바티스트,Primary Fire,2.63,0,0
+[00:11:41] ,offensive_assist,559.37,1팀,Viol2t,제트팩 캣,0
+[00:11:41] ,defensive_assist,559.37,1팀,Viol2t,제트팩 캣,0
+[00:11:41] ,offensive_assist,559.42,1팀,Bernar,시그마,0
+[00:11:42] ,****,560.04,1팀,Viol2t,제트팩 캣,2팀,ChiYo,브리기테,0,0.22,0,0
+[00:11:43] ,ultimate_charged,561.50,1팀,Proper,트레이서,0,4
+[00:11:44] ,ability_1_used,562.28,1팀,Proper,트레이서,0
+[00:11:44] ,ability_2_used,562.73,2팀,Someone,시그마,0
+[00:11:45] ,ultimate_end,563.13,2팀,Fielder,바티스트,0,2
+[00:11:45] ,ability_1_used,563.43,1팀,Proper,트레이서,0
+[00:11:46] ,****,564.09,1팀,Bernar,시그마,2팀,Someone,시그마,Primary Fire,35.70,0,0
+[00:11:46] ,defensive_assist,564.52,1팀,shu,아나,0
+[00:11:49] ,ability_1_used,567.36,1팀,Viol2t,제트팩 캣,0
+[00:11:51] ,hero_swap,569.38,2팀,Fielder,아나,바티스트,133.68
+[00:11:53] ,ability_1_used,570.87,2팀,Fielder,아나,0
+[00:11:54] ,ability_2_used,572.31,2팀,Fielder,아나,0
+[00:11:57] ,hero_swap,574.91,2팀,Fielder,바티스트,아나,5.53
+[00:11:58] ,ability_2_used,575.97,2팀,ChiYo,브리기테,0
+[00:11:58] ,ability_1_used,576.13,2팀,MER1T,캐서디,0
+[00:12:01] ,ultimate_charged,579.66,1팀,knife,엠레,0,4
+[00:12:02] ,ultimate_charged,580.65,2팀,Someone,시그마,0,3
+[00:12:03] ,ability_1_used,580.83,1팀,Proper,트레이서,0
+[00:12:04] ,ability_1_used,581.84,1팀,Proper,트레이서,0
+[00:12:04] ,ability_2_used,581.85,2팀,ChiYo,브리기테,0
+[00:12:04] ,ability_2_used,581.93,2팀,CheckMate,시메트라,0
+[00:12:04] ,ultimate_start,581.96,1팀,Proper,트레이서,0,4
+[00:12:04] ,ability_1_used,582.06,1팀,Proper,트레이서,0
+[00:12:04] ,ability_2_used,582.06,1팀,Bernar,시그마,0
+[00:12:04] ,ultimate_end,582.14,1팀,Proper,트레이서,0,4
+[00:12:04] ,ability_1_used,582.60,1팀,knife,엠레,0
+[00:12:05] ,ability_2_used,582.81,2팀,Fielder,바티스트,0
+[00:12:05] ,ultimate_start,583.10,1팀,knife,엠레,0,4
+[00:12:05] ,ability_1_used,583.34,2팀,MER1T,캐서디,0
+[00:12:05] ,ability_2_used,583.52,1팀,Viol2t,제트팩 캣,0
+[00:12:05] ,ability_1_used,583.58,1팀,Bernar,시그마,0
+[00:12:06] ,ability_2_used,584.16,2팀,MER1T,캐서디,0
+[00:12:06] ,****,584.30,1팀,Proper,트레이서,2팀,ChiYo,브리기테,Primary Fire,2.30,True,0
+[00:12:06] ,ultimate_charged,584.32,2팀,MER1T,캐서디,0,3
+[00:12:06] ,****,584.41,1팀,Viol2t,제트팩 캣,2팀,CheckMate,시메트라,Melee,34.28,0,0
+[00:12:06] ,****,584.41,1팀,Viol2t,제트팩 캣,2팀,MER1T,캐서디,Melee,22.31,0,0
+[00:12:07] ,ability_2_used,584.97,2팀,Someone,시그마,0
+[00:12:08] ,ability_1_used,586.49,2팀,Fielder,바티스트,0
+[00:12:09] ,ability_1_used,586.95,2팀,Someone,시그마,0
+[00:12:09] ,****,587.43,1팀,Viol2t,제트팩 캣,2팀,Fielder,바티스트,0,17.98,0,0
+[00:12:09] ,defensive_assist,587.56,1팀,Viol2t,제트팩 캣,0
+[00:12:14] ,ability_1_used,592.12,1팀,Viol2t,제트팩 캣,0
+[00:12:14] ,ability_1_used,592.26,1팀,Proper,트레이서,0
+[00:12:14] ,ability_1_used,592.44,1팀,Proper,트레이서,0
+[00:12:15] ,ultimate_end,593.09,1팀,knife,엠레,0,4
+[00:12:19] ,ability_1_used,597.30,2팀,MER1T,캐서디,0
+[00:12:22] ,ability_2_used,600.02,2팀,ChiYo,브리기테,0
+[00:12:23] ,ability_2_used,601.36,2팀,ChiYo,브리기테,0
+[00:12:23] ,ultimate_charged,601.39,1팀,shu,아나,0,4
+[00:12:23] ,ability_1_used,601.44,1팀,Viol2t,제트팩 캣,0
+[00:12:24] ,ability_2_used,602.13,2팀,CheckMate,시메트라,0
+[00:12:25] ,ability_2_used,603.54,1팀,knife,엠레,0
+[00:12:25] ,ability_1_used,603.65,1팀,Proper,트레이서,0
+[00:12:26] ,ability_2_used,603.92,1팀,Bernar,시그마,0
+[00:12:26] ,ability_2_used,604.29,1팀,knife,엠레,0
+[00:12:26] ,ability_2_used,604.61,2팀,MER1T,캐서디,0
+[00:12:26] ,ability_2_used,604.69,2팀,Someone,시그마,0
+[00:12:27] ,ultimate_start,604.78,2팀,ChiYo,브리기테,0,4
+[00:12:27] ,ability_2_used,605.36,1팀,shu,아나,0
+[00:12:27] ,ability_2_used,605.47,1팀,Viol2t,제트팩 캣,0
+[00:12:28] ,ultimate_start,605.78,2팀,Someone,시그마,0,3
+[00:12:28] ,ultimate_start,605.89,1팀,shu,아나,0,4
+[00:12:28] ,ability_1_used,606.29,2팀,ChiYo,브리기테,0
+[00:12:28] ,****,606.62,1팀,shu,아나,2팀,CheckMate,시메트라,Ability 2,31.78,0,0
+[00:12:29] ,ability_1_used,606.82,2팀,Fielder,바티스트,0
+[00:12:29] ,offensive_assist,606.83,1팀,Viol2t,제트팩 캣,0
+[00:12:29] ,****,607.04,1팀,Viol2t,제트팩 캣,2팀,Fielder,바티스트,0,25.38,True,0
+[00:12:29] ,offensive_assist,607.25,1팀,shu,아나,0
+[00:12:29] ,defensive_assist,607.25,1팀,shu,아나,0
+[00:12:29] ,ability_1_used,607.49,1팀,knife,엠레,0
+[00:12:30] ,ability_1_used,608.01,2팀,MER1T,캐서디,0
+[00:12:30] ,ability_1_used,608.69,1팀,Proper,트레이서,0
+[00:12:30] ,ability_1_used,608.73,1팀,shu,아나,0
+[00:12:31] ,ultimate_charged,609.21,1팀,Viol2t,제트팩 캣,0,4
+[00:12:31] ,****,609.47,1팀,Proper,트레이서,2팀,MER1T,캐서디,Primary Fire,3.38,True,0
+[00:12:31] ,offensive_assist,609.61,1팀,shu,아나,0
+[00:12:31] ,defensive_assist,609.61,1팀,shu,아나,0
+[00:12:31] ,offensive_assist,609.65,1팀,Viol2t,제트팩 캣,0
+[00:12:31] ,defensive_assist,609.65,1팀,Viol2t,제트팩 캣,0
+[00:12:31] ,****,609.68,1팀,Bernar,시그마,2팀,ChiYo,브리기테,Primary Fire,21.47,0,0
+[00:12:31] ,ultimate_end,609.68,2팀,ChiYo,브리기테,0,4
+[00:12:32] ,****,609.77,2팀,Someone,시그마,1팀,shu,아나,Ultimate,120,0,0
+[00:12:32] ,offensive_assist,609.77,1팀,shu,아나,0
+[00:12:32] ,ultimate_end,609.98,2팀,Someone,시그마,0,3
+[00:12:32] ,offensive_assist,610.11,1팀,Viol2t,제트팩 캣,0
+[00:12:32] ,defensive_assist,610.11,1팀,Viol2t,제트팩 캣,0
+[00:12:32] ,defensive_assist,610.13,2팀,ChiYo,브리기테,0
+[00:12:32] ,ability_1_used,610.75,1팀,Proper,트레이서,0
+[00:12:33] ,ability_1_used,611.02,1팀,Proper,트레이서,0
+[00:12:34] ,ability_1_used,612.64,1팀,Proper,트레이서,0
+[00:12:36] ,ultimate_end,614.01,1팀,shu,아나,0,4
+[00:12:37] ,ability_1_used,615.42,1팀,Proper,트레이서,0
+[00:12:38] ,****,616.60,1팀,Proper,트레이서,2팀,Someone,시그마,Melee,24.54,0,0
+[00:12:38] ,offensive_assist,616.70,1팀,Viol2t,제트팩 캣,0
+[00:12:38] ,defensive_assist,616.70,1팀,Viol2t,제트팩 캣,0
+[00:12:40] ,hero_swap,618.65,2팀,ChiYo,루시우,브리기테,182.95
+[00:12:40] ,ability_1_used,618.65,2팀,ChiYo,루시우,0
+[00:12:41] ,ability_1_used,619.13,1팀,Viol2t,제트팩 캣,0
+[00:12:41] ,ability_1_used,619.38,2팀,MER1T,캐서디,0
+[00:12:44] ,hero_swap,622.07,2팀,MER1T,트레이서,캐서디,186.37
+[00:12:45] ,ability_1_used,623.11,2팀,MER1T,트레이서,0
+[00:12:48] ,ability_1_used,626.37,1팀,Proper,트레이서,0
+[00:12:48] ,hero_swap,626.63,2팀,Someone,D.Va,시그마,190.93
+[00:12:48] ,ability_2_used,626.64,2팀,ChiYo,루시우,0
+[00:12:50] ,ability_1_used,627.96,1팀,Proper,트레이서,0
+[00:12:50] ,ability_2_used,628.00,1팀,knife,엠레,0
+[00:12:50] ,ability_1_used,628.55,1팀,Proper,트레이서,0
+[00:12:52] ,ability_1_used,629.94,2팀,MER1T,트레이서,0
+[00:12:52] ,ability_1_used,630.50,2팀,MER1T,트레이서,0
+[00:12:53] ,ability_2_used,630.87,2팀,CheckMate,시메트라,0
+[00:12:53] ,ability_1_used,630.96,2팀,MER1T,트레이서,0
+[00:12:53] ,ability_1_used,631.52,1팀,Proper,트레이서,0
+[00:12:54] ,ability_2_used,632.07,1팀,Bernar,시그마,0
+[00:12:54] ,ability_2_used,632.19,2팀,MER1T,트레이서,0
+[00:12:54] ,ability_1_used,632.24,1팀,knife,엠레,0
+[00:12:55] ,ability_2_used,632.88,1팀,knife,엠레,0
+[00:12:55] ,ability_2_used,633.12,1팀,Viol2t,제트팩 캣,0
+[00:12:56] ,ability_1_used,633.86,2팀,CheckMate,시메트라,0
+[00:12:56] ,ability_1_used,634.06,2팀,Fielder,바티스트,0
+[00:12:56] ,ability_1_used,634.62,2팀,ChiYo,루시우,0
+[00:12:57] ,ability_1_used,634.77,1팀,Viol2t,제트팩 캣,0
+[00:12:57] ,ability_1_used,635.15,2팀,CheckMate,시메트라,0
+[00:12:57] ,ability_1_used,635.39,2팀,Someone,D.Va,0
+[00:12:57] ,ability_2_used,635.70,2팀,Someone,D.Va,0
+[00:12:58] ,ability_1_used,635.87,2팀,CheckMate,시메트라,0
+[00:12:58] ,ability_2_used,636.03,2팀,Fielder,바티스트,0
+[00:12:58] ,ultimate_start,636.37,1팀,Viol2t,제트팩 캣,0,4
+[00:12:59] ,****,637.10,1팀,Bernar,시그마,2팀,MER1T,트레이서,Melee,37.08,0,0
+[00:13:00] ,ultimate_charged,637.76,2팀,CheckMate,시메트라,0,2
+[00:13:00] ,****,638.41,1팀,knife,엠레,2팀,Fielder,바티스트,Primary Fire,14.44,0,0
+[00:13:00] ,ultimate_start,638.54,2팀,CheckMate,시메트라,0,2
+[00:13:01] ,offensive_assist,638.75,1팀,Viol2t,제트팩 캣,0
+[00:13:01] ,ability_1_used,638.91,1팀,shu,아나,0
+[00:13:01] ,ability_1_used,638.97,1팀,Proper,트레이서,0
+[00:13:01] ,ability_2_used,639.17,1팀,knife,엠레,0
+[00:13:01] ,ability_1_used,639.39,1팀,Proper,트레이서,0
+[00:13:02] ,ultimate_end,639.81,1팀,Viol2t,제트팩 캣,0,4
+[00:13:02] ,ability_1_used,640.22,1팀,Proper,트레이서,0
+[00:13:02] ,****,640.48,1팀,Viol2t,제트팩 캣,2팀,ChiYo,루시우,Ultimate,142.28,0,True
+[00:13:05] ,****,643.37,1팀,Bernar,시그마,2팀,CheckMate,시메트라,Primary Fire,47.64,0,0
+[00:13:06] ,ability_2_used,643.98,1팀,Bernar,시그마,0
+[00:13:06] ,ability_1_used,644.20,2팀,Someone,D.Va,0
+[00:13:07] ,ultimate_charged,644.86,1팀,Proper,트레이서,0,5
+[00:13:07] ,ability_2_used,645.16,1팀,Proper,트레이서,0
+[00:13:07] ,ability_2_used,645.51,2팀,Someone,D.Va,0
+[00:13:09] ,ability_1_used,647.22,1팀,knife,엠레,0
+[00:13:09] ,ability_2_used,647.50,1팀,shu,아나,0
+[00:13:10] ,****,648.42,1팀,knife,엠레,2팀,Someone,D.Va,Ability 1,21.44,0,0
+[00:13:10] ,defensive_assist,648.62,1팀,shu,아나,0
+[00:13:12] ,ability_2_used,649.74,1팀,Viol2t,제트팩 캣,0
+[00:13:12] ,ability_1_used,649.75,2팀,MER1T,트레이서,0
+[00:13:12] ,ability_1_used,650.09,1팀,Viol2t,제트팩 캣,0
+[00:13:12] ,ability_1_used,650.14,1팀,Proper,트레이서,0
+[00:13:13] ,ultimate_end,650.78,2팀,CheckMate,시메트라,0,2
+[00:13:14] ,ability_1_used,652.17,1팀,Proper,트레이서,0
+[00:13:14] ,hero_swap,652.47,2팀,Fielder,제트팩 캣,바티스트,77.56
+[00:13:14] ,ability_1_used,652.65,2팀,Fielder,제트팩 캣,0
+[00:13:15] ,player_stat,653.43,3,2팀,CheckMate,위도우메이커,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:13:15] ,player_stat,653.43,3,2팀,CheckMate,시메트라,15,5,9,7745.83,3232.68,4513.15,0,5946.51,0,8511.51,2945.84,0,0,2,2,0,0,0,2,0,0,0,0,0,0,0,179,30,123,0,0,0.20,554.21
+[00:13:15] ,player_stat,653.43,3,2팀,CheckMate,트레이서,1,1,2,965.42,118.81,846.61,0,46.22,295.33,712.35,0,0,0,0,0,0,0,1,0,0,0,19,0.12,0,0,0,542,165,338,0,0,0.33,99.22
+[00:13:15] ,player_stat,653.43,3,1팀,Viol2t,제트팩 캣,21,7,1,5736.44,1064.49,3926.35,3199.41,1088.22,0,1586.25,0,7,9,2,2,4,4,0,2,1,0,90,0.10,0,0,0,2495,866,1384,0,0,0.38,237.67
+[00:13:15] ,player_stat,653.43,3,1팀,Viol2t,주노,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,46,0,46,0,0,0,9.17
+[00:13:15] ,player_stat,653.43,3,1팀,Viol2t,젠야타,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:13:15] ,player_stat,653.43,3,1팀,Viol2t,우양,5,1,2,3644.92,1432.09,2112.83,0,389.21,0,1191.15,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,89,24,42,0,0,0.36,174.91
+[00:13:15] ,player_stat,653.43,3,1팀,Viol2t,미즈키,6,2,3,3996.71,1390.77,2462.51,2544.51,1101.65,0,2019.24,0,6,0,1,1,0,0,0,2,0,0,4,0.11,0,0,0,120,36,60,0,0,0.38,223.87
+[00:13:15] ,player_stat,653.43,3,1팀,Viol2t,루시우,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,0,9,0,0,0,7.02
+[00:13:15] ,player_stat,653.43,3,1팀,Viol2t,일리아리,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0.78
+[00:13:15] ,player_stat,653.43,3,1팀,shu,아나,20,5,8,7518.48,1371.48,5185.59,6374.99,1321.73,189,4097.32,0,14,14,4,4,1,3,0,2,0,0,0,0,0.66,0,0,289,169,93,145,96,0.65,653.43
+[00:13:15] ,player_stat,653.43,3,2팀,ChiYo,브리기테,12,4,9,6658.71,925,5733.71,10102.28,3372.09,1361.35,6414,5666.98,17,3,4,4,0,0,0,3,1,0,0,0,0,0,0,0,0,0,0,0,0,618.20
+[00:13:15] ,player_stat,653.43,3,2팀,ChiYo,바티스트,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:13:15] ,player_stat,653.43,3,2팀,ChiYo,미즈키,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:13:15] ,player_stat,653.43,3,2팀,ChiYo,루시우,0,0,1,134,0,134,195.88,115.62,45.48,340.62,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,18,2,16,0,0,0.11,35.23
+[00:13:15] ,player_stat,653.43,3,1팀,Proper,시메트라,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12.83
+[00:13:15] ,player_stat,653.43,3,1팀,Proper,트레이서,33,6,5,13663.48,4079.10,7959.94,0,2813.54,972.22,4911.34,0,0,0,5,4,4,4,0,11,0,0,167,0.09,0,0,0,4754,1792,2320,0,0,0.44,640.60
+[00:13:15] ,player_stat,653.43,3,2팀,Someone,시그마,18,10,7,14449.35,4648.67,9800.68,0,10662.35,0,16891.09,16747.59,0,2,3,2,0,0,1,1,0,1,0,0,0,0,0,224,79,111,0,0,0.42,626.63
+[00:13:15] ,player_stat,653.43,3,2팀,Someone,D.Va,0,0,1,492.67,113,379.67,0,358.98,0,1183.96,524,0,0,0,0,0,0,0,0,0,0,3,0.03,0,0,0,434,100,287,0,0,0.26,26.80
+[00:13:15] ,player_stat,653.43,3,1팀,Bernar,도미나,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:13:15] ,player_stat,653.43,3,1팀,Bernar,D.Va,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:13:15] ,player_stat,653.43,3,1팀,Bernar,시그마,35,18,6,23261.02,7234.39,13695.36,0,7632.21,0,12037.97,13507.26,0,2,4,4,3,5,1,5,0,1,0,0,0,0,0,265,125,96,0,0,0.57,653.43
+[00:13:15] ,player_stat,653.43,3,2팀,Fielder,바티스트,8,1,11,3715.88,1575.65,2140.22,14029.61,2563.49,928.67,5515.68,0,18,2,4,4,0,0,0,0,0,0,9,0.10,0,0,0,398,86,236,0,0,0.27,629.01
+[00:13:15] ,player_stat,653.43,3,2팀,Fielder,루시우,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3.36
+[00:13:15] ,player_stat,653.43,3,2팀,Fielder,아나,0,0,0,159.60,0,159.60,60,0,0,159.60,0,0,0,0,0,0,0,0,0,0,0,0,0,0.50,0,0,10,4,5,6,3,0.44,20.10
+[00:13:15] ,player_stat,653.43,3,2팀,Fielder,제트팩 캣,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.96
+[00:13:15] ,player_stat,653.43,3,1팀,knife,애쉬,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:13:15] ,player_stat,653.43,3,1팀,knife,소전,18,6,6,15045.73,6376.12,7641.27,0,2391.83,0,3959.80,0,0,0,3,3,0,0,0,1,0,0,50,0.11,0,0,0,2478,439,1472,0,0,0.23,479.69
+[00:13:15] ,player_stat,653.43,3,1팀,knife,프레야,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+[00:13:15] ,player_stat,653.43,3,1팀,knife,엠레,16,5,0,6899.01,2411.98,3716.61,0,832.63,20.90,1042.02,0,0,0,1,1,2,3,0,2,0,0,12,0.09,0.46,0,0,376,131,141,160,74,0.48,173.74
+[00:13:15] ,player_stat,653.43,3,2팀,MER1T,프레야,0,0,1,755,225,530,0,535.31,0,760.31,0,0,0,0,0,0,0,0,0,0,0,1,0.11,0,0,0,65,9,27,0,0,0.25,76.63
+[00:13:15] ,player_stat,653.43,3,2팀,MER1T,바스티온,0,0,1,437.09,51.68,385.41,0,117.54,0,467.54,0,0,0,0,0,0,0,0,0,0,0,4,0.22,0,0,0,71,18,50,0,0,0.26,37.33
+[00:13:15] ,player_stat,653.43,3,2팀,MER1T,소전,2,2,1,987.34,375.70,611.64,0,253.62,0,485.52,0,0,0,0,0,0,0,0,0,0,0,3,0.09,0,0,0,191,33,119,0,0,0.22,44.06
+[00:13:15] ,player_stat,653.43,3,2팀,MER1T,캐서디,12,7,8,7600.99,2241.06,5359.93,0,3524.02,0,5589.72,0,0,0,3,2,0,0,0,2,0,0,8,0.11,0,0,0,250,72,144,0,0,0.33,464.05
+[00:13:15] ,player_stat,653.43,3,2팀,MER1T,트레이서,0,0,1,178.88,0,178.88,0,111.75,93.02,379.77,0,0,0,0,0,0,0,0,0,0,0,4,0.11,0,0,0,164,37,126,0,0,0.23,31.36
+[00:13:15] ,round_end,653.43,3,0,2,1,0,100,34.00,0

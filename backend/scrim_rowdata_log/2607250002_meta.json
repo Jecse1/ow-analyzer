@@ -1,0 +1,104 @@
+{
+    "id": "2607250002",
+    "scrim_name": "260725-ZETA",
+    "date": "2026-07-25",
+    "start_time": "00",
+    "end_time": "02",
+    "matches": [
+        {
+            "id": "048ba46e-97fc-472d-9809-a0362d2380e3",
+            "match_index": 1,
+            "map_name": "부산",
+            "team1_name": "ZETA",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "",
+            "video_url": "",
+            "video_offset": 0,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "a5ab5c74-7d10-4fe7-9443-5fe0936e13cc",
+            "match_index": 2,
+            "map_name": "수라바사",
+            "team1_name": "ZETA",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "",
+            "video_url": "https://www.youtube.com/live/9IyzcftNZkg?si=Qt-UA_3y_tMyK9it",
+            "video_offset": 1073,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "babe1072-539c-4f35-9e8d-002a26dfc0bb",
+            "match_index": 3,
+            "map_name": "콜로세오",
+            "team1_name": "ZETA",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "",
+            "video_url": "https://www.youtube.com/live/9IyzcftNZkg?si=csmnE-3pFM2Dp5o9",
+            "video_offset": 2454,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "2909db92-5c55-4b2f-841d-21038cffcc0b",
+            "match_index": 4,
+            "map_name": "샴발리수도원",
+            "team1_name": "ZETA",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "",
+            "video_url": "https://www.youtube.com/live/9IyzcftNZkg?si=csmnE-3pFM2Dp5o9",
+            "video_offset": 3642,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        },
+        {
+            "id": "cb674d79-b608-44fa-b395-c994c0fa3ab8",
+            "match_index": 5,
+            "map_name": "아이헨발데",
+            "team1_name": "ZETA",
+            "team2_name": "FLC",
+            "result": "Unknown",
+            "winner_override": "",
+            "video_url": "https://www.youtube.com/live/9IyzcftNZkg?si=csmnE-3pFM2Dp5o9",
+            "video_offset": 4630,
+            "pauses": [],
+            "timeline": {
+                "duration_sec": 0
+            },
+            "rounds": [],
+            "stats": [],
+            "fights": [],
+            "fight_metrics": {}
+        }
+    ]
+}
