@@ -50,7 +50,7 @@
             "team1_name": "ZETA",
             "team2_name": "FLC",
             "result": "Unknown",
-            "winner_override": "",
+            "winner_override": "ZETA",
             "video_url": "https://www.youtube.com/live/9IyzcftNZkg?si=csmnE-3pFM2Dp5o9",
             "video_offset": 2454,
             "pauses": [],
