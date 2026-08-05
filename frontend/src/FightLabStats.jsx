@@ -1634,6 +1634,8 @@ export function SituationTable({ rowDefs, statsA, statsB, statsOpp, compareOn, m
         if (dPP == null || !goodDir || Math.abs(dPP) < 1) return T.sub;
         return (goodDir === 'higher' ? dPP > 0 : dPP < 0) ? GREEN : RED;
     };
+    // 승률 방향색(R1): 50% 경계 기준 은은한 초록/빨강, 정확히 50%·값 없음은 중립.
+    const winColor = (w) => (w == null || Math.abs(w - 0.5) < 0.005) ? T.text : w > 0.5 ? GREEN : RED;
     const fmtDelta = (dPP) => dPP == null ? '—' : `${dPP > 0 ? '+' : '−'}${Math.abs(dPP).toFixed(1)}${t.flUnitPp}`;
 
     // frame_006 형식 행: 상황 | 발생률 | Δ발생률(vs 상대) | 승률 | Δ승률(vs 상대) | 추세(vs 과거) | 표본 | 안정성 | 상태
@@ -1661,7 +1663,7 @@ export function SituationTable({ rowDefs, statsA, statsB, statsOpp, compareOn, m
                 </td>
                 <td style={td}>{pct(a.occ)}</td>
                 <td title={tipOcc} style={{ ...td, color: deltaColor(dOcc, def.rateDir) }}>{fmtDelta(dOcc)}</td>
-                <td style={td}>{pct(a.win)}</td>
+                <td style={{ ...td, color: winColor(a.win) }}>{pct(a.win)}</td>
                 <td title={tipWin} style={{ ...td, color: deltaColor(dWin, 'higher') }}>{fmtDelta(dWin)}</td>
                 {compareOn && (
                     <td title={tipTrend} style={{ ...td, color: deltaColor(trend, 'higher') }}>

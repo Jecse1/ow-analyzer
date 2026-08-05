@@ -99,7 +99,7 @@ export const translations = {
     smPauseTimeWarn: "퍼즈 시작/종료 시간을 모두 입력해주세요. (예: 10:00)", smYoutubeLink: "유튜브 영상 링크", smOptional: "(선택)",
     smTeam1Label: "1팀 이름 (왼쪽)", smTeam2Label: "2팀 이름 (오른쪽)", smStartPlaceholder: "예: 03:30 (전투 시작)",
     // UltimateStats
-    ultFivePlus: "5개 이상", ultTotal: "총합", ultValue: "가치",
+    ultFivePlus: "5개 이상", ultTotal: "총합", ultValue: "가치", ultLowSampleNote: "표본 부족 (5회 미만) · 참고용",
     // OverallStats
     osAnalysis: "분석", osTabFights: "한타 통계", osWinBadge: "승", osLossBadge: "패", osAllAvg: "전체 평균",
     osTabSummary: "요약", osMapWinCard: "맵 승률", osSummaryBasisTpl: "{team} 기준", osTrendCard: "추세 (vs 이전 기간)",
@@ -443,7 +443,7 @@ export const translations = {
     smPauseTimeWarn: "Enter both pause start/end times. (ex: 10:00)", smYoutubeLink: "YouTube Video Link", smOptional: "(Optional)",
     smTeam1Label: "Team 1 Name (Left)", smTeam2Label: "Team 2 Name (Right)", smStartPlaceholder: "ex: 03:30 (fight start)",
     // UltimateStats
-    ultFivePlus: "5+", ultTotal: "Total", ultValue: "Value",
+    ultFivePlus: "5+", ultTotal: "Total", ultValue: "Value", ultLowSampleNote: "Low sample (under 5) · reference",
     // OverallStats
     osAnalysis: "Analysis", osTabFights: "Teamfight Stats", osWinBadge: "Win", osLossBadge: "Loss", osAllAvg: "All Avg",
     osTabSummary: "Summary", osMapWinCard: "Map win rate", osSummaryBasisTpl: "Based on {team}", osTrendCard: "Trend (vs previous period)",

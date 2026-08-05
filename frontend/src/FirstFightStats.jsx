@@ -100,7 +100,6 @@ export default function FirstFightStats() {
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <thead style={{ background: theme.surfaceHighlight }}>
                         <tr>
-                            <th style={{ padding: '16px', textAlign: 'left', fontSize: '13px', color: theme.textSub }}>{t.ffColDate}</th>
                             <th style={{ padding: '16px', textAlign: 'left', fontSize: '13px', color: theme.textSub }}>{t.ffColMap}</th>
                             <th style={{ padding: '16px', textAlign: 'center', fontSize: '13px', color: theme.textSub }}>{t.ffColRound}</th>
                             <th style={{ padding: '16px', textAlign: 'left', fontSize: '13px', color: theme.textSub }}>{t.ffColMatchup}</th>
@@ -109,56 +108,78 @@ export default function FirstFightStats() {
                         </tr>
                     </thead>
                     <tbody>
-                        {filtered.map((it, idx) => {
-                            const rowBg = idx % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.02)';
-                            const videoUrl = it.video_url || "";
-                            const match = { video_url: videoUrl, video_offset: it.video_offset, game_setup_sec: it.game_setup_sec, pauses: it.pauses || [] };
-                            const jumpTs = Math.max(0, (Number(it.round_start_sec) || 0) + ROUND_START_LEAD_SEC);
-                            const link = hasVideo(videoUrl) ? buildVideoLink(videoUrl, jumpTs, match) : null;
-                            return (
-                                <tr key={`${it.match_id}-${it.round_number ?? 'm'}-${idx}`} style={{ background: rowBg, borderBottom: `1px solid ${theme.border}40` }}>
-                                    <td style={{ padding: '16px', fontSize: '13px', color: theme.textSub }}>{it.session_date || '-'}</td>
-                                    <td style={{ padding: '16px', fontWeight: 'bold' }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                            <MapIcon size={16} color={ACCENT} /> {it.map_name}
-                                        </div>
-                                    </td>
-                                    <td style={{ padding: '16px', textAlign: 'center', color: theme.textSub }}>
-                                        {it.round_number != null ? `R${it.round_number}` : '-'}
-                                    </td>
-                                    <td style={{ padding: '16px' }}>
-                                        <span style={{ fontWeight: 'bold', color: ACCENT }}>{OUR_TEAM}</span>
-                                        <span style={{ color: theme.textSub, margin: '0 6px', fontSize: '12px' }}>vs</span>
-                                        <span style={{ fontWeight: 'bold' }}>{opponentOf(it)}</span>
-                                    </td>
-                                    <td style={{ padding: '16px', textAlign: 'right', color: theme.textSub }}>
-                                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                                            <Clock size={13} /> {fmtClock(it.start_game_timestamp)}
-                                        </span>
-                                    </td>
-                                    <td style={{ padding: '16px', textAlign: 'center' }}>
-                                        {link ? (
-                                            <a href={link} target="_blank" rel="noopener noreferrer"
-                                                style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: '8px', background: `${theme.danger}20`, color: theme.danger, textDecoration: 'none', fontWeight: 'bold', fontSize: '13px' }}>
-                                                <Youtube size={16} /> {t.ffWatch}
-                                            </a>
-                                        ) : (
-                                            <span style={{ color: theme.textSub, fontSize: '12px' }}>{t.ffNoVideo}</span>
-                                        )}
-                                    </td>
-                                </tr>
-                            );
-                        })}
+                        {(() => {
+                            // 날짜별 그룹핑(등장 순서 유지) — 행마다 반복되던 날짜를 그룹 헤더로 승격해 시각 소음 제거.
+                            // filtered(정렬·필터 반영)를 그대로 순회하므로 기존 정렬/필터 동작은 불변.
+                            const groups = [];
+                            let cur = null;
+                            filtered.forEach((it, idx) => {
+                                const d = it.session_date || '-';
+                                if (!cur || cur.date !== d) { cur = { date: d, rows: [] }; groups.push(cur); }
+                                cur.rows.push({ it, idx });
+                            });
+                            return groups.map(g => (
+                                <React.Fragment key={g.date}>
+                                    <tr>
+                                        <td colSpan="5" style={{ padding: '10px 16px', background: theme.surfaceHighlight, borderBottom: `1px solid ${theme.border}` }}>
+                                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontWeight: 700, fontSize: '13px', color: theme.text }}>
+                                                <Clock size={14} color={ACCENT} /> {g.date}
+                                                <span style={{ color: theme.textSub, fontWeight: 400, fontSize: '12px' }}>({g.rows.length})</span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    {g.rows.map(({ it, idx }) => {
+                                        const rowBg = idx % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.02)';
+                                        const videoUrl = it.video_url || "";
+                                        const match = { video_url: videoUrl, video_offset: it.video_offset, game_setup_sec: it.game_setup_sec, pauses: it.pauses || [] };
+                                        const jumpTs = Math.max(0, (Number(it.round_start_sec) || 0) + ROUND_START_LEAD_SEC);
+                                        const link = hasVideo(videoUrl) ? buildVideoLink(videoUrl, jumpTs, match) : null;
+                                        return (
+                                            <tr key={`${it.match_id}-${it.round_number ?? 'm'}-${idx}`} style={{ background: rowBg, borderBottom: `1px solid ${theme.border}40` }}>
+                                                <td style={{ padding: '16px', fontWeight: 'bold' }}>
+                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                        <MapIcon size={16} color={ACCENT} /> {it.map_name}
+                                                    </div>
+                                                </td>
+                                                <td style={{ padding: '16px', textAlign: 'center', color: theme.textSub }}>
+                                                    {it.round_number != null ? `R${it.round_number}` : '-'}
+                                                </td>
+                                                <td style={{ padding: '16px' }}>
+                                                    <span style={{ fontWeight: 'bold', color: ACCENT }}>{OUR_TEAM}</span>
+                                                    <span style={{ color: theme.textSub, margin: '0 6px', fontSize: '12px' }}>vs</span>
+                                                    <span style={{ fontWeight: 'bold' }}>{opponentOf(it)}</span>
+                                                </td>
+                                                <td style={{ padding: '16px', textAlign: 'right', color: theme.textSub }}>
+                                                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                                                        <Clock size={13} /> {fmtClock(it.start_game_timestamp)}
+                                                    </span>
+                                                </td>
+                                                <td style={{ padding: '16px', textAlign: 'center' }}>
+                                                    {link ? (
+                                                        <a href={link} target="_blank" rel="noopener noreferrer"
+                                                            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: '8px', background: `${theme.danger}20`, color: theme.danger, textDecoration: 'none', fontWeight: 'bold', fontSize: '13px' }}>
+                                                            <Youtube size={16} /> {t.ffWatch}
+                                                        </a>
+                                                    ) : (
+                                                        <span style={{ color: theme.textSub, fontSize: '12px' }}>{t.ffNoVideo}</span>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </React.Fragment>
+                            ));
+                        })()}
                         {!loading && filtered.length === 0 && (
                             <tr>
-                                <td colSpan="6" style={{ padding: '60px', textAlign: 'center', color: theme.textSub }}>
+                                <td colSpan="5" style={{ padding: '60px', textAlign: 'center', color: theme.textSub }}>
                                     {error ? t.ffError : t.noFilteredData}
                                 </td>
                             </tr>
                         )}
                         {loading && (
                             <tr>
-                                <td colSpan="6" style={{ padding: '60px', textAlign: 'center', color: theme.textSub }}>{t.ffLoading}</td>
+                                <td colSpan="5" style={{ padding: '60px', textAlign: 'center', color: theme.textSub }}>{t.ffLoading}</td>
                             </tr>
                         )}
                     </tbody>

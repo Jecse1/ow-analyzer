@@ -3,8 +3,13 @@ import { Zap, Calendar, Target, Activity, Users } from 'lucide-react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Cell, Legend } from 'recharts';
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
+import { T } from "./FightLabStats";
 
-const NEON_GREEN = '#39FF14';
+// R1 방향색(맵 분석과 동일한 은은한 톤). 원색 네온은 제거.
+const GREEN = T.green, RED = T.red;
+const winColor = (wr) => wr === 50 ? T.text : wr >= 50 ? GREEN : RED;
+// R2: 영웅별 궁극기 가치 랭킹의 최소 표본(궁 사용 횟수). 미만은 흐림 + 하단 분리.
+const MIN_ULT_SAMPLE = 5;
 
 // 💡 영웅 이미지 예외 처리 (무조건 소문자 파일 매핑)
 const getHeroImageSrc = (heroName) => {
@@ -152,7 +157,7 @@ export default function UltimateStats({ allScrims }) {
                     <p style={{ margin: '0 0 4px 0', fontSize: '13px', color: '#cccccc' }}>
                         {t.fightCount} : {data.uses}{t.timesUnit}
                     </p>
-                    <p style={{ margin: 0, fontSize: '14px', color: NEON_GREEN, fontWeight: 'bold' }}>
+                    <p style={{ margin: 0, fontSize: '14px', color: winColor(data.winRate), fontWeight: 'bold' }}>
                         {t.winRate} : {data.winRate}%
                     </p>
                 </div>
@@ -165,7 +170,7 @@ export default function UltimateStats({ allScrims }) {
         <div style={{ padding: "40px", maxWidth: 1200, margin: "0 auto", color: theme.text }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems:'center', marginBottom:'24px' }}>
                 <h1 style={{ fontSize: 24, fontWeight: 900, margin:0, display:'flex', alignItems:'center', gap:'10px' }}>
-                    <Zap size={24} color={NEON_GREEN}/> {t.ultStatsTitle}
+                    <Zap size={24} color={GREEN}/> {t.ultStatsTitle}
                 </h1>
             </div>
 
@@ -205,7 +210,7 @@ export default function UltimateStats({ allScrims }) {
                                 
                                 <Bar dataKey="winRate" name={t.winRate} radius={[6, 6, 0, 0]} barSize={40}>
                                     {ultAnalysis.countStats.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={entry.winRate >= 50 ? NEON_GREEN : theme.danger} />
+                                        <Cell key={`cell-${index}`} fill={entry.winRate >= 50 ? GREEN : RED} />
                                     ))}
                                 </Bar>
                             </BarChart>
@@ -225,24 +230,36 @@ export default function UltimateStats({ allScrims }) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {ultAnalysis.heroStats.map((h, i) => (
-                                    <tr key={i} style={{borderBottom:`1px solid ${theme.border}`}}>
-                                        <td style={{padding:'12px', display:'flex', alignItems:'center', gap:'12px', fontWeight:'bold'}}>
-                                            <span style={{color: theme.textSub, width:'20px'}}>{i+1}</span>
-                                            <img src={getHeroImageSrc(h.hero)} alt={h.hero} style={{width:'32px', height:'32px', borderRadius:'6px', background:'#000'}}/>
-                                            {h.hero}
-                                        </td>
-                                        <td style={{padding:'12px', textAlign:'center'}}>{h.uses}{t.timesUnit}</td>
-                                        <td style={{
-                                            padding:'12px', 
-                                            textAlign:'right', 
-                                            color: h.winRate >= 50 ? NEON_GREEN : theme.danger, 
-                                            fontWeight:'900', 
-                                            fontSize:'16px',
-                                            textShadow: h.winRate >= 50 ? `0 0 8px ${NEON_GREEN}40` : 'none'
-                                        }}>{h.winRate}%</td>
-                                    </tr>
-                                ))}
+                                {(() => {
+                                    // R2: 표본(궁 사용) 최소치 미만은 흐림 + 하단 분리. 순위는 이어서 매김.
+                                    const main = ultAnalysis.heroStats.filter(h => h.uses >= MIN_ULT_SAMPLE);
+                                    const low = ultAnalysis.heroStats.filter(h => h.uses < MIN_ULT_SAMPLE);
+                                    const renderRow = (h, rank, dim) => (
+                                        <tr key={h.hero} style={{ borderBottom: `1px solid ${theme.border}`, opacity: dim ? 0.5 : 1 }}>
+                                            <td style={{padding:'12px', display:'flex', alignItems:'center', gap:'12px', fontWeight:'bold'}}>
+                                                <span style={{color: theme.textSub, width:'20px'}}>{rank}</span>
+                                                <img src={getHeroImageSrc(h.hero)} alt={h.hero} style={{width:'32px', height:'32px', borderRadius:'6px', background:'#000'}}/>
+                                                {h.hero}
+                                            </td>
+                                            <td style={{padding:'12px', textAlign:'center'}}>{h.uses}{t.timesUnit}</td>
+                                            <td style={{ padding:'12px', textAlign:'right', color: winColor(h.winRate), fontWeight:'900', fontSize:'16px' }}>{h.winRate}%</td>
+                                        </tr>
+                                    );
+                                    let rank = 0;
+                                    return (
+                                        <>
+                                            {main.map(h => renderRow(h, ++rank, false))}
+                                            {low.length > 0 && (
+                                                <tr>
+                                                    <td colSpan={3} style={{ padding:'8px 12px', fontSize:'11px', color: theme.textSub, background:'rgba(255,255,255,0.02)', borderBottom:`1px solid ${theme.border}` }}>
+                                                        {t.ultLowSampleNote}
+                                                    </td>
+                                                </tr>
+                                            )}
+                                            {low.map(h => renderRow(h, ++rank, true))}
+                                        </>
+                                    );
+                                })()}
                             </tbody>
                         </table>
                     )}

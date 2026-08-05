@@ -5,6 +5,12 @@ import { useLanguage } from "./LanguageContext";
 
 const normalizeName = (name) => (name ? name.trim() : "");
 
+// 우리 팀(기준 팀). 랭킹에서 우리 팀 선수 행을 구분 표시한다.
+const OUR_TEAM = "FLC";
+// R2: 비율(첫데스율)의 표본 = 참여 한타 수. 미만은 흐림 + 랭킹 후순위(하단 분리).
+// totalFights는 스케일이 커(주전 수천) 앱 기본값 5로는 무의미 → 이 화면 전용 임계값.
+const MIN_FIGHTS = 30;
+
 const HERO_ALIAS_MAP = {
     '솔저: 76': '솔저76', '솔저 : 76': '솔저76', 'D.Va': '디바', 'Widowmaker': '위도우메이커', 'Tracer': '트레이서', 'Sojourn': '소전', 'Sierra': '시에라'
 };
@@ -205,9 +211,9 @@ export default function FirstDeathStats({ allScrims }) {
 
                     if (!pMap[name]) {
                         const roleData = getRoleInfo(p.hero_name);
-                        pMap[name] = { 
+                        pMap[name] = {
                             name, hero: p.hero_name, roleLabel: roleData.label, roleOrder: roleData.order,
-                            totalFights: 0, firstDeaths: 0, deathLogs: []
+                            team: (p.team_name || "").trim(), totalFights: 0, firstDeaths: 0, deathLogs: []
                         };
                     }
                     pMap[name].totalFights += matchFightsCount;
@@ -238,7 +244,7 @@ export default function FirstDeathStats({ allScrims }) {
         let filtered = playerStats;
         if (selectedRole !== 'All') filtered = playerStats.filter(p => p.roleLabel === selectedRole);
 
-        return [...filtered].sort((a, b) => {
+        const sorted = [...filtered].sort((a, b) => {
             let valA = a[sortConfig.key];
             let valB = b[sortConfig.key];
             if (sortConfig.key === 'rate') {
@@ -249,6 +255,11 @@ export default function FirstDeathStats({ allScrims }) {
             if (valA > valB) return sortConfig.direction === 'asc' ? 1 : -1;
             return 0;
         });
+        // R2: 표본(참여 한타) 미달 선수는 정렬 결과 유지한 채 하단으로 분리(극소표본이 상위 오염 방지).
+        return [
+            ...sorted.filter(p => p.totalFights >= MIN_FIGHTS),
+            ...sorted.filter(p => p.totalFights < MIN_FIGHTS),
+        ];
     }, [playerStats, selectedRole, sortConfig]);
 
     const handleSort = (key) => setSortConfig(prev => ({ key, direction: prev.key === key && prev.direction === 'desc' ? 'asc' : 'desc' }));
@@ -317,18 +328,21 @@ export default function FirstDeathStats({ allScrims }) {
                     <tbody>
                         {sortedData.map((p, idx) => {
                             const rate = p.totalFights > 0 ? (p.firstDeaths / p.totalFights) * 100 : 0;
-                            const isDanger = rate >= 15; 
+                            const isDanger = rate >= 15;
                             const isExpanded = expandedPlayer === p.name;
+                            const isOurTeam = p.team === OUR_TEAM;       // 우리 팀 구분 표시
+                            const lowSample = p.totalFights < MIN_FIGHTS; // R2: 표본 미달 흐림
                             const rowBg = idx % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.02)';
 
                             return (
                                 <React.Fragment key={p.name}>
-                                    <tr onClick={() => toggleExpand(p.name)} style={{ background: isExpanded ? theme.surfaceHighlight : rowBg, borderBottom: isExpanded ? 'none' : `1px solid ${theme.border}40`, transition: 'background 0.2s', cursor: 'pointer' }} onMouseOver={e=>e.currentTarget.style.background=theme.surfaceHighlight} onMouseOut={e=>e.currentTarget.style.background=isExpanded ? theme.surfaceHighlight : rowBg}>
-                                        <td style={{ padding: '16px', textAlign: 'center', color: theme.textSub }}>{idx + 1}</td>
+                                    <tr onClick={() => toggleExpand(p.name)} style={{ background: isExpanded ? theme.surfaceHighlight : rowBg, borderBottom: isExpanded ? 'none' : `1px solid ${theme.border}40`, transition: 'background 0.2s', cursor: 'pointer', opacity: lowSample ? 0.5 : 1 }} onMouseOver={e=>e.currentTarget.style.background=theme.surfaceHighlight} onMouseOut={e=>e.currentTarget.style.background=isExpanded ? theme.surfaceHighlight : rowBg}>
+                                        <td style={{ padding: '16px', textAlign: 'center', color: theme.textSub, borderLeft: `3px solid ${isOurTeam ? theme.primary : 'transparent'}` }}>{idx + 1}</td>
                                         <td style={{ padding: '16px', fontWeight: 'bold' }}>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                                 <img src={getHeroImageSrc(p.hero)} style={{ width: 30, height: 30, borderRadius: 4, background: '#000' }} />
                                                 <span style={{ color: isExpanded ? DANGER_COLOR : theme.text }}>{p.name}</span>
+                                                {isOurTeam && <span style={{ fontSize: '10px', fontWeight: 700, color: theme.primary, background: `${theme.primary}20`, border: `1px solid ${theme.primary}55`, borderRadius: '4px', padding: '1px 6px' }}>{OUR_TEAM}</span>}
                                             </div>
                                         </td>
                                         <td style={{ padding: '16px', textAlign: 'center' }}>
