@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import axios from "axios";
 import {
-  LayoutDashboard, History, Users, BarChart3, Moon, Sun, Upload, AlertCircle, Globe, User, Zap, Skull, Crosshair, Swords, Map as MapIcon
+  LayoutDashboard, History, Users, BarChart3, Moon, Sun, Upload, AlertCircle, Globe, User, Zap, Skull, Crosshair, Swords, Map as MapIcon, ChevronDown
 } from "lucide-react";
 
 import { ThemeProvider, useTheme } from "./ThemeContext";
@@ -59,7 +59,29 @@ function MainApp() {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(null);
   
-  const [allScrims, setAllScrims] = useState([]); 
+  const [allScrims, setAllScrims] = useState([]);
+
+  // 상단 네비 드롭다운 상태 (hover + click)
+  //  - navHovered : 현재 마우스가 올라간 메인 키 (hover 열림, 데스크톱 전용)
+  //  - navPinned  : 클릭으로 고정 열린 메인 키 (hover 벗어나도 유지, 재클릭/바깥클릭으로 닫힘)
+  //  - navHoverItem : 드롭다운 하위 항목 hover 하이라이트용 키
+  const [navHovered, setNavHovered] = useState(null);
+  const [navPinned, setNavPinned] = useState(null);
+  const [navHoverItem, setNavHoverItem] = useState(null);
+  const navRef = useRef(null);
+
+  // 바깥 클릭 시 고정 드롭다운 닫기 (mousedown → 다른 클릭 동작보다 먼저 처리)
+  useEffect(() => {
+    if (!navPinned) return;
+    const onDocDown = (e) => {
+      if (navRef.current && !navRef.current.contains(e.target)) {
+        setNavPinned(null);
+        setNavHovered(null);
+      }
+    };
+    document.addEventListener("mousedown", onDocDown);
+    return () => document.removeEventListener("mousedown", onDocDown);
+  }, [navPinned]);
 
   const API_BASE = "";
 
@@ -351,25 +373,116 @@ function MainApp() {
     fontWeight: isActive ? 600 : 500,
   });
 
+  // 4개 메인 + 드롭다운 구조. 하위 항목 순서는 확정 분류 그대로.
+  const NAV_ITEMS = [
+    { key: "dashboard", label: t.dashboard, Icon: LayoutDashboard, onSelect: goHome, activeViews: ["home"] },
+    { key: "sessions", label: t.sessions, Icon: History, onSelect: goSessions, activeViews: ["sessions", "scrim", "match"] },
+    {
+      key: "stats", label: t.navGroupStats, Icon: BarChart3, children: [
+        { key: "overall", label: t.overall, Icon: BarChart3, onSelect: goOverall },
+        { key: "personal", label: t.navPersonal, Icon: User, onSelect: goPersonal },
+        { key: "killdeath", label: t.navKillDeath, Icon: Skull, onSelect: goKillDeath },
+        { key: "ultimates", label: t.navUltimateStats, Icon: Zap, onSelect: goUltimates },
+        { key: "compare", label: t.navCompare, Icon: Users, onSelect: goCompare },
+        { key: "firstfight", label: t.navFirstFight, Icon: Swords, onSelect: goFirstFight },
+      ],
+    },
+    {
+      key: "analysis", label: t.navGroupAnalysis, Icon: FlaskConical, children: [
+        { key: "mapanalysis", label: t.navMapAnalysis, Icon: MapIcon, onSelect: goMapAnalysis },
+        { key: "fightlab", label: t.navFightLab, Icon: FlaskConical, onSelect: goFightLab },
+        { key: "ultanalysis", label: t.navUltAnalysis, Icon: Crosshair, onSelect: goUltAnalysis },
+      ],
+    },
+  ];
+
+  const groupOf = (k) => NAV_ITEMS.find((i) => i.key === k);
+  const isGroupActive = (item) =>
+    item.children ? item.children.some((c) => c.key === currentView) : item.activeViews.includes(currentView);
+  // hover가 있으면 hover 우선(다른 메인으로 즉시 전환), 없으면 클릭 고정(pinned) 유지.
+  // hover한 메인에 드롭다운이 없으면(대시보드/세션) 열린 드롭다운은 닫힌다.
+  const effectiveOpen = navHovered != null ? (groupOf(navHovered)?.children ? navHovered : null) : navPinned;
+
+  // 바깥 래퍼: 버튼에 딱 붙여(top:100%) 배치하고 6px 간격을 투명 paddingTop 으로 채운다.
+  //  → 버튼→드롭다운 이동 중 마우스가 항상 이 요소(=nav의 자식) 위에 있어 hover가 끊기지 않음.
+  const dropdownStyle = (open) => ({
+    position: "absolute", top: "100%", left: 0, minWidth: "184px", paddingTop: "6px", zIndex: 1000,
+    opacity: open ? 1 : 0, visibility: open ? "visible" : "hidden",
+    transform: open ? "translateY(0)" : "translateY(-4px)",
+    transition: "opacity 0.13s ease, transform 0.13s ease, visibility 0.13s ease",
+  });
+  // 안쪽 카드: 실제 보이는 드롭다운 박스.
+  const dropdownCardStyle = {
+    background: theme.surface, border: `1px solid ${theme.border}`, borderRadius: "10px",
+    padding: "6px", boxShadow: "0 10px 28px rgba(0,0,0,0.30)",
+    display: "flex", flexDirection: "column", gap: "2px",
+  };
+
+  const itemStyle = (childKey) => {
+    const active = currentView === childKey;
+    const hot = navHoverItem === childKey;
+    return {
+      background: active || hot ? theme.surfaceHighlight : "transparent",
+      color: active ? theme.text : theme.textSub,
+      border: "none", padding: "8px 12px", borderRadius: "6px", cursor: "pointer",
+      display: "flex", alignItems: "center", gap: "8px", transition: "all 0.15s",
+      fontWeight: active ? 600 : 500, fontSize: "14px", whiteSpace: "nowrap",
+      textAlign: "left", width: "100%",
+    };
+  };
+
   const Navbar = () => (
     <header style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 32px", height: "64px", borderBottom: `1px solid ${theme.border}`, backgroundColor: theme.surface, position: "sticky", top: 0, zIndex: 50 }}>
       <div style={{ display: "flex", alignItems: "center", gap: "40px" }}>
         <div onClick={goHome} style={{ fontSize: "18px", fontWeight: "800", cursor: "pointer", background: "linear-gradient(to right, #3b82f6, #8b5cf6)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
         FLC Scrim
         </div>
-        <nav style={{ display: "flex", gap: "8px", fontSize: "14px", fontWeight: 500 }}>
-          {/* 순서: 대시보드 · 스크림 세션 · 전체 통계 · 맵 분석 · 한타 분석 · 궁극기 분석 · 첫한타 · 킬데스 통계 · 궁극기 통계 · 개인 통계 · 선수 비교 */}
-          <button onClick={goHome} style={navButtonStyle(currentView === "home")}> <LayoutDashboard size={16} /> {t.dashboard} </button>
-          <button onClick={goSessions} style={navButtonStyle(["sessions", "scrim", "match"].includes(currentView))}> <History size={16} /> {t.sessions} </button>
-          <button onClick={goOverall} style={navButtonStyle(currentView === "overall")}> <BarChart3 size={16} /> {t.overall} </button>
-          <button onClick={goMapAnalysis} style={navButtonStyle(currentView === "mapanalysis")}> <MapIcon size={16} /> {t.navMapAnalysis} </button>
-          <button onClick={goFightLab} style={navButtonStyle(currentView === "fightlab")}> <FlaskConical size={16} /> {t.navFightLab} </button>
-          <button onClick={goUltAnalysis} style={navButtonStyle(currentView === "ultanalysis")}> <Crosshair size={16} /> {t.navUltAnalysis} </button>
-          <button onClick={goFirstFight} style={navButtonStyle(currentView === "firstfight")}> <Swords size={16} /> {t.navFirstFight} </button>
-          <button onClick={goKillDeath} style={navButtonStyle(currentView === "killdeath")}> <Skull size={16} /> {t.navKillDeath} </button>
-          <button onClick={goUltimates} style={navButtonStyle(currentView === "ultimates")}> <Zap size={16} /> {t.navUltimateStats} </button>
-          <button onClick={goPersonal} style={navButtonStyle(currentView === "personal")}> <User size={16} /> {t.navPersonal} </button>
-          <button onClick={goCompare} style={navButtonStyle(currentView === "compare")}> <Users size={16} /> {t.navCompare} </button>
+        <nav
+          ref={navRef}
+          onMouseLeave={() => setNavHovered(null)}
+          onKeyDown={(e) => { if (e.key === "Escape") { setNavPinned(null); setNavHovered(null); } }}
+          style={{ display: "flex", gap: "8px", fontSize: "14px", fontWeight: 500 }}
+        >
+          {NAV_ITEMS.map((item) => {
+            const open = !!item.children && effectiveOpen === item.key;
+            const active = isGroupActive(item);
+            return (
+              <div key={item.key} style={{ position: "relative" }} onMouseEnter={() => setNavHovered(item.key)}>
+                <button
+                  onClick={item.children
+                    ? () => { setNavHovered(null); setNavPinned((p) => (p === item.key ? null : item.key)); }
+                    : () => { item.onSelect(); setNavPinned(null); setNavHovered(null); }}
+                  aria-haspopup={item.children ? "true" : undefined}
+                  aria-expanded={item.children ? open : undefined}
+                  style={navButtonStyle(active || open)}
+                >
+                  <item.Icon size={16} /> {item.label}
+                  {item.children && (
+                    <ChevronDown size={14} style={{ marginLeft: "-2px", transition: "transform 0.15s ease", transform: open ? "rotate(180deg)" : "none" }} />
+                  )}
+                </button>
+                {item.children && (
+                  <div role="menu" style={dropdownStyle(open)}>
+                    <div style={dropdownCardStyle}>
+                      {item.children.map((c) => (
+                        <button
+                          key={c.key}
+                          role="menuitem"
+                          tabIndex={open ? 0 : -1}
+                          onClick={() => { c.onSelect(); setNavPinned(null); setNavHovered(null); setNavHoverItem(null); }}
+                          onMouseEnter={() => setNavHoverItem(c.key)}
+                          onMouseLeave={() => setNavHoverItem(null)}
+                          style={itemStyle(c.key)}
+                        >
+                          <c.Icon size={16} /> {c.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </nav>
       </div>
       <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
