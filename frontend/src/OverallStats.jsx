@@ -1,10 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { fetchCached, invalidateApiCache } from "./utils/apiCache";
-import { ChevronLeft, RefreshCw, Search, X, Youtube, Zap, Skull, Trophy, Map as MapIcon, User, Filter, Calendar, Users, Sword, AlertOctagon } from "lucide-react";
+import { ChevronLeft, RefreshCw, Search, X, Youtube, Zap, Skull, Trophy, Map as MapIcon, User, Filter, Calendar, Users, Sword, AlertOctagon, TrendingUp, TrendingDown, Minus, ChevronRight } from "lucide-react";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, Cell } from "recharts";
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
+import { tpl } from "./FightLabStats";
 import { computeFights } from './utils/fightAnalysis';
+import { buildMapSummary } from './utils/mapSummary';
 import { buildVideoLink, hasVideo } from './utils/videoLink';
 
 const API_BASE = import.meta.env.PROD ? "" : "";
@@ -21,8 +23,22 @@ const COLOR_TEAM2 = '#f87171';
 // 하이라이트 카드 렌더 상한. 이벤트가 1만+개면 전량 렌더 시 DOM이 폭발해
 // 필터 타이핑 리렌더마다 탭이 메모리 초과로 죽는다. 상위 N개만 그린다.
 const MAX_MOMENTS_RENDERED = 300;
+const MOMENTS_PAGE_SIZE = 50; // 하이라이트 기본 표시 개수(+더보기로 확장, MAX까지)
+
+// 요약 탭 상단 카드 = 우리 팀 관점. 앱 전체가 FLC 스크림이므로 기본 우리 팀 = FLC.
+// (baseTeam이 특정 팀이면 그 팀 관점으로 fetch — /api/fight-records?base_team=)
+const OUR_TEAM = 'FLC';
 
 const normalize = (str) => (str || "").replace(/\s+/g, "").toLowerCase();
+
+// 'YYYY-MM-DD' 하루 가감 (요약 추세의 이전 기간 산출용, UTC 산술)
+const addDaysStr = (s, n) => {
+  const [y, m, d] = s.split('-').map(Number);
+  const dt = new Date(Date.UTC(y, m - 1, d));
+  dt.setUTCDate(dt.getUTCDate() + n);
+  return dt.toISOString().slice(0, 10);
+};
+const pct0 = (v) => (v == null ? '-' : `${Math.round(v * 100)}%`);
 
 const getHeroImg = (heroName) => {
   if (!heroName || heroName === 'Unknown') return null;
@@ -37,6 +53,90 @@ const getYouTubeLink = (videoUrl, offset, timestamp, pauses = [], gameSetupSec =
     return buildVideoLink(videoUrl, timestamp, matchLike) || "#";
 };
 
+// 요약 탭 — "요즘 우리 어떤가"에 답하는 첫 화면.
+// ① 상단 요약 카드(맵 분석 상단 카드 구성·스타일 재사용): 맵 승률(승/패/무)·한타 승률·추세·최강/최약 맵타입
+// ② 영웅별/맵별 통계 진입점  ③ 하단 부가 지표(평균 처치/데스/딜량)
+function SummaryTab({ theme, t, tpl, pct0, summary, summaryTeam, stats, topHero, topMap, onGoHeroes, onGoMaps }) {
+  // 방향색: 50% 기준. 정확히 50%는 중립.
+  const dir = (win) => (win == null || Math.abs(win - 0.5) < 0.005) ? theme.text : win > 0.5 ? theme.success : theme.danger;
+
+  const SummaryCard = ({ label, value, valueColor, sub }) => (
+    <div style={{ background: theme.surface, border: `1px solid ${theme.border}`, borderRadius: 14, padding: '16px 18px', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 92 }}>
+      <div style={{ fontSize: 11, color: theme.textSub, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.02em', marginBottom: 6 }}>{label}</div>
+      <div style={{ fontSize: 22, fontWeight: 900, color: valueColor || theme.text, lineHeight: 1.15 }}>{value}</div>
+      {sub != null && <div style={{ fontSize: 11, color: theme.textSub, marginTop: 5 }}>{sub}</div>}
+    </div>
+  );
+
+  const EntryCard = ({ label, teaser, onClick }) => (
+    <button onClick={onClick} style={{ textAlign: 'left', background: theme.bg, border: `1px solid ${theme.border}`, borderRadius: 14, padding: '18px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, transition: 'border-color 0.2s' }}
+      onMouseOver={e => { e.currentTarget.style.borderColor = theme.borderHighlight; }} onMouseOut={e => { e.currentTarget.style.borderColor = theme.border; }}>
+      <div style={{ minWidth: 0 }}>
+        <div style={{ fontSize: 15, fontWeight: 800, color: theme.text }}>{label}</div>
+        {teaser && <div style={{ fontSize: 12, color: theme.textSub, marginTop: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{teaser}</div>}
+      </div>
+      <span style={{ fontSize: 12, color: theme.primary, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 2, flexShrink: 0 }}>{t.osSummaryEntryHint}</span>
+    </button>
+  );
+
+  if (!summary) {
+    return <div style={{ background: theme.surface, borderRadius: 16, border: `1px solid ${theme.border}`, padding: 60, textAlign: 'center', color: theme.textSub }}>{t.osSummaryNoData}</div>;
+  }
+
+  const ms = summary.overallMs;
+  const wld = tpl(t.maWlDrawTpl, { w: ms.wins, l: ms.losses, d: ms.draws });
+
+  // 추세 표시
+  let trendVal, trendColor, trendSub;
+  if (summary.trend == null) {
+    trendVal = <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}><Minus size={18} color={theme.textSub} />—</span>;
+    trendColor = theme.textSub;
+    trendSub = summary.prevSample > 0 ? tpl(t.osTrendPrevTpl, { p: pct0(summary.prevFightWin), n: summary.prevSample }) : t.osTrendHint;
+  } else {
+    const r = Math.round(summary.trend);
+    const Icon = r > 0 ? TrendingUp : r < 0 ? TrendingDown : Minus;
+    trendColor = r > 0 ? theme.success : r < 0 ? theme.danger : theme.textSub;
+    trendVal = <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}><Icon size={18} color={trendColor} />{r > 0 ? '+' : ''}{r}{t.flUnitPp}</span>;
+    trendSub = tpl(t.osTrendPrevTpl, { p: pct0(summary.prevFightWin), n: summary.prevSample });
+  }
+
+  return (
+    <div>
+      <div style={{ fontSize: 12, color: theme.textSub, fontWeight: 700, marginBottom: 10, display: 'flex', alignItems: 'center', gap: 6 }}>
+        <Users size={14} /> {tpl(t.osSummaryBasisTpl, { team: summaryTeam })}
+      </div>
+
+      {/* ① 상단 요약 카드 */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12, marginBottom: 28 }}>
+        <SummaryCard label={t.osMapWinCard} value={pct0(ms.win)} valueColor={dir(ms.win)} sub={ms.denom > 0 ? wld : null} />
+        <SummaryCard label={t.maColFightWin} value={pct0(summary.fightWin)} valueColor={dir(summary.fightWin)} sub={summary.fightSample > 0 ? tpl(t.osFightSampleTpl, { w: summary.fightWins, n: summary.fightSample }) : null} />
+        <SummaryCard label={t.osTrendCard} value={trendVal} valueColor={trendColor} sub={trendSub} />
+        <SummaryCard label={t.maSummaryBest}
+          value={summary.best ? <span>{summary.best.type} <span style={{ color: theme.success }}>{pct0(summary.best.win)}</span></span> : <span style={{ fontSize: 14, color: theme.textSub }}>{t.maSummaryNone}</span>}
+          sub={summary.best ? tpl(t.maCellWinTpl, { p: pct0(summary.best.win), w: summary.best.wins }) : null} />
+        <SummaryCard label={t.maSummaryWorst}
+          value={summary.worst ? <span>{summary.worst.type} <span style={{ color: theme.danger }}>{pct0(summary.worst.win)}</span></span> : <span style={{ fontSize: 14, color: theme.textSub }}>{t.maSummaryNone}</span>}
+          sub={summary.worst ? tpl(t.maCellWinTpl, { p: pct0(summary.worst.win), w: summary.worst.wins }) : null} />
+      </div>
+
+      {/* ② 상세 통계 진입점 */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 12, marginBottom: 28 }}>
+        <EntryCard label={t.osSummaryEntryHeroes} teaser={topHero ? tpl(t.osTopHeroTpl, { hero: topHero }) : null} onClick={onGoHeroes} />
+        <EntryCard label={t.osSummaryEntryMaps} teaser={topMap ? tpl(t.osTopMapTpl, { map: topMap }) : null} onClick={onGoMaps} />
+      </div>
+
+      {/* ③ 하단 부가 지표 (주 정보 아님) */}
+      <div style={{ fontSize: 12, color: theme.textSub, fontWeight: 700, marginBottom: 10 }}>{t.osSecondaryMetrics}</div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 12 }}>
+        <SummaryCard label={t.searchedGames} value={`${stats?.totalGames || 0} ${t.gamesPlayed}`} />
+        <SummaryCard label={t.avgKills} value={stats?.avgKills ?? 0} />
+        <SummaryCard label={t.avgDeaths} value={stats?.avgDeaths ?? 0} />
+        <SummaryCard label={t.avgDmg} value={Number(stats?.avgDmg || 0).toLocaleString()} />
+      </div>
+    </div>
+  );
+}
+
 export default function OverallStats({ onBack, onGoSessions }) {
   const { theme } = useTheme();
   const { t } = useLanguage();
@@ -44,15 +144,34 @@ export default function OverallStats({ onBack, onGoSessions }) {
   const [loading, setLoading] = useState(true);
   const [reloading, setReloading] = useState(false);
   const [matches, setMatches] = useState([]);
+  const [fightRecords, setFightRecords] = useState([]); // /api/fight-records — 요약 카드(맵 분석과 동일 소스)
   const [inputText, setInputText] = useState("");
-  const [activeTags, setActiveTags] = useState([]); 
-  const [activeTab, setActiveTab] = useState("dashboard");
+  const [activeTags, setActiveTags] = useState([]);
+  const [activeTab, setActiveTab] = useState("summary");
+  const [momentsVisible, setMomentsVisible] = useState(MOMENTS_PAGE_SIZE);
 
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   
   // 💡 기준 팀(Base Team) 기본값을 "All"로 설정
   const [baseTeam, setBaseTeam] = useState("All");
+
+  // 요약 카드 관점 팀: 'All'이면 우리 팀(FLC), 특정 팀 선택 시 그 팀.
+  const summaryTeam = baseTeam === 'All' ? OUR_TEAM : baseTeam;
+
+  // fight-records 로드 — FLC는 맵 분석 탭과 같은 URL(무파라미터)이라 캐시를 공유한다.
+  async function loadFightRecords(team) {
+    const url = team === OUR_TEAM
+      ? `${API_BASE}/api/fight-records`
+      : `${API_BASE}/api/fight-records?base_team=${encodeURIComponent(team)}`;
+    try {
+      const d = await fetchCached(url);
+      setFightRecords(d?.records || []);
+    } catch (e) {
+      console.error(e);
+      setFightRecords([]);
+    }
+  }
 
   async function loadAll() {
     setLoading(true);
@@ -92,8 +211,9 @@ export default function OverallStats({ onBack, onGoSessions }) {
   }
 
   useEffect(() => { loadAll(); }, []);
+  useEffect(() => { loadFightRecords(summaryTeam); }, [summaryTeam]);
   // 새로고침 버튼 = 명시적 최신화 요청이므로 공유 캐시를 비우고 다시 받는다.
-  const handleReload = () => { setReloading(true); invalidateApiCache(); loadAll(); };
+  const handleReload = () => { setReloading(true); invalidateApiCache(); loadAll(); loadFightRecords(summaryTeam); };
 
   // 존재하는 모든 팀 추출
   const allTeams = useMemo(() => {
@@ -493,6 +613,18 @@ export default function OverallStats({ onBack, onGoSessions }) {
     };
   }, [matches, activeTags, startDate, endDate, baseTeam, matchFightsMap]);
 
+  // 요약 탭 상단 카드 — 맵 분석 탭과 동일 소스(fight-records)·정의로 계산해 승률 정합 보장.
+  // 기간: OverallStats 날짜 필터 사용. 추세: 시작일이 있으면 그 이전 전체를 이전 기간으로 비교.
+  const mapSummary = useMemo(() => {
+    if (!fightRecords.length) return null;
+    const rangeA = [startDate || '', endDate || ''];
+    const rangePrev = startDate ? ['', addDaysStr(startDate, -1)] : null;
+    return buildMapSummary(fightRecords, rangeA, rangePrev);
+  }, [fightRecords, startDate, endDate]);
+
+  // 하이라이트 필터/기간 변경 시 표시 개수 초기화
+  useEffect(() => { setMomentsVisible(MOMENTS_PAGE_SIZE); }, [activeTags, startDate, endDate, baseTeam]);
+
   const tagColor = (type) => {
       switch(type) {
           case KEYWORD_TYPES.MAP: return theme.success;
@@ -570,34 +702,43 @@ export default function OverallStats({ onBack, onGoSessions }) {
 
       {loading ? ( <div style={{ color: theme.textSub, textAlign:'center', padding:'40px' }}>{t.loading}</div> ) : (
         <>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12, marginBottom: '24px' }}>
-                <Card title={t.searchedGames} value={`${filteredData.stats?.totalGames || 0} ${t.gamesPlayed}`} />
-                <Card title={t.avgWinRate} value={baseTeam === 'All' ? 'N/A' : `${filteredData.stats?.winRate}%`} color={baseTeam === 'All' ? theme.textSub : (Number(filteredData.stats?.winRate) >= 50 ? theme.success : theme.danger)} />
-                <Card title={t.avgKills} value={filteredData.stats?.avgKills} />
-                <Card title={t.avgDeaths} value={filteredData.stats?.avgDeaths} />
-                <Card title={t.avgDmg} value={Number(filteredData.stats?.avgDmg).toLocaleString()} />
-            </div>
-
             <div style={{ display: 'flex', borderBottom: `1px solid ${theme.border}`, marginBottom: '24px' }}>
-                <TabButton id="dashboard" label={t.tabHighlights} icon={Youtube} />
+                <TabButton id="summary" label={t.osTabSummary} icon={Trophy} />
                 <TabButton id="heroes" label={t.tabHeroes} icon={User} />
                 <TabButton id="maps" label={t.tabMaps} icon={MapIcon} />
                 <TabButton id="fights" label={t.osTabFights} icon={Sword} />
+                <TabButton id="dashboard" label={t.highlights} icon={Youtube} />
             </div>
+
+            {activeTab === 'summary' && (
+                <SummaryTab
+                    theme={theme} t={t} tpl={tpl} pct0={pct0}
+                    summary={mapSummary} summaryTeam={summaryTeam}
+                    stats={filteredData.stats}
+                    topHero={filteredData.heroStats?.[0]?.name}
+                    topMap={filteredData.mapStats?.[0]?.name}
+                    onGoHeroes={() => setActiveTab('heroes')}
+                    onGoMaps={() => setActiveTab('maps')}
+                />
+            )}
 
             {activeTab === 'dashboard' && (
                 <div style={{ background: theme.surface, borderRadius: '16px', border: `1px solid ${theme.border}`, padding: '24px' }}>
-                    <div style={{ fontSize: '18px', fontWeight: '900', marginBottom: '16px', display:'flex', alignItems:'center', gap:'8px' }}><Youtube size={20} color={theme.danger} />{t.highlights} ({filteredData.moments.length})</div>
+                    <div style={{ fontSize: '18px', fontWeight: '900', marginBottom: '16px', display:'flex', alignItems:'center', gap:'8px' }}><Youtube size={20} color={theme.danger} />{t.highlights} ({filteredData.moments.length.toLocaleString()})</div>
                     {filteredData.moments.length > MAX_MOMENTS_RENDERED && (
                         <div style={{ fontSize: '12px', color: theme.textSub, marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                            <Filter size={12}/> {filteredData.moments.length.toLocaleString()}개 중 상위 {MAX_MOMENTS_RENDERED}개만 표시합니다. 검색 필터로 범위를 좁혀 주세요.
+                            <Filter size={12}/> {filteredData.moments.length.toLocaleString()}개 중 상위 {MAX_MOMENTS_RENDERED}개까지 표시합니다. 검색 필터로 범위를 좁혀 주세요.
                         </div>
                     )}
                     {filteredData.moments.length === 0 ? (
                         <div style={{ textAlign: 'center', color: theme.textSub, padding: '40px' }}>{t.noMoments}</div>
-                    ) : (
+                    ) : (() => {
+                        const cap = Math.min(filteredData.moments.length, MAX_MOMENTS_RENDERED);
+                        const shown = Math.min(momentsVisible, cap);
+                        return (
+                        <>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '12px' }}>
-                            {filteredData.moments.slice(0, MAX_MOMENTS_RENDERED).map((moment, idx) => (
+                            {filteredData.moments.slice(0, shown).map((moment, idx) => (
                                 <a key={idx} href={getYouTubeLink(moment.videoUrl, moment.videoOffset, moment.timestamp, moment.pauses, moment.gameSetupSec)} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', background: theme.bg, border: `1px solid ${theme.border}`, borderRadius: '12px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '8px', transition: 'transform 0.2s, border-color 0.2s' }} onMouseOver={e => { e.currentTarget.style.borderColor = theme.borderHighlight; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseOut={e => { e.currentTarget.style.borderColor = theme.border; e.currentTarget.style.transform = 'translateY(0)'; }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <div style={{ fontSize: '12px', color: theme.textSub, display:'flex', alignItems:'center', gap:'4px' }}><MapIcon size={12}/> {moment.matchName}</div>
@@ -617,10 +758,21 @@ export default function OverallStats({ onBack, onGoSessions }) {
                                 </a>
                             ))}
                         </div>
-                    )}
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px', marginTop: '20px' }}>
+                            <span style={{ fontSize: '12px', color: theme.textSub }}>{tpl(t.osShowingCountTpl, { shown, total: filteredData.moments.length.toLocaleString() })}</span>
+                            {shown < cap && (
+                                <button onClick={() => setMomentsVisible(v => Math.min(v + MOMENTS_PAGE_SIZE, cap))}
+                                    style={{ background: theme.surfaceHighlight, border: `1px solid ${theme.borderHighlight}`, color: theme.text, padding: '8px 20px', borderRadius: '10px', cursor: 'pointer', fontWeight: 700 }}>
+                                    {t.osShowMore} (+{Math.min(MOMENTS_PAGE_SIZE, cap - shown)})
+                                </button>
+                            )}
+                        </div>
+                        </>
+                        );
+                    })()}
                 </div>
             )}
-            
+
             {activeTab === 'heroes' && (
                 <div style={{ background: theme.surface, borderRadius: '16px', border: `1px solid ${theme.border}`, padding: '24px' }}>
                     <h3 style={{fontSize:'18px', fontWeight:'bold', marginBottom:'20px'}}>{t.heroStatsTitle}</h3>

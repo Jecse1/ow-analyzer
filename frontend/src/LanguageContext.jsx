@@ -102,6 +102,11 @@ export const translations = {
     ultFivePlus: "5개 이상", ultTotal: "총합", ultValue: "가치",
     // OverallStats
     osAnalysis: "분석", osTabFights: "한타 통계", osWinBadge: "승", osLossBadge: "패", osAllAvg: "전체 평균",
+    osTabSummary: "요약", osMapWinCard: "맵 승률", osSummaryBasisTpl: "{team} 기준", osTrendCard: "추세 (vs 이전 기간)",
+    osTrendHint: "시작일을 설정하면 이전 기간 대비 추세가 표시됩니다", osTrendPrevTpl: "이전 {p} · {n}한타", osFightSampleTpl: "{w}/{n}한타",
+    osSummaryEntryHeroes: "영웅별 통계 보기", osSummaryEntryMaps: "맵별 통계 보기", osSummaryEntryHint: "자세히 →",
+    osTopHeroTpl: "많이 쓴 영웅: {hero}", osTopMapTpl: "많이 한 맵: {map}", osSecondaryMetrics: "선수 평균 지표 (기간·필터 기준)",
+    osShowMore: "더보기", osShowingCountTpl: "{shown} / {total}", osSummaryNoData: "우리 팀 경기 데이터가 없습니다.",
     osNoMatchDataPre: "", osNoMatchDataPost: "의 경기 데이터가 없습니다", osNoFightData: "분석할 한타 데이터가 없습니다",
     osLostFightsSuffix: "회 패배 한타", osResistDescPre: "패배한 한타에서 상대를 ", osResistDescMid: "명 처치 → ", osResistDescPost: "% 처치율. 값이 높을수록 지면서도 교환을 잘 함.",
     osFirstDeathTop3: "퍼스트 데스 TOP 3", osFirstDeathLabel: "퍼스트 데스", osLostFightCarryTop3: "패배 한타 캐리 TOP 3", osNoMin10: "최소 10회 이상 참여 선수 없음",
@@ -441,6 +446,11 @@ export const translations = {
     ultFivePlus: "5+", ultTotal: "Total", ultValue: "Value",
     // OverallStats
     osAnalysis: "Analysis", osTabFights: "Teamfight Stats", osWinBadge: "Win", osLossBadge: "Loss", osAllAvg: "All Avg",
+    osTabSummary: "Summary", osMapWinCard: "Map win rate", osSummaryBasisTpl: "Based on {team}", osTrendCard: "Trend (vs previous period)",
+    osTrendHint: "Set a start date to see the trend vs. the previous period", osTrendPrevTpl: "prev {p} · {n} fights", osFightSampleTpl: "{w}/{n} fights",
+    osSummaryEntryHeroes: "View hero stats", osSummaryEntryMaps: "View map stats", osSummaryEntryHint: "Details →",
+    osTopHeroTpl: "Most played: {hero}", osTopMapTpl: "Most played map: {map}", osSecondaryMetrics: "Player average metrics (by period · filter)",
+    osShowMore: "Show more", osShowingCountTpl: "{shown} / {total}", osSummaryNoData: "No match data for our team.",
     osNoMatchDataPre: "No match data for ", osNoMatchDataPost: "", osNoFightData: "No teamfight data to analyze",
     osLostFightsSuffix: " lost fights", osResistDescPre: "Eliminated ", osResistDescMid: " enemies in lost fights → ", osResistDescPost: "% kill rate. Higher means better trades even in losses.",
     osFirstDeathTop3: "First Death TOP 3", osFirstDeathLabel: "First Death", osLostFightCarryTop3: "Lost Fight Carry TOP 3", osNoMin10: "No players with 10+ participations",
