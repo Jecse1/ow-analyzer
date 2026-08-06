@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import axios from "axios";
 import {
-  LayoutDashboard, History, Users, BarChart3, Moon, Sun, Upload, AlertCircle, Globe, User, Zap, Skull, Crosshair, Swords, Map as MapIcon, ChevronDown
+  LayoutDashboard, History, Users, BarChart3, Moon, Sun, Upload, AlertCircle, Globe, User, Zap, Skull, Crosshair, Swords, Map as MapIcon, ChevronDown, Ban
 } from "lucide-react";
 
 import { ThemeProvider, useTheme } from "./ThemeContext";
@@ -22,6 +22,7 @@ import FirstFightStats from "./FirstFightStats";
 import FightLabStats from "./FightLabStats";
 import UltimateAnalysisStats from "./UltimateAnalysisStats";
 import MapAnalysisStats from "./MapAnalysisStats";
+import BanpickApp from "./banpick/BanpickApp";
 import { FlaskConical } from "lucide-react";
 
 class ErrorBoundary extends React.Component {
@@ -307,6 +308,7 @@ function MainApp() {
   const goFightLab = () => { setCurrentView("fightlab"); setActiveScrimId(null); setActiveMatchId(null); };
   const goMapAnalysis = () => { setCurrentView("mapanalysis"); setActiveScrimId(null); setActiveMatchId(null); };
   const goPersonal = () => { setCurrentView("personal"); setActiveScrimId(null); setActiveMatchId(null); };
+  const goBanpick = () => { setCurrentView("banpick"); setActiveScrimId(null); setActiveMatchId(null); };
   const goCompare = () => { setCurrentView("compare"); setActiveScrimId(null); setActiveMatchId(null); };
 
   const goToScrim = (scrimId) => { setActiveScrimId(scrimId); setCurrentView("scrim"); };
@@ -394,6 +396,7 @@ function MainApp() {
         { key: "ultanalysis", label: t.navUltAnalysis, Icon: Crosshair, onSelect: goUltAnalysis },
       ],
     },
+    { key: "banpick", label: t.navBanpick, Icon: Ban, onSelect: goBanpick, activeViews: ["banpick"] },
   ];
 
   const groupOf = (k) => NAV_ITEMS.find((i) => i.key === k);
@@ -522,6 +525,7 @@ function MainApp() {
     if (currentView === "fightlab") return <FightLabStats />;
     if (currentView === "ultanalysis") return <UltimateAnalysisStats />;
     if (currentView === "mapanalysis") return <MapAnalysisStats onGoSession={goToScrim} />;
+    if (currentView === "banpick") return <BanpickApp />;
     if (currentView === "personal") return <div style={{ padding: '24px' }}><PlayerProfileView playersData={dynamicPlayersData} /></div>;
     if (currentView === "compare") return <div style={{ padding: '24px' }}><PlayerCompareView playersData={dynamicPlayersData} /></div>;
 
