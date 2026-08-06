@@ -492,7 +492,7 @@ function SummaryLogModal(props: {
   onExitSeries: () => void;
   canEditWinner: boolean;
 }) {
-  const wrapClass = `${props.dark ? "bg-neutral-800 border-neutral-700" : "bg-white border-neutral-200"} border rounded-2xl p-5`;
+  const wrapClass = `${props.dark ? "bg-neutral-800 border-neutral-700" : "bg-white border-neutral-200"} border rounded-2xl p-5 max-h-[90vh] overflow-y-auto`;
   const tabBtn = (active: boolean) =>
     `px-2 py-1 rounded border ${
       active
@@ -503,7 +503,7 @@ function SummaryLogModal(props: {
     }`;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* [수정됨] 배경 클릭 시 닫히는 이벤트(onClick={props.onClose})를 제거했습니다. */}
       <div className="absolute inset-0 bg-black/60" />
       
@@ -590,13 +590,13 @@ function SummaryLogModal(props: {
           ) : (
             <div className="mt-4 grid grid-cols-2 gap-2">
               <button
-                className={`px-3 py-2 rounded-lg border ${props.dark ? "border-neutral-700 bg-neutral-900 text-white" : "border-neutral-300 bg-white text-neutral-900"}`}
+                className={`px-3 py-2 rounded-lg border bp-touch ${props.dark ? "border-neutral-700 bg-neutral-900 text-white" : "border-neutral-300 bg-white text-neutral-900"}`}
                 onClick={() => props.onFinishSet("A")}
               >
                 {props.teamName.A} 승리
               </button>
               <button
-                className={`px-3 py-2 rounded-lg border ${props.dark ? "border-neutral-700 bg-neutral-900 text-white" : "border-neutral-300 bg-white text-neutral-900"}`}
+                className={`px-3 py-2 rounded-lg border bp-touch ${props.dark ? "border-neutral-700 bg-neutral-900 text-white" : "border-neutral-300 bg-white text-neutral-900"}`}
                 onClick={() => props.onFinishSet("B")}
               >
                 {props.teamName.B} 승리
@@ -616,7 +616,7 @@ function FinishBarForA({ t, onSubmit, dark }: { t: I18n; onSubmit: (r: "W" | "L"
   const [a, setA] = React.useState(0);
   const [b, setB] = React.useState(0);
   return (
-    <div className="mt-4 flex items-center gap-2">
+    <div className="mt-4 flex flex-wrap items-center gap-2">
       <span className="text-xs">세부 스코어를 입력하세요</span>
       <input className={`w-14 px-2 py-1 rounded border ${dark ? "border-neutral-700 bg-neutral-900" : "border-neutral-300 bg-white"}`} type="number" value={a} min={0} onChange={(e) => setA(+e.target.value)} />
       <span>:</span>
@@ -1943,7 +1943,7 @@ export default function BanpickApp() {
             {/* MAP PICK */}
             {mode !== MODE.HERO_BAN_ONLY && phase === "MAP_PICK" && (
               <div>
-                <div className="flex items-center gap-2 mb-3">
+                <div className="flex flex-wrap items-center gap-2 mb-3">
                   {(["All", "Control", "Escort", "Hybrid", "Push", "Flashpoint"] as const).map((mt) => (
                     <button
                       key={mt}
@@ -1959,7 +1959,7 @@ export default function BanpickApp() {
                 </div>
 
                 <div className="mx-auto w-full max-w-[1440px] px-1 sm:px-2">
-                  <div className="grid gap-4 [grid-template-columns:repeat(auto-fill,minmax(180px,1fr))]">
+                  <div className="grid gap-4 bp-grid-map">
                     {filteredMapsForPick.map((m) => (
                       <button
                         key={m.id}
@@ -1989,7 +1989,7 @@ export default function BanpickApp() {
                 <div className="flex items-center gap-2 mt-3">
                   <div className="text-xs">{t.banOrder}:</div>
                   <button
-                    className={`px-3 py-1 rounded-lg border text-xs ${banStarterChoice === "PICKER" ? theme.activeGreen : theme.btnBorder}`}
+                    className={`px-3 py-1 rounded-lg border text-xs bp-touch ${banStarterChoice === "PICKER" ? theme.activeGreen : theme.btnBorder}`}
                     onClick={() => {
                       if (!canEditMapStuff) return;
                       const next = banStarterChoice === "PICKER" ? null : "PICKER";
@@ -2000,7 +2000,7 @@ export default function BanpickApp() {
                     {t.pickFirst}
                   </button>
                   <button
-                    className={`px-3 py-1 rounded-lg border text-xs ${banStarterChoice === "OPPONENT" ? theme.activeGreen : theme.btnBorder}`}
+                    className={`px-3 py-1 rounded-lg border text-xs bp-touch ${banStarterChoice === "OPPONENT" ? theme.activeGreen : theme.btnBorder}`}
                     onClick={() => {
                       if (!canEditMapStuff) return;
                       const next = banStarterChoice === "OPPONENT" ? null : "OPPONENT";
@@ -2015,9 +2015,9 @@ export default function BanpickApp() {
                   </div>
                 </div>
 
-                <div className="mt-3 flex gap-2">
+                <div className="mt-3 flex gap-2 bp-actionbar">
                   <button
-                    className={`px-3 py-2 rounded-lg border ${theme.btnBorder}`}
+                    className={`px-3 py-2 rounded-lg border ${theme.btnBorder} bp-touch`}
                     onClick={() =>
                       setRun((r) => {
                         const next = !r;
@@ -2029,7 +2029,7 @@ export default function BanpickApp() {
                     {run ? t.pause : t.play}
                   </button>
                   <button
-                    className={`px-3 py-2 rounded-lg border ${theme.btnBorder}`}
+                    className={`px-3 py-2 rounded-lg border ${theme.btnBorder} bp-touch`}
                     disabled={!selectedMap || !banStarterChoice || !canEditMapStuff}
                     onClick={() => canEditMapStuff && commitMap()}
                   >
@@ -2047,7 +2047,7 @@ export default function BanpickApp() {
                 </div>
                 <div className="flex items-center gap-2">
                   <button
-                    className={`px-3 py-1 rounded-lg border text-xs ${banStarterChoice === "PICKER" ? theme.activeGreen : theme.btnBorder}`}
+                    className={`px-3 py-1 rounded-lg border text-xs bp-touch ${banStarterChoice === "PICKER" ? theme.activeGreen : theme.btnBorder}`}
                     onClick={() => {
                       if (!canEditOrderStuff) return;
                       setBanStarterChoice((v) => (v === "PICKER" ? null : "PICKER"));
@@ -2056,7 +2056,7 @@ export default function BanpickApp() {
                     {t.pickFirst}
                   </button>
                   <button
-                    className={`px-3 py-1 rounded-lg border text-xs ${banStarterChoice === "OPPONENT" ? theme.activeGreen : theme.btnBorder}`}
+                    className={`px-3 py-1 rounded-lg border text-xs bp-touch ${banStarterChoice === "OPPONENT" ? theme.activeGreen : theme.btnBorder}`}
                     onClick={() => {
                       if (!canEditOrderStuff) return;
                       setBanStarterChoice((v) => (v === "OPPONENT" ? null : "OPPONENT"));
@@ -2084,7 +2084,7 @@ export default function BanpickApp() {
             {phase === "HERO_BAN" && (
               <div>
                 {/* 상단: 역할 필터 및 턴 정보 */}
-                <div className="flex items-center gap-2 mb-2">
+                <div className="flex flex-wrap items-center gap-2 mb-2">
                   {(["Tank", "Damage", "Support"] as Role[])
                     .filter((r) => {
                       const lock = roleLock[r];
@@ -2102,7 +2102,7 @@ export default function BanpickApp() {
 
                 {/* 메인: 영웅 그리드 */}
                 <div className="mx-auto w-full max-w-[1440px] px-1 sm:px-2">
-                  <div className="grid gap-3 [grid-template-columns:repeat(auto-fill,minmax(156px,1fr))] md:[grid-template-columns:repeat(auto-fill,minmax(168px,1fr))]">
+                  <div className="grid gap-3 bp-grid-ban">
                     {HEROES.filter((h) => h.role === filterRole).map((h) => {
                       // 1. 역할군 락 확인 (상대방이 먼저 밴 한 역할군인지)
                       const isLockedRole = roleLock[h.role] && roleLock[h.role] !== turn;
@@ -2145,10 +2145,10 @@ export default function BanpickApp() {
                   </div>
                 </div>
 
-                {/* 하단: 제어 버튼 */}
-                <div className="mt-3 flex items-center gap-2">
+                {/* 하단: 제어 버튼 (모바일=하단 고정, 안전영역 확보) */}
+                <div className="mt-3 flex items-center gap-2 bp-actionbar">
                   <button
-                    className={`px-3 py-2 rounded-lg border ${theme.btnBorder}`}
+                    className={`px-3 py-2 rounded-lg border ${theme.btnBorder} bp-touch`}
                     onClick={() =>
                       setRun((r) => {
                         const next = !r;
@@ -2159,7 +2159,7 @@ export default function BanpickApp() {
                   >
                     {run ? t.pause : t.play}
                   </button>
-                  <button className={`px-3 py-2 rounded-lg border ${theme.btnBorder}`} disabled={!pendingBan[turn] || !canBanThisTurn} onClick={() => commitBan()}>
+                  <button className={`px-3 py-2 rounded-lg border ${theme.btnBorder} bp-touch`} disabled={!pendingBan[turn] || !canBanThisTurn} onClick={() => commitBan()}>
                     {t.confirmBan}
                   </button>
                 </div>
@@ -2167,26 +2167,114 @@ export default function BanpickApp() {
             )}
             
             {/* HERO PICK */}
-            {phase === "HERO_PICK" && (
-              <div className="h-[calc(100vh-180px)] overflow-hidden md:flex gap-4">
-                <aside className="min-w-0 w-full md:w-[260px] lg:w-[300px] h-full pr-2">
-                  <PickColumn
-                    team="A"
-                    teamName={teamName}
-                    lang={lang}
-                    t={t}
-                    btnBorderClass={theme.btnBorder}
-                    pickSlots={pickSlots}
-                    pickLockedTeam={pickLockedTeam}
-                    activeSlot={activeSlot}
-                    setActiveSlot={setActiveSlot}
-                    confirmPick={confirmPick}
-                    canPickForTeam={canPickForTeam}
-                    heroById={heroById}
-                  />
-                </aside>
+            {phase === "HERO_PICK" && (() => {
+              // 픽 진행 팀(표시용): SOLO=미잠금 팀 우선, 그 외=내 팀. 상태머신 무변경.
+              const pickTurnTeam: Team | null =
+                partMode === "SOLO"
+                  ? (!pickLockedTeam.A ? "A" : !pickLockedTeam.B ? "B" : null)
+                  : (myTeamRole as Team | null);
+              return (
+              <>
+                {/* ===== 데스크톱: 3열(팀A|그리드|팀B) — 기존 유지 ===== */}
+                <div className="hidden md:flex h-[calc(100vh-180px)] overflow-hidden gap-4">
+                  <aside className="min-w-0 w-full md:w-[260px] lg:w-[300px] h-full pr-2">
+                    <PickColumn
+                      team="A"
+                      teamName={teamName}
+                      lang={lang}
+                      t={t}
+                      btnBorderClass={theme.btnBorder}
+                      pickSlots={pickSlots}
+                      pickLockedTeam={pickLockedTeam}
+                      activeSlot={activeSlot}
+                      setActiveSlot={setActiveSlot}
+                      confirmPick={confirmPick}
+                      canPickForTeam={canPickForTeam}
+                      heroById={heroById}
+                    />
+                  </aside>
 
-                <main className="min-w-0 flex-1 h-full overflow-y-auto pr-2">
+                  <main className="min-w-0 flex-1 h-full overflow-y-auto pr-2">
+                    <PickCenter
+                      lang={lang}
+                      t={t}
+                      filterRole={filterRole}
+                      teamName={teamName}
+                      bannedIds={allBannedThisSet}
+                      pickedA={pickSlots.A}
+                      pickedB={pickSlots.B}
+                      onHeroClick={handleHeroClick}
+                    />
+                  </main>
+
+                  <aside className="min-w-0 w-full md:w-[260px] lg:w-[300px] h-full">
+                    <PickColumn
+                      team="B"
+                      teamName={teamName}
+                      lang={lang}
+                      t={t}
+                      btnBorderClass={theme.btnBorder}
+                      pickSlots={pickSlots}
+                      pickLockedTeam={pickLockedTeam}
+                      activeSlot={activeSlot}
+                      setActiveSlot={setActiveSlot}
+                      confirmPick={confirmPick}
+                      canPickForTeam={canPickForTeam}
+                      heroById={heroById}
+                    />
+                  </aside>
+                </div>
+
+                {/* ===== 모바일: 상단고정 턴/타이머 + 양팀 픽현황(가로압축) + 영웅 그리드 + 하단고정 확정 ===== */}
+                <div className="md:hidden">
+                  {/* 턴·남은시간 — 스크롤 무관 항상 상단 고정 */}
+                  <div className="bp-turnbar flex items-center gap-2 text-xs">
+                    <span>{t.curTurn}: <b>{pickTurnTeam ? teamName[pickTurnTeam] : "-"}</b></span>
+                    <span className="ml-auto">{t.timeLeft}: <b>{timer}s</b></span>
+                  </div>
+
+                  {/* 양 팀 픽 현황 — 작은 슬롯 가로 나열(탭하여 채울 슬롯 선택) */}
+                  {(["A", "B"] as Team[]).map((tm) => {
+                    const locked = pickLockedTeam[tm];
+                    const clickable = canPickForTeam(tm) && !locked;
+                    return (
+                      <div key={tm} className="mb-2">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-xs font-semibold">{tm === "A" ? teamName.A : teamName.B}</span>
+                          {locked && (
+                            <span className="text-[10px] px-2 py-0.5 rounded-full border font-semibold" style={{ borderColor: "#4ade80", color: "#4ade80", background: "rgba(74,222,128,0.14)" }}>{t.ready}</span>
+                          )}
+                          {pickTurnTeam === tm && !locked && (
+                            <span className="text-[10px] px-2 py-0.5 rounded-full border font-semibold" style={{ borderColor: "var(--bp-primary)", color: "var(--bp-primary)", background: "rgba(59,130,246,0.14)" }}>{t.curTurn}</span>
+                          )}
+                        </div>
+                        <div className="flex gap-1">
+                          {SLOT_ROLES.map((sr, i) => {
+                            const hid = pickSlots[tm][i];
+                            const active = activeSlot[tm] === i && !locked;
+                            const slotRole: Role = (hid ? (heroById(hid)?.role as Role) : sr) ?? sr;
+                            return (
+                              <button
+                                key={i}
+                                disabled={!clickable}
+                                onClick={() => clickable && setActiveSlot((p) => ({ ...p, [tm]: i }))}
+                                className={["flex-1 min-w-0 rounded-lg border p-0.5", active ? "bp-sel-pick" : "border-neutral-300", !clickable && "opacity-60"].join(" ")}
+                              >
+                                <div className="relative w-full aspect-square rounded overflow-hidden bg-neutral-100">
+                                  <HeroThumb id={hid ?? null} />
+                                </div>
+                                <div className="flex items-center justify-center mt-0.5">
+                                  <RoleIcon role={slotRole} lang={lang} className="shrink-0" />
+                                </div>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+
+                  {/* 영웅 그리드 */}
                   <PickCenter
                     lang={lang}
                     t={t}
@@ -2197,26 +2285,36 @@ export default function BanpickApp() {
                     pickedB={pickSlots.B}
                     onHeroClick={handleHeroClick}
                   />
-                </main>
 
-                <aside className="min-w-0 w-full md:w=[260px] md:w-[260px] lg:w-[300px] h-full">
-                  <PickColumn
-                    team="B"
-                    teamName={teamName}
-                    lang={lang}
-                    t={t}
-                    btnBorderClass={theme.btnBorder}
-                    pickSlots={pickSlots}
-                    pickLockedTeam={pickLockedTeam}
-                    activeSlot={activeSlot}
-                    setActiveSlot={setActiveSlot}
-                    confirmPick={confirmPick}
-                    canPickForTeam={canPickForTeam}
-                    heroById={heroById}
-                  />
-                </aside>
-              </div>
-            )}
+                  {/* 하단 고정 확정 — 현재 픽 팀(안전영역 확보) */}
+                  {pickTurnTeam && (() => {
+                    const tm = pickTurnTeam;
+                    const allFilled = !pickSlots[tm].some((v) => v === null);
+                    const canAct = canPickForTeam(tm);
+                    const done = pickLockedTeam[tm];
+                    const ready = !done && allFilled && canAct;
+                    const badgeStyle = done
+                      ? { borderColor: "#4ade80", color: "#4ade80", background: "rgba(74,222,128,0.14)" }
+                      : ready
+                      ? { borderColor: "var(--bp-primary)", color: "var(--bp-primary)", background: "rgba(59,130,246,0.14)" }
+                      : { borderColor: "var(--bp-border2)", background: "var(--bp-surface2)", color: "var(--bp-textsub)" };
+                    return (
+                      <div className="bp-actionbar">
+                        <button
+                          className="w-full px-2 rounded-lg border text-xs font-semibold bp-touch"
+                          style={badgeStyle}
+                          onClick={() => confirmPick(tm)}
+                          disabled={done || !allFilled || !canAct}
+                        >
+                          {(tm === "A" ? teamName.A : teamName.B)} — {done ? "✓ 픽 완료" : ready ? "픽 완료 (클릭)" : "픽 완료"}
+                        </button>
+                      </div>
+                    );
+                  })()}
+                </div>
+              </>
+              );
+            })()}
           </section>
         )}
       </main>
@@ -2394,7 +2492,7 @@ function Setup(props: {
     }
   };
 
-  const fieldStyle = `w-full px-3 py-2 rounded-lg border ${dark ? "border-neutral-700 bg-neutral-900 text-white" : "border-neutral-300 bg-white text-neutral-900"}`;
+  const fieldStyle = `w-full px-3 py-2 rounded-lg border bp-touch ${dark ? "border-neutral-700 bg-neutral-900 text-white" : "border-neutral-300 bg-white text-neutral-900"}`;
   const boxStyle = `${dark ? "bg-neutral-800 border-neutral-700" : "bg-white border-neutral-200"} max-w-xl mx-auto border rounded-2xl p-6`;
 
   const [joinCode, setJoinCode] = React.useState("");
@@ -2458,21 +2556,21 @@ function Setup(props: {
         <div className="text-xs mt-3">{t.firstPicker}</div>
         <div className="flex gap-2 mt-1">
           <button
-            className={`px-3 py-1 rounded-lg border ${props.initialPicker === "AUTO" ? "border-emerald-500 ring-2 ring-emerald-500/60" : "border-neutral-300"}`}
+            className={`px-3 py-1 rounded-lg border bp-touch ${props.initialPicker === "AUTO" ? "border-emerald-500 ring-2 ring-emerald-500/60" : "border-neutral-300"}`}
             onClick={() => props.setInitialPicker("AUTO")}
             disabled={!canEditGlobal}
           >
             {t.random}
           </button>
           <button
-            className={`px-3 py-1 rounded-lg border ${props.initialPicker === "A" ? "border-emerald-500 ring-2 ring-emerald-500/60" : "border-neutral-300"}`}
+            className={`px-3 py-1 rounded-lg border bp-touch ${props.initialPicker === "A" ? "border-emerald-500 ring-2 ring-emerald-500/60" : "border-neutral-300"}`}
             onClick={() => props.setInitialPicker("A")}
             disabled={!canEditGlobal}
           >
             A
           </button>
           <button
-            className={`px-3 py-1 rounded-lg border ${props.initialPicker === "B" ? "border-emerald-500 ring-2 ring-emerald-500/60" : "border-neutral-300"}`}
+            className={`px-3 py-1 rounded-lg border bp-touch ${props.initialPicker === "B" ? "border-emerald-500 ring-2 ring-emerald-500/60" : "border-neutral-300"}`}
             onClick={() => props.setInitialPicker("B")}
             disabled={!canEditGlobal}
           >
@@ -2488,7 +2586,7 @@ function Setup(props: {
             <div className="mt-4 grid gap-3">
               <button
                 type="button"
-                className={`px-3 py-2 rounded-lg border ${dark ? "border-neutral-700" : "border-neutral-300"}`}
+                className={`px-3 py-2 rounded-lg border bp-touch ${dark ? "border-neutral-700" : "border-neutral-300"}`}
                 onClick={() => props.onCreateRoom && props.onCreateRoom()}
               >
                 방 만들기 (호스트 = A)
@@ -2504,7 +2602,7 @@ function Setup(props: {
                 />
                 <button
                   type="button"
-                  className={`px-3 py-2 rounded-lg border ${dark ? "border-neutral-700" : "border-neutral-300"}`}
+                  className={`px-3 py-2 rounded-lg border bp-touch ${dark ? "border-neutral-700" : "border-neutral-300"}`}
                   onClick={() => joinCode.length === 6 && props.onJoinRoom && props.onJoinRoom(joinCode)}
                   disabled={joinCode.length !== 6}
                 >
@@ -2515,7 +2613,7 @@ function Setup(props: {
           ) : (
             /* 방 대기실: 코드 · 상대 연결 · READY */
             <>
-              <div className="mt-4 flex items-center gap-2">
+              <div className="mt-4 flex flex-wrap items-center gap-2">
                 <span className="text-xs">방 코드</span>
                 <span className="text-lg font-extrabold" style={{ letterSpacing: "3px" }}>{props.roomCode.toUpperCase()}</span>
                 <button
@@ -2532,7 +2630,7 @@ function Setup(props: {
               <div className="mt-4 grid grid-cols-2 gap-3">
                 <button
                   type="button"
-                  className={`px-3 py-2 rounded-lg border ${dark ? "border-neutral-700" : "border-neutral-300"}`}
+                  className={`px-3 py-2 rounded-lg border bp-touch ${dark ? "border-neutral-700" : "border-neutral-300"}`}
                   style={props.readyA ? { borderColor: "#4ade80", boxShadow: "0 0 0 1px #4ade8055" } : undefined}
                   onClick={() => canToggleA && props.setReadyA((v) => !v)}
                   disabled={!canToggleA}
@@ -2542,7 +2640,7 @@ function Setup(props: {
                 </button>
                 <button
                   type="button"
-                  className={`px-3 py-2 rounded-lg border ${dark ? "border-neutral-700" : "border-neutral-300"}`}
+                  className={`px-3 py-2 rounded-lg border bp-touch ${dark ? "border-neutral-700" : "border-neutral-300"}`}
                   style={props.readyB ? { borderColor: "#4ade80", boxShadow: "0 0 0 1px #4ade8055" } : undefined}
                   onClick={() => canToggleB && props.setReadyB((v) => !v)}
                   disabled={!canToggleB}

@@ -234,6 +234,7 @@
 .bp-root .h-\[50vh\] { height: 50vh; }
 .bp-root .h-\[calc\(100vh-180px\)\] { height: calc(100vh - 180px); }
 .bp-root .max-h-\[60vh\] { max-height: 60vh; }
+.bp-root .max-h-\[90vh\] { max-height: 90vh; }
 .bp-root .min-h-\[18px\] { min-height: 18px; }
 .bp-root .min-w-\[220px\] { min-width: 220px; }
 .bp-root .max-w-\[140px\] { max-width: 140px; }
@@ -313,3 +314,55 @@
   border-color: var(--bp-border2);
 }
 .bp-root input::placeholder { color: var(--bp-textsub); }
+
+/* ============================================================
+   모바일 최적화 (밴픽 화면 한정) — 모바일=기본값, 데스크톱=md:이상에서 원복.
+   상태머신/WS 무변경 · 표시 레이어만. 데스크톱 회귀 없음.
+   ============================================================ */
+
+/* 디스플레이 토글 */
+.bp-root .hidden { display: none; }
+.bp-root .flex-wrap { flex-wrap: wrap; }
+@media (min-width: 768px) {
+  /* 이 블록은 파일 하단(.hidden 뒤)이라 소스 순서상 .hidden을 이김 → 데스크톱 표시 보장 */
+  .bp-root .md\:hidden { display: none; }
+  .bp-root .md\:block { display: block; }
+  .bp-root .md\:flex { display: flex; }
+}
+
+/* 터치 타깃 — 모바일에서 입력/버튼 최소 44px 확보(버튼은 내용 중앙정렬).
+   데스크톱 회귀 없게 min-height만 부여(고정 높이 아님). */
+.bp-root .bp-touch { min-height: 44px; }
+.bp-root button.bp-touch { display: inline-flex; align-items: center; justify-content: center; }
+
+/* 맵/밴 그리드 — 모바일 열수 축소(기본), md:이상은 기존 값 복원.
+   맵: 104px(≈3열/390px) · 밴: 96px(≈3열, 타일 64px 이상). */
+.bp-root .bp-grid-map { grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); }
+.bp-root .bp-grid-ban { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }
+@media (min-width: 768px) {
+  .bp-root .bp-grid-map { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+  .bp-root .bp-grid-ban { grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); }
+}
+
+/* 하단 고정 액션바(밴/맵 확정 등) — 모바일만 sticky, 주소창/홈바 안전영역 확보.
+   섹션(p-4=16px) 기준 풀블리드. 데스크톱은 정적으로 원복. */
+.bp-root .bp-actionbar {
+  position: sticky; bottom: 0; z-index: 20;
+  background: var(--bp-bg);
+  margin: 8px -16px 0; padding: 8px 16px calc(8px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--bp-border);
+}
+@media (min-width: 768px) {
+  .bp-root .bp-actionbar {
+    position: static; background: transparent;
+    margin: 0; padding: 0; border-top: none;
+  }
+}
+
+/* 상단 고정 턴/타이머 바(픽 화면 모바일) — 스크롤 무관 항상 노출. 데스크톱 미사용(md:hidden). */
+.bp-root .bp-turnbar {
+  position: sticky; top: 0; z-index: 20;
+  background: var(--bp-bg);
+  margin: 0 -16px 8px; padding: 8px 16px;
+  border-bottom: 1px solid var(--bp-border);
+}

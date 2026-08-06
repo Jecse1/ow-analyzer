@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import axios from "axios";
 import {
-  LayoutDashboard, History, Users, BarChart3, Moon, Sun, Upload, AlertCircle, Globe, User, Zap, Skull, Crosshair, Swords, Map as MapIcon, ChevronDown, Ban
+  LayoutDashboard, History, Users, BarChart3, Moon, Sun, Upload, AlertCircle, Globe, User, Zap, Skull, Crosshair, Swords, Map as MapIcon, ChevronDown, Ban, Menu, X
 } from "lucide-react";
 
 import { ThemeProvider, useTheme } from "./ThemeContext";
@@ -70,6 +70,24 @@ function MainApp() {
   const [navPinned, setNavPinned] = useState(null);
   const [navHoverItem, setNavHoverItem] = useState(null);
   const navRef = useRef(null);
+
+  // 모바일 네비(햄버거) 상태 — 인라인 스타일 코드베이스라 matchMedia로 폭 분기(768px 미만=모바일).
+  //  - isMobile      : 현재 뷰포트가 모바일인지 (데스크톱은 기존 hover+click 드롭다운 그대로)
+  //  - mobileMenuOpen: ☰ 드로어 펼침 여부
+  //  - mobileExpanded: 모바일 메뉴에서 아코디언 펼친 그룹 키('stats'|'analysis'|null)
+  const [isMobile, setIsMobile] = useState(() => typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileExpanded, setMobileExpanded] = useState(null);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const onChange = (e) => {
+      setIsMobile(e.matches);
+      if (!e.matches) { setMobileMenuOpen(false); setMobileExpanded(null); } // 데스크톱 전환 시 드로어 닫기
+    };
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
 
   // 바깥 클릭 시 고정 드롭다운 닫기 (mousedown → 다른 클릭 동작보다 먼저 처리)
   useEffect(() => {
@@ -434,65 +452,137 @@ function MainApp() {
     };
   };
 
+  // 모바일 드로어 메뉴 항목/하위항목 스타일 (터치 44px 이상)
+  const mobileItemStyle = (active) => ({
+    display: "flex", alignItems: "center", gap: "12px", width: "100%", minHeight: "48px",
+    padding: "10px 16px", background: active ? theme.surfaceHighlight : "transparent",
+    color: active ? theme.text : theme.textSub, border: "none", borderRadius: "8px",
+    cursor: "pointer", fontSize: "15px", fontWeight: active ? 600 : 500, textAlign: "left",
+  });
+  const mobileSubItemStyle = (active) => ({
+    ...mobileItemStyle(active), minHeight: "44px", paddingLeft: "44px", fontSize: "14px",
+  });
+  const closeMobileMenu = () => { setMobileMenuOpen(false); setMobileExpanded(null); };
+
   const Navbar = () => (
-    <header style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 32px", height: "64px", borderBottom: `1px solid ${theme.border}`, backgroundColor: theme.surface, position: "sticky", top: 0, zIndex: 50 }}>
-      <div style={{ display: "flex", alignItems: "center", gap: "40px" }}>
-        <div onClick={goHome} style={{ fontSize: "18px", fontWeight: "800", cursor: "pointer", background: "linear-gradient(to right, #3b82f6, #8b5cf6)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-        FLC Scrim
-        </div>
-        <nav
-          ref={navRef}
-          onMouseLeave={() => setNavHovered(null)}
-          onKeyDown={(e) => { if (e.key === "Escape") { setNavPinned(null); setNavHovered(null); } }}
-          style={{ display: "flex", gap: "8px", fontSize: "14px", fontWeight: 500 }}
-        >
-          {NAV_ITEMS.map((item) => {
-            const open = !!item.children && effectiveOpen === item.key;
-            const active = isGroupActive(item);
-            return (
-              <div key={item.key} style={{ position: "relative" }} onMouseEnter={() => setNavHovered(item.key)}>
-                <button
-                  onClick={item.children
-                    ? () => { setNavHovered(null); setNavPinned((p) => (p === item.key ? null : item.key)); }
-                    : () => { item.onSelect(); setNavPinned(null); setNavHovered(null); }}
-                  aria-haspopup={item.children ? "true" : undefined}
-                  aria-expanded={item.children ? open : undefined}
-                  style={navButtonStyle(active || open)}
-                >
-                  <item.Icon size={16} /> {item.label}
+    <>
+      <header style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: isMobile ? "0 16px" : "0 32px", height: "64px", borderBottom: `1px solid ${theme.border}`, backgroundColor: theme.surface, position: "sticky", top: 0, zIndex: 50 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "40px" }}>
+          <div onClick={goHome} style={{ fontSize: "18px", fontWeight: "800", cursor: "pointer", background: "linear-gradient(to right, #3b82f6, #8b5cf6)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+          FLC Scrim
+          </div>
+          {/* 데스크톱: 기존 hover+click 드롭다운 네비 (모바일에서는 숨김 → 햄버거로 대체) */}
+          {!isMobile && (
+          <nav
+            ref={navRef}
+            onMouseLeave={() => setNavHovered(null)}
+            onKeyDown={(e) => { if (e.key === "Escape") { setNavPinned(null); setNavHovered(null); } }}
+            style={{ display: "flex", gap: "8px", fontSize: "14px", fontWeight: 500 }}
+          >
+            {NAV_ITEMS.map((item) => {
+              const open = !!item.children && effectiveOpen === item.key;
+              const active = isGroupActive(item);
+              return (
+                <div key={item.key} style={{ position: "relative" }} onMouseEnter={() => setNavHovered(item.key)}>
+                  <button
+                    onClick={item.children
+                      ? () => { setNavHovered(null); setNavPinned((p) => (p === item.key ? null : item.key)); }
+                      : () => { item.onSelect(); setNavPinned(null); setNavHovered(null); }}
+                    aria-haspopup={item.children ? "true" : undefined}
+                    aria-expanded={item.children ? open : undefined}
+                    style={navButtonStyle(active || open)}
+                  >
+                    <item.Icon size={16} /> {item.label}
+                    {item.children && (
+                      <ChevronDown size={14} style={{ marginLeft: "-2px", transition: "transform 0.15s ease", transform: open ? "rotate(180deg)" : "none" }} />
+                    )}
+                  </button>
                   {item.children && (
-                    <ChevronDown size={14} style={{ marginLeft: "-2px", transition: "transform 0.15s ease", transform: open ? "rotate(180deg)" : "none" }} />
-                  )}
-                </button>
-                {item.children && (
-                  <div role="menu" style={dropdownStyle(open)}>
-                    <div style={dropdownCardStyle}>
-                      {item.children.map((c) => (
-                        <button
-                          key={c.key}
-                          role="menuitem"
-                          tabIndex={open ? 0 : -1}
-                          onClick={() => { c.onSelect(); setNavPinned(null); setNavHovered(null); setNavHoverItem(null); }}
-                          onMouseEnter={() => setNavHoverItem(c.key)}
-                          onMouseLeave={() => setNavHoverItem(null)}
-                          style={itemStyle(c.key)}
-                        >
-                          <c.Icon size={16} /> {c.label}
-                        </button>
-                      ))}
+                    <div role="menu" style={dropdownStyle(open)}>
+                      <div style={dropdownCardStyle}>
+                        {item.children.map((c) => (
+                          <button
+                            key={c.key}
+                            role="menuitem"
+                            tabIndex={open ? 0 : -1}
+                            onClick={() => { c.onSelect(); setNavPinned(null); setNavHovered(null); setNavHoverItem(null); }}
+                            onMouseEnter={() => setNavHoverItem(c.key)}
+                            onMouseLeave={() => setNavHoverItem(null)}
+                            style={itemStyle(c.key)}
+                          >
+                            <c.Icon size={16} /> {c.label}
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </nav>
-      </div>
-      <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-        <button onClick={toggleLanguage} style={{ background: theme.surfaceHighlight, border: "none", padding: "8px 12px", cursor: "pointer", borderRadius: "8px", display: "flex", alignItems: "center", gap: "6px", color: theme.text, fontSize: "13px", fontWeight: "bold" }}><Globe size={18} /> {language.toUpperCase()}</button>
-        <button onClick={toggleTheme} style={{ background: theme.surfaceHighlight, border: "none", padding: "8px", cursor: "pointer", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>{isDarkMode ? <Moon size={20} color={theme.textSub} /> : <Sun size={20} color="#f59e0b" />}</button>
-      </div>
-    </header>
+                  )}
+                </div>
+              );
+            })}
+          </nav>
+          )}
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          <button onClick={toggleLanguage} style={{ background: theme.surfaceHighlight, border: "none", padding: "8px 12px", cursor: "pointer", borderRadius: "8px", display: "flex", alignItems: "center", gap: "6px", color: theme.text, fontSize: "13px", fontWeight: "bold" }}><Globe size={18} /> {language.toUpperCase()}</button>
+          <button onClick={toggleTheme} style={{ background: theme.surfaceHighlight, border: "none", padding: "8px", cursor: "pointer", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>{isDarkMode ? <Moon size={20} color={theme.textSub} /> : <Sun size={20} color="#f59e0b" />}</button>
+          {/* 모바일: 햄버거 토글 (☰ ↔ ✕) */}
+          {isMobile && (
+            <button
+              onClick={() => setMobileMenuOpen((o) => !o)}
+              aria-label={mobileMenuOpen ? "메뉴 닫기" : "메뉴 열기"}
+              aria-expanded={mobileMenuOpen}
+              style={{ background: theme.surfaceHighlight, border: "none", padding: "8px", cursor: "pointer", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", minWidth: "44px", minHeight: "44px", color: theme.text }}
+            >
+              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          )}
+        </div>
+      </header>
+
+      {/* 모바일 드로어: 헤더 아래 전체 폭 세로 메뉴 + 바깥(백드롭) 탭으로 닫기 */}
+      {isMobile && mobileMenuOpen && (
+        <>
+          <div
+            onClick={closeMobileMenu}
+            style={{ position: "fixed", top: "64px", left: 0, right: 0, bottom: 0, background: "rgba(0,0,0,0.45)", zIndex: 45 }}
+          />
+          <nav
+            aria-label="모바일 메뉴"
+            style={{ position: "fixed", top: "64px", left: 0, right: 0, zIndex: 46, background: theme.surface, borderBottom: `1px solid ${theme.border}`, boxShadow: "0 12px 28px rgba(0,0,0,0.30)", padding: "8px", display: "flex", flexDirection: "column", gap: "2px", maxHeight: "calc(100vh - 64px)", overflowY: "auto" }}
+          >
+            {NAV_ITEMS.map((item) => {
+              if (!item.children) {
+                const active = isGroupActive(item);
+                return (
+                  <button key={item.key} onClick={() => { item.onSelect(); closeMobileMenu(); }} style={mobileItemStyle(active)}>
+                    <item.Icon size={18} /> {item.label}
+                  </button>
+                );
+              }
+              const expanded = mobileExpanded === item.key;
+              const groupActive = isGroupActive(item);
+              return (
+                <div key={item.key}>
+                  <button
+                    onClick={() => setMobileExpanded((k) => (k === item.key ? null : item.key))}
+                    aria-expanded={expanded}
+                    style={mobileItemStyle(groupActive)}
+                  >
+                    <item.Icon size={18} /> {item.label}
+                    <ChevronDown size={16} style={{ marginLeft: "auto", transition: "transform 0.15s ease", transform: expanded ? "rotate(180deg)" : "none" }} />
+                  </button>
+                  {expanded && item.children.map((c) => (
+                    <button key={c.key} onClick={() => { c.onSelect(); closeMobileMenu(); }} style={mobileSubItemStyle(currentView === c.key)}>
+                      <c.Icon size={16} /> {c.label}
+                    </button>
+                  ))}
+                </div>
+              );
+            })}
+          </nav>
+        </>
+      )}
+    </>
   );
 
   const renderView = () => {
