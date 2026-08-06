@@ -58,6 +58,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# 밴픽 실시간 대결(WebSocket) — 격리 모듈. 기존 API/집계/DB 무변경, 라우터 등록만.
+try:
+    from banpick import router as banpick_router
+    app.include_router(banpick_router)
+except Exception as _e:
+    print(f"[banpick] router not loaded: {_e}")
+
 DATA_FILE = "scrim_data.json"
 ROW_DATA_DIR = "scrim_rowdata_log"
 _json_lock = threading.Lock()

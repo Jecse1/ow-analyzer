@@ -20,6 +20,43 @@
   color: var(--bp-text);
 }
 
+/* #4 라이트 모드 — 분석기 라이트 팔레트로 변수만 오버라이드(대부분 색이 var 기반이라 자동 반영).
+   .bp-root.light 는 분석기 테마가 라이트일 때 부여됨. */
+.bp-root.light {
+  --bp-bg: #ffffff;
+  --bp-surface: #f4f4f5;
+  --bp-surface2: #e4e4e7;
+  --bp-border: #e4e4e7;
+  --bp-border2: #d4d4d8;
+  --bp-text: #09090b;
+  --bp-textsub: #71717a;
+  --bp-primary: #2563eb;
+  --bp-danger: #dc2626;
+  --bp-green: #5bb98b;
+  color-scheme: light;
+}
+/* 라이트에서 흰 배경 클래스는 순백으로, 칩은 옅게 */
+.bp-root.light .bg-white { background: #ffffff; }
+.bp-root.light .bp-chip { background: rgba(0,0,0,0.06); color: #18181b; }
+
+/* #3 입력칸 오버플로우 — preflight의 `*{box-sizing:border-box}`가 없어 발생.
+   패딩/보더 포함 너비 계산으로 카드 밖으로 나가는 문제 해결(스코프 한정). */
+.bp-root *, .bp-root *::before, .bp-root *::after { box-sizing: border-box; }
+
+/* 버튼 기본 리셋 — preflight 부재로 UA 기본 패딩+배경(buttonface 연회색)이 남아
+   맵 카드 이미지 사방에 회색 여백처럼 보였음. 패딩/배경 제거(유틸 클래스가 재지정). */
+.bp-root button {
+  padding: 0;
+  background-color: transparent;
+  background-image: none;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 /* ── theme 객체용 커스텀 클래스 (원본 theme.* 를 이 클래스로 교체) ── */
 .bp-root .bp-root-base { min-height: 100vh; background: var(--bp-bg); color: var(--bp-text); font-size: 13px; }
 .bp-root .bp-header { position: sticky; top: 0; z-index: 10; background: var(--bp-surface); border-bottom: 1px solid var(--bp-border); }
@@ -34,9 +71,12 @@
 .bp-root .bg-neutral-100,
 .bp-root .bg-neutral-50,
 .bp-root .bg-white { background: var(--bp-surface2); }
+/* bare .border = 1px solid 전체 테두리. preflight 미사용이라 명시 정의(없으면 폭/스타일 0 → 안 보임). */
+.bp-root .border { border-width: 1px; border-style: solid; }
 .bp-root .border-b { border-bottom: 1px solid var(--bp-border); }
 .bp-root .border-neutral-700 { border-color: var(--bp-border2); }
-.bp-root .border-neutral-300,
+/* 카드/슬롯/필 기본 테두리 — 어두운 배경에서 잘 보이도록 borderHighlight 톤으로 */
+.bp-root .border-neutral-300 { border-color: var(--bp-border2); }
 .bp-root .border-neutral-200 { border-color: var(--bp-border); }
 .bp-root .text-neutral-400 { color: var(--bp-textsub); }
 .bp-root .text-neutral-900 { color: var(--bp-text); }
@@ -91,6 +131,7 @@
 .bp-root .object-cover { object-fit: cover; }
 .bp-root .object-center { object-position: center; }
 .bp-root .aspect-square { aspect-ratio: 1 / 1; }
+.bp-root .aspect-\[16\/9\] { aspect-ratio: 16 / 9; }   /* 맵 카드(와이드) */
 .bp-root .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .bp-root .cursor-pointer { cursor: pointer; }
 .bp-root .cursor-not-allowed { cursor: not-allowed; }
@@ -204,8 +245,24 @@
 .bp-root .right-\[-30\%\] { right: -30%; }
 .bp-root .top-\[calc\(50\%\+11px\)\] { top: calc(50% + 11px); }
 
+/* 맵 타입 아이콘 — 어두운 PNG를 테마 텍스트 색 실루엣으로 렌더해 식별 복구.
+   다크: 흰색(brightness0→검정 후 invert→흰), 라이트: 검정. */
+.bp-root .bp-mapicon { width: 16px; height: 16px; flex: 0 0 16px; filter: brightness(0) invert(1); opacity: 0.92; }
+.bp-root.light .bp-mapicon { filter: brightness(0); opacity: 0.8; }
+
+/* 역할 아이콘(탱커/딜러/힐러) — 동일 원인(어두운 PNG가 다크 배경에 묻힘).
+   테마 텍스트 색 실루엣으로 렌더 — 다크: 흰색, 라이트: 검정. 테마 전환에 반응. */
+.bp-root .bp-roleicon { width: 14px; height: 14px; flex: 0 0 14px; filter: brightness(0) invert(1); opacity: 0.92; }
+.bp-root.light .bp-roleicon { filter: brightness(0); opacity: 0.8; }
+
 /* 밴 표시용 붉은 사선(BanSlashOverlay)은 유지 — 기능 시각요소 */
 .bp-root .-rotate-45 { transform: rotate(-45deg); }
+
+/* #5 선택 하이라이트 강화 — 굵은 테두리(3px)+은은한 글로우. 밴=빨강, 픽=파랑, B픽=자주. */
+.bp-root .bp-sel-ban { border-width: 3px; border-color: var(--bp-danger); box-shadow: 0 0 0 1px var(--bp-danger), 0 0 12px 1px rgba(239, 68, 68, 0.35); }
+.bp-root .bp-sel-pick { border-width: 3px; border-color: var(--bp-primary); box-shadow: 0 0 0 1px var(--bp-primary), 0 0 12px 1px rgba(59, 130, 246, 0.35); }
+.bp-root .bp-sel-pickb { border-width: 3px; border-color: #d18ac0; box-shadow: 0 0 0 1px #d18ac0, 0 0 12px 1px rgba(209, 138, 192, 0.32); }
+.bp-root .bp-sel-both { border-width: 3px; border-color: #b98fd0; box-shadow: 0 0 0 1px #b98fd0, 0 0 12px 1px rgba(185, 143, 208, 0.32); }
 
 /* ── 보강: 문자열 상수/.join() 패턴에서 쓰인 유틸 ── */
 .bp-root .max-w-xl { max-width: 36rem; }
@@ -224,6 +281,28 @@
 .bp-root .ring-blue-600\/60,
 .bp-root .ring-rose-600\/60,
 .bp-root .ring-fuchsia-500\/60 { box-shadow: none; }
+
+/* ── 반응형 변형 (원본 md:/lg:/sm:/2xl:) — 픽 3열 flex 레이아웃 등 복원 ── */
+@media (min-width: 640px) {
+  .bp-root .sm\:px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+}
+@media (min-width: 768px) {
+  .bp-root .md\:flex { display: flex; }
+  .bp-root .md\:w-\[260px\] { width: 260px; }
+  .bp-root .md\:max-w-\[220px\] { max-width: 220px; }
+  .bp-root .md\:text-sm { font-size: 14px; line-height: 1.25rem; }
+  .bp-root .md\:text-2xl { font-size: 24px; line-height: 2rem; }
+  .bp-root .md\:text-\[12px\] { font-size: 12px; }
+  .bp-root .md\:text-\[14px\] { font-size: 14px; }
+  .bp-root .md\:\[grid-template-columns\:repeat\(auto-fill\,minmax\(168px\,1fr\)\)\] { grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .bp-root .lg\:w-\[300px\] { width: 300px; }
+  .bp-root .lg\:px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+}
+@media (min-width: 1536px) {
+  .bp-root .\32 xl\:max-w-\[1720px\] { max-width: 1720px; }
+}
 
 /* 인풋/셀렉트 기본 톤(원본이 라이트 전제라 다크로 보정) */
 .bp-root input,

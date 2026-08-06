@@ -1,5 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import "./banpick.css";
+import { useBanpickWS } from "./useBanpickWS";
+import { useLanguage } from "../LanguageContext";
+import { useTheme } from "../ThemeContext";
 
 // ── 멀티플레이어(1v1 실시간 대전) 스텁 — 이번 통합 단계는 SOLO 전용 ──
 // 원본은 Firebase(Firestore 실시간 룸 + 익명 auth)로 코치 대전을 구현하지만,
@@ -439,7 +442,8 @@ function MapTypeBadge({ type, lang, className }: { type: MapType; lang: Lang; cl
       alt={MAP_LABELS[lang][type]}
       title={MAP_LABELS[lang][type]}
       onError={() => setIdx((i) => i + 1)}
-      className={`w-4 h-4 object-contain ${className ?? ""}`}
+      // bp-mapicon: 어두운 아이콘을 테마 텍스트 색 실루엣으로(다크=흰/라이트=검) 렌더해 식별 복구
+      className={`bp-mapicon object-contain ${className ?? ""}`}
       draggable={false}
     />
   );
@@ -465,7 +469,7 @@ function RoleBadge({ role, lang, className }: { role: Role; lang: Lang; classNam
       alt={ROLE_LABELS[lang][role]}
       title={ROLE_LABELS[lang][role]}
       onError={() => setIdx((i) => i + 1)}
-      className={`w-5 h-5 object-contain ${className ?? ""}`}
+      className={`bp-roleicon object-contain ${className ?? ""}`}
       draggable={false}
     />
   );
@@ -883,7 +887,7 @@ function RoleIcon({ role, lang, className }: { role: Role; lang: Lang; className
       alt={ROLE_LABELS[lang][role]}
       title={ROLE_LABELS[lang][role]}
       onError={() => setIdx((i) => i + 1)}
-      className={`w-5 h-5 object-contain ${className ?? ""}`}
+      className={`bp-roleicon object-contain ${className ?? ""}`}
       draggable={false}
     />
   );
@@ -956,11 +960,40 @@ const PickColumn = React.memo(function PickColumn({
   return (
     <div
       ref={wrapRef}
-      className={["h-full flex flex-col overflow-visible", "p-3 pb-5 rounded-xl border", locked ? "border-emerald-500 ring-2 ring-emerald-500/60" : "border-neutral-300", "w-full min-w-[220px] max-w-[320px] mx-auto"].join(" ")}
+      className={["h-full flex flex-col overflow-visible", "p-3 pb-5 rounded-xl border", locked ? "border-emerald-500" : "border-neutral-300", "w-full min-w-[220px] max-w-[320px] mx-auto"].join(" ")}
+      style={locked ? { borderColor: "#4ade80", boxShadow: "0 0 0 1px #4ade8055" } : undefined}
     >
-      <div ref={headerRef} className="flex items-center mb-2 shrink-0">
-        <div className="text-xs font-semibold">{label}</div>
-        {locked && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full bg-green-600/90 text-white">{t.ready}</span>}
+      <div ref={headerRef} className="shrink-0 mb-2">
+        <div className="flex items-center mb-2">
+          <div className="text-xs font-semibold">{label}</div>
+          {locked && (
+            <span className="ml-2 text-[10px] px-2 py-0.5 rounded-full border font-semibold" style={{ borderColor: "#4ade80", color: "#4ade80", background: "rgba(74,222,128,0.14)" }}>
+              {t.ready}
+            </span>
+          )}
+        </div>
+        {/* 픽 완료 — 상태 배지형 버튼: 완료=초록 / 진행가능=파랑 / 대기=중립. 양팀 완료 시 호스트가 승패 결정. */}
+        {(() => {
+          const allFilled = !pickSlots[team].some((v) => v === null);
+          const canAct = canPickForTeam(team);
+          const done = locked;
+          const ready = !done && allFilled && canAct; // 5슬롯 다 참 + 내 차례 → 누를 수 있음
+          const badgeStyle = done
+            ? { borderColor: "#4ade80", color: "#4ade80", background: "rgba(74,222,128,0.14)" }
+            : ready
+            ? { borderColor: "var(--bp-primary)", color: "var(--bp-primary)", background: "rgba(59,130,246,0.14)" }
+            : { borderColor: "var(--bp-border2)", background: "var(--bp-surface2)", color: "var(--bp-textsub)" }; // 대기 = 중립 pill
+          return (
+            <button
+              className="w-full px-2 py-2 rounded-lg border text-xs font-semibold"
+              style={badgeStyle}
+              onClick={() => confirmPick(team)}
+              disabled={done || !allFilled || !canAct}
+            >
+              {done ? "✓ 픽 완료" : ready ? "픽 완료 (클릭)" : "픽 완료"}
+            </button>
+          );
+        })()}
       </div>
 
       <div className="flex-1 flex flex-col gap-3 overflow-visible">
@@ -974,7 +1007,7 @@ const PickColumn = React.memo(function PickColumn({
               key={i}
               disabled={!clickable}
               onClick={() => clickable && setActiveSlot((p) => ({ ...p, [team]: i }))}
-              className={["w-full rounded-xl border text-center p-2", active ? "border-blue-500 ring-2 ring-blue-500/60" : "border-neutral-300", !clickable && "opacity-60 cursor-not-allowed"].join(" ")}
+              className={["w-full rounded-xl border text-center p-2", active ? "bp-sel-pick" : "border-neutral-300", !clickable && "opacity-60 cursor-not-allowed"].join(" ")}
               style={{ paddingLeft: 8, paddingRight: 8 }}
             >
               <div className="relative mx-auto rounded-lg overflow-hidden bg-neutral-100" style={{ width: slotPx, height: slotPx }}>
@@ -998,13 +1031,7 @@ const PickColumn = React.memo(function PickColumn({
         <span className="text-[11px]">
           {t.slot} {act + 1}/5
         </span>
-        <button
-          className={`ml-auto px-2 py-1 rounded border ${btnBorderClass} text-[11px]`}
-          onClick={() => confirmPick(team)}
-          disabled={locked || pickSlots[team].some((v) => v === null) || !canPickForTeam(team)}
-        >
-          {team} {t.pickLockShort}
-        </button>
+        {/* 픽 완료 버튼은 열 최상단으로 이동함 */}
       </div>
     </div>
   );
@@ -1017,7 +1044,10 @@ export default function BanpickApp() {
   }, []);
 
   /* === Theme === */
-  const [dark, setDark] = useState(true); // 분석기 기본 다크로 통일
+  // #4 분석기 전역 테마(ThemeContext)를 구독 — 라이트/다크에 밴픽도 반응.
+  const { isDarkMode } = useTheme();
+  const [dark, setDark] = useState(isDarkMode);
+  useEffect(() => { setDark(isDarkMode); }, [isDarkMode]);
   // 분석기 다크 theme 톤으로 통일한 커스텀 클래스(banpick.css 정의). 글래스/그라데이션/링 제거.
   const theme = useMemo(
     () => ({
@@ -1033,6 +1063,9 @@ export default function BanpickApp() {
 
   /* === Language === */
   const [lang, setLang] = useState<Lang>("ko");
+  // ② 언어를 분석기 전역(LanguageContext)에 연결 — 자체 토글 제거, 전역과 동기화.
+  const { language: appLang } = useLanguage();
+  useEffect(() => { if (appLang === "ko" || appLang === "en") setLang(appLang); }, [appLang]);
   const t: I18n = useMemo(() => STR[lang], [lang]);
   const roleLabel = (r: Role) => ROLE_LABELS[lang][r];
   const mapTypeLabel = (mt: string) => (mt === "All" ? (lang === "ko" ? "전체" : "All") : MAP_LABELS[lang][mt as MapType]);
@@ -1052,67 +1085,35 @@ export default function BanpickApp() {
   const [betweenOpen, setBetweenOpen] = useState(false);
   const [scrimTime, setScrimTime] = useState("");
 
-  /* === Room / URL === */
-  const [roomId, setRoomId] = useState<string>("");
-  useEffect(() => {
-    const sp = new URLSearchParams(window.location.search);
-    const role = sp.get("role");
-    if (role === "A" || role === "B" || role === "HOST" || role === "OBS") setMyRole(role as any);
-    if (sp.get("mode") === "1v1") setPartMode("COACH_1V1");
-    const l = sp.get("lang");
-    if (l === "en") setLang("en");
-    const r = sp.get("room");
-    if (r) setRoomId(r);
-  }, []);
-  useEffect(() => {
-    if (partMode === "COACH_1V1" && !roomId) {
-      const id = Math.random().toString(36).slice(2, 8);
-      setRoomId(id);
-    }
-  }, [partMode, roomId]);
-  const joinUrl = useMemo(() => {
-    if (!roomId) return "";
-    const url = new URL(window.location.href);
-    url.searchParams.set("mode", "1v1");
-    url.searchParams.set("room", roomId);
-    url.searchParams.set("role", "B");
-    return url.toString();
-  }, [roomId]);
+  /* === 실시간 대전 transport (서버 권위 WebSocket) === */
+  const remoteMode = partMode === "COACH_1V1";
+  const ws = useBanpickWS(remoteMode);
+  const remote = ws.remote;
+  const wsSend = ws.send;
+  const roomId = ws.roomCode;                              // 서버 발급 6자리 방 코드
+  const syncOn = remoteMode && !!roomId;
+  // 서버가 유일 권위 → 클라 patch/pushFull은 미사용(액션은 wsSend로만).
+  const patch = React.useCallback((_p?: any) => {}, []);
+  const pushFull = React.useCallback((_s?: any) => {}, []);
 
-  /* === Firestore Sync === */
-  const syncOn = partMode === "COACH_1V1" && !!roomId;
-  const { remote, patch, pushFull } = useRoomSync(roomId, syncOn);
+  // 서버가 배정한 역할(A/B)을 로컬 myRole에 반영
+  useEffect(() => { if (ws.myRole) setMyRole(ws.myRole); }, [ws.myRole]);
 
-  const setInitialPickerSync = React.useCallback(
-    (v: "AUTO" | Team) => {
-      setFirstSetPicker(v);
-      if (syncOn && myRole === "HOST") {
-        patch({ firstSetPicker: v });
-      }
-    },
-    [syncOn, myRole, patch]
-  );
+  // config는 방 생성 시 서버로 전달되므로 로컬 상태만 갱신
+  const setInitialPickerSync = setFirstSetPicker;
+  const setScrimModeSync = setScrimMode;
+  const setScrimTimeSync = setScrimTime;
 
-  /* === 스크림모드 토글 === */
-  const setScrimModeSync = React.useCallback(
-    (v: boolean) => {
-      setScrimMode(v);
-      if (syncOn && myRole === "HOST") patch({ scrimMode: v });
-    },
-    [syncOn, myRole, patch]
-  );
-
-  /* === 스크림 시간 동기화 === */
-  const setScrimTimeSync = React.useCallback(
-    (v: string) => {
-      setScrimTime(v);
-      if (syncOn && myRole === "HOST") patch({ scrimTime: v });
-    },
-    [syncOn, myRole, patch]
-  );
-
-  // ✅ READY는 전용 훅으로만 동기화 (rooms/{roomId}.readyA/readyB)
-  const { readyA, readyB, setReadyA, setReadyB } = useReadySyncFS(roomId, syncOn);
+  // READY: 서버 state의 ready 기준, 토글은 내 역할로 액션 전송
+  const readyA = !!remote?.ready?.A;
+  const readyB = !!remote?.ready?.B;
+  const myReady = myTeamRole === "A" ? readyA : myTeamRole === "B" ? readyB : false;
+  const applyReady = (next: any) => {
+    const val = typeof next === "function" ? next(myReady) : next;
+    wsSend({ type: "ready", value: !!val });   // 서버는 내 역할의 ready만 반영(연결 없으면 no-op)
+  };
+  const setReadyA = applyReady;
+  const setReadyB = applyReady;
 
   /* === Match === */
   const [started, setStarted] = useState(false);
@@ -1294,7 +1295,8 @@ export default function BanpickApp() {
     setTurn((v) => remote.turn ?? v);
     setBans((v) => remote.bans ?? v);
     setRoleLock((v) => remote.roleLock ?? v);
-    setPendingBan((v) => remote.pendingBan ?? v);
+    // pendingBan은 "선택→확정" 2단계용 클라 전용 버퍼 → 원격 동기화 제외.
+    // (서버는 항상 {A:null,B:null}을 보내 매 브로드캐스트마다 선택이 지워지는 버그였음)
     setPickSlots((v) => remote.pickSlots ?? v);
     setPickLockedTeam((v) => remote.pickLockedTeam ?? v);
     setPickLocked((v) => remote.pickLocked ?? v);
@@ -1359,13 +1361,16 @@ export default function BanpickApp() {
   }, [started, scrimMode, scrimActive, syncOn, myRole, patch]);
 
   /* ========== 타이머 등 기타 로직 ========== */
+  // 원격 모드는 서버가 타이머 권위 → 로컬 카운트다운/자동초기화 비활성(remote.timer 표시만).
   useEffect(() => {
+    if (remoteMode) return;
     if (!started) return;
     setTimer(phase === "HERO_PICK" ? TIMER.PICK : TIMER.NORMAL);
     setRun(true);
-  }, [phase, started]);
+  }, [phase, started, remoteMode]);
 
   useEffect(() => {
+    if (remoteMode) return;
     if (!run || !started) return;
     if (timer <= 0) {
       setRun(false);
@@ -1374,7 +1379,7 @@ export default function BanpickApp() {
     }
     const id = setInterval(() => setTimer((t) => t - 1), 1000);
     return () => clearInterval(id);
-  }, [run, timer, started]);
+  }, [run, timer, started, remoteMode]);
 
   useEffect(() => {
     if (phase === "HERO_PICK" && pickLockedTeam.A && pickLockedTeam.B) {
@@ -1409,6 +1414,7 @@ export default function BanpickApp() {
 
   // 세트 초기화 (직전 세트 패자에게 권한)
   useEffect(() => {
+    if (remoteMode) return; // 원격 모드는 서버가 세트 초기화 → remote 반영
     if (scrimMode) return; // 스크림은 BetweenSetModal에서 초기화
     if (!started) return;
     if (seriesDone) {
@@ -1467,9 +1473,7 @@ export default function BanpickApp() {
         alert("양 팀 모두 READY가 되어야 시작할 수 있습니다.");
         return;
       }
-      if (myRole === "HOST") {
-        patch({ started: true, phase: mode === MODE.HERO_BAN_ONLY ? "BAN_ORDER" : "MAP_PICK" });
-      }
+      wsSend({ type: "start" });   // 서버 권위: 시작은 서버가 판정
       return;
     }
     setStarted(true);
@@ -1481,6 +1485,7 @@ export default function BanpickApp() {
   }
 
   function confirmBanOrderClick() {
+    if (remoteMode) { wsSend({ type: "ban_order", ban_order: banStarterChoice }); return; }
     if (!banStarterChoice) return;
     const starter: Team = banStarterChoice === "OPPONENT" ? otherTeam(orderChooser) : orderChooser;
 
@@ -1521,6 +1526,7 @@ export default function BanpickApp() {
 
   /** ‼️ 밴 페이즈로 진행하는 공통 로직 (신규 함수) ‼️ */
   function proceedToBanPhase(side: Side | null) {
+    if (remoteMode) { wsSend({ type: "map_pick", map_id: selectedMap, ban_order: banStarterChoice, side }); return; }
     if (!selectedMap || !banStarterChoice) return; // 필수값 재확인
 
     const starter: Team = banStarterChoice === "OPPONENT" ? otherTeam(mapPicker) : mapPicker;
@@ -1559,6 +1565,7 @@ export default function BanpickApp() {
 
 // [수정됨] 팀별 중복 밴 방지 로직 복구
   function applyBan(team: Team, id: string) {
+    if (remoteMode) { wsSend({ type: "ban", hero_id: id }); return; }
     const hero = heroById(id);
     if (!hero) return;
     if (bans[team].length >= 1) return;
@@ -1643,6 +1650,7 @@ export default function BanpickApp() {
   }
 
   function togglePick(team: Team, heroId: string) {
+    if (remoteMode) { wsSend({ type: "pick_toggle", hero_id: heroId }); return; }
     if (phase !== "HERO_PICK" || pickLocked || pickLockedTeam[team]) return;
     if (!canPickForTeam(team)) return;
 
@@ -1691,6 +1699,7 @@ export default function BanpickApp() {
   }
 
   function confirmPick(team: Team) {
+    if (remoteMode) { wsSend({ type: "pick_lock" }); return; }
     if (pickSlots[team].some((v) => v === null)) return;
 
     const nextLocked = { ...pickLockedTeam, [team]: true };
@@ -1706,6 +1715,7 @@ export default function BanpickApp() {
 
   // ‼️ 'finishSet' 함수 (단순 승리)
   function finishSet(winner: Team) {
+    if (remoteMode) { wsSend({ type: "set_result", result: winner }); return; }
     const effective: "PICKER" | "OPPONENT" = banStarterChoice ?? "PICKER";
     const mapPickerThis: Team | null = mode === MODE.HERO_BAN_ONLY ? null : mapPicker;
     const firstChooser: Team = mode === MODE.HERO_BAN_ONLY ? orderChooser : mapPickerThis ?? orderChooser;
@@ -1742,6 +1752,7 @@ export default function BanpickApp() {
 
   // ‼️ 'finishSetA' 함수 (스크림용 상세 승리/무승부)
   function finishSetA(resultA: "W" | "L" | "D", scoreA: number, scoreB: number) {
+    if (remoteMode) { wsSend({ type: "set_result", result: resultA === "W" ? "A" : resultA === "L" ? "B" : "D", scoreA, scoreB }); return; }
     const winner: Team | null = resultA === "W" ? "A" : resultA === "L" ? "B" : null; // ‼️ 무승부(D) 시 winner는 null
 
     const effective: "PICKER" | "OPPONENT" = banStarterChoice ?? "PICKER";
@@ -1876,76 +1887,9 @@ export default function BanpickApp() {
 
   /* ============== UI ============== */
   return (
-    <div className={"bp-root " + theme.root}>
-      <header className={theme.header}>
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center gap-3">
-          {started ? (
-            <div className="flex items-baseline gap-2">
-              <div className="text-lg md:text-2xl font-extrabold">
-                <span className="inline-block truncate max-w-[140px] md:max-w-[220px]" title={teamName.A}>
-                  {teamName.A}
-                </span>
-                <span className="mx-2">
-                  {winsA} : {winsB}
-                </span>
-                <span className="inline-block truncate max-w-[140px] md:max-w-[220px]" title={teamName.B}>
-                  {teamName.B}
-                </span>
-                <span className="ml-2 text-xs md:text-sm opacity-70">
-                  · BO{sets}
-                  {seriesDone && t.scoreDone}
-                </span>
-              </div>
-            </div>
-          ) : (
-            <h1 className="text-base font-bold">{t.title}</h1>
-          )}
-
-          <div className="ml-auto flex items-center gap-2">
-            {started && (
-              <>
-                <button
-                  className={`px-2 py-1 rounded border ${theme.btnBorder} text-xs`}
-                  onClick={() => {
-                    setSummaryTab("summary");
-                    setShowSummaryOpen(true);
-                  }}
-                >
-                  {t.openSummary}
-                </button>
-                <button
-                  className={`px-2 py-1 rounded border ${theme.btnBorder} text-xs`}
-                  onClick={() => {
-                    setSummaryTab("log");
-                    setShowSummaryOpen(true);
-                  }}
-                >
-                  {t.openLogs}
-                </button>
-                {/* ‼️ '스크림 종료' 버튼 onClick 수정 ‼️ */}
-                {started && scrimMode && (
-                  <button
-                    className={`px-2 py-1 rounded border ${theme.btnBorder} text-xs`}
-                    onClick={() => {
-                      setFrozenSummarySets(completedSets); // 1. 현재 세트 정보를 "얼립니다".
-                      setShowScrimSummary(true); // 2. 모달을 띄웁니다.
-                    }}
-                  >
-                    스크림 종료
-                  </button>
-                )}
-              </>
-            )}
-            <button onClick={() => setLang((l) => (l === "ko" ? "en" : "ko"))} className={"px-2 py-1 rounded border text-xs " + theme.btnBorder}>
-              {lang === "ko" ? STR.en.koBtn : STR.ko.enBtn}
-            </button>
-            <button onClick={() => setDark((d) => !d)} title={dark ? STR[lang].light : STR[lang].dark} className={`px-2 py-1 rounded border ${theme.btnBorder} text-xs`}>
-              {dark ? STR[lang].light : STR[lang].dark}
-            </button>
-          </div>
-        </div>
-      </header>
-
+    <div className={"bp-root " + (dark ? "" : "light ") + theme.root}>
+      {/* 상단 바(타이틀·스코어보드·토글) 전부 제거 — 분석기 네비가 있으므로 콘텐츠만 렌더.
+          요약/로그 등 기능 버튼은 아래 콘텐츠 상단 툴바로 이동. */}
       <main className="mx-auto w-full max-w-none px-4 lg:px-6 py-6 2xl:max-w-[1720px]">
         {!started ? (
           <Setup
@@ -1964,7 +1908,10 @@ export default function BanpickApp() {
             onStart={handleStart}
             dark={dark}
             t={t}
-            joinUrl={joinUrl}
+            roomCode={roomId}
+            opponentConnected={ws.opponentConnected}
+            onCreateRoom={() => ws.createRoom({ mode, sets, scrimMode, teamNameA: teamName.A, teamNameB: teamName.B, firstSetPicker })}
+            onJoinRoom={(code) => ws.joinRoom(code)}
             readyA={readyA}
             readyB={readyB}
             setReadyA={setReadyA}
@@ -1976,6 +1923,16 @@ export default function BanpickApp() {
           />
         ) : (
           <section className={`p-4 ${theme.panel}`}>
+            {/* 콘텐츠 상단 툴바(요약/로그만) — 스코어 바는 제거 */}
+            <div className="flex items-center gap-2 mb-3">
+              <div className="ml-auto flex items-center gap-2">
+                <button className={`px-2 py-1 rounded border ${theme.btnBorder} text-xs`} onClick={() => { setSummaryTab("summary"); setShowSummaryOpen(true); }}>{t.openSummary}</button>
+                <button className={`px-2 py-1 rounded border ${theme.btnBorder} text-xs`} onClick={() => { setSummaryTab("log"); setShowSummaryOpen(true); }}>{t.openLogs}</button>
+                {scrimMode && (
+                  <button className={`px-2 py-1 rounded border ${theme.btnBorder} text-xs`} onClick={() => { setFrozenSummarySets(completedSets); setShowScrimSummary(true); }}>스크림 종료</button>
+                )}
+              </div>
+            </div>
             <h2 className="font-semibold mb-3">
               {mode !== MODE.HERO_BAN_ONLY && phase === "MAP_PICK" && STR[lang].mapPick}
               {phase === "BAN_ORDER" && STR[lang].banOrder}
@@ -2014,14 +1971,15 @@ export default function BanpickApp() {
                             return next;
                           });
                         }}
-                        className={"text-left rounded-xl border overflow-hidden " + (selectedMap === m.id ? "border-blue-500 ring-2 ring-blue-500/60" : "border-neutral-300")}
+                        className={"text-left rounded-xl border overflow-hidden " + (selectedMap === m.id ? "bp-sel-pick" : "border-neutral-300")}
                       >
-                        <div className="relative w-full aspect-square overflow-hidden">
+                        <div className="relative w-full aspect-[16/9] overflow-hidden">
                           <MapThumb id={m.id} />
                         </div>
-                        <div className="px-3 py-2 text-[13px] font-medium flex items-center gap-2 overflow-hidden">
-                          <MapTypeBadge type={m.type} lang={lang} />
-                          <span className="truncate">{m.name}</span>
+                        {/* #6 이름은 이미지 바로 아래 한 줄 + 최소 패딩 */}
+                        <div className="px-2 py-1 text-[12px] font-medium flex items-center gap-1 overflow-hidden">
+                          <MapTypeBadge type={m.type} lang={lang} className="shrink-0" />
+                          <span className="truncate leading-tight">{m.name}</span>
                         </div>
                       </button>
                     ))}
@@ -2172,7 +2130,7 @@ export default function BanpickApp() {
                               return next;
                             });
                           }}
-                          className={"cursor-pointer rounded-xl border overflow-hidden " + (disabled ? "opacity-50 border-neutral-200" : selected ? "border-blue-500 ring-2 ring-blue-500/60" : "border-neutral-300")}
+                          className={"cursor-pointer rounded-xl border overflow-hidden " + (disabled ? "opacity-50 border-neutral-200" : selected ? "bp-sel-ban" : "border-neutral-300")}
                         >
                           <div className="relative w-full aspect-square overflow-hidden">
                             <HeroThumb id={h.id} contain={false} />
@@ -2398,7 +2356,10 @@ function Setup(props: {
   onStart: () => void;
   dark: boolean;
   t: I18n;
-  joinUrl?: string;
+  roomCode?: string;
+  opponentConnected?: boolean;
+  onCreateRoom?: () => void;
+  onJoinRoom?: (code: string) => void;
   readyA: boolean;
   readyB: boolean;
   setReadyA: React.Dispatch<React.SetStateAction<boolean>>;
@@ -2436,19 +2397,7 @@ function Setup(props: {
   const fieldStyle = `w-full px-3 py-2 rounded-lg border ${dark ? "border-neutral-700 bg-neutral-900 text-white" : "border-neutral-300 bg-white text-neutral-900"}`;
   const boxStyle = `${dark ? "bg-neutral-800 border-neutral-700" : "bg-white border-neutral-200"} max-w-xl mx-auto border rounded-2xl p-6`;
 
-  const guestLink = props.joinUrl ?? "";
-  const hostLink = React.useMemo(() => {
-    if (!props.joinUrl) return "";
-    try {
-      const u = new URL(props.joinUrl);
-      u.searchParams.set("role", "HOST");
-      return u.toString();
-    } catch {
-      return props.joinUrl;
-    }
-  }, [props.joinUrl]);
-
-  const showBothLinks = props.myRole === "HOST" || props.myRole === "A";
+  const [joinCode, setJoinCode] = React.useState("");
   const canToggleA = props.myRole === "HOST" || props.myRole === "A";
   const canToggleB = props.myRole === "B";
 
@@ -2468,7 +2417,7 @@ function Setup(props: {
           <div className="text-xs mb-1">{t.participation}</div>
           <select className={fieldStyle} value={currentCombinedMode} onChange={handleModeChange} disabled={!canEditGlobal}>
             <option value="SOLO">{t.solo}</option>
-            {/* 대전 모드(1v1)는 이번 통합 단계에서 숨김 — 멀티플레이어 스텁 상태 */}
+            <option value="COACH_1V1">{t.oneVone}</option>
             <option value="SCRIM">{t.scrim}</option>
           </select>
         </div>
@@ -2534,63 +2483,76 @@ function Setup(props: {
 
       {props.partMode === "COACH_1V1" && (
         <>
-          <div className="mt-4">
-            <div className="text-xs font-semibold mb-2">로비 링크</div>
-            <div className="grid gap-3">
-              {showBothLinks && (
-                <div>
-                  <div className="text-xs mb-1">A 코치(호스트) 링크</div>
-                  <div className="flex gap-2">
-                    <input className={fieldStyle} value={hostLink} readOnly />
-                    <button
-                      type="button"
-                      className={`px-3 py-2 rounded-lg border ${dark ? "border-neutral-700" : "border-neutral-300"}`}
-                      onClick={() => navigator.clipboard.writeText(hostLink)}
-                      disabled={!hostLink}
-                    >
-                      복사
-                    </button>
-                  </div>
-                </div>
-              )}
-              <div>
-                <div className="text-xs mb-1">B 코치 초대 링크</div>
-                <div className="flex gap-2">
-                  <input className={fieldStyle} value={guestLink} readOnly />
-                  <button
-                    type="button"
-                    className={`px-3 py-2 rounded-lg border ${dark ? "border-neutral-700" : "border-neutral-300"}`}
-                    onClick={() => navigator.clipboard.writeText(guestLink)}
-                    disabled={!guestLink}
-                  >
-                    복사
-                  </button>
-                </div>
+          {!props.roomCode ? (
+            /* 방 생성 / 코드 입장 */
+            <div className="mt-4 grid gap-3">
+              <button
+                type="button"
+                className={`px-3 py-2 rounded-lg border ${dark ? "border-neutral-700" : "border-neutral-300"}`}
+                onClick={() => props.onCreateRoom && props.onCreateRoom()}
+              >
+                방 만들기 (호스트 = A)
+              </button>
+              <div className="text-xs" style={{ textAlign: "center", opacity: 0.6 }}>또는</div>
+              <div className="flex gap-2">
+                <input
+                  className={fieldStyle}
+                  placeholder="방 코드 6자리 입력"
+                  value={joinCode}
+                  maxLength={6}
+                  onChange={(e) => setJoinCode(e.target.value.trim().toLowerCase())}
+                />
+                <button
+                  type="button"
+                  className={`px-3 py-2 rounded-lg border ${dark ? "border-neutral-700" : "border-neutral-300"}`}
+                  onClick={() => joinCode.length === 6 && props.onJoinRoom && props.onJoinRoom(joinCode)}
+                  disabled={joinCode.length !== 6}
+                >
+                  입장 (B)
+                </button>
               </div>
             </div>
-          </div>
-
-          {/* Ready 버튼 */}
-          <div className="mt-4 grid grid-cols-2 gap-3">
-            <button
-              type="button"
-              className={`px-3 py-2 rounded-lg border ${dark ? "border-neutral-700" : "border-neutral-300"} ${props.readyA ? "ring-2 ring-emerald-500/60" : ""}`}
-              onClick={() => canToggleA && props.setReadyA((v) => !v)}
-              disabled={!canToggleA}
-              title={canToggleA ? "" : "A팀 코치만 변경 가능"}
-            >
-              A 팀 READY: {props.readyA ? "ON" : "OFF"}
-            </button>
-            <button
-              type="button"
-              className={`px-3 py-2 rounded-lg border ${dark ? "border-neutral-700" : "border-neutral-300"} ${props.readyB ? "ring-2 ring-emerald-500/60" : ""}`}
-              onClick={() => canToggleB && props.setReadyB((v) => !v)}
-              disabled={!canToggleB}
-              title={canToggleB ? "" : "B팀 코치만 변경 가능"}
-            >
-              B 팀 READY: {props.readyB ? "ON" : "OFF"}
-            </button>
-          </div>
+          ) : (
+            /* 방 대기실: 코드 · 상대 연결 · READY */
+            <>
+              <div className="mt-4 flex items-center gap-2">
+                <span className="text-xs">방 코드</span>
+                <span className="text-lg font-extrabold" style={{ letterSpacing: "3px" }}>{props.roomCode.toUpperCase()}</span>
+                <button
+                  type="button"
+                  className={`px-2 py-1 rounded border ${dark ? "border-neutral-700" : "border-neutral-300"} text-xs`}
+                  onClick={() => navigator.clipboard.writeText(props.roomCode!)}
+                >
+                  복사
+                </button>
+                <span className="text-xs ml-auto" style={{ color: props.opponentConnected ? "#5bb98b" : "#a1a1aa" }}>
+                  {props.opponentConnected ? "● 상대 연결됨" : "○ 상대 대기 중…"}
+                </span>
+              </div>
+              <div className="mt-4 grid grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  className={`px-3 py-2 rounded-lg border ${dark ? "border-neutral-700" : "border-neutral-300"}`}
+                  style={props.readyA ? { borderColor: "#4ade80", boxShadow: "0 0 0 1px #4ade8055" } : undefined}
+                  onClick={() => canToggleA && props.setReadyA((v) => !v)}
+                  disabled={!canToggleA}
+                  title={canToggleA ? "" : "A팀 코치만 변경 가능"}
+                >
+                  A 팀 READY: {props.readyA ? "ON" : "OFF"}
+                </button>
+                <button
+                  type="button"
+                  className={`px-3 py-2 rounded-lg border ${dark ? "border-neutral-700" : "border-neutral-300"}`}
+                  style={props.readyB ? { borderColor: "#4ade80", boxShadow: "0 0 0 1px #4ade8055" } : undefined}
+                  onClick={() => canToggleB && props.setReadyB((v) => !v)}
+                  disabled={!canToggleB}
+                  title={canToggleB ? "" : "B팀 코치만 변경 가능"}
+                >
+                  B 팀 READY: {props.readyB ? "ON" : "OFF"}
+                </button>
+              </div>
+            </>
+          )}
         </>
       )}
 
@@ -2599,7 +2561,7 @@ function Setup(props: {
           dark ? "border-neutral-700 bg-neutral-900 hover:bg-neutral-800 text-white" : "border-neutral-300 bg-white hover:bg-neutral-50 text-neutral-900"
         }`}
         onClick={props.onStart}
-        disabled={props.partMode === "COACH_1V1" && !(props.readyA && props.readyB)}
+        disabled={props.partMode === "COACH_1V1" && (!props.roomCode || !(props.readyA && props.readyB))}
         title={props.partMode === "COACH_1V1" && !(props.readyA && props.readyB) ? "양 팀 READY 필요" : ""}
       >
         {t.start}
@@ -2629,11 +2591,11 @@ const PickCenter = React.memo(function PickCenter({ lang, t, filterRole, teamNam
         const borderClass = banned
           ? "border-neutral-200 opacity-50"
           : pickedAFlag && pickedBFlag
-          ? "border-fuchsia-500 ring-2 ring-fuchsia-500/60"
+          ? "bp-sel-both"
           : pickedAFlag
-          ? "border-blue-600 ring-2 ring-blue-600/60"
+          ? "bp-sel-pick"
           : pickedBFlag
-          ? "border-rose-600 ring-2 ring-rose-600/60"
+          ? "bp-sel-pickb"
           : "border-neutral-300";
         const nameLen = h.name?.length;
         const nameClass = nameLen <= 6 ? "text-[13px]" : nameLen <= 9 ? "text-[12px]" : "text-[11px]";
