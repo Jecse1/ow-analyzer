@@ -57,6 +57,25 @@ const ScrimSessions = ({ onSelectScrim }) => {
   const [cal, setCal] = useState(() => { const d = new Date(); return { y: d.getFullYear(), m: d.getMonth() }; });
   const todayKey = useMemo(() => { const d = new Date(); return dateKey(d.getFullYear(), d.getMonth(), d.getDate()); }, []);
 
+  // 모바일 폭 분기 — App 네비와 동일 기준(matchMedia 767px 미만=모바일). 표시 레이어만, 데스크톱 무변경.
+  const [isMobile, setIsMobile] = useState(() => typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches);
+  // 모바일 달력: 칸의 세션은 점(dot)으로 표시하고, 탭하면 상세 팝오버.
+  //  popover = { sessions, rect } | null  (rect = 탭한 셀의 화면 좌표 — 가장자리 잘림 보정용)
+  const [popover, setPopover] = useState(null);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const onChange = (e) => { setIsMobile(e.matches); if (!e.matches) setPopover(null); };
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+  // 팝오버 바깥 탭 시 닫기
+  useEffect(() => {
+    if (!popover) return;
+    const onDown = (e) => { if (!e.target.closest?.('.ssc-popover')) setPopover(null); };
+    document.addEventListener("mousedown", onDown);
+    return () => document.removeEventListener("mousedown", onDown);
+  }, [popover]);
+
   const fetchScrims = async () => {
     try {
       const data = await fetchCached('/api/scrims');
@@ -229,15 +248,15 @@ const ScrimSessions = ({ onSelectScrim }) => {
   );
 
   return (
-    <div style={{ padding: '40px', maxWidth: '1200px', margin: '0 auto', color: theme.text, '--ssc-bh': theme.borderHighlight, '--ssc-primary': theme.primary }}>
+    <div style={{ padding: isMobile ? '16px 12px' : '40px', maxWidth: '1200px', margin: '0 auto', color: theme.text, '--ssc-bh': theme.borderHighlight, '--ssc-primary': theme.primary }}>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+      <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', alignItems: isMobile ? 'stretch' : 'center', gap: isMobile ? '12px' : 0, marginBottom: isMobile ? '16px' : '24px' }}>
         <div>
-          <h2 style={{ fontSize: '24px', fontWeight: '800', margin: 0 }}>{t.sessions}</h2>
+          <h2 style={{ fontSize: isMobile ? '20px' : '24px', fontWeight: '800', margin: 0 }}>{t.sessions}</h2>
           <p style={{ color: theme.textSub, fontSize: '14px', marginTop: '4px' }}>{t.viewHistory}</p>
         </div>
 
-        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+        <div style={{ display: 'flex', flexWrap: isMobile ? 'wrap' : 'nowrap', gap: '8px', alignItems: 'center' }}>
           {/* 달력 / 리스트 토글 (선택 모드에선 숨김) */}
           {!isSelectMode && (
             <div style={{ display: 'flex', gap: '2px', background: theme.surface, border: `1px solid ${theme.border}`, borderRadius: '9px', padding: '3px' }}>
@@ -298,8 +317,9 @@ const ScrimSessions = ({ onSelectScrim }) => {
       {/* ===== 달력 뷰 ===== */}
       {viewMode === 'calendar' && !isSelectMode && (
         <div>
-          {/* 월 이동 + 요약: [◀] [2026년 N월] [▶] ····· [요약] [오늘] */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '18px', background: theme.surface, padding: '12px 16px', borderRadius: '12px', border: `1px solid ${theme.border}` }}>
+          {/* 월 이동 + 요약: [◀] [2026년 N월] [▶] ····· [요약] [오늘]
+              모바일: 2줄 허용(월 이동 줄 / 요약·오늘 줄) — flexWrap으로 긴 요약이 다음 줄로 내려감. */}
+          <div style={{ display: 'flex', flexWrap: isMobile ? 'wrap' : 'nowrap', alignItems: 'center', gap: '8px', marginBottom: '18px', background: theme.surface, padding: isMobile ? '10px 12px' : '12px 16px', borderRadius: '12px', border: `1px solid ${theme.border}` }}>
             <button
               className="ssc-navbtn" onClick={() => shiftMonth(-1)} aria-label="prev month"
               style={{ background: theme.surfaceHighlight, border: `1px solid ${theme.border}`, width: '36px', height: '36px', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0, flexShrink: 0 }}
@@ -313,37 +333,50 @@ const ScrimSessions = ({ onSelectScrim }) => {
             >
               <ChevronRight size={18} color={theme.text} />
             </button>
-            <div style={{ marginLeft: 'auto', color: theme.textSub, fontSize: '13px', fontWeight: 600, whiteSpace: 'nowrap' }}>{monthSummary}</div>
+            {/* 모바일: 강제 줄바꿈 스페이서 → 요약·오늘이 항상 둘째 줄로 */}
+            {isMobile && <div style={{ flexBasis: '100%', height: 0 }} />}
+            <div style={{ marginLeft: isMobile ? 0 : 'auto', color: theme.textSub, fontSize: '13px', fontWeight: 600, whiteSpace: 'nowrap' }}>{monthSummary}</div>
             <button
               onClick={goThisMonth}
-              style={{ background: 'transparent', border: `1px solid ${theme.border}`, color: theme.textSub, height: '36px', padding: '0 14px', borderRadius: '8px', cursor: 'pointer', fontSize: '12px', fontWeight: 600, flexShrink: 0 }}
+              style={{ background: 'transparent', border: `1px solid ${theme.border}`, color: theme.textSub, height: '36px', padding: '0 14px', borderRadius: '8px', cursor: 'pointer', fontSize: '12px', fontWeight: 600, flexShrink: 0, marginLeft: isMobile ? 'auto' : 0 }}
             >
               {language === 'ko' ? '오늘' : 'Today'}
             </button>
           </div>
 
           {/* 요일 헤더 */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '8px', marginBottom: '8px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: isMobile ? '4px' : '8px', marginBottom: '8px' }}>
             {DOW.map((w, i) => (
               <div key={w} style={{ textAlign: 'center', fontSize: '12px', fontWeight: 700, letterSpacing: '0.04em', color: i === 0 ? (theme.danger || '#ef4444') : theme.textSub }}>{w}</div>
             ))}
           </div>
 
-          {/* 날짜 그리드 */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '8px' }}>
+          {/* 날짜 그리드 (7열 유지 — 모바일은 gap·패딩 축소) */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: isMobile ? '4px' : '8px' }}>
             {cells.map((c, i) => {
               const isToday = c.inMonth && c.key === todayKey;
               const daySessions = c.inMonth ? (sessionsByDate[c.key] || []) : [];
+              // 모바일: 셀 전체를 탭 타깃으로 → 그 날 세션 팝오버 오픈(셀 화면좌표를 넘겨 가장자리 보정)
+              const openPopover = (isMobile && daySessions.length > 0)
+                ? (e) => {
+                    e.stopPropagation();
+                    const r = e.currentTarget.getBoundingClientRect();
+                    setPopover({ sessions: daySessions, rect: { left: r.left, top: r.top, bottom: r.bottom } });
+                  }
+                : undefined;
               return (
                 <div
                   key={i}
                   className={'ssc-cell' + (c.inMonth ? ' in' : '')}
+                  onClick={openPopover}
                   style={{
                     background: c.inMonth ? theme.surface : 'transparent',
                     border: `1px solid ${c.inMonth ? theme.border : 'transparent'}`,
-                    borderRadius: '10px', padding: '6px 7px', minHeight: '92px', minWidth: 0,
-                    display: 'flex', flexDirection: 'column', gap: '4px',
+                    borderRadius: '10px', padding: isMobile ? '4px 3px' : '6px 7px',
+                    minHeight: isMobile ? '58px' : '92px', minWidth: 0,
+                    display: 'flex', flexDirection: 'column', gap: isMobile ? '3px' : '4px',
                     opacity: c.inMonth ? 1 : 0.35,
+                    cursor: openPopover ? 'pointer' : 'default',
                   }}
                 >
                   {/* 오늘: 숫자에만 작은 하이라이트 (칸 전체 칠하지 않음) */}
@@ -354,32 +387,74 @@ const ScrimSessions = ({ onSelectScrim }) => {
                   ) : (
                     <div style={{ fontSize: '13px', fontWeight: 600, color: theme.textSub }}>{c.day}</div>
                   )}
-                  {daySessions.map((s) => {
-                    const rec = sessionRecord(s);
-                    const col = outcomeChip(rec.outcome);
-                    const opp = opponentOf(s.scrim_name);
-                    return (
-                      <div
-                        key={s.id}
-                        className="ssc-chip"
-                        title={`${s.scrim_name} · ${rec.w}${language === 'ko' ? '승 ' : 'W '}${rec.l}${language === 'ko' ? '패' : 'L'}${rec.d ? (language === 'ko' ? ` ${rec.d}무` : ` ${rec.d}D`) : ''} · ${s.matches?.length || 0} ${t.fightCount}`}
-                        onClick={(e) => { e.stopPropagation(); onSelectScrim(s.id); }}
-                        style={{
-                          background: col.bg, color: col.fg, border: `1px solid ${col.bd}`, borderRadius: '6px',
-                          padding: '2px 6px', fontSize: '11px', fontWeight: 700, lineHeight: 1.3,
-                          cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                          gap: '4px', whiteSpace: 'nowrap', overflow: 'hidden',
-                        }}
-                      >
-                        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{opp}</span>
-                        <span style={{ fontWeight: 700, fontSize: '10.5px', flexShrink: 0, letterSpacing: '0.02em' }}>{rec.w}-{rec.l}</span>
+                  {isMobile ? (
+                    // 모바일: 세션당 점(dot) — 승패 색 유지, 복수 세션이면 여러 점.
+                    daySessions.length > 0 && (
+                      // dot 정렬: flex 한 줄 수평 · 중앙 정렬 · 균일 gap. span은 block+원형 고정크기라
+                      // 인라인 baseline/line-height 오프셋으로 인한 세로 어긋남 제거.
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '3px', marginTop: '2px', lineHeight: 0 }}>
+                        {daySessions.map((s) => {
+                          const col = outcomeChip(sessionRecord(s).outcome);
+                          return <span key={s.id} style={{ display: 'block', width: 8, height: 8, borderRadius: '50%', background: col.fg, border: `1px solid ${col.bd}`, flexShrink: 0 }} />;
+                        })}
                       </div>
-                    );
-                  })}
+                    )
+                  ) : (
+                    daySessions.map((s) => {
+                      const rec = sessionRecord(s);
+                      const col = outcomeChip(rec.outcome);
+                      const opp = opponentOf(s.scrim_name);
+                      return (
+                        <div
+                          key={s.id}
+                          className="ssc-chip"
+                          title={`${s.scrim_name} · ${rec.w}${language === 'ko' ? '승 ' : 'W '}${rec.l}${language === 'ko' ? '패' : 'L'}${rec.d ? (language === 'ko' ? ` ${rec.d}무` : ` ${rec.d}D`) : ''} · ${s.matches?.length || 0} ${t.fightCount}`}
+                          onClick={(e) => { e.stopPropagation(); onSelectScrim(s.id); }}
+                          style={{
+                            background: col.bg, color: col.fg, border: `1px solid ${col.bd}`, borderRadius: '6px',
+                            padding: '2px 6px', fontSize: '11px', fontWeight: 700, lineHeight: 1.3,
+                            cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                            gap: '4px', whiteSpace: 'nowrap', overflow: 'hidden',
+                          }}
+                        >
+                          <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{opp}</span>
+                          <span style={{ fontWeight: 700, fontSize: '10.5px', flexShrink: 0, letterSpacing: '0.02em' }}>{rec.w}-{rec.l}</span>
+                        </div>
+                      );
+                    })
+                  )}
                 </div>
               );
             })}
           </div>
+
+          {/* 모바일 세션 팝오버 — 탭한 날의 세션 목록. 화면 가장자리에서 잘리지 않게 좌우 클램프 + 위/아래 자동. */}
+          {isMobile && popover && (() => {
+            const POPW = Math.min(252, window.innerWidth - 16);
+            const left = Math.max(8, Math.min(popover.rect.left, window.innerWidth - POPW - 8));
+            const below = popover.rect.top < window.innerHeight / 2;
+            const vstyle = below ? { top: popover.rect.bottom + 6 } : { bottom: window.innerHeight - popover.rect.top + 6 };
+            return (
+              <div className="ssc-popover" style={{ position: 'fixed', left, width: POPW, boxSizing: 'border-box', ...vstyle, zIndex: 60, background: theme.surface, border: `1px solid ${theme.borderHighlight}`, borderRadius: '12px', boxShadow: '0 10px 30px rgba(0,0,0,0.4)', padding: '6px', maxHeight: '52vh', overflowY: 'auto' }}>
+                {popover.sessions.map((s) => {
+                  const rec = sessionRecord(s);
+                  const col = outcomeChip(rec.outcome);
+                  return (
+                    <button
+                      key={s.id}
+                      className="ssc-poprow"
+                      onClick={(e) => { e.stopPropagation(); onSelectScrim(s.id); setPopover(null); }}
+                      style={{ display: 'flex', alignItems: 'center', gap: '9px', width: '100%', textAlign: 'left', background: 'transparent', border: 'none', borderRadius: '8px', padding: '10px 8px', cursor: 'pointer', color: theme.text, minHeight: '44px' }}
+                    >
+                      <span style={{ width: 9, height: 9, borderRadius: '999px', background: col.fg, flexShrink: 0 }} />
+                      <span style={{ flex: 1, minWidth: 0, fontSize: '13px', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.scrim_name}</span>
+                      <span style={{ flexShrink: 0, fontSize: '12px', fontWeight: 700, color: col.fg }}>{rec.w}-{rec.l}{rec.d ? `-${rec.d}` : ''}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            );
+          })()}
         </div>
       )}
 
@@ -463,6 +538,8 @@ const ScrimSessions = ({ onSelectScrim }) => {
         .ssc-navbtn:hover { background: var(--ssc-bh); border-color: var(--ssc-bh); }
         .ssc-chip { transition: filter .13s; }
         .ssc-chip:hover { filter: brightness(1.18); }
+        .ssc-poprow { transition: background .12s; }
+        .ssc-poprow:hover, .ssc-poprow:active { background: var(--ssc-bh); }
       `}</style>
     </div>
   );

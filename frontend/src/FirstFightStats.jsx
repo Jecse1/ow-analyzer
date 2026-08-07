@@ -31,6 +31,15 @@ export default function FirstFightStats() {
     const [selectedOpponent, setSelectedOpponent] = useState('All');
     const [selectedMap, setSelectedMap] = useState('All');
 
+    // 모바일 폭 분기 — App 네비와 동일 기준(matchMedia 767px). 표시 레이어만, 데스크톱 무변경.
+    const [isMobile, setIsMobile] = useState(() => typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches);
+    useEffect(() => {
+        const mq = window.matchMedia("(max-width: 767px)");
+        const onChange = (e) => setIsMobile(e.matches);
+        mq.addEventListener("change", onChange);
+        return () => mq.removeEventListener("change", onChange);
+    }, []);
+
     useEffect(() => {
         let alive = true;
         (async () => {
@@ -68,26 +77,30 @@ export default function FirstFightStats() {
     }, [items, selectedOpponent, selectedMap]);
 
     const ACCENT = "#f59e0b";
-    const selectStyle = { background: theme.bg, color: theme.text, border: `1px solid ${theme.borderHighlight}`, padding: '8px 12px', borderRadius: '8px', outline: 'none', fontSize: '13px', fontWeight: 'bold', cursor: 'pointer' };
+    const selectStyle = { background: theme.bg, color: theme.text, border: `1px solid ${theme.borderHighlight}`, padding: '8px 12px', borderRadius: '8px', outline: 'none', fontSize: '13px', fontWeight: 'bold', cursor: 'pointer', width: isMobile ? '100%' : 'auto', flex: isMobile ? 1 : 'none', minWidth: 0 };
+    const filterBoxStyle = { display: 'flex', alignItems: 'center', gap: '8px', background: theme.surfaceHighlight, padding: '8px 12px', borderRadius: '8px', border: `1px solid ${theme.border}`, flex: isMobile ? 1 : 'none', minWidth: 0 };
+    // 셀 패딩: 모바일 축소. 그래도 폭 초과 시 카드에 가로 스크롤 폴백(아래 minWidth).
+    const cellPad = isMobile ? '11px 8px' : '16px';
+    const grpPad = isMobile ? '8px 8px' : '10px 16px';
 
     return (
-        <div style={{ padding: '40px', maxWidth: '1200px', margin: '0 auto', color: theme.text }}>
-            <div style={{ marginBottom: '32px' }}>
-                <h1 style={{ fontSize: '32px', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <Swords size={36} color={ACCENT} /> {t.ffTitle}
+        <div style={{ padding: isMobile ? '20px 12px' : '40px', maxWidth: '1200px', margin: '0 auto', color: theme.text }}>
+            <div style={{ marginBottom: isMobile ? '20px' : '32px' }}>
+                <h1 style={{ fontSize: isMobile ? '24px' : '32px', fontWeight: '900', display: 'flex', alignItems: 'center', gap: isMobile ? '10px' : '12px' }}>
+                    <Swords size={isMobile ? 26 : 36} color={ACCENT} /> {t.ffTitle}
                 </h1>
-                <p style={{ color: theme.textSub, marginTop: '8px' }}>{t.ffDesc}</p>
+                <p style={{ color: theme.textSub, marginTop: '8px', fontSize: isMobile ? '13px' : undefined }}>{t.ffDesc}</p>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: theme.surfaceHighlight, padding: '8px 16px', borderRadius: '8px', border: `1px solid ${theme.border}` }}>
+            <div style={{ display: 'flex', justifyContent: isMobile ? 'stretch' : 'flex-end', alignItems: 'center', marginBottom: isMobile ? '16px' : '24px', flexWrap: 'wrap', gap: isMobile ? '10px' : '16px' }}>
+                <div style={filterBoxStyle}>
                     <Users size={16} color={theme.textSub} />
                     <select value={selectedOpponent} onChange={e => setSelectedOpponent(e.target.value)} style={selectStyle}>
                         <option value="All">{t.ffAllOpponents}</option>
                         {opponentList.map(tm => <option key={tm} value={tm}>{tm}</option>)}
                     </select>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: theme.surfaceHighlight, padding: '8px 16px', borderRadius: '8px', border: `1px solid ${theme.border}` }}>
+                <div style={filterBoxStyle}>
                     <MapIcon size={16} color={theme.textSub} />
                     <select value={selectedMap} onChange={e => setSelectedMap(e.target.value)} style={selectStyle}>
                         <option value="All">{t.ffAllMaps}</option>
@@ -96,15 +109,15 @@ export default function FirstFightStats() {
                 </div>
             </div>
 
-            <div style={{ background: theme.bg, borderRadius: '16px', border: `1px solid ${theme.border}`, overflow: 'hidden', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}>
+            <div style={{ background: theme.bg, borderRadius: '16px', border: `1px solid ${theme.border}`, overflow: isMobile ? 'auto' : 'hidden', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <thead style={{ background: theme.surfaceHighlight }}>
                         <tr>
-                            <th style={{ padding: '16px', textAlign: 'left', fontSize: '13px', color: theme.textSub }}>{t.ffColMap}</th>
-                            <th style={{ padding: '16px', textAlign: 'center', fontSize: '13px', color: theme.textSub }}>{t.ffColRound}</th>
-                            <th style={{ padding: '16px', textAlign: 'left', fontSize: '13px', color: theme.textSub }}>{t.ffColMatchup}</th>
-                            <th style={{ padding: '16px', textAlign: 'right', fontSize: '13px', color: theme.textSub }}>{t.ffColTime}</th>
-                            <th style={{ padding: '16px', textAlign: 'center', fontSize: '13px', color: theme.textSub }}>{t.ffColLink}</th>
+                            <th style={{ padding: cellPad, textAlign: 'left', fontSize: '13px', color: theme.textSub }}>{t.ffColMap}</th>
+                            <th style={{ padding: cellPad, textAlign: 'center', fontSize: '13px', color: theme.textSub }}>{t.ffColRound}</th>
+                            <th style={{ padding: cellPad, textAlign: 'left', fontSize: '13px', color: theme.textSub }}>{t.ffColMatchup}</th>
+                            <th style={{ padding: cellPad, textAlign: 'right', fontSize: '13px', color: theme.textSub }}>{t.ffColTime}</th>
+                            <th style={{ padding: cellPad, textAlign: 'center', fontSize: '13px', color: theme.textSub }}>{t.ffColLink}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -121,7 +134,7 @@ export default function FirstFightStats() {
                             return groups.map(g => (
                                 <React.Fragment key={g.date}>
                                     <tr>
-                                        <td colSpan="5" style={{ padding: '10px 16px', background: theme.surfaceHighlight, borderBottom: `1px solid ${theme.border}` }}>
+                                        <td colSpan="5" style={{ padding: grpPad, background: theme.surfaceHighlight, borderBottom: `1px solid ${theme.border}` }}>
                                             <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontWeight: 700, fontSize: '13px', color: theme.text }}>
                                                 <Clock size={14} color={ACCENT} /> {g.date}
                                                 <span style={{ color: theme.textSub, fontWeight: 400, fontSize: '12px' }}>({g.rows.length})</span>
@@ -136,28 +149,28 @@ export default function FirstFightStats() {
                                         const link = hasVideo(videoUrl) ? buildVideoLink(videoUrl, jumpTs, match) : null;
                                         return (
                                             <tr key={`${it.match_id}-${it.round_number ?? 'm'}-${idx}`} style={{ background: rowBg, borderBottom: `1px solid ${theme.border}40` }}>
-                                                <td style={{ padding: '16px', fontWeight: 'bold' }}>
+                                                <td style={{ padding: cellPad, fontWeight: 'bold', whiteSpace: 'nowrap' }}>
                                                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                                        <MapIcon size={16} color={ACCENT} /> {it.map_name}
+                                                        <MapIcon size={16} color={ACCENT} style={{ flexShrink: 0 }} /> {it.map_name}
                                                     </div>
                                                 </td>
-                                                <td style={{ padding: '16px', textAlign: 'center', color: theme.textSub }}>
+                                                <td style={{ padding: cellPad, textAlign: 'center', color: theme.textSub }}>
                                                     {it.round_number != null ? `R${it.round_number}` : '-'}
                                                 </td>
-                                                <td style={{ padding: '16px' }}>
+                                                <td style={{ padding: cellPad, whiteSpace: 'nowrap' }}>
                                                     <span style={{ fontWeight: 'bold', color: ACCENT }}>{OUR_TEAM}</span>
                                                     <span style={{ color: theme.textSub, margin: '0 6px', fontSize: '12px' }}>vs</span>
                                                     <span style={{ fontWeight: 'bold' }}>{opponentOf(it)}</span>
                                                 </td>
-                                                <td style={{ padding: '16px', textAlign: 'right', color: theme.textSub }}>
+                                                <td style={{ padding: cellPad, textAlign: 'right', color: theme.textSub, whiteSpace: 'nowrap' }}>
                                                     <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                                                         <Clock size={13} /> {fmtClock(it.start_game_timestamp)}
                                                     </span>
                                                 </td>
-                                                <td style={{ padding: '16px', textAlign: 'center' }}>
+                                                <td style={{ padding: cellPad, textAlign: 'center', whiteSpace: 'nowrap' }}>
                                                     {link ? (
                                                         <a href={link} target="_blank" rel="noopener noreferrer"
-                                                            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: '8px', background: `${theme.danger}20`, color: theme.danger, textDecoration: 'none', fontWeight: 'bold', fontSize: '13px' }}>
+                                                            style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '6px', padding: isMobile ? '10px 14px' : '6px 12px', minHeight: isMobile ? '44px' : undefined, borderRadius: '8px', background: `${theme.danger}20`, color: theme.danger, textDecoration: 'none', fontWeight: 'bold', fontSize: '13px' }}>
                                                             <Youtube size={16} /> {t.ffWatch}
                                                         </a>
                                                     ) : (

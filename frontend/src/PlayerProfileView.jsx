@@ -3,6 +3,7 @@ import { Users, Search, Activity, Crosshair, Zap, Sword, PlusCircle } from 'luci
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
+import { useIsMobile } from "./utils/responsive";
 
 const HERO_ALIAS_MAP = {
     '솔저: 76': '솔저76', '솔저 : 76': '솔저76', 'D.Va': '디바', 'Widowmaker': '위도우메이커', 'Tracer': '트레이서', 'Sojourn': '소전', 'Sierra': '시에라'
@@ -34,6 +35,7 @@ const getRoleIconSrc = (roleLabel) => {
 export default function PlayerProfileView({ playersData }) {
     const { theme } = useTheme();
     const { t } = useLanguage();
+    const isMobile = useIsMobile();
     const roleLabelDisplay = (role) => (role === '탱크' || role === '탱커') ? t.tank : role === '딜러' ? t.dps : (role === '지원' || role === '힐러') ? t.support : role;
 
     const [searchTerm, setSearchTerm] = useState("");
@@ -76,10 +78,10 @@ export default function PlayerProfileView({ playersData }) {
     }
 
     return (
-        <div style={{ display: 'flex', gap: '32px', alignItems: 'flex-start', width: '100%', maxWidth: '1600px', margin: '0 auto', color: theme.text }}>
+        <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? '16px' : '32px', alignItems: isMobile ? 'stretch' : 'flex-start', width: '100%', maxWidth: '1600px', margin: '0 auto', color: theme.text }}>
             
             {/* ⬅️ 왼쪽 사이드바 (선수단 목록) */}
-            <div style={{ width: '280px', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div style={{ width: isMobile ? '100%' : '280px', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <h2 style={{ fontSize: '18px', fontWeight: '900', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <Users size={20} /> {t.ppRosterTitle}
                 </h2>
@@ -114,7 +116,7 @@ export default function PlayerProfileView({ playersData }) {
                     ))}
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', overflowY: 'auto', maxHeight: 'calc(100vh - 280px)', paddingRight: '4px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', overflowY: 'auto', maxHeight: isMobile ? '42vh' : 'calc(100vh - 280px)', paddingRight: '4px' }}>
                     {filteredPlayers.map(p => {
                         const isActive = p.id === selectedPlayerId;
                         return (
@@ -150,7 +152,7 @@ export default function PlayerProfileView({ playersData }) {
                         </div>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', gap: isMobile ? '10px' : '16px' }}>
                         <div style={{ background: theme.surface, padding: '20px', borderRadius: '12px', border: `1px solid ${theme.border}` }}>
                             <div style={{ fontSize: '12px', color: theme.textSub, display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}><Crosshair size={14}/> {t.ppOverallKd}</div>
                             <div style={{ fontSize: '24px', fontWeight: '900' }}>{activePlayer.overview.kd.toFixed(2)}</div>

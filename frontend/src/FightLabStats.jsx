@@ -1,8 +1,9 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { fetchCached } from './utils/apiCache';
-import { ChevronDown, ChevronRight, Youtube } from 'lucide-react';
+import { ChevronDown, ChevronRight, Youtube, SlidersHorizontal } from 'lucide-react';
 import { useLanguage } from "./LanguageContext";
 import { buildVideoLink, hasVideo } from "./utils/videoLink";
+import { useIsMobile } from "./utils/responsive";
 
 const API_BASE = "";
 
@@ -324,7 +325,7 @@ function PlayerBreakdown({ pfs, rangeA, rangeB, compareOn, minSample, perspectiv
                 </div>
             </div>
 
-            <div style={{ overflowX: 'auto' }}>
+            <div className="mobile-scroll-hint" style={{ overflowX: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '900px' }}>
                     <thead style={{ background: T.header }}>
                         <tr>
@@ -432,7 +433,7 @@ function PlayerBreakdown({ pfs, rangeA, rangeB, compareOn, minSample, perspectiv
                                 ⚠ {tpl(t.flLbPoolWarnTpl, { n: lb.poolN, min: MIN_POOL })}
                             </p>
                         )}
-                        <div style={{ overflowX: 'auto' }}>
+                        <div className="mobile-scroll-hint" style={{ overflowX: 'auto' }}>
                             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                                 <thead style={{ background: T.header }}>
                                     <tr>{[t.flLbColRank, t.flPbColPlayer, t.flLbColTeam, t.flLbColValue, t.flColSampleOne]
@@ -709,7 +710,7 @@ export function UltimateComboSection({ recsNow, recsPast, compareOn, t, GREEN, R
     const comboTable = (title, rows, tid) => (
         <div style={{ marginTop: '14px' }}>
             <h3 style={{ fontSize: '14px', fontWeight: 600, color: T.text, margin: '0 0 8px' }}>{title}</h3>
-            <div style={{ overflowX: 'auto' }}>
+            <div className="mobile-scroll-hint" style={{ overflowX: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <thead style={{ background: T.header }}>
                         <tr>
@@ -1003,7 +1004,7 @@ export function UltimateSequenceSection({ recsNow, recsPast, compareOn, t, GREEN
     const followTable = (title, rows, tid) => (
         <div style={{ flex: 1, minWidth: '380px' }}>
             <h4 style={{ fontSize: '13px', fontWeight: 600, color: T.text, margin: '0 0 6px' }}>{title}</h4>
-            <div style={{ overflowX: 'auto' }}>
+            <div className="mobile-scroll-hint" style={{ overflowX: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <thead style={{ background: T.header }}>
                         <tr>{[t.flSeqColFollow, t.flColSampleOne, t.flSeqColSeqRate, t.flColWin, t.flSeqColDWin, t.flSeqColReact]
@@ -1167,7 +1168,7 @@ export function UltimateSequenceSection({ recsNow, recsPast, compareOn, t, GREEN
             {p2 && res2 && (
                 <>
                     <div style={stepTitle}>{t.flSeqStep4}</div>
-                    <div style={{ overflowX: 'auto' }}>
+                    <div className="mobile-scroll-hint" style={{ overflowX: 'auto' }}>
                         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                             <thead style={{ background: T.header }}>
                                 <tr>{[
@@ -1312,7 +1313,7 @@ export function UltimateCounterSection({ recsNow, t, GREEN, RED, perspective }) 
             </div>
 
             <h3 style={{ fontSize: '14px', fontWeight: 600, color: T.text, margin: '0 0 8px' }}>{t.flCtrOverviewTitle}</h3>
-            <div style={{ overflowX: 'auto' }}>
+            <div className="mobile-scroll-hint" style={{ overflowX: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <thead style={{ background: T.header }}>
                         <tr>{[t.flCtrColEnemyUlt, t.flColSampleOne, t.flCtrColWinWith, t.flCtrColNoResp, t.flCtrColBest, t.flCtrColBestWin, t.flCtrColBestN]
@@ -1502,8 +1503,29 @@ export function ScopeSidebar({ sc, t, hideMap = false, hideMinSample = false, op
     const sideLabel = { fontSize: '11px', fontWeight: 500, color: T.sub, marginBottom: '5px' };
     const sideSelect = { width: '100%', boxSizing: 'border-box', background: T.inputBg, color: T.text, border: `1px solid ${T.inputBorder}`, borderRadius: '6px', padding: '6px 8px', fontSize: '12px', fontWeight: 400, outline: 'none', cursor: 'pointer' };
     const { draft, setD, applyDraft, opponentList, mapList } = sc;
+    const isMobile = useIsMobile();
+    const [open, setOpen] = useState(false); // 모바일: 접이식(기본 접힘). 데스크톱은 항상 펼침.
+    const showBody = !isMobile || open;
+    // 접힌 상태에서도 현재 조건을 알 수 있게 — 적용된 필터 한 줄 요약(캡션과 동일 필드)
+    const filterSummary = [
+        sc.presetA === 'all' ? t.flPresetAll : sc.presetALabel,
+        sc.perspective === 'us' ? t.flPerspUs : t.flPerspThem,
+        (sc.selectedOpponent && sc.selectedOpponent !== 'All') ? sc.selectedOpponent : null,
+        (!hideMap && sc.selectedMap && sc.selectedMap !== 'All') ? sc.selectedMap : null,
+    ].filter(Boolean).join(' · ');
     return (
-        <aside style={{ width: '200px', flexShrink: 0, background: T.panel, border: `1px solid ${T.panelBorder}`, borderRadius: '8px', padding: '14px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <aside style={{ width: isMobile ? '100%' : '200px', boxSizing: 'border-box', flexShrink: 0, background: T.panel, border: `1px solid ${T.panelBorder}`, borderRadius: '8px', padding: isMobile ? (open ? '12px' : '8px 12px') : '14px', display: 'flex', flexDirection: 'column', gap: showBody ? '12px' : 0 }}>
+            {isMobile && (
+                <button onClick={() => setOpen(o => !o)} aria-expanded={open}
+                    style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%', minHeight: 40, background: 'transparent', border: 'none', color: T.text, cursor: 'pointer', padding: '2px 0', font: 'inherit' }}>
+                    <SlidersHorizontal size={15} style={{ flexShrink: 0, color: T.sub }} />
+                    <span style={{ flex: 1, minWidth: 0, textAlign: 'left', fontSize: '12px', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', color: open ? T.text : T.sub }}>
+                        {t.flSideFilter || t.flApply}{filterSummary ? `: ${filterSummary}` : ''}
+                    </span>
+                    <ChevronDown size={16} style={{ flexShrink: 0, color: T.sub, transition: 'transform .15s', transform: open ? 'rotate(180deg)' : 'none' }} />
+                </button>
+            )}
+            {showBody && (<>
             <div>
                 <div style={sideLabel}>{t.flSideDate}</div>
                 <select value={draft.presetA} onChange={e => setD({ presetA: e.target.value })} style={sideSelect}>
@@ -1572,9 +1594,10 @@ export function ScopeSidebar({ sc, t, hideMap = false, hideMinSample = false, op
                 </div>
             )}
             <button onClick={applyDraft}
-                style={{ alignSelf: 'flex-start', background: '#e5484d', color: '#fff', border: 'none', borderRadius: '7px', padding: '7px 18px', fontWeight: 700, fontSize: '12px', cursor: 'pointer' }}>
+                style={{ alignSelf: 'flex-start', minHeight: isMobile ? 44 : undefined, background: '#e5484d', color: '#fff', border: 'none', borderRadius: '7px', padding: isMobile ? '9px 22px' : '7px 18px', fontWeight: 700, fontSize: '12px', cursor: 'pointer' }}>
                 {t.flApply}
             </button>
+            </>)}
         </aside>
     );
 }
@@ -1679,7 +1702,7 @@ export function SituationTable({ rowDefs, statsA, statsB, statsOpp, compareOn, m
 
     return (
         <>
-            <div style={{ overflowX: 'auto' }}>
+            <div className="mobile-scroll-hint" style={{ overflowX: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <thead style={{ background: T.header }}>
                         <tr>
@@ -1767,15 +1790,16 @@ export function PerspectiveNotice({ sc, t }) {
 // 페이지 공통 셸: 배경 + 제목 + 사이드바 + 캡션/겹침 경고 + 본문
 // hideMap/hideMinSample/opponentOnlyForThem: 맵 분석 탭용 사이드바 옵션(기본 false — 기존 사용처 무변경).
 export function FightScopeShell({ title, desc, sc, t, captionRight, children, hideMap = false, hideMinSample = false, opponentOnlyForThem = false }) {
+    const isMobile = useIsMobile();
     return (
         <div style={{ background: T.bg, minHeight: 'calc(100vh - 64px)', color: T.text }}>
         <style>{`.flb-row:hover{background:${T.hover} !important}`}</style>
-        <div style={{ padding: '24px 36px', maxWidth: '1280px', margin: '0 auto' }}>
+        <div style={{ padding: isMobile ? '16px 12px' : '24px 36px', maxWidth: '1280px', margin: '0 auto' }}>
             <div style={{ marginBottom: '18px' }}>
                 <h1 style={{ fontSize: '20px', fontWeight: 600, color: T.text, margin: 0 }}>{title}</h1>
                 <p style={{ color: T.sub, marginTop: '6px', fontSize: '12px' }}>{desc}</p>
             </div>
-            <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
+            <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? '12px' : '20px', alignItems: isMobile ? 'stretch' : 'flex-start' }}>
                 <ScopeSidebar sc={sc} t={t} hideMap={hideMap} hideMinSample={hideMinSample} opponentOnlyForThem={opponentOnlyForThem} />
                 <main style={{ flex: 1, minWidth: 0 }}>
                     <ScopeCaption sc={sc} t={t} right={captionRight} hideMap={hideMap} />

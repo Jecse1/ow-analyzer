@@ -109,6 +109,7 @@
 .bp-root .items-baseline { align-items: baseline; }
 .bp-root .justify-between { justify-content: space-between; }
 .bp-root .justify-center { justify-content: center; }
+.bp-root .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
 .bp-root .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .bp-root .relative { position: relative; }
 .bp-root .absolute { position: absolute; }
@@ -328,6 +329,8 @@
   .bp-root .md\:hidden { display: none; }
   .bp-root .md\:block { display: block; }
   .bp-root .md\:flex { display: flex; }
+  /* 데스크톱: 요약 승리 버튼 2열 복원(모바일은 grid-cols-1 세로 스택) */
+  .bp-root .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 /* 터치 타깃 — 모바일에서 입력/버튼 최소 44px 확보(버튼은 내용 중앙정렬).

@@ -4,6 +4,7 @@ import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGri
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
 import { T } from "./FightLabStats";
+import { useIsMobile } from "./utils/responsive";
 
 // R1 방향색(맵 분석과 동일한 은은한 톤). 원색 네온은 제거.
 const GREEN = T.green, RED = T.red;
@@ -38,6 +39,7 @@ const getHeroImageSrc = (heroName) => {
 export default function UltimateStats({ allScrims }) {
     const { theme } = useTheme();
     const { t } = useLanguage();
+    const isMobile = useIsMobile();
 
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
@@ -167,15 +169,15 @@ export default function UltimateStats({ allScrims }) {
     };
 
     return (
-        <div style={{ padding: "40px", maxWidth: 1200, margin: "0 auto", color: theme.text }}>
+        <div style={{ padding: isMobile ? "16px 12px" : "40px", maxWidth: 1200, margin: "0 auto", color: theme.text }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems:'center', marginBottom:'24px' }}>
                 <h1 style={{ fontSize: 24, fontWeight: 900, margin:0, display:'flex', alignItems:'center', gap:'10px' }}>
                     <Zap size={24} color={GREEN}/> {t.ultStatsTitle}
                 </h1>
             </div>
 
-            <div style={{ display: 'flex', gap: '16px', alignItems: 'center', marginBottom: '24px', background: theme.surface, padding: '16px', borderRadius: '12px', border: `1px solid ${theme.border}` }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', color: theme.textSub }}>
+            <div style={{ display: 'flex', flexWrap: isMobile ? 'wrap' : 'nowrap', gap: isMobile ? '10px' : '16px', alignItems: 'center', marginBottom: '24px', background: theme.surface, padding: '16px', borderRadius: '12px', border: `1px solid ${theme.border}` }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', color: theme.textSub, whiteSpace: 'nowrap' }}>
                     <Users size={18}/> {t.baseTeam}
                 </div>
                 <select value={baseTeam} onChange={e => setBaseTeam(e.target.value)} style={{ background: theme.bg, color: theme.text, border: `1px solid ${theme.border}`, padding: '8px 12px', borderRadius: '8px', outline: 'none', fontWeight: 'bold' }}>
@@ -185,7 +187,7 @@ export default function UltimateStats({ allScrims }) {
 
                 <div style={{ width: '1px', height: '24px', background: theme.border, margin: '0 8px' }}></div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', color: theme.textSub }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', color: theme.textSub, whiteSpace: 'nowrap' }}>
                     <Calendar size={18}/> {t.dateFilter}
                 </div>
                 <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} style={{ background: theme.bg, color: theme.text, border: `1px solid ${theme.border}`, padding: '8px 12px', borderRadius: '8px', colorScheme: theme.mode === 'dark' ? 'dark' : 'light' }} />
@@ -194,8 +196,8 @@ export default function UltimateStats({ allScrims }) {
                 {(startDate || endDate) && <button onClick={() => { setStartDate(""); setEndDate(""); }} style={{ background: 'transparent', border: 'none', color: theme.danger, cursor: 'pointer', fontWeight: 'bold', marginLeft: 'auto' }}>{t.reset}</button>}
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
-                <div style={{ background: theme.surface, borderRadius: '16px', border: `1px solid ${theme.border}`, padding: '24px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? '16px' : '24px' }}>
+                <div style={{ background: theme.surface, borderRadius: '16px', border: `1px solid ${theme.border}`, padding: isMobile ? '16px' : '24px' }}>
                     <h3 style={{fontSize:'18px', fontWeight:'bold', marginBottom:'24px', display:'flex', alignItems:'center', gap:'8px'}}><Activity size={20} color={theme.primary}/> {t.ultCountVsWin}</h3>
                     <div style={{ width: '100%', height: 350 }}>
                         <ResponsiveContainer width="100%" height="100%" minWidth={0}>
@@ -218,11 +220,11 @@ export default function UltimateStats({ allScrims }) {
                     </div>
                 </div>
 
-                <div style={{ background: theme.surface, borderRadius: '16px', border: `1px solid ${theme.border}`, padding: '24px', maxHeight: '460px', overflowY: 'auto' }}>
+                <div style={{ background: theme.surface, borderRadius: '16px', border: `1px solid ${theme.border}`, padding: isMobile ? '16px' : '24px', maxHeight: '460px', overflowY: 'auto', overflowX: isMobile ? 'auto' : 'visible' }}>
                     <h3 style={{fontSize:'18px', fontWeight:'bold', marginBottom:'20px', display:'flex', alignItems:'center', gap:'8px'}}><Target size={20} color={theme.warning}/> {t.ultEfficiency}</h3>
                     {ultAnalysis.heroStats.length === 0 ? <div style={{textAlign:'center', color:theme.textSub, marginTop:'40px'}}>{t.noData}</div> : (
-                        <table style={{width:'100%', borderCollapse:'collapse', fontSize:'14px'}}>
-                            <thead style={{ position: 'sticky', top: '-24px', background: theme.surface, zIndex: 1 }}>
+                        <table style={{width:'100%', borderCollapse:'collapse', fontSize:'14px', minWidth: isMobile ? 420 : undefined}}>
+                            <thead style={{ position: 'sticky', top: isMobile ? '-16px' : '-24px', background: theme.surface, zIndex: 1 }}>
                                 <tr style={{borderBottom:`1px solid ${theme.border}`, color: theme.textSub, textAlign:'left'}}>
                                     <th style={{padding:'12px'}}>{t.hero}</th>
                                     <th style={{padding:'12px', textAlign:'center'}}>{t.ultUses} ({t.ultTotal})</th>

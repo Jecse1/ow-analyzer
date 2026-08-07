@@ -427,7 +427,7 @@ function UltimatePatternSection({ recsNow, recsPast, compareOn, minSample, t, GR
             </div>
 
             {/* 메인 표 — 첫 칩 기준 두 섹션(+무궁), 섹션 필터 적용 */}
-            <div style={{ overflowX: 'auto' }}>
+            <div className="mobile-scroll-hint" style={{ overflowX: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <thead style={{ background: T.header }}>
                         <tr>{[
@@ -564,7 +564,7 @@ function UltimateInitiationSection({ recsNow, recsPast, compareOn, minSample, t,
 
     // 표 1개 렌더(우리/상대 공통 구조 — 드릴다운 내용만 다름)
     const renderTable = (tbl, sideWord, openMap, toggle, more, renderDrill) => (
-        <div style={{ overflowX: 'auto' }}>
+        <div className="mobile-scroll-hint" style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead style={{ background: T.header }}>
                     <tr>{[

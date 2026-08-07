@@ -5,6 +5,7 @@ import {
 } from 'recharts';
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
+import { useIsMobile } from "./utils/responsive";
 
 const HERO_ALIAS_MAP = {
     '솔저: 76': '솔저76', '솔저 : 76': '솔저76', 'D.Va': '디바', 'Widowmaker': '위도우메이커', 'Tracer': '트레이서', 'Sojourn': '소전', 'Sierra': '시에라'
@@ -36,6 +37,7 @@ const colorForIndex = (i) => i < PLAYER_COLORS.length ? PLAYER_COLORS[i] : `hsl(
 export default function PlayerCompareView({ playersData }) {
     const { theme } = useTheme();
     const { t } = useLanguage();
+    const isMobile = useIsMobile();
     const roleLabelDisplay = (role) => (role === '탱크' || role === '탱커') ? t.tank : role === '딜러' ? t.dps : (role === '지원' || role === '힐러') ? t.support : role;
 
     const [searchTerm, setSearchTerm] = useState("");
@@ -188,10 +190,10 @@ export default function PlayerCompareView({ playersData }) {
     const cardStyle = { background: theme.surface, borderRadius: '16px', border: `1px solid ${theme.border}`, padding: '24px' };
 
     return (
-        <div style={{ display: 'flex', gap: '32px', alignItems: 'flex-start', width: '100%', maxWidth: '1600px', margin: '0 auto', color: theme.text }}>
+        <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? '16px' : '32px', alignItems: isMobile ? 'stretch' : 'flex-start', width: '100%', maxWidth: '1600px', margin: '0 auto', color: theme.text }}>
 
-            {/* ⬅️ 왼쪽 사이드바: 선수 선택 (체크박스 다중선택) */}
-            <div style={{ width: '280px', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            {/* ⬅️ 왼쪽 사이드바: 선수 선택 (체크박스 다중선택) — 모바일은 상단 전체폭 */}
+            <div style={{ width: isMobile ? '100%' : '280px', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <div>
                     <h2 style={{ fontSize: '18px', fontWeight: '900', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
                         <Users size={20} /> {t.pcRosterTitle}
@@ -231,7 +233,7 @@ export default function PlayerCompareView({ playersData }) {
                     ))}
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', overflowY: 'auto', maxHeight: 'calc(100vh - 320px)', paddingRight: '4px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', overflowY: 'auto', maxHeight: isMobile ? '42vh' : 'calc(100vh - 320px)', paddingRight: '4px' }}>
                     {filteredPlayers.map(p => {
                         const isActive = selectedIds.includes(p.id);
                         const accent = isActive ? colorOf(p.id) : theme.border;
@@ -296,7 +298,7 @@ export default function PlayerCompareView({ playersData }) {
                                 </select>
                             </div>
                         </div>
-                        <div style={{ overflowX: 'auto' }}>
+                        <div className="mobile-scroll-hint" style={{ overflowX: 'auto' }}>
                             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px' }}>
                                 <thead>
                                     <tr>

@@ -36,6 +36,15 @@ button {
   transition: border-color 0.25s;
 }
 
+/* 모바일 가로 스크롤 힌트 — 스크롤 컨테이너 우측 가장자리에 은은한 페이드(스크롤 가능함 암시).
+   데스크톱(≥768px)은 미적용(회귀 없음). 표시 전용. */
+@media (max-width: 767px) {
+  .mobile-scroll-hint {
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 20px), transparent);
+    mask-image: linear-gradient(to right, #000 calc(100% - 20px), transparent);
+  }
+}
+
 /* 스크롤바 커스텀 (다크모드) */
 ::-webkit-scrollbar {
   width: 8px;

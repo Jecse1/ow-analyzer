@@ -6,6 +6,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { fetchCached } from './utils/apiCache';
 import { useLanguage } from "./LanguageContext";
+import { useIsMobile } from "./utils/responsive";
 import {
     T, tpl, isKnown,
     useFightScope, FightScopeShell, SubTabPills, PerspectiveNotice, ExplainBox,
@@ -153,6 +154,7 @@ function TopHeroesCell({ top, t }) {
 
 export default function MapAnalysisStats({ onGoSession }) {
     const { t } = useLanguage();
+    const isMobile = useIsMobile();
 
     const [data, setData] = useState(null); // { meta, records }
     const [loading, setLoading] = useState(true);
@@ -270,7 +272,7 @@ export default function MapAnalysisStats({ onGoSession }) {
             : { txt: t.maResultUnknown, color: T.faint };
 
     const summaryCard = (label, value, sub) => (
-        <div style={{ flex: 1, background: T.panel, border: `1px solid ${T.panelBorder}`, borderRadius: '8px', padding: '12px 16px' }}>
+        <div style={{ flex: 1, minWidth: isMobile ? 150 : undefined, background: T.panel, border: `1px solid ${T.panelBorder}`, borderRadius: '8px', padding: '12px 16px' }}>
             <div style={{ fontSize: '11px', color: T.sub, marginBottom: '6px' }}>{label}</div>
             <div style={{ fontSize: '18px', fontWeight: 700, color: T.text }}>{value}</div>
             {sub && <div style={{ fontSize: '11px', color: T.faint, marginTop: '4px' }}>{sub}</div>}
@@ -294,7 +296,7 @@ export default function MapAnalysisStats({ onGoSession }) {
 
             {/* 요약 카드: 전체 맵 승률 · 최강 맵 타입 · 최약 맵 타입 */}
             {!loading && !error && (
-                <div style={{ display: 'flex', gap: '12px', marginBottom: '4px' }}>
+                <div style={{ display: 'flex', flexWrap: isMobile ? 'wrap' : 'nowrap', gap: '12px', marginBottom: '4px' }}>
                     {summaryCard(t.maSummaryOverall,
                         overallMs.win == null ? '-' : (
                             <span>
@@ -315,7 +317,7 @@ export default function MapAnalysisStats({ onGoSession }) {
             {/* ① 맵 타입 요약 (frame_065) — 행 클릭 → 그 타입의 맵별 드릴다운 */}
             <h2 style={sectionTitle}>{t.maTypeTitle}</h2>
             <p style={{ color: T.faint, fontSize: '11px', margin: '0 0 8px' }}>{t.maTypeHint}</p>
-            <div style={{ overflowX: 'auto' }}>
+            <div className="mobile-scroll-hint" style={{ overflowX: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <thead style={{ background: T.header }}>
                         <tr>{[t.maColType, t.maColPlayRate, t.maColMapWin, t.maColFightWin, t.maColDelta, t.maColTrend, t.maColTopHeroes]
@@ -375,7 +377,7 @@ export default function MapAnalysisStats({ onGoSession }) {
             {/* ② 맵별 상세 (frame_066) — 행 클릭 → 매치 목록 펼침 */}
             <h2 style={sectionTitle}>{t.maMapsTitle}</h2>
             <p style={{ color: T.faint, fontSize: '11px', margin: '0 0 8px' }}>{t.maMapsHint}</p>
-            <div style={{ overflowX: 'auto' }}>
+            <div className="mobile-scroll-hint" style={{ overflowX: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <thead style={{ background: T.header }}>
                         <tr>{[t.maColMap, t.maColType, t.maColPlayRate, t.maColMapWin, t.maColFightWin, t.maColDelta, t.maColTrend, t.maColTopHeroes]
@@ -450,7 +452,7 @@ export default function MapAnalysisStats({ onGoSession }) {
             <SubTabPills active={weekMetric} onChange={setWeekMetric}
                 tabs={[['fight', t.maWeeklyMetricFight], ['map', t.maWeeklyMetricMap], ['picks', t.maWeeklyMetricPicks]]} />
             {!loading && !error && weekly && (
-                <div style={{ overflowX: 'auto' }}>
+                <div className="mobile-scroll-hint" style={{ overflowX: 'auto' }}>
                     <table style={{ borderCollapse: 'collapse' }}>
                         <thead style={{ background: T.header }}>
                             <tr>

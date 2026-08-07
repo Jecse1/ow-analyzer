@@ -588,7 +588,7 @@ function SummaryLogModal(props: {
           props.scrimMode ? (
             <FinishBarForA t={props.t} onSubmit={(resultA, scoreA, scoreB) => props.onFinishSetA(resultA, scoreA, scoreB)} dark={props.dark} />
           ) : (
-            <div className="mt-4 grid grid-cols-2 gap-2">
+            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-2">
               <button
                 className={`px-3 py-2 rounded-lg border bp-touch ${props.dark ? "border-neutral-700 bg-neutral-900 text-white" : "border-neutral-300 bg-white text-neutral-900"}`}
                 onClick={() => props.onFinishSet("A")}
@@ -827,10 +827,10 @@ function ScrimSummaryModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* [수정됨] 배경 클릭 시 닫히는 이벤트 제거 */}
       <div className="absolute inset-0 bg-black/60" />
-      
+
       <div className={`relative z-10 w-full max-w-2xl ${wrap}`}>
         <div className="font-semibold mb-2">스크림 요약</div>
         <textarea
@@ -838,7 +838,7 @@ function ScrimSummaryModal({
           readOnly
           value={lines}
         />
-        <div className="mt-3 flex items-center gap-2">
+        <div className="mt-3 flex flex-wrap items-center gap-2">
           <button
             className={`px-3 py-2 rounded-lg border ${dark ? "border-neutral-700" : "border-neutral-300"}`}
             onClick={() => {

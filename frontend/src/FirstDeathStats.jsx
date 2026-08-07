@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { AlertOctagon, ArrowUpDown, Users, Calendar, ChevronDown, ChevronUp, Skull, Shield, Sword } from 'lucide-react';
 import { useTheme } from "./ThemeContext";
+import { useIsMobile, ScrollX } from "./utils/responsive";
 import { useLanguage } from "./LanguageContext";
 
 const normalizeName = (name) => (name ? name.trim() : "");
@@ -143,6 +144,7 @@ const getTopN = (arr, key, n = 5) => {
 export default function FirstDeathStats({ allScrims }) {
     const { theme } = useTheme();
     const { t } = useLanguage();
+    const isMobile = useIsMobile();
     const roleLabelDisplay = (role) => role === '탱커' ? t.tank : role === '딜러' ? t.dps : role === '힐러' ? t.support : role;
     const [selectedRole, setSelectedRole] = useState('All');
     const [sortConfig, setSortConfig] = useState({ key: 'rate', direction: 'desc' });
@@ -269,12 +271,12 @@ export default function FirstDeathStats({ allScrims }) {
     const selectStyle = { background: theme.bg, color: theme.text, border: `1px solid ${theme.borderHighlight}`, padding: '8px 12px', borderRadius: '8px', outline: 'none', fontSize: '13px', fontWeight: 'bold', cursor: 'pointer' };
 
     return (
-        <div style={{ padding: '40px', maxWidth: '1200px', margin: '0 auto', color: theme.text }}>
-            <div style={{ marginBottom: '32px' }}>
-                <h1 style={{ fontSize: '32px', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <AlertOctagon size={36} color={DANGER_COLOR} /> {t.fdTitle}
+        <div style={{ padding: isMobile ? '20px 12px' : '40px', maxWidth: '1200px', margin: '0 auto', color: theme.text }}>
+            <div style={{ marginBottom: isMobile ? '20px' : '32px' }}>
+                <h1 style={{ fontSize: isMobile ? '24px' : '32px', fontWeight: '900', display: 'flex', alignItems: 'center', gap: isMobile ? '10px' : '12px' }}>
+                    <AlertOctagon size={isMobile ? 26 : 36} color={DANGER_COLOR} /> {t.fdTitle}
                 </h1>
-                <p style={{ color: theme.textSub, marginTop: '8px' }}>{t.fdDesc}</p>
+                <p style={{ color: theme.textSub, marginTop: '8px', fontSize: isMobile ? '13px' : undefined }}>{t.fdDesc}</p>
             </div>
 
             {/* 필터 섹션 */}
@@ -313,7 +315,8 @@ export default function FirstDeathStats({ allScrims }) {
             </div>
 
             <div style={{ background: theme.bg, borderRadius: '16px', border: `1px solid ${theme.border}`, overflow: 'hidden', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <ScrollX isMobile={isMobile} fade={theme.bg}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: isMobile ? 640 : undefined }}>
                     <thead style={{ background: theme.surfaceHighlight }}>
                         <tr>
                             <th style={{ padding: '16px', textAlign: 'center', fontSize: '13px', color: theme.textSub }}>#</th>
@@ -364,7 +367,7 @@ export default function FirstDeathStats({ allScrims }) {
                                     {isExpanded && (
                                         <tr style={{ background: theme.surfaceHighlight, borderBottom: `2px solid ${theme.border}` }}>
                                             <td colSpan="7" style={{ padding: '0 24px 24px 24px' }}>
-                                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', background: theme.bg, padding: '20px', borderRadius: '12px', border: `1px solid ${theme.border}40` }}>
+                                                <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: isMobile ? '12px' : '20px', background: theme.bg, padding: isMobile ? '14px' : '20px', borderRadius: '12px', border: `1px solid ${theme.border}40` }}>
                                                     <div>
                                                         <h4 style={{ fontSize: '13px', color: theme.textSub, marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}><Skull size={14} color={DANGER_COLOR}/> {t.fdNemesis}</h4>
                                                         {getTopN(p.deathLogs, 'killerName', 5).map((target, i) => {
@@ -421,6 +424,7 @@ export default function FirstDeathStats({ allScrims }) {
                         })}
                     </tbody>
                 </table>
+                </ScrollX>
             </div>
         </div>
     );

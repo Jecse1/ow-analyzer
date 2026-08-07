@@ -4,6 +4,7 @@ import { ChevronLeft, RefreshCw, Search, X, Youtube, Zap, Skull, Trophy, Map as 
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, Cell } from "recharts";
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
+import { useIsMobile, ScrollX } from "./utils/responsive";
 import { tpl } from "./FightLabStats";
 import { computeFights } from './utils/fightAnalysis';
 import { buildMapSummary } from './utils/mapSummary';
@@ -140,6 +141,7 @@ function SummaryTab({ theme, t, tpl, pct0, summary, summaryTeam, stats, topHero,
 export default function OverallStats({ onBack, onGoSessions }) {
   const { theme } = useTheme();
   const { t } = useLanguage();
+  const isMobile = useIsMobile();
 
   const [loading, setLoading] = useState(true);
   const [reloading, setReloading] = useState(false);
@@ -637,7 +639,7 @@ export default function OverallStats({ onBack, onGoSessions }) {
   };
 
   const TabButton = ({ id, label, icon: Icon }) => (
-    <button onClick={() => setActiveTab(id)} style={{ flex: 1, padding: '12px', background: activeTab === id ? theme.surfaceHighlight : 'transparent', border: 'none', borderBottom: activeTab === id ? `2px solid ${theme.primary}` : `2px solid ${theme.border}`, color: activeTab === id ? theme.text : theme.textSub, fontWeight: 'bold', cursor: 'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:'8px', transition: 'all 0.2s' }}>
+    <button onClick={() => setActiveTab(id)} style={{ flex: isMobile ? '0 0 auto' : 1, whiteSpace: 'nowrap', minHeight: isMobile ? 44 : undefined, padding: '12px', background: activeTab === id ? theme.surfaceHighlight : 'transparent', border: 'none', borderBottom: activeTab === id ? `2px solid ${theme.primary}` : `2px solid ${theme.border}`, color: activeTab === id ? theme.text : theme.textSub, fontWeight: 'bold', cursor: 'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:'8px', transition: 'all 0.2s' }}>
         <Icon size={16}/> {label}
     </button>
   );
@@ -650,8 +652,8 @@ export default function OverallStats({ onBack, onGoSessions }) {
   );
 
   return (
-    <div style={{ padding: "40px", maxWidth: 1200, margin: "0 auto", color: theme.text }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems:'center', marginBottom:'24px' }}>
+    <div style={{ padding: isMobile ? "16px 12px" : "40px", maxWidth: 1200, margin: "0 auto", color: theme.text }}>
+      <div style={{ display: "flex", flexWrap: isMobile ? 'wrap' : 'nowrap', gap: isMobile ? 10 : 0, justifyContent: "space-between", alignItems:'center', marginBottom:'24px' }}>
         <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
           <button onClick={onBack} style={{ background: theme.surface, border: `1px solid ${theme.border}`, color: theme.text, borderRadius: 10, padding: "10px 12px", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 8 }}><ChevronLeft size={16} /> {t.back}</button>
           <h1 style={{ fontSize: 24, fontWeight: 900, margin:0 }}>{t.overall} & {t.osAnalysis}</h1>
@@ -662,8 +664,8 @@ export default function OverallStats({ onBack, onGoSessions }) {
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: '16px', alignItems: 'center', marginBottom: '16px', background: theme.surface, padding: '16px', borderRadius: '12px', border: `1px solid ${theme.border}` }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', color: theme.textSub }}>
+      <div style={{ display: 'flex', flexWrap: isMobile ? 'wrap' : 'nowrap', gap: isMobile ? '10px' : '16px', alignItems: 'center', marginBottom: '16px', background: theme.surface, padding: '16px', borderRadius: '12px', border: `1px solid ${theme.border}` }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', color: theme.textSub, whiteSpace: 'nowrap' }}>
               <Users size={18}/> {t.baseTeam}
           </div>
           <select value={baseTeam} onChange={e => setBaseTeam(e.target.value)} style={{ background: theme.bg, color: theme.text, border: `1px solid ${theme.border}`, padding: '8px 12px', borderRadius: '8px', outline: 'none', fontWeight: 'bold' }}>
@@ -673,7 +675,7 @@ export default function OverallStats({ onBack, onGoSessions }) {
 
           <div style={{ width: '1px', height: '24px', background: theme.border, margin: '0 8px' }}></div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', color: theme.textSub }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', color: theme.textSub, whiteSpace: 'nowrap' }}>
               <Calendar size={18}/> {t.dateFilter}
           </div>
           <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} style={{ background: theme.bg, color: theme.text, border: `1px solid ${theme.border}`, padding: '8px 12px', borderRadius: '8px', colorScheme: theme.mode === 'dark' ? 'dark' : 'light' }} />
@@ -702,7 +704,7 @@ export default function OverallStats({ onBack, onGoSessions }) {
 
       {loading ? ( <div style={{ color: theme.textSub, textAlign:'center', padding:'40px' }}>{t.loading}</div> ) : (
         <>
-            <div style={{ display: 'flex', borderBottom: `1px solid ${theme.border}`, marginBottom: '24px' }}>
+            <div style={{ display: 'flex', overflowX: isMobile ? 'auto' : 'visible', borderBottom: `1px solid ${theme.border}`, marginBottom: '24px' }}>
                 <TabButton id="summary" label={t.osTabSummary} icon={Trophy} />
                 <TabButton id="heroes" label={t.tabHeroes} icon={User} />
                 <TabButton id="maps" label={t.tabMaps} icon={MapIcon} />
@@ -791,20 +793,21 @@ export default function OverallStats({ onBack, onGoSessions }) {
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>
-                            <table style={{width:'100%', borderCollapse:'collapse', fontSize:'14px'}}>
+                            <ScrollX isMobile={isMobile} fade={theme.surface}>
+                            <table style={{width:'100%', borderCollapse:'collapse', fontSize:'14px', minWidth: isMobile ? 480 : undefined}}>
                                 <thead>
                                     <tr style={{borderBottom:`1px solid ${theme.border}`, color: theme.textSub, textAlign:'left'}}>
-                                        <th style={{padding:'12px'}}>{t.hero}</th>
-                                        <th style={{padding:'12px'}}>{t.gamesPlayed}</th>
-                                        <th style={{padding:'12px'}}>{t.winRate}</th>
-                                        <th style={{padding:'12px'}}>{t.avgDmg}</th>
-                                        <th style={{padding:'12px'}}>{t.kda}</th>
+                                        <th style={{padding:'12px', whiteSpace:'nowrap'}}>{t.hero}</th>
+                                        <th style={{padding:'12px', whiteSpace:'nowrap'}}>{t.gamesPlayed}</th>
+                                        <th style={{padding:'12px', whiteSpace:'nowrap'}}>{t.winRate}</th>
+                                        <th style={{padding:'12px', whiteSpace:'nowrap'}}>{t.avgDmg}</th>
+                                        <th style={{padding:'12px', whiteSpace:'nowrap'}}>{t.kda}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {filteredData.heroStats.map((h, i) => (
                                         <tr key={i} style={{borderBottom:`1px solid ${theme.border}`}}>
-                                            <td style={{padding:'12px', fontWeight:'bold'}}>{h.name}</td>
+                                            <td style={{padding:'12px', fontWeight:'bold', whiteSpace:'nowrap'}}>{h.name}</td>
                                             <td style={{padding:'12px'}}>{h.games}</td>
                                             <td style={{padding:'12px', color: h.winRate >= 50 ? theme.success : theme.danger}}>{h.winRate}%</td>
                                             <td style={{padding:'12px'}}>{h.avgDmg.toLocaleString()}</td>
@@ -813,6 +816,7 @@ export default function OverallStats({ onBack, onGoSessions }) {
                                     ))}
                                 </tbody>
                             </table>
+                            </ScrollX>
                         </>
                     ) : <div style={{padding:'40px', textAlign:'center', color: theme.textSub}}>{t.noData}</div>}
                 </div>
@@ -900,9 +904,9 @@ export default function OverallStats({ onBack, onGoSessions }) {
                                         <AlertOctagon size={18} color={theme.warning || '#f59e0b'} />
                                         {t.msLostFightTitle}
                                     </div>
-                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr 1.2fr', gap: '0' }}>
+                                    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1.2fr 1.2fr', gap: isMobile ? '16px' : '0' }}>
                                         {/* 좌: % 요약 */}
-                                        <div style={{ paddingRight: '24px', borderRight: `1px solid ${theme.border}` }}>
+                                        <div style={{ paddingRight: isMobile ? 0 : '24px', paddingBottom: isMobile ? '16px' : 0, borderRight: isMobile ? 'none' : `1px solid ${theme.border}`, borderBottom: isMobile ? `1px solid ${theme.border}` : 'none' }}>
                                             <div style={{ fontSize: '13px', color: accentColor, fontWeight: 'bold', marginBottom: '10px' }}>
                                                 {teamLabel} — {t.msAvgKillRateOnLoss}
                                             </div>
@@ -918,7 +922,7 @@ export default function OverallStats({ onBack, onGoSessions }) {
                                         </div>
 
                                         {/* 중: 퍼스트 데스 TOP 3 */}
-                                        <div style={{ padding: '0 24px', borderRight: `1px solid ${theme.border}` }}>
+                                        <div style={{ padding: isMobile ? '0 0 16px' : '0 24px', borderRight: isMobile ? 'none' : `1px solid ${theme.border}`, borderBottom: isMobile ? `1px solid ${theme.border}` : 'none' }}>
                                             <div style={{ fontSize: '13px', fontWeight: 'bold', color: theme.danger, marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                                                 <Skull size={14} color={theme.danger} /> {t.osFirstDeathTop3}
                                             </div>
@@ -934,7 +938,7 @@ export default function OverallStats({ onBack, onGoSessions }) {
                                         </div>
 
                                         {/* 우: 패배 한타 캐리 TOP 3 */}
-                                        <div style={{ paddingLeft: '24px' }}>
+                                        <div style={{ paddingLeft: isMobile ? 0 : '24px' }}>
                                             <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#60a5fa', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                                                 <Zap size={14} color="#60a5fa" /> {t.osLostFightCarryTop3}
                                             </div>
@@ -960,7 +964,7 @@ export default function OverallStats({ onBack, onGoSessions }) {
                                 <Sword size={18} color={theme.primary || '#a78bfa'} />
                                 {t.msMomentumTitle}
                             </div>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? '12px' : '24px' }}>
                                 {/* 승리 후 승률 */}
                                 <div style={{ background: theme.bg, padding: '20px', borderRadius: '12px', border: `1px solid ${theme.success || '#10b981'}40` }}>
                                     <div style={{ fontSize: '13px', fontWeight: 'bold', color: theme.text, display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>

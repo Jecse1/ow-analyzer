@@ -592,11 +592,11 @@ function MainApp() {
               <div style={{ textAlign: "center", maxWidth: "600px", padding: "0 20px" }}>
                 <h2 style={{ marginBottom: "16px", fontSize: "32px", fontWeight: "800", color: theme.text }}>{t.title}</h2>
                 <p style={{ color: theme.textSub, marginBottom: "40px", fontSize: "16px", lineHeight: "1.6" }}>{t.desc}<br />{t.desc2}</p>
-                <div style={{ display: "flex", gap: "16px", justifyContent: "center" }}>
-                  <button onClick={() => setIsModalOpen(true)} disabled={uploading} style={{ background: isDarkMode ? "#fff" : "#09090b", color: isDarkMode ? "#09090b" : "#fff", border: "none", padding: "14px 32px", borderRadius: "8px", cursor: "pointer", display: "flex", alignItems: "center", gap: "10px", fontSize: "15px", fontWeight: "700" }}>
+                <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", gap: isMobile ? "12px" : "16px", justifyContent: "center", alignItems: "center" }}>
+                  <button onClick={() => setIsModalOpen(true)} disabled={uploading} style={{ background: isDarkMode ? "#fff" : "#09090b", color: isDarkMode ? "#09090b" : "#fff", border: "none", padding: "14px 32px", borderRadius: "8px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", fontSize: "15px", fontWeight: "700", width: isMobile ? "100%" : "auto" }}>
                     {uploading ? t.uploading : <><Upload size={20} /> {t.createScrim}</>}
                   </button>
-                  <button onClick={goSessions} style={{ background: theme.surfaceHighlight, color: theme.text, border: `1px solid ${theme.borderHighlight}`, padding: "14px 32px", borderRadius: "8px", cursor: "pointer", display: "flex", alignItems: "center", gap: "10px", fontSize: "15px", fontWeight: "600" }}>
+                  <button onClick={goSessions} style={{ background: theme.surfaceHighlight, color: theme.text, border: `1px solid ${theme.borderHighlight}`, padding: "14px 32px", borderRadius: "8px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", fontSize: "15px", fontWeight: "600", width: isMobile ? "100%" : "auto" }}>
                     <History size={20} /> {t.viewHistory}
                   </button>
                 </div>
