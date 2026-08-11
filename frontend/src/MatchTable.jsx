@@ -22,7 +22,7 @@ const MatchTable = ({ stats }) => {
   // 역할 구분
   const getRole = (hero) => {
     if (!hero) return 'dps';
-    const tanks = ['D.Va', 'Winston', 'Reinhardt', 'Zarya', 'Sigma', 'Doomfist', 'Junker Queen', 'Mauga', 'Orisa', 'Ramattra', 'Roadhog', 'Wrecking Ball', 'Hazard'];
+    const tanks = ['D.Va', 'Winston', 'Reinhardt', 'Zarya', 'Sigma', 'Doomfist', 'Junker Queen', 'Mauga', 'Orisa', 'Ramattra', 'Roadhog', 'Wrecking Ball', 'Hazard', 'D.Mon'];
     const supports = ['Ana', 'Baptiste', 'Brigitte', 'Illari', 'Kiriko', 'Lifeweaver', 'Lucio', 'Mercy', 'Moira', 'Zenyatta', 'Juno', '우양'];
     if (tanks.includes(hero)) return 'tank';
     if (supports.includes(hero)) return 'support';

@@ -19,6 +19,8 @@ const getHeroImageSrc = (heroName) => {
     const exactFileNames = {
         'D.Va': 'dva',
         '디바': 'dva',
+        'D.Mon': '디몬',
+        '디몬': '디몬',
         '솔저: 76': 'soldier76',
         '솔저 76': 'soldier76',
         '솔져: 76': 'soldier76',

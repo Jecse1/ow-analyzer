@@ -40,7 +40,7 @@ const resolveTeamColor = (teamName, t1Name, t2Name) => {
 };
 
 const HERO_ALIAS_MAP = {
-    '솔저: 76': '솔저76', '솔저 : 76': '솔저76', 'D.Va': '디바', 'Widowmaker': '위도우메이커', 'Tracer': '트레이서', 'Sojourn': '소전', 'Sierra': '시에라'
+    '솔저: 76': '솔저76', '솔저 : 76': '솔저76', 'D.Va': '디바', 'D.Mon': '디몬', 'Widowmaker': '위도우메이커', 'Tracer': '트레이서', 'Sojourn': '소전', 'Sierra': '시에라'
 };
 
 const HERO_SKILL_MAP = {
@@ -91,6 +91,8 @@ const HERO_SKILL_MAP = {
     '젠야타': { 'Ability 1': '조화의 구슬', 'Ability 2': '부조화의 구슬', 'Ultimate': '초월' },
     '우양': { 'Ability 1': '격류', 'Ability 2': '수호의 파도', 'Ultimate': '해일 폭발' },
     '도미나': { 'Ability 1': '소닉 리펄서', 'Ability 2': '수정 발사', 'Ultimate': '판옵티콘' },
+    // 슬롯 1=Shift(추진기)/2=E(융합 연발총) 추정 — 첫 실로그로 확정
+    '디몬': { 'Ability 1': '추진기', 'Ability 2': '융합 연발총', 'Ultimate': '한계 돌파' },
     '미즈키': { 'Ability 1': '종이 인형 분신술', 'Ability 2': '속박 사슬', 'Ultimate': '결계 성역' },
     '제트팩 캣': { 'Ability 1': '생명줄', 'Ability 2': '골골대기', 'Ultimate': '납치한다냥' },
     '시에라': { 'Ability 1': '앵커 드론', 'Ability 2': '진동 폭약', 'Ultimate': '개척자' },
@@ -105,7 +107,7 @@ const getDisplayHeroName = (rawName) => {
 const getHeroImageSrc = (heroName) => {
   if (!heroName || heroName === 'Unknown') return null;
   const exactFileNames = {
-    'D.Va': 'dva', '디바': 'dva',
+    'D.Va': 'dva', '디바': 'dva', 'D.Mon': '디몬', '디몬': '디몬',
     '솔저: 76': 'soldier76', '솔저 76': 'soldier76', 'Soldier: 76': 'soldier76',
     '제트팩 캣': 'jetpackcat', 'Jetpack Cat': 'jetpackcat', '시에라': 'sierra'
   };
@@ -117,7 +119,7 @@ const getHeroImageSrc = (heroName) => {
 
 const getRoleInfo = (heroName) => {
     const name = getDisplayHeroName(heroName);
-    const tanks = ['디바', 'D.Va', '둠피스트', 'Doomfist', '정커퀸', 'Junker Queen', '마우가', 'Mauga', '오리사', 'Orisa', '라마트라', 'Ramattra', '라인하르트', 'Reinhardt', '로드호그', 'Roadhog', '시그마', 'Sigma', '윈스턴', 'Winston', '레킹볼', 'Wrecking Ball', '자리야', 'Zarya', '해저드', 'Hazard', '도미나', 'Domina'];
+    const tanks = ['디바', 'D.Va', '둠피스트', 'Doomfist', '정커퀸', 'Junker Queen', '마우가', 'Mauga', '오리사', 'Orisa', '라마트라', 'Ramattra', '라인하르트', 'Reinhardt', '로드호그', 'Roadhog', '시그마', 'Sigma', '윈스턴', 'Winston', '레킹볼', 'Wrecking Ball', '자리야', 'Zarya', '해저드', 'Hazard', '도미나', 'Domina', '디몬', 'D.Mon'];
     const supports = ['아나', 'Ana', '바티스트', 'Baptiste', '브리기테', 'Brigitte', '일리아리', 'Illari', '키리코', 'Kiriko', '라이프위버', 'Lifeweaver', '루시우', 'Lucio', '메르시', 'Mercy', '모이라', 'Moira', '젠야타', 'Zenyatta', '주노', 'Juno', '미즈키', 'Mizuki', '제트팩 캣', 'Jetpack Cat', '우양', 'Wuyang'];
     
     if (tanks.includes(name) || tanks.includes(heroName)) return { label: 'tank', order: 1 };

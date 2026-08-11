@@ -13,7 +13,7 @@ const OUR_TEAM = "FLC";
 const MIN_FIGHTS = 30;
 
 const HERO_ALIAS_MAP = {
-    '솔저: 76': '솔저76', '솔저 : 76': '솔저76', 'D.Va': '디바', 'Widowmaker': '위도우메이커', 'Tracer': '트레이서', 'Sojourn': '소전', 'Sierra': '시에라'
+    '솔저: 76': '솔저76', '솔저 : 76': '솔저76', 'D.Va': '디바', 'D.Mon': '디몬', 'Widowmaker': '위도우메이커', 'Tracer': '트레이서', 'Sojourn': '소전', 'Sierra': '시에라'
 };
 
 const getDisplayHeroName = (rawName) => {
@@ -24,7 +24,7 @@ const getDisplayHeroName = (rawName) => {
 
 const getRoleInfo = (heroName) => {
     const name = getDisplayHeroName(heroName);
-    const tanks = ['디바', 'D.Va', '둠피스트', 'Doomfist', '정커퀸', 'Junker Queen', '마우가', 'Mauga', '오리사', 'Orisa', '라마트라', 'Ramattra', '라인하르트', 'Reinhardt', '로드호그', 'Roadhog', '시그마', 'Sigma', '윈스턴', 'Winston', '레킹볼', 'Wrecking Ball', '자리야', 'Zarya', '해저드', 'Hazard', '도미나', 'Domina'];
+    const tanks = ['디바', 'D.Va', '둠피스트', 'Doomfist', '정커퀸', 'Junker Queen', '마우가', 'Mauga', '오리사', 'Orisa', '라마트라', 'Ramattra', '라인하르트', 'Reinhardt', '로드호그', 'Roadhog', '시그마', 'Sigma', '윈스턴', 'Winston', '레킹볼', 'Wrecking Ball', '자리야', 'Zarya', '해저드', 'Hazard', '도미나', 'Domina', '디몬', 'D.Mon'];
     const supports = ['아나', 'Ana', '바티스트', 'Baptiste', '브리기테', 'Brigitte', '일리아리', 'Illari', '키리코', 'Kiriko', '라이프위버', 'Lifeweaver', '루시우', 'Lucio', '메르시', 'Mercy', '모이라', 'Moira', '젠야타', 'Zenyatta', '주노', 'Juno', '미즈키', 'Mizuki', '제트팩 캣', 'Jetpack Cat', '우양', 'Wuyang'];
     if (tanks.includes(name)) return { label: '탱커', order: 1 };
     if (supports.includes(name)) return { label: '힐러', order: 3 };
@@ -41,7 +41,7 @@ const getRoleIconSrc = (roleLabel) => {
 const getHeroImageSrc = (heroName) => {
     if (!heroName || heroName === 'Unknown') return null;
     const exactFileNames = {
-        'D.Va': 'dva', '디바': 'dva',
+        'D.Va': 'dva', '디바': 'dva', 'D.Mon': '디몬', '디몬': '디몬',
         '솔저: 76': 'soldier76', '솔저 76': 'soldier76', 'Soldier: 76': 'soldier76',
         '제트팩 캣': 'jetpackcat', 'Jetpack Cat': 'jetpackcat', '시에라': 'sierra'
     };
@@ -66,6 +66,8 @@ const HERO_SKILL_MAP = {
     '레킹볼': { 'Ability 1': '구르기', 'Ability 2': '적응형 보호막', 'Ultimate': '지뢰밭' },
     '자리야': { 'Ability 1': '입자 방벽', 'Ability 2': '방벽 씌우기', 'Ultimate': '중력자탄' },
     '해저드': { 'Ability 1': '가시', 'Ability 2': '매복', 'Ultimate': '폭우' },
+    // 슬롯 1=Shift(추진기)/2=E(융합 연발총) 추정 — 첫 실로그로 확정
+    '디몬': { 'Ability 1': '추진기', 'Ability 2': '융합 연발총', 'Ultimate': '한계 돌파' },
     '애쉬': { 'Ability 1': '충격 샷건', 'Ability 2': '다이너마이트', 'Ultimate': 'B.O.B' },
     '바스티온': { 'Ability 1': '설정: 강습', 'Ability 2': 'A-36 전술 수류탄', 'Ultimate': '설정: 포격' },
     '캐서디': { 'Ability 1': '구르기', 'Ability 2': '자석 수류탄', 'Ultimate': '황야의 무법자' },

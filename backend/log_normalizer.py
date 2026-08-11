@@ -41,6 +41,9 @@ for _ko, _en in KOREAN_HERO_MAP.items():
 #   D.Va : 한국어 클라이언트/로그도 영문 'D.Va'로 기록(DB hero_name/​image 모두 'D.Va').
 #          역매핑은 D.Va→디바를 주지만, 그대로 두면 기존 KR 데이터(D.Va)와 쪼개지므로 항등 고정.
 #          (KR 로그 전수 스캔 결과 hero 컬럼에 영문으로 남는 영웅은 D.Va 단 하나)
+#   D.Mon : D.Va와 동일 패턴(한국 클라이언트도 영문 'D.Mon'으로 기록될 것으로 확정).
+#          KOREAN_HERO_MAP('디몬':'D.Mon')이 역파생 D.Mon→디몬을 주지만, 실로그 'D.Mon'을
+#          '디몬'으로 바꾸면 데이터가 쪼개지므로 항등 고정. (첫 실로그 입고 시 표기 최종 확인)
 _HERO_EN2KO_EXPLICIT: dict[str, str] = {
     "Lúcio": "루시우",
     "Lucio": "루시우",   # 액센트 없는 표기도 방어적으로 커버
@@ -48,6 +51,7 @@ _HERO_EN2KO_EXPLICIT: dict[str, str] = {
     "Vendetta": "벤데타",
     "Wuyang": "우양",
     "D.Va": "D.Va",      # 무변환(항등) — 경고 없이 원문 유지, 디바로 바꾸지 않음
+    "D.Mon": "D.Mon",    # 무변환(항등) — D.Va와 동일 근거, 디몬으로 바꾸지 않음
 }
 HERO_EN2KO: dict[str, str] = {**_HERO_EN2KO, **_HERO_EN2KO_EXPLICIT}
 

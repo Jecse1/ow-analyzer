@@ -236,6 +236,7 @@ const HERO_CSV = `
  junker-queen,정커퀸,Tank
  hazard,해저드,Tank
  domina,도미나,Tank
+ dmon,디몬,Tank
 // Damage
  genji,겐지,Damage
  reaper,리퍼,Damage

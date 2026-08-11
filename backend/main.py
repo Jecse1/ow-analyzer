@@ -107,9 +107,9 @@ if not os.path.exists(ROW_DATA_DIR):
 # --- 상수 및 매핑 데이터 ---
 TANKS = [
     'D.Va', 'Doomfist', 'Junker Queen', 'Mauga', 'Orisa', 'Ramattra', 'Reinhardt',
-    'Roadhog', 'Sigma', 'Winston', 'Wrecking Ball', 'Zarya', 'Hazard', 'Domina',
+    'Roadhog', 'Sigma', 'Winston', 'Wrecking Ball', 'Zarya', 'Hazard', 'Domina', 'D.Mon',
     '디바', '둠피스트', '정커퀸', '마우가', '오리사', '라마트라', '라인하르트',
-    '로드호그', '시그마', '윈스턴', '레킹볼', '자리야', '해저드', '도미나'
+    '로드호그', '시그마', '윈스턴', '레킹볼', '자리야', '해저드', '도미나', '디몬'
 ]
 SUPPORTS = [
     'Ana', 'Baptiste', 'Brigitte', 'Illari', 'Kiriko', 'Lifeweaver', 'Lucio',
@@ -126,7 +126,7 @@ PLAYER_ROLE_OVERRIDES = {
 KOREAN_HERO_MAP = {
     '디바': 'D.Va', '둠피스트': 'Doomfist', '정커퀸': 'Junker Queen', '마우가': 'Mauga', '오리사': 'Orisa',
     '라마트라': 'Ramattra', '라인하르트': 'Reinhardt', '로드호그': 'Roadhog', '시그마': 'Sigma',
-    '윈스턴': 'Winston', '레킹볼': 'Wrecking Ball', '자리야': 'Zarya', '해저드': 'Hazard', '도미나': 'Domina',
+    '윈스턴': 'Winston', '레킹볼': 'Wrecking Ball', '자리야': 'Zarya', '해저드': 'Hazard', '도미나': 'Domina', '디몬': 'D.Mon',
     '애쉬': 'Ashe', '바스티온': 'Bastion', '캐서디': 'Cassidy', '에코': 'Echo', '겐지': 'Genji',
     '한조': 'Hanzo', '정크랫': 'Junkrat', '메이': 'Mei', '파라': 'Pharah', '리퍼': 'Reaper',
     '소전': 'Sojourn', '솔저: 76': 'Soldier: 76', '솔저 76': 'Soldier: 76', '솜브라': 'Sombra',
@@ -2014,7 +2014,7 @@ _FIGHTLAB_TANKS = [
     '디바', 'D.Va', '둠피스트', 'Doomfist', '정커퀸', 'Junker Queen', '마우가', 'Mauga',
     '오리사', 'Orisa', '라마트라', 'Ramattra', '라인하르트', 'Reinhardt', '로드호그', 'Roadhog',
     '시그마', 'Sigma', '윈스턴', 'Winston', '레킹볼', 'Wrecking Ball', '자리야', 'Zarya',
-    '해저드', 'Hazard', '도미나', 'Domina',
+    '해저드', 'Hazard', '도미나', 'Domina', '디몬', 'D.Mon',
 ]
 _FIGHTLAB_SUPPORTS = [
     '아나', 'Ana', '바티스트', 'Baptiste', '브리기테', 'Brigitte', '일리아리', 'Illari',
