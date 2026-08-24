@@ -349,3 +349,29 @@ def tick(state):
     if state["timer"] <= 0:
         apply_timeout(state)
     return True
+
+
+def redact_view(state, viewer_role):
+    """뷰어별 상태 뷰(서버 권위). ③ 블라인드 픽:
+    HERO_PICK 중 '양 팀 락(pickLocked) 전'에는 상대 팀의 픽 슬롯을 숨긴다.
+    공개 정보(맵/밴/락 여부/픽 개수)는 남기고, 상대가 '무엇을' 골랐는지만 가린다.
+    양 팀 모두 락되면(pickLocked) 또는 픽 페이즈가 아니면 전체 공개.
+    ※ 원본 state는 변경하지 않는다(얕은 복사 + 슬롯만 교체)."""
+    pick_count = {
+        "A": sum(1 for h in state["pickSlots"]["A"] if h),
+        "B": sum(1 for h in state["pickSlots"]["B"] if h),
+    }
+    view = dict(state)
+    view["pickCount"] = pick_count
+    hide = state.get("phase") == "HERO_PICK" and not state.get("pickLocked")
+    if not hide or viewer_role not in ("A", "B"):
+        return view
+    opp = _other(viewer_role)
+    view["pickSlots"] = {
+        viewer_role: list(state["pickSlots"][viewer_role]),
+        opp: [None] * len(state["pickSlots"][opp]),
+    }
+    active = dict(state["activeSlot"])
+    active[opp] = 0  # 상대 진행 위치도 노출하지 않음(개수만 pickCount로)
+    view["activeSlot"] = active
+    return view

@@ -98,7 +98,123 @@ def test_series_end():
     print("test_series_end OK — winsA reached targetWins")
 
 
+def test_interleaved_picks():
+    """④ 회귀: 양 팀 픽을 '번갈아(인터리브)' 입력해도 서버가 팀별 슬롯을 독립 유지하고,
+    미러픽을 허용하며, 한 팀의 픽이 상대 슬롯/선택지를 제한하지 않는다.
+    (기존 test_full_draft는 A 5픽 → B 5픽 '순차'만 검증해 이 결함을 놓쳤다.)"""
+    rng = random.Random(7)
+    st = sm.new_state({"mode": 3, "sets": 3}, rng=rng)
+    sm.set_ready(st, "A", True)
+    sm.set_ready(st, "B", True)
+    sm.start(st, rng=rng)
+    picker = st["mapPicker"]
+    sm.apply_map_pick(st, picker, _first_pickable_map(st), "PICKER")
+    b1 = st["turn"]
+    sm.apply_ban(st, b1, _heroes_by_role("Tank")[0])
+    b2 = st["turn"]
+    sm.apply_ban(st, b2, _heroes_by_role("Damage")[0])
+    assert st["phase"] == "HERO_PICK"
+
+    banned = set(st["bans"]["A"]) | set(st["bans"]["B"])
+    tanks = _heroes_by_role("Tank", exclude=banned)
+    a_tank, b_tank = tanks[0], tanks[1]
+
+    # pickSlots가 팀별 '진짜 독립' 객체인지 (JS→Python 포팅 aliasing 방지)
+    assert st["pickSlots"]["A"] is not st["pickSlots"]["B"]
+
+    # A가 탱커 픽 → B 슬롯은 그대로 비어 있어야 (누수 금지)
+    sm.apply_pick_toggle(st, "A", a_tank)
+    assert st["pickSlots"]["A"][0] == a_tank
+    assert st["pickSlots"]["B"][0] is None, "A의 픽이 B 슬롯으로 새면 안 됨(#4)"
+
+    # B가 '다른' 탱커 픽 가능 (A 픽이 B 선택지를 제한하지 않음)
+    sm.apply_pick_toggle(st, "B", b_tank)
+    assert st["pickSlots"]["B"][0] == b_tank
+    assert st["pickSlots"]["A"][0] == a_tank  # A는 불변
+
+    # 미러픽 허용: B가 A와 같은 탱커도 픽 가능
+    sm.apply_pick_toggle(st, "B", b_tank)   # 해제
+    assert st["pickSlots"]["B"][0] is None
+    sm.apply_pick_toggle(st, "B", a_tank)   # 미러
+    assert st["pickSlots"]["B"][0] == a_tank, "동시 픽이므로 미러픽은 허용이어야 함"
+    assert st["pickSlots"]["A"][0] == a_tank
+
+    # 되돌려 b_tank로 두고 나머지 슬롯을 인터리브로 채움
+    sm.apply_pick_toggle(st, "B", a_tank)   # 해제
+    sm.apply_pick_toggle(st, "B", b_tank)   # 다시 b_tank
+    used = set(banned) | {a_tank, b_tank}
+    for i in range(1, len(sm.SLOT_ROLES)):
+        role = sm.SLOT_ROLES[i]
+        ha = next(h for h in _heroes_by_role(role, exclude=used)); used.add(ha)
+        hb = next(h for h in _heroes_by_role(role, exclude=used)); used.add(hb)
+        sm.apply_pick_toggle(st, "A", ha)   # A 먼저
+        sm.apply_pick_toggle(st, "B", hb)   # 그 다음 B — 번갈아
+        assert st["pickSlots"]["A"][i] == ha
+        assert st["pickSlots"]["B"][i] == hb
+
+    assert all(st["pickSlots"]["A"]) and all(st["pickSlots"]["B"])
+    sm.apply_pick_lock(st, "A")
+    sm.apply_pick_lock(st, "B")
+    assert st["pickLocked"] and st["awaitingResult"]
+    print("test_interleaved_picks OK — 팀별 슬롯 독립 유지, 미러 허용, 상대 무제한")
+
+
+def test_blind_pick_redaction():
+    """③ redact_view: 픽 진행 중 상대 픽 은닉 / 한 팀만 락 시 여전히 은닉 /
+    양 팀 락 후 전체 공개 / 픽 개수는 항상 공개 / 자기 슬롯은 항상 유지(재접속 복원 포함)."""
+    rng = random.Random(11)
+    st = sm.new_state({"mode": 3, "sets": 3}, rng=rng)
+    sm.set_ready(st, "A", True)
+    sm.set_ready(st, "B", True)
+    sm.start(st, rng=rng)
+    picker = st["mapPicker"]
+    sm.apply_map_pick(st, picker, _first_pickable_map(st), "PICKER")
+    b1 = st["turn"]
+    sm.apply_ban(st, b1, _heroes_by_role("Tank")[0])
+    b2 = st["turn"]
+    sm.apply_ban(st, b2, _heroes_by_role("Damage")[0])
+    assert st["phase"] == "HERO_PICK"
+
+    banned = set(st["bans"]["A"]) | set(st["bans"]["B"])
+    a_tank = next(h for h in _heroes_by_role("Tank", exclude=banned))
+    sm.apply_pick_toggle(st, "A", a_tank)
+
+    # B의 뷰: 상대(A) 픽은 숨기고 개수만 공개 / 자기(B) 슬롯은 그대로
+    vb = sm.redact_view(st, "B")
+    assert vb["pickSlots"]["A"] == [None] * 5, "픽 진행 중 상대(A) 슬롯은 은닉"
+    assert vb["pickCount"]["A"] == 1, "픽 개수는 공개"
+    assert vb["pickSlots"]["B"] == st["pickSlots"]["B"], "자기 슬롯은 유지(재접속 복원)"
+    # A의 뷰: 자기 픽 보이고 B(아직 0개) 은닉
+    va = sm.redact_view(st, "A")
+    assert va["pickSlots"]["A"][0] == a_tank
+    assert va["pickSlots"]["B"] == [None] * 5
+    # 원본 state는 redact로 변형되지 않아야
+    assert st["pickSlots"]["A"][0] == a_tank
+
+    # 양 팀 5픽 채움
+    used = set(banned) | {a_tank}
+    for i in range(1, 5):
+        h = next(x for x in _heroes_by_role(sm.SLOT_ROLES[i], exclude=used)); used.add(h)
+        sm.apply_pick_toggle(st, "A", h)
+    for i in range(0, 5):
+        h = next(x for x in _heroes_by_role(sm.SLOT_ROLES[i], exclude=used)); used.add(h)
+        sm.apply_pick_toggle(st, "B", h)
+
+    sm.apply_pick_lock(st, "A")
+    assert not st["pickLocked"], "한 팀만 락된 상태"
+    assert sm.redact_view(st, "B")["pickSlots"]["A"] == [None] * 5, "한 팀만 락 시엔 아직 은닉"
+
+    sm.apply_pick_lock(st, "B")
+    assert st["pickLocked"], "양 팀 락"
+    vb3 = sm.redact_view(st, "B")
+    assert vb3["pickSlots"]["A"] == st["pickSlots"]["A"], "양 팀 락 후 전체 공개"
+    assert all(vb3["pickSlots"]["A"]) and all(vb3["pickSlots"]["B"])
+    print("test_blind_pick_redaction OK — 은닉/공개/개수/자기슬롯 유지")
+
+
 if __name__ == "__main__":
     test_full_draft()
     test_series_end()
+    test_interleaved_picks()
+    test_blind_pick_redaction()
     print("ALL PASS")

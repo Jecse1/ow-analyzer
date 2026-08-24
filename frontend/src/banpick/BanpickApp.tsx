@@ -909,6 +909,8 @@ type PickColumnProps = {
   confirmPick: (team: Team) => void;
   canPickForTeam: (team: Team) => boolean;
   heroById: (id: string) => Hero | undefined;
+  hidden?: boolean;        // ③ 블라인드: 상대 열을 공개 전까지 가림
+  hiddenCount?: number;    // 상대의 픽 진행 개수(내용 없이 n/5만)
 };
 const PickColumn = React.memo(function PickColumn({
   team,
@@ -923,6 +925,8 @@ const PickColumn = React.memo(function PickColumn({
   confirmPick,
   canPickForTeam,
   heroById,
+  hidden = false,
+  hiddenCount = 0,
 }: PickColumnProps) {
   const label = team === "A" ? teamName.A : teamName.B;
   const locked = pickLockedTeam[team];
@@ -973,8 +977,20 @@ const PickColumn = React.memo(function PickColumn({
             </span>
           )}
         </div>
-        {/* 픽 완료 — 상태 배지형 버튼: 완료=초록 / 진행가능=파랑 / 대기=중립. 양팀 완료 시 호스트가 승패 결정. */}
-        {(() => {
+        {/* 픽 완료 — 상태 배지형 버튼: 완료=초록 / 진행가능=파랑 / 대기=중립. 양팀 완료 시 호스트가 승패 결정.
+            ③ 상대 열(hidden)은 공개 전까지 '선택 중…(n/5)'/'픽 완료' 상태만 표시. */}
+        {hidden ? (
+          <div
+            className="w-full px-2 py-2 rounded-lg border text-xs font-semibold text-center"
+            style={
+              locked
+                ? { borderColor: "#4ade80", color: "#4ade80", background: "rgba(74,222,128,0.14)" }
+                : { borderColor: "var(--bp-primary)", color: "var(--bp-primary)", background: "rgba(59,130,246,0.14)" }
+            }
+          >
+            {locked ? "✓ 픽 완료" : `선택 중… (${hiddenCount}/5)`}
+          </div>
+        ) : (() => {
           const allFilled = !pickSlots[team].some((v) => v === null);
           const canAct = canPickForTeam(team);
           const done = locked;
@@ -997,6 +1013,16 @@ const PickColumn = React.memo(function PickColumn({
         })()}
       </div>
 
+      {hidden ? (
+        <div className="flex-1 flex flex-col items-center justify-center gap-2 text-center px-3">
+          <div className="text-3xl opacity-80">🕵️</div>
+          <div className="text-sm font-semibold" style={{ color: locked ? "#4ade80" : "var(--bp-primary)" }}>
+            {locked ? "픽 완료" : "선택 중…"}
+          </div>
+          <div className="text-xs opacity-75">{hiddenCount}/5</div>
+          <div className="text-[11px] opacity-60 leading-snug">양 팀이 확정하면<br />동시에 공개됩니다</div>
+        </div>
+      ) : (
       <div className="flex-1 flex flex-col gap-3 overflow-visible">
         {SLOT_ROLES.map((sr, i) => {
           const hid = pickSlots[team][i];
@@ -1027,10 +1053,11 @@ const PickColumn = React.memo(function PickColumn({
           );
         })}
       </div>
+      )}
 
       <div ref={footerRef} className="mt-3 flex items-center shrink-0">
         <span className="text-[11px]">
-          {t.slot} {act + 1}/5
+          {hidden ? `${hiddenCount}/5` : `${t.slot} ${act + 1}/5`}
         </span>
         {/* 픽 완료 버튼은 열 최상단으로 이동함 */}
       </div>
@@ -1301,7 +1328,15 @@ export default function BanpickApp() {
     setPickSlots((v) => remote.pickSlots ?? v);
     setPickLockedTeam((v) => remote.pickLockedTeam ?? v);
     setPickLocked((v) => remote.pickLocked ?? v);
-    setActiveSlot((v) => remote.activeSlot ?? v);
+    // ④/로컬상태 보호: 원격 1v1에서 "내 팀"의 활성 슬롯(=슬롯 포커스)은 로컬 UI 상태다.
+    // 상대 픽으로 도착한 브로드캐스트가 내 슬롯 포커스·역할 필터를 리셋하던 버그(#4) 차단.
+    // 내 팀 값은 유지하고, 상대 팀 활성 슬롯만 서버를 따른다(표시용 — ③ 블라인드에선 어차피 숨김).
+    setActiveSlot((v) => {
+      if (!remote.activeSlot) return v;
+      if (!remoteMode || !myTeamRole) return remote.activeSlot;
+      const opp: Team = myTeamRole === "A" ? "B" : "A";
+      return { ...v, [opp]: remote.activeSlot[opp] };
+    });
 
     setScrimMode((v) => remote.scrimMode ?? v);
     setScrimActive((v) => remote.scrimActive ?? v);
@@ -1315,6 +1350,21 @@ export default function BanpickApp() {
     setLogs((v) => remote.logs ?? v);
     setFirstSetPicker((v) => remote.firstSetPicker ?? v);
   }, [remote, syncOn, myRole]);
+
+  // ④/로컬상태 보호: 내 활성 슬롯 진행은 "내 확정 픽이 바뀔 때만" 로컬로 계산한다.
+  // 상대 브로드캐스트로는 재계산하지 않으므로(키가 내 슬롯에만 의존) 내 슬롯 포커스가 유지된다.
+  const myPickSlotsKey =
+    remoteMode && myTeamRole && remote?.pickSlots
+      ? (remote.pickSlots[myTeamRole] as (string | null)[]).map((h) => h ?? "").join(",")
+      : "";
+  useEffect(() => {
+    if (!remoteMode || !myTeamRole || !remote?.pickSlots) return;
+    const mine = remote.pickSlots[myTeamRole] as (string | null)[];
+    const firstEmpty = mine.findIndex((h) => h == null);
+    if (firstEmpty === -1) return;
+    setActiveSlot((v) => (v[myTeamRole] === firstEmpty ? v : { ...v, [myTeamRole]: firstEmpty }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [myPickSlotsKey, remoteMode, myTeamRole]);
 
   // ★ HOST도 게스트 patch를 받아서 로컬로 흡수 (되돌림 방지)
   useEffect(() => {
@@ -1941,6 +1991,41 @@ export default function BanpickApp() {
               {phase === "HERO_PICK" && STR[lang].heroPick}
             </h2>
 
+            {/* ① 현재 맵 상시 표시 + ② 양 팀 밴 목록 — 밴/픽 페이즈 상시(데스크톱+모바일 공용).
+                맵 선택 화면(MAP_PICK)엔 자체 UI가 있으므로 제외. HERO_BAN_ONLY 모드는 맵 숨김. */}
+            {phase !== "MAP_PICK" && (
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-3 text-xs">
+                {mode !== MODE.HERO_BAN_ONLY && selectedMap && (() => {
+                  const m = MAPS.find((x) => x.id === selectedMap);
+                  if (!m) return null;
+                  return (
+                    <span className="inline-flex items-center gap-1 px-2 py-1 rounded-lg border" style={{ borderColor: "var(--bp-border2)", background: "var(--bp-surface2)" }}>
+                      <span className="opacity-70">{t.selectedMap}:</span>
+                      <b className="truncate max-w-[160px]">{m.name}</b>
+                      <MapTypeBadge type={m.type} lang={lang} />
+                    </span>
+                  );
+                })()}
+                {(["A", "B"] as Team[]).map((tm) => (
+                  <span key={tm} className="inline-flex items-center gap-1 px-2 py-1 rounded-lg border" style={{ borderColor: "var(--bp-border2)", background: "var(--bp-surface2)" }}>
+                    <span className="opacity-70">{(tm === "A" ? teamName.A : teamName.B)} {t.banned}:</span>
+                    {bans[tm].length === 0 ? (
+                      <span className="opacity-40">—</span>
+                    ) : (
+                      bans[tm].map((hid) => (
+                        <span key={hid} className="inline-flex items-center gap-1">
+                          <span className="relative inline-block w-5 h-5 rounded overflow-hidden align-middle bg-neutral-100">
+                            <HeroThumb id={hid} />
+                          </span>
+                          <span>{heroById(hid)?.name ?? hid}</span>
+                        </span>
+                      ))
+                    )}
+                  </span>
+                ))}
+              </div>
+            )}
+
             {/* MAP PICK */}
             {mode !== MODE.HERO_BAN_ONLY && phase === "MAP_PICK" && (
               <div>
@@ -2174,6 +2259,10 @@ export default function BanpickApp() {
                 partMode === "SOLO"
                   ? (!pickLockedTeam.A ? "A" : !pickLockedTeam.B ? "B" : null)
                   : (myTeamRole as Team | null);
+              // ③ 블라인드: 원격 1v1에서 상대 팀 열은 '양 팀 락 전'까지 내용을 가린다.
+              const blindOpp = (tm: Team) =>
+                remoteMode && !!myTeamRole && tm !== myTeamRole && phase === "HERO_PICK" && !pickLocked;
+              const oppCount = (tm: Team): number => remote?.pickCount?.[tm] ?? 0;
               return (
               <>
                 {/* ===== 데스크톱: 3열(팀A|그리드|팀B) — 기존 유지 ===== */}
@@ -2192,6 +2281,8 @@ export default function BanpickApp() {
                       confirmPick={confirmPick}
                       canPickForTeam={canPickForTeam}
                       heroById={heroById}
+                      hidden={blindOpp("A")}
+                      hiddenCount={oppCount("A")}
                     />
                   </aside>
 
@@ -2222,6 +2313,8 @@ export default function BanpickApp() {
                       confirmPick={confirmPick}
                       canPickForTeam={canPickForTeam}
                       heroById={heroById}
+                      hidden={blindOpp("B")}
+                      hiddenCount={oppCount("B")}
                     />
                   </aside>
                 </div>
@@ -2238,6 +2331,8 @@ export default function BanpickApp() {
                   {(["A", "B"] as Team[]).map((tm) => {
                     const locked = pickLockedTeam[tm];
                     const clickable = canPickForTeam(tm) && !locked;
+                    const hidden = blindOpp(tm); // ③ 상대 팀 픽 은닉
+                    const hCount = oppCount(tm);
                     return (
                       <div key={tm} className="mb-2">
                         <div className="flex items-center gap-2 mb-1">
@@ -2245,27 +2340,31 @@ export default function BanpickApp() {
                           {locked && (
                             <span className="text-[10px] px-2 py-0.5 rounded-full border font-semibold" style={{ borderColor: "#4ade80", color: "#4ade80", background: "rgba(74,222,128,0.14)" }}>{t.ready}</span>
                           )}
-                          {pickTurnTeam === tm && !locked && (
+                          {hidden && !locked && (
+                            <span className="text-[10px] px-2 py-0.5 rounded-full border font-semibold" style={{ borderColor: "var(--bp-primary)", color: "var(--bp-primary)", background: "rgba(59,130,246,0.14)" }}>선택 중… {hCount}/5</span>
+                          )}
+                          {!hidden && pickTurnTeam === tm && !locked && (
                             <span className="text-[10px] px-2 py-0.5 rounded-full border font-semibold" style={{ borderColor: "var(--bp-primary)", color: "var(--bp-primary)", background: "rgba(59,130,246,0.14)" }}>{t.curTurn}</span>
                           )}
                         </div>
                         <div className="flex gap-1">
                           {SLOT_ROLES.map((sr, i) => {
-                            const hid = pickSlots[tm][i];
-                            const active = activeSlot[tm] === i && !locked;
+                            const hid = hidden ? null : pickSlots[tm][i];
+                            const active = !hidden && activeSlot[tm] === i && !locked;
                             const slotRole: Role = (hid ? (heroById(hid)?.role as Role) : sr) ?? sr;
+                            const coveredFilled = hidden && i < hCount; // 내용 없이 '채워짐'만 표시
                             return (
                               <button
                                 key={i}
-                                disabled={!clickable}
-                                onClick={() => clickable && setActiveSlot((p) => ({ ...p, [tm]: i }))}
-                                className={["flex-1 min-w-0 rounded-lg border p-0.5", active ? "bp-sel-pick" : "border-neutral-300", !clickable && "opacity-60"].join(" ")}
+                                disabled={!clickable || hidden}
+                                onClick={() => clickable && !hidden && setActiveSlot((p) => ({ ...p, [tm]: i }))}
+                                className={["flex-1 min-w-0 rounded-lg border p-0.5", active ? "bp-sel-pick" : coveredFilled ? "bp-sel-pick" : "border-neutral-300", (!clickable || hidden) && "opacity-60"].join(" ")}
                               >
-                                <div className="relative w-full aspect-square rounded overflow-hidden bg-neutral-100">
-                                  <HeroThumb id={hid ?? null} />
+                                <div className="relative w-full aspect-square rounded overflow-hidden bg-neutral-100 flex items-center justify-center">
+                                  {hidden ? <span className="text-sm opacity-70">{coveredFilled ? "✓" : "•"}</span> : <HeroThumb id={hid ?? null} />}
                                 </div>
                                 <div className="flex items-center justify-center mt-0.5">
-                                  <RoleIcon role={slotRole} lang={lang} className="shrink-0" />
+                                  {hidden ? <span className="text-[9px] opacity-50">?</span> : <RoleIcon role={slotRole} lang={lang} className="shrink-0" />}
                                 </div>
                               </button>
                             );
