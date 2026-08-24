@@ -52,15 +52,9 @@ class Room:
             self.conns.pop(role, None)
 
     async def broadcast_state(self):
-        # ③ 블라인드: 뷰어(역할)별로 상대 픽을 가린 뷰를 전송(서버 권위).
-        dead = []
-        for role, ws in list(self.conns.items()):
-            try:
-                await ws.send_json({"type": "state", "state": sm.redact_view(self.state, role)})
-            except Exception:
-                dead.append(role)
-        for role in dead:
-            self.conns.pop(role, None)
+        # 블라인드 OFF(기본): 픽 페이즈에서도 전체 상태를 그대로 양쪽에 전송(상대 픽 실시간 공개).
+        # 상대 픽 은닉이 필요하면 아래를 뷰어별 sm.redact_view(self.state, role) 전송으로 교체(함수 보존됨).
+        await self.broadcast({"type": "state", "state": self.state})
 
     async def ensure_timer(self, manager):
         if self.timer_task is None or self.timer_task.done():
@@ -149,7 +143,7 @@ async def banpick_ws(websocket: WebSocket):
                 token = room.issue_token("A")
                 room.touch()
                 await send({"type": "room_created", "code": room.code, "role": "A",
-                            "token": token, "state": sm.redact_view(room.state, "A")})
+                            "token": token, "state": room.state})
                 continue
 
             if mtype == "join_room":
@@ -166,7 +160,7 @@ async def banpick_ws(websocket: WebSocket):
                 room.conns["B"] = websocket
                 token = room.role_token.get("B") or room.issue_token("B")
                 room.touch()
-                await send({"type": "joined", "code": room.code, "role": "B", "token": token, "state": sm.redact_view(room.state, "B")})
+                await send({"type": "joined", "code": room.code, "role": "B", "token": token, "state": room.state})
                 await room.broadcast({"type": "opponent_status", "connected": True})
                 await room.broadcast_state()
                 continue
@@ -181,7 +175,7 @@ async def banpick_ws(websocket: WebSocket):
                 my_role = room.tokens[token]
                 room.conns[my_role] = websocket
                 room.touch()
-                await send({"type": "reconnected", "code": room.code, "role": my_role, "state": sm.redact_view(room.state, my_role)})
+                await send({"type": "reconnected", "code": room.code, "role": my_role, "state": room.state})
                 await room.broadcast({"type": "opponent_status", "connected": True})
                 continue
 

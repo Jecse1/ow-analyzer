@@ -160,7 +160,11 @@ def test_interleaved_picks():
 
 
 def test_blind_pick_redaction():
-    """③ redact_view: 픽 진행 중 상대 픽 은닉 / 한 팀만 락 시 여전히 은닉 /
+    """redact_view 순수함수 검증. ⚠️ 현재 블라인드는 OFF(상대 픽 실시간 공개)라
+    이 함수는 broadcast 경로에서 바이패스되어 있고, 향후 '블라인드 모드' 옵션용으로 보존한다.
+    삭제하지 않고 함수 자체의 계약(은닉/공개/개수/자기슬롯 유지)만 계속 검증한다.
+    라이브 전송이 '무가공(전체 공개)'인지는 test_broadcast_passthrough에서 확인.
+    ③ redact_view: 픽 진행 중 상대 픽 은닉 / 한 팀만 락 시 여전히 은닉 /
     양 팀 락 후 전체 공개 / 픽 개수는 항상 공개 / 자기 슬롯은 항상 유지(재접속 복원 포함)."""
     rng = random.Random(11)
     st = sm.new_state({"mode": 3, "sets": 3}, rng=rng)
@@ -212,9 +216,48 @@ def test_blind_pick_redaction():
     print("test_blind_pick_redaction OK — 은닉/공개/개수/자기슬롯 유지")
 
 
+def test_broadcast_passthrough():
+    """라이브 전송 계약: 블라인드 OFF라 broadcast_state는 픽 페이즈에서도 전체 상태를
+    '무가공'으로 양쪽에 전송한다(상대 픽 실시간 공개). redact_view는 호출되지 않는다."""
+    import asyncio
+    from banpick import rooms
+
+    room = rooms.Room("test01", {"mode": 3, "sets": 3})
+    st = room.state
+    sm.set_ready(st, "A", True)
+    sm.set_ready(st, "B", True)
+    sm.start(st)
+    picker = st["mapPicker"]
+    sm.apply_map_pick(st, picker, _first_pickable_map(st), "PICKER")
+    b1 = st["turn"]
+    sm.apply_ban(st, b1, _heroes_by_role("Tank")[0])
+    b2 = st["turn"]
+    sm.apply_ban(st, b2, _heroes_by_role("Damage")[0])
+    banned = set(st["bans"]["A"]) | set(st["bans"]["B"])
+    a_tank = next(h for h in _heroes_by_role("Tank", exclude=banned))
+    sm.apply_pick_toggle(st, "A", a_tank)
+
+    captured = {}
+
+    class FakeWS:
+        def __init__(self, role):
+            self.role = role
+
+        async def send_json(self, msg):
+            captured[self.role] = msg
+
+    room.conns = {"A": FakeWS("A"), "B": FakeWS("B")}
+    asyncio.run(room.broadcast_state())
+    # B가 받은 상태에 A의 실제 픽이 그대로 보여야(무가공 = 실시간 공개)
+    assert captured["B"]["state"]["pickSlots"]["A"][0] == a_tank, "블라인드 OFF: 상대 픽 실시간 공개여야"
+    assert captured["A"]["state"]["pickSlots"]["A"][0] == a_tank
+    print("test_broadcast_passthrough OK — 무가공 전송(상대 픽 실시간 공개)")
+
+
 if __name__ == "__main__":
     test_full_draft()
     test_series_end()
     test_interleaved_picks()
     test_blind_pick_redaction()
+    test_broadcast_passthrough()
     print("ALL PASS")
