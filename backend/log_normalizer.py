@@ -44,15 +44,8 @@ for _ko, _en in KOREAN_HERO_MAP.items():
 #   D.Mon : D.Va와 동일 패턴(한국 클라이언트도 영문 'D.Mon'으로 기록될 것으로 확정).
 #          KOREAN_HERO_MAP('디몬':'D.Mon')이 역파생 D.Mon→디몬을 주지만, 실로그 'D.Mon'을
 #          '디몬'으로 바꾸면 데이터가 쪼개지므로 항등 고정. (첫 실로그 입고 시 표기 최종 확인)
-_HERO_EN2KO_EXPLICIT: dict[str, str] = {
-    "Lúcio": "루시우",
-    "Lucio": "루시우",   # 액센트 없는 표기도 방어적으로 커버
-    "Freja": "프레야",
-    "Vendetta": "벤데타",
-    "Wuyang": "우양",
-    "D.Va": "D.Va",      # 무변환(항등) — 경고 없이 원문 유지, 디바로 바꾸지 않음
-    "D.Mon": "D.Mon",    # 무변환(항등) — D.Va와 동일 근거, 디몬으로 바꾸지 않음
-}
+# _HERO_EN2KO_EXPLICIT 는 game_data(SSOT: heroes.json)에서 파생. 값·주석 근거 동일.
+from game_data import HERO_EN2KO_EXPLICIT as _HERO_EN2KO_EXPLICIT  # noqa: E402
 HERO_EN2KO: dict[str, str] = {**_HERO_EN2KO, **_HERO_EN2KO_EXPLICIT}
 
 # ── 팀 / 맵 / 모드 매핑 ──────────────────────────────────────────────────────
@@ -62,24 +55,9 @@ TEAM_EN2KO: dict[str, str] = {
     # "All Teams" 는 한국어 로그에서도 그대로 사용되므로 매핑하지 않는다(유지).
 }
 
-MAP_EN2KO: dict[str, str] = {
-    "Nepal": "네팔",
-    "Samoa": "사모아",
-    "Eichenwalde": "아이헨발데",
-    "Aatlis": "아틀리스",
-    "Route 66": "66번 국도",   # 공백 주의
-    "Esperança": "이스페란사",
-}
-
-# 모드는 한국어 로그의 실제 표기 기준(Escort=호위, MAP_TYPE_DATA 의 맵타입 '화물'과 다름).
-MODE_EN2KO: dict[str, str] = {
-    "Control": "쟁탈",
-    "Push": "밀기",
-    "Hybrid": "혼합",
-    "Flashpoint": "플래시포인트",
-    "Escort": "호위",
-    "Clash": "격돌",
-}
+# MAP_EN2KO / MODE_EN2KO 는 game_data(SSOT: maps.json)에서 파생. 값 동일.
+# (모드는 한국어 로그 실제 표기 기준: Escort=호위, MAP_TYPE_DATA 맵타입 '화물'과 다름.)
+from game_data import MAP_EN2KO, MODE_EN2KO  # noqa: E402
 
 # ── 이벤트 타입별 치환 대상 컬럼 스펙 ────────────────────────────────────────
 # 인덱스는 event_type 필드(P) 기준 상대 오프셋. line.split(",") 후

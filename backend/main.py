@@ -105,58 +105,25 @@ if not os.path.exists(ROW_DATA_DIR):
     os.makedirs(ROW_DATA_DIR)
 
 # --- 상수 및 매핑 데이터 ---
-TANKS = [
-    'D.Va', 'Doomfist', 'Junker Queen', 'Mauga', 'Orisa', 'Ramattra', 'Reinhardt',
-    'Roadhog', 'Sigma', 'Winston', 'Wrecking Ball', 'Zarya', 'Hazard', 'Domina', 'D.Mon',
-    '디바', '둠피스트', '정커퀸', '마우가', '오리사', '라마트라', '라인하르트',
-    '로드호그', '시그마', '윈스턴', '레킹볼', '자리야', '해저드', '도미나', '디몬'
-]
-SUPPORTS = [
-    'Ana', 'Baptiste', 'Brigitte', 'Illari', 'Kiriko', 'Lifeweaver', 'Lucio',
-    'Mercy', 'Moira', 'Zenyatta', 'Juno', 'Mizuki', 'Jetpack Cat', 'Wuyang',
-    '아나', '바티스트', '브리기테', '일리아리', '키리코', '라이프위버', '루시우',
-    '메르시', '모이라', '젠야타', '주노', '미즈키', '제트팩 캣', '우양'
-]
+# 영웅/맵/역할/EN→KO 게임 데이터는 game_data(SSOT: heroes.json, maps.json)에서 파생한다.
+# 아래 변수명·값은 기존과 동일(로더가 재구성). 사용처 무수정.
+from game_data import (
+    KOREAN_HERO_MAP,
+    TANKS,
+    SUPPORTS,
+    MAP_TYPE_DATA,
+    CONTROL_MAP_KEYWORDS,
+    FIGHTLAB_TANKS as _FIGHTLAB_TANKS,
+    FIGHTLAB_SUPPORTS as _FIGHTLAB_SUPPORTS,
+    FIGHTLAB_DAMAGE as _FIGHTLAB_DAMAGE,
+)
 
 PLAYER_ROLE_OVERRIDES = {
     "우양": 2,     # support
     "벤데타": 1,   # dps
 }
 
-KOREAN_HERO_MAP = {
-    '디바': 'D.Va', '둠피스트': 'Doomfist', '정커퀸': 'Junker Queen', '마우가': 'Mauga', '오리사': 'Orisa',
-    '라마트라': 'Ramattra', '라인하르트': 'Reinhardt', '로드호그': 'Roadhog', '시그마': 'Sigma',
-    '윈스턴': 'Winston', '레킹볼': 'Wrecking Ball', '자리야': 'Zarya', '해저드': 'Hazard', '도미나': 'Domina', '디몬': 'D.Mon',
-    '애쉬': 'Ashe', '바스티온': 'Bastion', '캐서디': 'Cassidy', '에코': 'Echo', '겐지': 'Genji',
-    '한조': 'Hanzo', '정크랫': 'Junkrat', '메이': 'Mei', '파라': 'Pharah', '리퍼': 'Reaper',
-    '소전': 'Sojourn', '솔저: 76': 'Soldier: 76', '솔저 76': 'Soldier: 76', '솜브라': 'Sombra',
-    '시메트라': 'Symmetra', '토르비욘': 'Torbjorn', '트레이서': 'Tracer', '벤처': 'Venture',
-    '위도우메이커': 'Widowmaker', '안란': 'Anran', '엠레': 'Emre', '시온': 'Shion',
-    '아나': 'Ana', '바티스트': 'Baptiste', '브리기테': 'Brigitte', '일리아리': 'Illari', '주노': 'Juno',
-    '키리코': 'Kiriko', '라이프위버': 'Lifeweaver', '루시우': 'Lucio', '메르시': 'Mercy',
-    '모이라': 'Moira', '젠야타': 'Zenyatta', '미즈키': 'Mizuki', '제트팩 캣': 'Jetpack Cat',
-    '시에라': 'Sierra'
-}
-
-MAP_TYPE_DATA = {
-    "네팔": "쟁탈", "Nepal": "Control", "리장 타워": "쟁탈", "Lijiang Tower": "Control",
-    "부산": "쟁탈", "Busan": "Control", "오아시스": "쟁탈", "Oasis": "Control",
-    "일리오스": "쟁탈", "Ilios": "Control", "남극 반도": "쟁탈", "Antarctic Peninsula": "Control",
-    "사모아": "쟁탈", "Samoa": "Control",
-    "도라도": "화물", "Dorado": "Escort", "리알토": "화물", "Rialto": "Escort",
-    "서킷 로얄": "화물", "Circuit Royal": "Escort", "쓰레기촌": "화물", "Junkertown": "Escort",
-    "66번 국도": "화물", "Route 66": "Escort", "감시 기지: 지브롤터": "화물", "지브롤터": "화물", "Watchpoint: Gibraltar": "Escort",
-    "샴발리 수도원": "화물", "Shambali Monastery": "Escort", "하바나": "화물", "Havana": "Escort",
-    "눔바니": "혼합", "Numbani": "Hybrid", "미드타운": "혼합", "Midtown": "Hybrid",
-    "블리자드 월드": "혼합", "Blizzard World": "Hybrid", "아이헨발데": "혼합", "Eichenwalde": "Hybrid",
-    "왕의 길": "혼합", "King's Row": "Hybrid", "파라이소": "혼합", "파라이수": "혼합", "Paraíso": "Hybrid",
-    "할리우드": "혼합", "Hollywood": "Hybrid", "네온교차로": "혼합",
-    "뉴 퀸 스트리트": "밀기", "New Queen Street": "Push", "콜로세오": "밀기", "Colosseo": "Push",
-    "에스페란사": "밀기", "Esperança": "Push", "이스페란사": "밀기", "룬아사피": "밀기", "루나사피": "밀기", "Runasapi": "Push",
-    "뉴 정크 시티": "플래시포인트", "New Junk City": "Flashpoint", "수라바사": "플래시포인트", "Suravasa": "Flashpoint",
-    "아틀리스": "플래시포인트", "Aatlis": "Flashpoint",
-    "하나오카": "격돌", "Hanaoka": "Clash", "아누비스의 왕좌": "격돌", "Throne of Anubis": "Clash"
-}
+# KOREAN_HERO_MAP, MAP_TYPE_DATA 는 game_data 로더에서 파생(위 import 참조).
 
 NUMERIC_FIELDS = [
     "eliminations", "final_blows", "deaths",
@@ -169,10 +136,7 @@ NUMERIC_FIELDS = [
 ]
 
 FIGHT_QUIET_GAP_SEC = 20
-CONTROL_MAP_KEYWORDS = [
-    "네팔", "Nepal", "리장", "Lijiang", "부산", "Busan", "오아시스", "Oasis",
-    "일리오스", "Ilios", "남극", "Antarctic", "사모아", "Samoa",
-]
+# CONTROL_MAP_KEYWORDS 는 game_data 로더에서 파생(위 import 참조).
 
 def normalize_team_name(name: str) -> str:
     try:
@@ -2010,26 +1974,8 @@ TRADE_WINDOW_SEC = 5
 # (신영웅 역할 근거: player_stats 집계 — 도미나 blocked/10≈24.8k→탱커, 미즈키 heal/10≈10k·
 #  제트팩 캣 heal/10≈7.8k→지원, 벤데타/시온/안란/엠레/시에라/벤처/프레야 heal·blocked≈0→딜러)
 # 매핑에 없는 영웅은 "other"로 안전 처리.
-_FIGHTLAB_TANKS = [
-    '디바', 'D.Va', '둠피스트', 'Doomfist', '정커퀸', 'Junker Queen', '마우가', 'Mauga',
-    '오리사', 'Orisa', '라마트라', 'Ramattra', '라인하르트', 'Reinhardt', '로드호그', 'Roadhog',
-    '시그마', 'Sigma', '윈스턴', 'Winston', '레킹볼', 'Wrecking Ball', '자리야', 'Zarya',
-    '해저드', 'Hazard', '도미나', 'Domina', '디몬', 'D.Mon',
-]
-_FIGHTLAB_SUPPORTS = [
-    '아나', 'Ana', '바티스트', 'Baptiste', '브리기테', 'Brigitte', '일리아리', 'Illari',
-    '키리코', 'Kiriko', '라이프위버', 'Lifeweaver', '루시우', 'Lucio', '메르시', 'Mercy',
-    '모이라', 'Moira', '젠야타', 'Zenyatta', '주노', 'Juno', '미즈키', 'Mizuki',
-    '제트팩 캣', 'Jetpack Cat', '우양', 'Wuyang',
-]
-_FIGHTLAB_DAMAGE = [
-    '겐지', 'Genji', '리퍼', 'Reaper', '메이', 'Mei', '바스티온', 'Bastion',
-    '벤처', 'Venture', '소전', 'Sojourn', '솔저: 76', '솔저 76', '솔저76', 'Soldier: 76',
-    '솜브라', 'Sombra', '시메트라', 'Symmetra', '애쉬', 'Ashe', '에코', 'Echo',
-    '위도우메이커', 'Widowmaker', '정크랫', 'Junkrat', '캐서디', 'Cassidy',
-    '트레이서', 'Tracer', '파라', 'Pharah', '한조', 'Hanzo', '토르비욘', 'Torbjorn', 'Torbjörn',
-    '프레야', 'Freja', '벤데타', 'Vendetta', '시에라', 'Sierra', '시온', '안란', '엠레',
-]
+# _FIGHTLAB_TANKS/SUPPORTS/DAMAGE 는 game_data 로더에서 파생(파일 상단 import 참조).
+# HERO_ROLE_DATA 는 아래 루프로 동일하게 구성한다(변경 없음).
 HERO_ROLE_DATA: dict = {}
 for _h in _FIGHTLAB_TANKS:
     HERO_ROLE_DATA[_h] = "tank"
