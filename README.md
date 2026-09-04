@@ -131,7 +131,3 @@ falcon-scrim-analyzer/
     └── src/
 ```
 
-## 백업 정책
-
-- `backend/data/scrim.db.phase5_backup`: 안전망 백업 (JDG 세션 박멸 후 clean 상태)
-- 복원 시 반드시 `NOTES.md` 확인 (좀비 세션 부활 방지)
