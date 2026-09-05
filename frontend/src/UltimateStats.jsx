@@ -5,7 +5,7 @@ import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
 import { T } from "./FightLabStats";
 import { useIsMobile } from "./utils/responsive";
-import { ultExactFileNames } from "./gameData";
+import { getHeroImageSrc } from "./gameData";
 
 // R1 방향색(맵 분석과 동일한 은은한 톤). 원색 네온은 제거.
 const GREEN = T.green, RED = T.red;
@@ -13,21 +13,7 @@ const winColor = (wr) => wr === 50 ? T.text : wr >= 50 ? GREEN : RED;
 // R2: 영웅별 궁극기 가치 랭킹의 최소 표본(궁 사용 횟수). 미만은 흐림 + 하단 분리.
 const MIN_ULT_SAMPLE = 5;
 
-// 💡 영웅 이미지 예외 처리 (무조건 소문자 파일 매핑)
-// [STEP2] 데이터(exactFileNames)는 gameData(SSOT)에서 가져오되, 리졸버 로직은 보존.
-//   image 필드 기반 통합은 STEP 3. (STEP2_report.txt 이미지 리졸버 잔여 위치 표 참조)
-const getHeroImageSrc = (heroName) => {
-    if (!heroName || heroName === 'Unknown') return null;
-
-    const exactFileNames = ultExactFileNames;
-
-    let fileName = exactFileNames[heroName];
-    if (!fileName) {
-        fileName = heroName.replace(/[\s.:]/g, ''); 
-    }
-    
-    return `/heroes/${fileName}.png`;
-};
+// [STEP3] 이미지 리졸버는 gameData.getHeroImageSrc(SSOT image 필드 기반)로 통합·임포트.
 
 export default function UltimateStats({ allScrims }) {
     const { theme } = useTheme();

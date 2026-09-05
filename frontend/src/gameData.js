@@ -6,14 +6,9 @@
 //
 // 정본 원칙:
 //   - 표시용 데이터(역할·스킬명·별칭)는 heroes.json 에서 파생한다.
-//   - 이미지 "파일명" 리졸버는 STEP 2 범위 밖(백엔드 주석의 STEP 3에 해당)이라
-//     동작 보존을 위해 각 화면의 기존 exactFileNames 관례를 그대로 재현하는
-//     "호환 객체"로 노출한다. 값은 heroes.json 의 image 필드와 동일하며,
-//     경로 산출 결과가 기존과 1건도 달라지지 않도록 키 집합까지 원본과 맞췄다.
-//
-// ⚠ 이미지 리졸버(getHeroImageSrc / exactFileNames / overallImgAliases /
-//   ultExactFileNames)는 image 필드 기반 통합(STEP 3) 전까지 호환 목적의 잔여물이다.
-//   STEP2_report.txt "이미지 리졸버 잔여 위치" 표 참조.
+//   - 이미지 리졸버는 STEP 3에서 단일화: getHeroImageSrc(name) = /heroes/{image}.png
+//     (getHeroByName → image 필드). STEP 2의 파일별 exactFileNames/ultExactFileNames/
+//     overallImgAliases 호환 객체는 제거됐다. 밴픽 썸네일은 getHeroImageCandidates 사용.
 
 import heroesDoc from '@gamedata/heroes.json';
 import mapsDoc from '@gamedata/maps.json';
@@ -77,36 +72,30 @@ export const getSkillName = (heroName, abilityRaw) => {
   return (m && m[key]) || key;
 };
 
-// ── 이미지 파일명 리졸버(호환 · STEP 3 이관 대상) ─────────────────────────────
-// [정본] 아래 값(dva/디몬/soldier76/jetpackcat/sierra)은 heroes.json image 필드와 동일.
-// 다수 화면이 쓰는 표준형(FirstKill/FirstDeath/MatchStats.getHeroImageSrc/Player 2종).
-export const exactFileNames = {
-  'D.Va': 'dva', '디바': 'dva', 'D.Mon': '디몬', '디몬': '디몬',
-  '솔저: 76': 'soldier76', '솔저 76': 'soldier76', 'Soldier: 76': 'soldier76',
-  '제트팩 캣': 'jetpackcat', 'Jetpack Cat': 'jetpackcat', '시에라': 'sierra',
-};
-
+// ── 이미지 리졸버(STEP 3: SSOT image 필드 기반 단일 리졸버) ───────────────────
+// 입력명(logName/ko/en/aliases/roleForms 등) → getHeroByName → image 필드 → /heroes/{image}.png.
+// STEP 2의 파일별 exactFileNames/ultExactFileNames/overallImgAliases 호환 객체를 대체·제거함.
+// 미지 영웅(heroes.json 밖)은 기존 폴백(별칭 정규화 후 구두점 strip)과 동일하게 처리한다.
 export const getHeroImageSrc = (heroName) => {
   if (!heroName || heroName === 'Unknown') return null;
+  const h = getHeroByName(heroName);
+  if (h) return `/heroes/${h.image}.png`;
   const displayName = getDisplayHeroName(heroName);
-  let fileName = exactFileNames[heroName] || exactFileNames[displayName];
-  if (!fileName) fileName = displayName.replace(/[\s.:]/g, '');
-  return `/heroes/${fileName}.png`;
+  return `/heroes/${displayName.replace(/[\s.:]/g, '')}.png`;
 };
 
-// [잔여] OverallStats 의 getHeroImg(요약/영웅별 카드용) 전용 별칭 맵.
-// 표준형과 키 집합이 미묘하게 달라(예: '솔저76' 포함) 통합 시 경로가 바뀌므로 별도 유지.
-export const overallImgAliases = {
-  'D.Va': 'dva', '디바': 'dva', 'D.Mon': '디몬', '디몬': '디몬',
-  '솔저: 76': 'soldier76', '솔저76': 'soldier76', '솔저 76': 'soldier76',
-  '제트팩 캣': 'jetpackcat', '시에라': 'sierra',
-};
-
-// [잔여] UltimateStats 전용. '솔져' 오타 키 포함 + '시에라' 미포함(기존 동작 보존).
-export const ultExactFileNames = {
-  'D.Va': 'dva', '디바': 'dva', 'D.Mon': '디몬', '디몬': '디몬',
-  '솔저: 76': 'soldier76', '솔저 76': 'soldier76', '솔져: 76': 'soldier76', '솔져 76': 'soldier76',
-  'Soldier: 76': 'soldier76', '제트팩 캣': 'jetpackcat', 'Jetpack Cat': 'jetpackcat',
+// 밴픽 썸네일용 후보 리스트(image 1순위 + 확장자/이름/id 폴백). 첫 존재 후보를 표시한다.
+// idx>0(=폴백)이면 image 필드 오류 신호 → 개발 모드 경고(소비처에서 처리).
+const IMAGE_EXTS = ['.png', '.webp', '.jpg', '.jpeg'];
+export const getHeroImageCandidates = (name, id) => {
+  const h = getHeroByName(name);
+  const bases = [];
+  if (h && h.image) bases.push(h.image); // 1순위: 정본 image
+  if (name) bases.push(name);            // 폴백: 표시명
+  if (id) bases.push(id);                // 폴백: id
+  const list = [];
+  for (const b of bases) for (const ext of IMAGE_EXTS) list.push(`/heroes/${encodeURIComponent(b)}${ext}`);
+  return [...new Set(list)];
 };
 
 // ── 밴픽 그리드 데이터(정본 파생) ────────────────────────────────────────────

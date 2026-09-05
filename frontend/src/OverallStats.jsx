@@ -9,7 +9,7 @@ import { tpl } from "./FightLabStats";
 import { computeFights } from './utils/fightAnalysis';
 import { buildMapSummary } from './utils/mapSummary';
 import { buildVideoLink, hasVideo } from './utils/videoLink';
-import { overallImgAliases } from './gameData';
+import { getHeroImageSrc } from './gameData';
 
 const API_BASE = import.meta.env.PROD ? "" : "";
 
@@ -42,14 +42,7 @@ const addDaysStr = (s, n) => {
 };
 const pct0 = (v) => (v == null ? '-' : `${Math.round(v * 100)}%`);
 
-// [STEP2] 별칭 데이터는 gameData(SSOT)에서 가져오되 리졸버 로직 보존(이미지 통합은 STEP 3).
-const getHeroImg = (heroName) => {
-  if (!heroName || heroName === 'Unknown') return null;
-  const aliases = overallImgAliases;
-  const name = (heroName || '').trim();
-  const fileName = aliases[name] || name.replace(/[\s.:]/g, '');
-  return `/heroes/${fileName}.png`;
-};
+// [STEP3] 이미지 리졸버는 gameData.getHeroImageSrc(SSOT image 필드 기반)로 통합·임포트.
 
 const getYouTubeLink = (videoUrl, offset, timestamp, pauses = [], gameSetupSec = null) => {
     const matchLike = { video_url: videoUrl, video_offset: offset, game_setup_sec: gameSetupSec, pauses };
@@ -889,7 +882,7 @@ export default function OverallStats({ onBack, onGoSessions }) {
                                 <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '8px', padding: '7px 10px', borderRadius: '8px', overflow: 'hidden', marginBottom: '4px' }}>
                                     <div style={{ position: 'absolute', inset: 0, width: `${barPct}%`, background: `${barColor}18`, borderRadius: '8px', pointerEvents: 'none' }} />
                                     <span style={{ position: 'relative', zIndex: 1, fontSize: '11px', fontWeight: 'bold', color: rankBadgeColor(idx), minWidth: '14px', textAlign: 'center' }}>{idx + 1}</span>
-                                    {hero && <img src={getHeroImg(hero)} alt={hero} style={{ position: 'relative', zIndex: 1, width: '24px', height: '24px', borderRadius: '4px', flexShrink: 0 }} onError={e => { e.currentTarget.style.display = 'none'; }} />}
+                                    {hero && <img src={getHeroImageSrc(hero)} alt={hero} style={{ position: 'relative', zIndex: 1, width: '24px', height: '24px', borderRadius: '4px', flexShrink: 0 }} onError={e => { e.currentTarget.style.display = 'none'; }} />}
                                     <div style={{ position: 'relative', zIndex: 1, flex: 1, minWidth: 0 }}>
                                         <div style={{ fontSize: '12px', fontWeight: 'bold', color: theme.text, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{name}</div>
                                         <div style={{ fontSize: '10px', color: theme.textSub }}>{teamName}</div>

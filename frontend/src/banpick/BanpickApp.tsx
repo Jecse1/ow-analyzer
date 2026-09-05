@@ -3,7 +3,7 @@ import "./banpick.css";
 import { useBanpickWS } from "./useBanpickWS";
 import { useLanguage } from "../LanguageContext";
 import { useTheme } from "../ThemeContext";
-import { BANPICK_HEROES, BANPICK_MAPS } from "../gameData";
+import { BANPICK_HEROES, BANPICK_MAPS, getHeroByName } from "../gameData";
 
 // ── 멀티플레이어(1v1 실시간 대전) 스텁 — 이번 통합 단계는 SOLO 전용 ──
 // 원본은 Firebase(Firestore 실시간 룸 + 익명 auth)로 코치 대전을 구현하지만,
@@ -226,14 +226,19 @@ const MAPS: MapInfo[] = BANPICK_MAPS as MapInfo[];
 
 /* === image helpers === */
 const IMG_EXTS = [".png", ".webp", ".jpg", ".jpeg"];
+// [STEP3] 영웅 썸네일 후보: 정본 image 필드(getHeroByName) 1순위 → 확장자/표시명/id 순 폴백.
+//   후보 순서: /heroes/{image}.png → {image}.webp/.jpg/.jpeg → {name}.* → {id}.*
+//   1순위(image.png)가 아닌 후보로 표시되면(=image 필드 오류 신호) 개발 모드에서 경고(HeroThumb).
 function heroSrcCandidates(id: string): string[] {
   const h = HEROES.find((x) => x.id === id);
+  const entry = h?.name ? getHeroByName(h.name) : null;
   const bases: string[] = [];
-  if (h?.name) bases.push(h.name);
-  bases.push(id);
+  if (entry?.image) bases.push(entry.image); // 1순위: 정본 image
+  if (h?.name) bases.push(h.name);           // 폴백: 표시명
+  bases.push(id);                            // 폴백: id
   const list: string[] = [];
   for (const b of bases) for (const ext of IMG_EXTS) list.push(`/heroes/${encodeURIComponent(b)}${ext}`);
-  return list;
+  return [...new Set(list)];
 }
 function mapSrcCandidates(id: string): string[] {
   const m = MAPS.find((x) => x.id === id);
@@ -275,6 +280,7 @@ function HeroThumb({ id, className, contain = true }: { id: string | null; class
       src={candidates[idx]}
       alt={id ?? ""}
       onError={() => setIdx((i) => i + 1)}
+      onLoad={() => { if (idx > 0 && import.meta.env.DEV) console.warn("[banpick] image fallback", id, candidates[idx]); }}
       draggable={false}
       className={["absolute inset-0 w-full h-full", contain ? "object-contain" : "object-cover", "object-center", className ?? ""].join(" ")}
     />

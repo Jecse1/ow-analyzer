@@ -3,7 +3,7 @@ import { AlertOctagon, ArrowUpDown, Users, Calendar, ChevronDown, ChevronUp, Sku
 import { useTheme } from "./ThemeContext";
 import { useIsMobile, ScrollX } from "./utils/responsive";
 import { useLanguage } from "./LanguageContext";
-import { HERO_ALIAS_MAP, HERO_SKILL_MAP, exactFileNames, TANK_HEROES, SUPPORT_HEROES } from "./gameData";
+import { HERO_ALIAS_MAP, HERO_SKILL_MAP, getHeroImageSrc, TANK_HEROES, SUPPORT_HEROES } from "./gameData";
 
 const normalizeName = (name) => (name ? name.trim() : "");
 
@@ -36,14 +36,7 @@ const getRoleIconSrc = (roleLabel) => {
     return null;
 };
 
-const getHeroImageSrc = (heroName) => {
-    if (!heroName || heroName === 'Unknown') return null;
-    
-    const displayName = getDisplayHeroName(heroName);
-    let fileName = exactFileNames[heroName] || exactFileNames[displayName];
-    if (!fileName) { fileName = displayName.replace(/[\s.:]/g, ''); }
-    return `/heroes/${fileName}.png`;
-};
+// [STEP3] 이미지 리졸버는 gameData.getHeroImageSrc(SSOT image 필드 기반)로 통합·임포트.
 
 // 
 

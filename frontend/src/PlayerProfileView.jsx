@@ -4,19 +4,9 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
 import { useIsMobile } from "./utils/responsive";
-import { HERO_ALIAS_MAP, exactFileNames } from "./gameData";
+import { getHeroImageSrc } from "./gameData";
 
-const getDisplayHeroName = (rawName) => {
-    if (!rawName) return "";
-    return HERO_ALIAS_MAP[rawName.trim()] || rawName.trim();
-};
-
-const getHeroImageSrc = (heroName) => {
-    if (!heroName || heroName === 'Unknown') return null;
-    const displayName = getDisplayHeroName(heroName);
-    let fileName = exactFileNames[heroName] || exactFileNames[displayName] || displayName.replace(/[\s.:]/g, '');
-    return `/heroes/${fileName}.png`;
-};
+// [STEP3] 이미지 리졸버는 gameData.getHeroImageSrc(SSOT image 필드 기반)로 통합·임포트.
 
 // 💡 스크림 세션 역할군 아이콘 적용
 const getRoleIconSrc = (roleLabel) => {

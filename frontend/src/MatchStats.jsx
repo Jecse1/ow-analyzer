@@ -10,7 +10,7 @@ import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
 import { buildVideoLink, hasVideo } from "./utils/videoLink";
 import { VOD_LEAD_SEC } from "./FightLabStats"; // 궁극기 타임라인 VOD 점프 리드(한타 분석 탭과 동일 상수)
-import { HERO_ALIAS_MAP, HERO_SKILL_MAP, exactFileNames, TANK_HEROES, SUPPORT_HEROES } from "./gameData";
+import { HERO_ALIAS_MAP, HERO_SKILL_MAP, getHeroImageSrc, TANK_HEROES, SUPPORT_HEROES } from "./gameData";
 import NoVideoModal from "./NoVideoModal";
 import { computeFights } from './utils/fightAnalysis';
 
@@ -48,14 +48,7 @@ const getDisplayHeroName = (rawName) => {
     return HERO_ALIAS_MAP[clean] || clean;
 };
 
-const getHeroImageSrc = (heroName) => {
-  if (!heroName || heroName === 'Unknown') return null;
-  
-  const displayName = getDisplayHeroName(heroName);
-  let fileName = exactFileNames[heroName] || exactFileNames[displayName];
-  if (!fileName) { fileName = displayName.replace(/[\s.:]/g, ''); }
-  return `/heroes/${fileName}.png`;
-};
+// [STEP3] 이미지 리졸버는 gameData.getHeroImageSrc(SSOT image 필드 기반)로 통합·임포트.
 
 const getRoleInfo = (heroName) => {
     const name = getDisplayHeroName(heroName);
