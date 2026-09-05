@@ -32,6 +32,9 @@ const MOMENTS_PAGE_SIZE = 50; // 하이라이트 기본 표시 개수(+더보기
 const OUR_TEAM = 'FLC';
 
 const normalize = (str) => (str || "").replace(/\s+/g, "").toLowerCase();
+// 영웅명 비교 키: SSOT 정본(logName)으로 해석 — '디바'/'D.Va'/'솔저76'/'솔저: 76' 등 어떤 표기든 동일 키
+const heroKey = (name) => getHeroByName(name)?.logName || normalize(name);
+const isSameHero = (a, b) => heroKey(a) === heroKey(b);
 
 // 'YYYY-MM-DD' 하루 가감 (요약 추세의 이전 기간 산출용, UTC 산술)
 const addDaysStr = (s, n) => {
@@ -231,7 +234,7 @@ export default function OverallStats({ onBack, onGoSessions }) {
     let value = cleanText;
 
     if (KNOWN_MAPS.some(m => cleanText.includes(m) || m.includes(cleanText))) type = KEYWORD_TYPES.MAP;
-    else if (KNOWN_HEROES.some(h => normalize(cleanText) === normalize(h))) type = KEYWORD_TYPES.HERO;
+    else if (getHeroByName(cleanText) || KNOWN_HEROES.some(h => normalize(cleanText) === normalize(h))) type = KEYWORD_TYPES.HERO;
     else if (EVENT_KEYWORDS[cleanText]) { type = KEYWORD_TYPES.EVENT; value = EVENT_KEYWORDS[cleanText]; }
     else if (RESULT_KEYWORDS[cleanText]) { type = KEYWORD_TYPES.RESULT; value = RESULT_KEYWORDS[cleanText]; }
 
@@ -424,7 +427,7 @@ export default function OverallStats({ onBack, onGoSessions }) {
         if (heroTag) {
             // 보조 영웅도 검색되도록 라운드별 실제 출전 영웅 기준으로 체크
             const heroPlayed = (m.rounds || []).some(r => r.stats.some(s => {
-                const isHeroMatch = normalize(s.hero_name) === normalize(heroTag.label);
+                const isHeroMatch = isSameHero(s.hero_name, heroTag.label);
                 if (playerTag) return isHeroMatch && s.player_name.toLowerCase().includes(playerTag.label.toLowerCase());
                 return isHeroMatch;
             }));
@@ -535,13 +538,13 @@ export default function OverallStats({ onBack, onGoSessions }) {
                     }
                     if (heroTag) {
                         const evHero = ev.player_hero || ev.hero;
-                        if (!evHero || normalize(evHero) !== normalize(heroTag.label)) isMatch = false;
+                        if (!evHero || !isSameHero(evHero, heroTag.label)) isMatch = false;
                     }
                 } else {
                     if (playerTag && (!ev.player_name || !ev.player_name.toLowerCase().includes(playerTag.label.toLowerCase()))) isMatch = false;
                     if (heroTag) {
                         const evHero = ev.player_hero || ev.hero;
-                        if (!evHero || normalize(evHero) !== normalize(heroTag.label)) isMatch = false;
+                        if (!evHero || !isSameHero(evHero, heroTag.label)) isMatch = false;
                     }
                     if (eventTag) {
                         if (eventTag.value === 'ultimate_start' && ev.event_type !== 'ultimate_start') isMatch = false;
