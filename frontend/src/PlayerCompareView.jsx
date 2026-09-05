@@ -6,7 +6,7 @@ import {
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
 import { useIsMobile } from "./utils/responsive";
-import { getHeroImageSrc } from "./gameData";
+import { getHeroImageSrc, getDisplayName } from "./gameData";
 
 // [STEP3] 이미지 리졸버는 gameData.getHeroImageSrc(SSOT image 필드 기반)로 통합·임포트.
 const getRoleIconSrc = (roleLabel) => {
@@ -271,7 +271,7 @@ export default function PlayerCompareView({ playersData }) {
                                 {compareHero !== 'all' && (
                                     <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginLeft: '2px' }}>
                                         <img src={getHeroImageSrc(compareHero)} alt={compareHero} style={{ width: 24, height: 24, borderRadius: '6px', background: '#000' }} onError={e => e.currentTarget.style.display = 'none'} />
-                                        <span style={{ fontSize: '14px', color: theme.textSub }}>{getDisplayHeroName(compareHero)}</span>
+                                        <span style={{ fontSize: '14px', color: theme.textSub }}>{getDisplayName(compareHero)}</span>
                                     </span>
                                 )}
                             </h3>
@@ -280,7 +280,7 @@ export default function PlayerCompareView({ playersData }) {
                                 <select value={compareHero} onChange={e => setCompareHero(e.target.value)}
                                     style={{ padding: '8px 12px', borderRadius: '8px', border: `1px solid ${theme.border}`, background: theme.bg, color: theme.text, outline: 'none', cursor: 'pointer', fontWeight: 'bold' }}>
                                     <option value="all">{t.pcScopeAll}</option>
-                                    {heroUnion.map(h => <option key={h} value={h}>{getDisplayHeroName(h)}</option>)}
+                                    {heroUnion.map(h => <option key={h} value={h}>{getDisplayName(h)}</option>)}
                                 </select>
                             </div>
                         </div>
@@ -337,7 +337,7 @@ export default function PlayerCompareView({ playersData }) {
                                 {compareHero !== 'all' && (
                                     <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
                                         <img src={getHeroImageSrc(compareHero)} alt={compareHero} style={{ width: 22, height: 22, borderRadius: '6px', background: '#000' }} onError={e => e.currentTarget.style.display = 'none'} />
-                                        <span style={{ fontSize: '14px', color: theme.textSub }}>{getDisplayHeroName(compareHero)}</span>
+                                        <span style={{ fontSize: '14px', color: theme.textSub }}>{getDisplayName(compareHero)}</span>
                                     </span>
                                 )}
                             </h3>

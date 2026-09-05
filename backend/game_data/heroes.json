@@ -9,6 +9,7 @@
       "logName": "D.Va",
       "en": "D.Va",
       "ko": "D.Va",
+      "displayKo": "디바",
       "role": "tank",
       "image": "dva",
       "aliases": [
@@ -389,6 +390,7 @@
       "logName": "D.Mon",
       "en": "D.Mon",
       "ko": "D.Mon",
+      "displayKo": "디몬",
       "role": "tank",
       "image": "디몬",
       "aliases": [

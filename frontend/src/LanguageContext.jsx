@@ -87,6 +87,13 @@ export const translations = {
     msTabUltTl: "궁극기 타임라인",
     msUltTlNote: "한타별 궁 흐름입니다. 궁 옆의 +X.Xs는 그 한타의 첫 궁 기준 상대 시간이며, 영상 링크는 한타 시작 약 12초 전부터 재생됩니다.",
     msUltTlFight: "한타", msUltTlWinner: "승자", msUltTlDraw: "판정 불가", msUltTlNoUlt: "궁 사용 없음",
+    // 매치 상세 요약 카드·라운드 탭·이벤트 라벨 (i18n)
+    msBackToOverview: "요약으로", msTotalTime: "총 경기 시간", msScoreLabel: "스코어", msWinnerLabel: "승자",
+    msFinalBlows: "결정타", msFightWins: "한타 승리", msUltEconomy: "궁 효율",
+    msOverview: "종합", msRoundLabel: "{n}라운드",
+    msMultiKill: "멀티킬", msTeamKill: "팀킬", msKillsUnit: "킬",
+    // 세션 리스트·스크림 상세 (i18n)
+    matchCount: "매치 {n}개", sdMatchList: "매치 목록", sdResult: "결과", sdAnalyze: "분석", sdUnknown: "알 수 없음",
     // Common (buttons / delete dialogs)
     delete: "삭제", reset: "초기화", cancelSelection: "선택 취소", selectAll: "전체 선택", deselectAll: "전체 해제",
     selectedCount: "선택됨", deleting: "삭제 중...", deleteSelected: "선택 삭제", deleteConfirmPre: "선택한 ",
@@ -432,6 +439,13 @@ export const translations = {
     msTabUltTl: "Ult Timeline",
     msUltTlNote: "Ultimate flow per fight. +X.Xs next to each ult is relative to the fight's first ultimate; video links start about 12 seconds before the fight begins.",
     msUltTlFight: "Fight", msUltTlWinner: "Winner", msUltTlDraw: "Undecided", msUltTlNoUlt: "No ultimates used",
+    // Match detail summary card / round tabs / event labels (i18n)
+    msBackToOverview: "Back to Overview", msTotalTime: "Total Match Time", msScoreLabel: "Score", msWinnerLabel: "Winner",
+    msFinalBlows: "Final Blows", msFightWins: "Fight Wins", msUltEconomy: "Ult Economy",
+    msOverview: "Overview", msRoundLabel: "Round {n}",
+    msMultiKill: "Multi Kill", msTeamKill: "Team Kill", msKillsUnit: " Kills",
+    // Session list / scrim detail (i18n)
+    matchCount: "{n} matches", sdMatchList: "Match List", sdResult: "Result", sdAnalyze: "Analyze", sdUnknown: "Unknown",
     // Common (buttons / delete dialogs)
     delete: "Delete", reset: "Reset", cancelSelection: "Cancel", selectAll: "Select All", deselectAll: "Deselect All",
     selectedCount: "selected", deleting: "Deleting...", deleteSelected: "Delete Selected", deleteConfirmPre: "Delete ",

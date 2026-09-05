@@ -408,7 +408,7 @@ const ScrimSessions = ({ onSelectScrim }) => {
                         <div
                           key={s.id}
                           className="ssc-chip"
-                          title={`${s.scrim_name} · ${rec.w}${language === 'ko' ? '승 ' : 'W '}${rec.l}${language === 'ko' ? '패' : 'L'}${rec.d ? (language === 'ko' ? ` ${rec.d}무` : ` ${rec.d}D`) : ''} · ${s.matches?.length || 0} ${t.fightCount}`}
+                          title={`${s.scrim_name} · ${rec.w}${language === 'ko' ? '승 ' : 'W '}${rec.l}${language === 'ko' ? '패' : 'L'}${rec.d ? (language === 'ko' ? ` ${rec.d}무` : ` ${rec.d}D`) : ''} · ${t.matchCount.replace('{n}', s.matches?.length || 0)}`}
                           onClick={(e) => { e.stopPropagation(); onSelectScrim(s.id); }}
                           style={{
                             background: col.bg, color: col.fg, border: `1px solid ${col.bd}`, borderRadius: '6px',
@@ -516,7 +516,7 @@ const ScrimSessions = ({ onSelectScrim }) => {
                         <h3 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px', color: theme.text }}>{scrim.scrim_name}</h3>
                         <div style={{ display: 'flex', gap: '16px', color: theme.textSub, fontSize: '13px' }}>
                           <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Calendar size={14} /> {scrim.date}</span>
-                          <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Clock size={14} /> {scrim.matches ? scrim.matches.length : 0} {t.fightCount}</span>
+                          <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Clock size={14} /> {t.matchCount.replace('{n}', scrim.matches ? scrim.matches.length : 0)}</span>
                         </div>
                       </div>
                     </div>

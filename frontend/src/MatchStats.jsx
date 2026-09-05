@@ -10,7 +10,7 @@ import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
 import { buildVideoLink, hasVideo } from "./utils/videoLink";
 import { VOD_LEAD_SEC } from "./FightLabStats"; // 궁극기 타임라인 VOD 점프 리드(한타 분석 탭과 동일 상수)
-import { HERO_ALIAS_MAP, HERO_SKILL_MAP, getHeroImageSrc, TANK_HEROES, SUPPORT_HEROES } from "./gameData";
+import { getDisplayName, HERO_SKILL_MAP, getHeroImageSrc, TANK_HEROES, SUPPORT_HEROES } from "./gameData";
 import NoVideoModal from "./NoVideoModal";
 import { computeFights } from './utils/fightAnalysis';
 
@@ -42,16 +42,12 @@ const resolveTeamColor = (teamName, t1Name, t2Name) => {
 
 
 
-const getDisplayHeroName = (rawName) => {
-    if (!rawName) return "";
-    const clean = rawName.trim();
-    return HERO_ALIAS_MAP[clean] || clean;
-};
+// [i18n] 표시명은 gameData.getDisplayName(단일 함수)로 통일 — 로컬 별칭맵/헬퍼 제거.
 
 // [STEP3] 이미지 리졸버는 gameData.getHeroImageSrc(SSOT image 필드 기반)로 통합·임포트.
 
 const getRoleInfo = (heroName) => {
-    const name = getDisplayHeroName(heroName);
+    const name = getDisplayName(heroName);
     const tanks = TANK_HEROES;
     const supports = SUPPORT_HEROES;
     
@@ -75,7 +71,7 @@ const getAbilityName = (heroName, abilityRaw) => {
     if (cleanAbility.toLowerCase().includes('secondary')) return '보조 발사';
     if (cleanAbility.toLowerCase().includes('melee')) return '근접 공격';
     
-    const displayHero = getDisplayHeroName(heroName);
+    const displayHero = getDisplayName(heroName);
     let skillName = cleanAbility;
     
     if (HERO_SKILL_MAP[displayHero] && HERO_SKILL_MAP[displayHero][cleanAbility]) {
@@ -355,7 +351,7 @@ const KillLogView = ({ fights, activeRoundTab, t1Name, t2Name }) => {
 
   const KillerDisplay = ({ heroName, heroImage, playerName, teamColor }) => {
     const imgSrc = getHeroImageSrc(heroName);
-    const displayName = getDisplayHeroName(heroName); 
+    const displayName = getDisplayName(heroName); 
     return (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '8px', minWidth: 0 }}>
         <div style={{ display:'flex', flexDirection:'column', alignItems:'flex-end', minWidth: 0 }}>
@@ -371,7 +367,7 @@ const KillLogView = ({ fights, activeRoundTab, t1Name, t2Name }) => {
 
   const VictimDisplay = ({ heroName, heroImage, playerName, teamColor }) => {
     const imgSrc = getHeroImageSrc(heroName);
-    const displayName = getDisplayHeroName(heroName); 
+    const displayName = getDisplayName(heroName); 
     return (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '8px', minWidth: 0 }}>
         {imgSrc && (
@@ -717,7 +713,7 @@ const ChartView = ({ matchData, rounds, fights, t1Name, t2Name }) => {
                 </div>
                 <div style={{ fontSize: '12px', color: theme.textSub }}>
                     <p>Dmg: {data.x.toLocaleString()}</p>
-                    <p>Final Blows: {data.y}</p>
+                    <p>{t.msFinalBlows}: {data.y}</p>
                 </div>
             </div>
         );
@@ -1226,13 +1222,13 @@ const EventsView = ({ matchData, t1Name, t2Name }) => {
             const killerName = ev.player_name;
             const recentKills = killsBuffer.filter(k => k.player_name === killerName);
             if (recentKills.length === 3) {
-                 finalGeneral.push({ ...ev, displayTime, realTimestamp: ev.timestamp, label: 'Multi Kill', desc: `${killerName} Multi Kill`, color: resolveTeamColor(ev.player_team, t1Name, t2Name), hero: ev.player_hero });
+                 finalGeneral.push({ ...ev, displayTime, realTimestamp: ev.timestamp, label: t.msMultiKill, desc: `${killerName} 3${t.msKillsUnit}`, color: resolveTeamColor(ev.player_team, t1Name, t2Name), hero: ev.player_hero });
             }
             if (recentKills.length === 4) {
-                 finalGeneral.push({ ...ev, displayTime, realTimestamp: ev.timestamp, label: 'Multi Kill', desc: `${killerName} 4 Kills!`, color: resolveTeamColor(ev.player_team, t1Name, t2Name), hero: ev.player_hero });
+                 finalGeneral.push({ ...ev, displayTime, realTimestamp: ev.timestamp, label: t.msMultiKill, desc: `${killerName} 4${t.msKillsUnit}`, color: resolveTeamColor(ev.player_team, t1Name, t2Name), hero: ev.player_hero });
             }
             if (recentKills.length >= 5) {
-                 finalGeneral.push({ ...ev, displayTime, realTimestamp: ev.timestamp, label: 'Team Kill', desc: `${killerName} Team Kill!`, color: resolveTeamColor(ev.player_team, t1Name, t2Name), hero: ev.player_hero });
+                 finalGeneral.push({ ...ev, displayTime, realTimestamp: ev.timestamp, label: t.msTeamKill, desc: `${killerName} ${recentKills.length}${t.msKillsUnit}`, color: resolveTeamColor(ev.player_team, t1Name, t2Name), hero: ev.player_hero });
             }
         }
     });
@@ -1243,7 +1239,7 @@ const EventsView = ({ matchData, t1Name, t2Name }) => {
         ...ev,
         displayTime: ev.timestamp - setupStartTime,
         realTimestamp: ev.timestamp,
-        desc: `${ev.player_name} (${getDisplayHeroName(ev.player_hero)})`
+        desc: `${ev.player_name} (${getDisplayName(ev.player_hero)})`
     }));
 
     return { general: finalGeneral, ultimates };
@@ -1408,7 +1404,7 @@ const UltTimelineView = ({ fights, matchData, t1Name, t2Name }) => {
                       }}>
                         <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: resolveTeamColor(u.player_team, t1Name, t2Name), flexShrink: 0 }} />
                         <span style={{ color: theme.text, fontWeight: 600 }}>{u.player_name}</span>
-                        <span style={{ color: theme.textSub }}>({getDisplayHeroName(u.player_hero)})</span>
+                        <span style={{ color: theme.textSub }}>({getDisplayName(u.player_hero)})</span>
                         <span style={{ color: theme.textSub, fontFamily: 'monospace' }}>+{(u.timestamp - firstTs).toFixed(1)}s</span>
                       </span>
                     </React.Fragment>
@@ -1514,7 +1510,7 @@ const PlayerStatsView = ({ matchData, t1Name, t2Name }) => {
                 <div style={{ background: theme.surface, borderRadius: '16px', border: `1px solid ${theme.border}`, padding: '24px', flexGrow: 1, boxShadow:'0 10px 15px -3px rgba(0, 0, 0, 0.05)' }}>
                     <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'20px' }}>
                         <div style={{ display:'flex', alignItems:'center', gap:'12px' }}>
-                            <h2 style={{ fontSize: '32px', fontWeight: '900', margin: 0, color: theme.text, letterSpacing:'-0.5px' }}>{getDisplayHeroName(curHero?.hero_name)}</h2>
+                            <h2 style={{ fontSize: '32px', fontWeight: '900', margin: 0, color: theme.text, letterSpacing:'-0.5px' }}>{getDisplayName(curHero?.hero_name)}</h2>
                             {heroStats.length > 1 && (
                                 <div style={{ position:'relative' }}>
                                     <select 
@@ -1534,7 +1530,7 @@ const PlayerStatsView = ({ matchData, t1Name, t2Name }) => {
                                         }}
                                     >
                                         {heroStats.map((hs, i) => (
-                                            <option key={i} value={i}>{getDisplayHeroName(hs.hero_name)} ({Math.round(hs.hero_time_played/60)}m)</option>
+                                            <option key={i} value={i}>{getDisplayName(hs.hero_name)} ({Math.round(hs.hero_time_played/60)}m)</option>
                                         ))}
                                     </select>
                                     <ChevronDown size={12} style={{ position:'absolute', right:'8px', top:'50%', transform:'translateY(-50%)', pointerEvents:'none', color: theme.textSub }} />
@@ -1643,21 +1639,21 @@ const MatchStats = ({ matchId, onBack, matchData: initialMatchData }) => {
 
   return (
     <div style={{ padding: '24px', maxWidth: '1600px', margin: '0 auto', color: theme.text, boxSizing: 'border-box' }}>
-      <button onClick={onBack} style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'none', border: 'none', color: theme.textSub, cursor: 'pointer', marginBottom: '24px', fontWeight:'600' }}><ChevronLeft size={16} /> Back to Overview</button>
+      <button onClick={onBack} style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'none', border: 'none', color: theme.textSub, cursor: 'pointer', marginBottom: '24px', fontWeight:'600' }}><ChevronLeft size={16} /> {t.msBackToOverview}</button>
       <h1 style={{ fontSize: '36px', fontWeight: '900', marginBottom: '32px', letterSpacing:'-0.5px' }}>{fetchedMatchData.map_name}</h1>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '16px', marginBottom: '40px' }}>
           <div style={summaryCardStyle}>
-              <div style={{ fontSize: '13px', color: theme.textSub, fontWeight:'bold', display:'flex', alignItems:'center', gap:'6px' }}><Clock size={16}/> Total Match Time</div>
+              <div style={{ fontSize: '13px', color: theme.textSub, fontWeight:'bold', display:'flex', alignItems:'center', gap:'6px' }}><Clock size={16}/> {t.msTotalTime}</div>
               <div style={{ fontSize: '32px', fontWeight: '900' }}>{Math.floor(fetchedMatchData.timeline.duration_sec/60)}m {Math.floor(fetchedMatchData.timeline.duration_sec%60)}s</div>
           </div>
           <div style={summaryCardStyle}>
-              <div style={{ fontSize: '13px', color: theme.textSub, fontWeight:'bold', display:'flex', alignItems:'center', gap:'6px' }}><Trophy size={16}/> Score</div>
+              <div style={{ fontSize: '13px', color: theme.textSub, fontWeight:'bold', display:'flex', alignItems:'center', gap:'6px' }}><Trophy size={16}/> {t.msScoreLabel}</div>
               <div style={{ fontSize: '32px', fontWeight: '900' }}>
                   <span style={{ color: COLOR_TEAM1 }}>{dataSummary.t1Score}</span> <span style={{color:theme.textSub, fontSize:'24px'}}>-</span> <span style={{ color: COLOR_TEAM2 }}>{dataSummary.t2Score}</span>
               </div>
               <div style={{ fontSize: '12px', color: theme.textSub }}>
-                  Winner: {(() => {
+                  {t.msWinnerLabel}: {(() => {
                       // 스코어 비교가 기본. 동점이면 유효 winner(winner_override 반영된 직렬화 값)로 폴백 —
                       // 스코어 미기록(0:0) 상태로 승패만 보정된 밀기 매치가 Draw로 뜨지 않게.
                       const w = dataSummary.t1Score > dataSummary.t2Score ? dataSummary.t1Name
@@ -1671,19 +1667,19 @@ const MatchStats = ({ matchId, onBack, matchData: initialMatchData }) => {
               </div>
           </div>
           <div style={summaryCardStyle}>
-              <div style={{ fontSize: '13px', color: theme.textSub, fontWeight:'bold', display:'flex', alignItems:'center', gap:'6px' }}><Skull size={16}/> Final Blows</div>
+              <div style={{ fontSize: '13px', color: theme.textSub, fontWeight:'bold', display:'flex', alignItems:'center', gap:'6px' }}><Skull size={16}/> {t.msFinalBlows}</div>
               <div style={{ fontSize: '32px', fontWeight: '900' }}>
                   <span style={{color:COLOR_TEAM1}}>{fetchedMatchData.total_final_blows_t1}</span> <span style={{color: theme.textSub, fontSize:'24px'}}>-</span> <span style={{color:COLOR_TEAM2}}>{fetchedMatchData.total_final_blows_t2}</span>
               </div>
           </div>
           <div style={summaryCardStyle}>
-              <div style={{ fontSize: '13px', color: theme.textSub, fontWeight:'bold', display:'flex', alignItems:'center', gap:'6px' }}><Sword size={16}/> Fight Wins</div>
+              <div style={{ fontSize: '13px', color: theme.textSub, fontWeight:'bold', display:'flex', alignItems:'center', gap:'6px' }}><Sword size={16}/> {t.msFightWins}</div>
               <div style={{ fontSize: '32px', fontWeight: '900' }}>
                   <span style={{color:COLOR_TEAM1}}>{dataSummary.fights.filter(f=>f.winner===dataSummary.t1Name).length}</span> <span style={{color: theme.textSub, fontSize:'24px'}}>-</span> <span style={{color:COLOR_TEAM2}}>{dataSummary.fights.filter(f=>f.winner===dataSummary.t2Name).length}</span>
               </div>
           </div>
           <div style={summaryCardStyle}>
-              <div style={{ fontSize: '13px', color: theme.textSub, fontWeight:'bold', display:'flex', alignItems:'center', gap:'6px' }}><Zap size={16}/> Ult Economy</div>
+              <div style={{ fontSize: '13px', color: theme.textSub, fontWeight:'bold', display:'flex', alignItems:'center', gap:'6px' }}><Zap size={16}/> {t.msUltEconomy}</div>
               <div style={{ fontSize: '32px', fontWeight: '900' }}>
                   <span style={{color:COLOR_TEAM1}}>{(dataSummary.fights.filter(f=>f.winner===dataSummary.t1Name).length ? ((fetchedMatchData.stats?.reduce((acc,s)=>acc+(checkIsTeam1(s.team_name, dataSummary.t1Name)?s.ultimates_used:0),0) || 0) / dataSummary.fights.filter(f=>f.winner===dataSummary.t1Name).length).toFixed(2) : "0.00")}</span>
                   <span style={{color: theme.textSub, fontSize:'24px'}}>-</span>
@@ -1693,8 +1689,8 @@ const MatchStats = ({ matchId, onBack, matchData: initialMatchData }) => {
       </div>
 
       <div style={{ marginBottom: '24px', display:'flex', gap:'8px', background: theme.surface, padding:'8px', borderRadius:'12px', width:'fit-content', border:`1px solid ${theme.border}` }}>
-          <button onClick={() => setActiveRoundTab('overview')} style={{ padding: '8px 20px', borderRadius: '8px', border: 'none', background: activeRoundTab === 'overview' ? theme.surfaceHighlight : 'transparent', color: activeRoundTab === 'overview' ? theme.text : theme.textSub, fontWeight: 'bold', cursor: 'pointer' }}>Overview</button>
-          {dataSummary.rounds.map(r => ( <button key={r.round_number} onClick={() => setActiveRoundTab(r.round_number.toString())} style={{ padding: '8px 20px', borderRadius: '8px', border: 'none', background: activeRoundTab === r.round_number.toString() ? theme.surfaceHighlight : 'transparent', color: activeRoundTab === r.round_number.toString() ? theme.text : theme.textSub, fontWeight: 'bold', cursor: 'pointer' }}>Round {r.round_number}</button> ))}
+          <button onClick={() => setActiveRoundTab('overview')} style={{ padding: '8px 20px', borderRadius: '8px', border: 'none', background: activeRoundTab === 'overview' ? theme.surfaceHighlight : 'transparent', color: activeRoundTab === 'overview' ? theme.text : theme.textSub, fontWeight: 'bold', cursor: 'pointer' }}>{t.msOverview}</button>
+          {dataSummary.rounds.map(r => ( <button key={r.round_number} onClick={() => setActiveRoundTab(r.round_number.toString())} style={{ padding: '8px 20px', borderRadius: '8px', border: 'none', background: activeRoundTab === r.round_number.toString() ? theme.surfaceHighlight : 'transparent', color: activeRoundTab === r.round_number.toString() ? theme.text : theme.textSub, fontWeight: 'bold', cursor: 'pointer' }}>{t.msRoundLabel.replace('{n}', r.round_number)}</button> ))}
       </div>
 
       <div style={{ borderBottom: `1px solid ${theme.border}`, display: 'flex', gap: '16px', overflowX: 'auto', marginBottom: '32px' }}>

@@ -3,7 +3,7 @@ import { Shield, Sword, PlusCircle, Crosshair, ArrowUpDown, Calendar, ChevronDow
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
 import { useIsMobile, ScrollX } from "./utils/responsive";
-import { HERO_ALIAS_MAP, HERO_SKILL_MAP, getHeroImageSrc, TANK_HEROES, SUPPORT_HEROES } from "./gameData";
+import { getDisplayName, HERO_SKILL_MAP, getHeroImageSrc, TANK_HEROES, SUPPORT_HEROES } from "./gameData";
 
 const normalizeName = (name) => (name ? name.trim() : "");
 
@@ -14,14 +14,10 @@ const OUR_TEAM = "FLC";
 const MIN_FIGHTS = 30;
 
 
-const getDisplayHeroName = (rawName) => {
-    if (!rawName) return "";
-    const clean = rawName.trim();
-    return HERO_ALIAS_MAP[clean] || clean;
-};
+// [i18n] 표시명은 gameData.getDisplayName(단일 함수)로 통일 — 로컬 별칭맵/헬퍼 제거.
 
 const getRoleInfo = (heroName) => {
-    const name = getDisplayHeroName(heroName);
+    const name = getDisplayName(heroName);
     const tanks = TANK_HEROES;
     const supports = SUPPORT_HEROES;
     if (tanks.includes(name)) return { label: '탱커', order: 1 };
@@ -48,7 +44,7 @@ const getAbilityName = (heroName, abilityRaw) => {
     if (cleanAbility.toLowerCase().includes('secondary')) return '보조 발사';
     if (cleanAbility.toLowerCase().includes('melee')) return '근접 공격';
     
-    const displayHero = getDisplayHeroName(heroName);
+    const displayHero = getDisplayName(heroName);
     let skillName = cleanAbility;
     
     if (HERO_SKILL_MAP[displayHero] && HERO_SKILL_MAP[displayHero][cleanAbility]) {
@@ -321,7 +317,7 @@ export default function FirstKillStats({ allScrims }) {
                                                                     <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: `${pct}%`, background: `${SUCCESS_COLOR}20`, zIndex: 0 }} />
                                                                     <div style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '8px' }}>
                                                                         <img src={getHeroImageSrc(hero.name)} style={{ width: 18, height: 18, borderRadius: 2 }} onError={e=>e.currentTarget.style.display='none'}/>
-                                                                        <span style={{ fontSize: '13px' }}>{getDisplayHeroName(hero.name)}</span>
+                                                                        <span style={{ fontSize: '13px' }}>{getDisplayName(hero.name)}</span>
                                                                     </div>
                                                                     <span style={{ position: 'relative', zIndex: 1, fontSize: '13px', fontWeight: 'bold' }}>{hero.count}{t.timesUnit}</span>
                                                                 </div>

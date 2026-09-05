@@ -4,7 +4,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
 import { useIsMobile } from "./utils/responsive";
-import { getHeroImageSrc } from "./gameData";
+import { getHeroImageSrc, getDisplayName } from "./gameData";
 
 // [STEP3] 이미지 리졸버는 gameData.getHeroImageSrc(SSOT image 필드 기반)로 통합·임포트.
 
@@ -164,7 +164,7 @@ export default function PlayerProfileView({ playersData }) {
                                 <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '12px', background: theme.bg, padding: '12px', borderRadius: '12px', border: `1px solid ${theme.border}`, minWidth: '180px' }}>
                                     <img src={getHeroImageSrc(h.hero)} alt={h.hero} style={{ width: 40, height: 40, borderRadius: '8px', background: '#000' }} onError={e=>e.currentTarget.style.display='none'}/>
                                     <div>
-                                        <div style={{ fontWeight: 'bold', fontSize: '14px', marginBottom: '4px' }}>{h.hero}</div>
+                                        <div style={{ fontWeight: 'bold', fontSize: '14px', marginBottom: '4px' }}>{getDisplayName(h.hero)}</div>
                                         <div style={{ display: 'flex', gap: '12px', fontSize: '11px', color: theme.textSub }}>
                                             <span>{t.winRate} <strong style={{ color: h.winRate >= 50 ? theme.success : theme.danger }}>{h.winRate}%</strong></span>
                                             <span>K/D <strong>{h.kd}</strong></span>

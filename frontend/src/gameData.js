@@ -38,35 +38,30 @@ export const getRole = (name) => {
 export const TANK_HEROES = HEROES.filter((h) => h.role === 'tank').flatMap((h) => h.roleForms || []);
 export const SUPPORT_HEROES = HEROES.filter((h) => h.role === 'support').flatMap((h) => h.roleForms || []);
 
-// ── 별칭(표시명 정규화) 호환 맵 ──────────────────────────────────────────────
-// 기존 각 파일의 HERO_ALIAS_MAP 리터럴과 동일(8키). 로그/영문 표기를 한글 표시명으로.
-// heroes.json 만으로 무손실 재현이 불가한 수기 보정(예: '솔저 : 76', 특정 영문만)이라
-// 동작 보존용 호환 리터럴로 유지한다. (getHeroByName 이 무손실 조회를 별도 제공.)
-export const HERO_ALIAS_MAP = {
-  '솔저: 76': '솔저76', '솔저 : 76': '솔저76', 'D.Va': '디바', 'D.Mon': '디몬',
-  'Widowmaker': '위도우메이커', 'Tracer': '트레이서', 'Sojourn': '소전', 'Sierra': '시에라',
-};
-
-export const getDisplayHeroName = (rawName) => {
-  if (!rawName) return '';
-  const clean = String(rawName).trim();
-  return HERO_ALIAS_MAP[clean] || clean;
+// ── 표시명(단일 함수) ────────────────────────────────────────────────────────
+// [i18n] 어떤 표기(로그명/ko/en/별칭)든 한국어 표시명으로 통일한다.
+//   규칙: getHeroByName(name)?.displayKo || ?.ko || name(폴백).
+//   · displayKo 는 ko 가 영문 그대로인 경우만 지정(D.Va→'디바', D.Mon→'디몬'). 그 외 생략→ko.
+//   STEP2/3A 의 HERO_ALIAS_MAP/getDisplayHeroName(별칭맵) 을 대체·제거함.
+export const getDisplayName = (name) => {
+  if (!name) return '';
+  const h = getHeroByName(name);
+  if (h) return h.displayKo || h.ko || String(name).trim();
+  return String(name).trim();
 };
 
 // ── 스킬명 맵(정본 파생) ─────────────────────────────────────────────────────
-// heroes.json 의 skills 에서 파생. 키는 기존 관례 = 표시명(getDisplayHeroName(logName)).
-//   · dva→'디바', dmon→'디몬', soldier76→'솔저76' 로 원본 키와 일치.
-//   · 루시우 Ability 1 은 정본값 '분위기 전환' → FirstKillStats 의 오타 '분위 전환'을
-//     교정(이번 단계 승인 델타 1건).
+// heroes.json 의 skills 에서 파생. 키 = 표시명(getDisplayName(logName)) — getSkillName 조회와
+// 동일 함수를 써서 키/조회가 함께 이동(반환값 보존). 루시우 Ability 1 = 정본 '분위기 전환'.
 export const HERO_SKILL_MAP = {};
 for (const h of HEROES) {
   if (!h.skills) continue;
-  HERO_SKILL_MAP[getDisplayHeroName(h.logName)] = { ...h.skills };
+  HERO_SKILL_MAP[getDisplayName(h.logName)] = { ...h.skills };
 }
 
 // 정본 스킬명 조회 헬퍼(단축키 접미사 없는 원값). 미지정 시 입력 어빌리티 그대로.
 export const getSkillName = (heroName, abilityRaw) => {
-  const display = getDisplayHeroName(heroName);
+  const display = getDisplayName(heroName);
   const m = HERO_SKILL_MAP[display] || HERO_SKILL_MAP[String(heroName ?? '').trim()];
   const key = String(abilityRaw ?? '').trim();
   return (m && m[key]) || key;

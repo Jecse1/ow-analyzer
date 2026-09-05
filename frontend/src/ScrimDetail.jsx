@@ -141,7 +141,7 @@ export default function ScrimDetail({ scrimId, onSelectMatch, onBack, onGoOveral
           <div>
             <div style={{ fontSize: 24, fontWeight: 900, marginBottom: 4 }}>{scrim.scrim_name}</div>
             <div style={{ color: theme.textSub, fontSize: 13 }}>
-              {scrim.date} · {scrim.start_time} ~ {scrim.end_time} · {matches.length} {t.fightCount}
+              {scrim.date} · {scrim.start_time} ~ {scrim.end_time} · {t.matchCount.replace('{n}', matches.length)}
             </div>
           </div>
         </div>
@@ -180,7 +180,7 @@ export default function ScrimDetail({ scrimId, onSelectMatch, onBack, onGoOveral
       {/* 매치 목록 */}
       <div style={{ background: theme.surface, border: `1px solid ${theme.border}`, borderRadius: 14, padding: 18 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-          <div style={{ fontWeight: 900 }}>Match List</div>
+          <div style={{ fontWeight: 900 }}>{t.sdMatchList}</div>
 
           {/* 선택 모드 액션 바 */}
           {isSelectMode && (
@@ -230,7 +230,7 @@ export default function ScrimDetail({ scrimId, onSelectMatch, onBack, onGoOveral
                   )}
                   <div>
                     <div style={{ fontWeight: 900, marginBottom: 6 }}>#{m.match_index} · {m.map_name}</div>
-                    <div style={{ color: theme.textSub, fontSize: 13 }}>Result: {m.result || "Unknown"}</div>
+                    <div style={{ color: theme.textSub, fontSize: 13 }}>{t.sdResult}: {m.result || t.sdUnknown}</div>
                   </div>
                 </div>
 
@@ -240,7 +240,7 @@ export default function ScrimDetail({ scrimId, onSelectMatch, onBack, onGoOveral
                       onClick={e => { e.stopPropagation(); onSelectMatch?.(m.id); }}
                       style={{ background: theme.text, border: "none", color: theme.bg, padding: "8px 10px", borderRadius: 10, cursor: "pointer", fontWeight: 900, fontSize: 12 }}
                     >
-                      Analyze
+                      {t.sdAnalyze}
                     </button>
                   </div>
                 )}
