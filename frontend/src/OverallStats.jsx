@@ -9,6 +9,7 @@ import { tpl } from "./FightLabStats";
 import { computeFights } from './utils/fightAnalysis';
 import { buildMapSummary } from './utils/mapSummary';
 import { buildVideoLink, hasVideo } from './utils/videoLink';
+import { overallImgAliases } from './gameData';
 
 const API_BASE = import.meta.env.PROD ? "" : "";
 
@@ -41,9 +42,10 @@ const addDaysStr = (s, n) => {
 };
 const pct0 = (v) => (v == null ? '-' : `${Math.round(v * 100)}%`);
 
+// [STEP2] 별칭 데이터는 gameData(SSOT)에서 가져오되 리졸버 로직 보존(이미지 통합은 STEP 3).
 const getHeroImg = (heroName) => {
   if (!heroName || heroName === 'Unknown') return null;
-  const aliases = { 'D.Va': 'dva', '디바': 'dva', 'D.Mon': '디몬', '디몬': '디몬', '솔저: 76': 'soldier76', '솔저76': 'soldier76', '솔저 76': 'soldier76', '제트팩 캣': 'jetpackcat', '시에라': 'sierra' };
+  const aliases = overallImgAliases;
   const name = (heroName || '').trim();
   const fileName = aliases[name] || name.replace(/[\s.:]/g, '');
   return `/heroes/${fileName}.png`;

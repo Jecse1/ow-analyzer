@@ -68,6 +68,9 @@ desktop.ini
 # ============== One-off analysis scripts ==============
 backend/analysis/
 
+# ============== Game-data diff dumps (SSOT 검증 산출물) ==============
+backend/dumps/
+
 # ============== Misc ==============
 *.bak
 *.tmp

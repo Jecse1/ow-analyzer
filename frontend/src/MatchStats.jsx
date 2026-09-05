@@ -10,6 +10,7 @@ import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
 import { buildVideoLink, hasVideo } from "./utils/videoLink";
 import { VOD_LEAD_SEC } from "./FightLabStats"; // 궁극기 타임라인 VOD 점프 리드(한타 분석 탭과 동일 상수)
+import { HERO_ALIAS_MAP, HERO_SKILL_MAP, exactFileNames, TANK_HEROES, SUPPORT_HEROES } from "./gameData";
 import NoVideoModal from "./NoVideoModal";
 import { computeFights } from './utils/fightAnalysis';
 
@@ -39,64 +40,7 @@ const resolveTeamColor = (teamName, t1Name, t2Name) => {
     return '#9ca3af';
 };
 
-const HERO_ALIAS_MAP = {
-    '솔저: 76': '솔저76', '솔저 : 76': '솔저76', 'D.Va': '디바', 'D.Mon': '디몬', 'Widowmaker': '위도우메이커', 'Tracer': '트레이서', 'Sojourn': '소전', 'Sierra': '시에라'
-};
 
-const HERO_SKILL_MAP = {
-    '디바': { 'Ability 1': '부스터', 'Ability 2': '마이크로 미사일', 'Ultimate': '자폭' },
-    '둠피스트': { 'Ability 1': '지진 강타', 'Ability 2': '파워 블락', 'Ultimate': '파멸의 일격' },
-    '정커퀸': { 'Ability 1': '지휘의 외침', 'Ability 2': '육식 도살', 'Ultimate': '광란' },
-    '마우가': { 'Ability 1': '돌파', 'Ability 2': '터질 듯한 심장', 'Ultimate': '케이지 혈투' },
-    '오리사': { 'Ability 1': '방어 강화', 'Ability 2': '투창', 'Ultimate': '대지의 창' },
-    '라마트라': { 'Ability 1': '네메시스 형태', 'Ability 2': '탐식의 소용돌이', 'Ultimate': '절멸' },
-    '라인하르트': { 'Ability 1': '돌진', 'Ability 2': '화염 강타', 'Ultimate': '대지분쇄' },
-    '로드호그': { 'Ability 1': '갈고리 사슬', 'Ability 2': '숨 돌리기', 'Ultimate': '돼재앙' },
-    '시그마': { 'Ability 1': '키네틱 손아귀', 'Ability 2': '강착', 'Ultimate': '중력 붕괴' },
-    '윈스턴': { 'Ability 1': '점프 팩', 'Ability 2': '방벽 생성기', 'Ultimate': '원시의 분노' },
-    '레킹볼': { 'Ability 1': '구르기', 'Ability 2': '적응형 보호막', 'Ultimate': '지뢰밭' },
-    '자리야': { 'Ability 1': '입자 방벽', 'Ability 2': '방벽 씌우기', 'Ultimate': '중력자탄' },
-    '해저드': { 'Ability 1': '가시', 'Ability 2': '매복', 'Ultimate': '폭우' },
-    '애쉬': { 'Ability 1': '충격 샷건', 'Ability 2': '다이너마이트', 'Ultimate': 'B.O.B' },
-    '바스티온': { 'Ability 1': '설정: 강습', 'Ability 2': 'A-36 전술 수류탄', 'Ultimate': '설정: 포격' },
-    '캐서디': { 'Ability 1': '구르기', 'Ability 2': '자석 수류탄', 'Ultimate': '황야의 무법자' },
-    '에코': { 'Ability 1': '비행', 'Ability 2': '광선 집중', 'Ultimate': '복제' },
-    '겐지': { 'Ability 1': '질풍참', 'Ability 2': '튕겨내기', 'Ultimate': '용검' },
-    '한조': { 'Ability 1': '폭풍 화살', 'Ability 2': '음파 화살', 'Ultimate': '용의 일격' },
-    '정크랫': { 'Ability 1': '충격 지뢰', 'Ability 2': '강철 덫', 'Ultimate': '죽이는 타이어' },
-    '메이': { 'Ability 1': '급속 빙결', 'Ability 2': '빙벽', 'Ultimate': '눈보라' },
-    '파라': { 'Ability 1': '점프 추진기', 'Ability 2': '충격탄', 'Ultimate': '포화' },
-    '리퍼': { 'Ability 1': '망령화', 'Ability 2': '그림자 밟기', 'Ultimate': '죽음의 꽃' },
-    '소전': { 'Ability 1': '파워 슬라이드', 'Ability 2': '분열 사격', 'Ultimate': '오버클럭' },
-    '솔저: 76': { 'Ability 1': '질주', 'Ability 2': '생체장', 'Ultimate': '전술 조준경' },
-    '솔저76': { 'Ability 1': '질주', 'Ability 2': '생체장', 'Ultimate': '전술 조준경' },
-    '솜브라': { 'Ability 1': '은신', 'Ability 2': '바이러스', 'Ultimate': 'EMP' },
-    '시메트라': { 'Ability 1': '감시 포탑', 'Ability 2': '순간이동기', 'Ultimate': '광자 방벽' },
-    '토르비욘': { 'Ability 1': '포탑 설치', 'Ability 2': '과부하', 'Ultimate': '초고열 용광로' },
-    '트레이서': { 'Ability 1': '점멸', 'Ability 2': '시간 역행', 'Ultimate': '펄스 폭탄' },
-    '위도우메이커': { 'Ability 1': '갈고리 발사', 'Ability 2': '맹독 지뢰', 'Ultimate': '적외선 투시' },
-    '벤처': { 'Ability 1': '잠복', 'Ability 2': '드릴 돌진', 'Ultimate': '지각 충격' },
-    '벤데타': { 'Ability 1': '소용돌이 질주', 'Ability 2': '치솟는 베기', 'Ultimate': '갈라내는 칼날' },
-    '시온': { 'Ability 1': '피하기', 'Ability 2': '조이라이드', 'Ultimate': '광란의 살육' },
-    '아나': { 'Ability 1': '수면총', 'Ability 2': '생체 수류탄', 'Ultimate': '나노 강화제' },
-    '바티스트': { 'Ability 1': '치유 파동', 'Ability 2': '불사 장치', 'Ultimate': '증폭 매트릭스' },
-    '브리기테': { 'Ability 1': '방패 밀쳐내기', 'Ability 2': '도리깨 투척', 'Ultimate': '집결' },
-    '일리아리': { 'Ability 1': '분출', 'Ability 2': '치유의 태양석', 'Ultimate': '태양 작렬' },
-    '주노': { 'Ability 1': '글라이드 부스트', 'Ability 2': '하이퍼 링', 'Ultimate': '궤도 광선' },
-    '키리코': { 'Ability 1': '순보', 'Ability 2': '정화의 방울', 'Ultimate': '여우길' },
-    '라이프위버': { 'Ability 1': '연꽃 단상', 'Ability 2': '구원의 손길', 'Ultimate': '생명의 나무' },
-    '루시우': { 'Ability 1': '분위기 전환', 'Ability 2': '볼륨을 높여라', 'Ultimate': '소리 방벽' },
-    '메르시': { 'Ability 1': '수호천사', 'Ability 2': '부활', 'Ultimate': '발키리' },
-    '모이라': { 'Ability 1': '소멸', 'Ability 2': '생체 구슬', 'Ultimate': '융화' },
-    '젠야타': { 'Ability 1': '조화의 구슬', 'Ability 2': '부조화의 구슬', 'Ultimate': '초월' },
-    '우양': { 'Ability 1': '격류', 'Ability 2': '수호의 파도', 'Ultimate': '해일 폭발' },
-    '도미나': { 'Ability 1': '소닉 리펄서', 'Ability 2': '수정 발사', 'Ultimate': '판옵티콘' },
-    // 슬롯 1=Shift(추진기)/2=E(융합 연발총) 추정 — 첫 실로그로 확정
-    '디몬': { 'Ability 1': '추진기', 'Ability 2': '융합 연발총', 'Ultimate': '한계 돌파' },
-    '미즈키': { 'Ability 1': '종이 인형 분신술', 'Ability 2': '속박 사슬', 'Ultimate': '결계 성역' },
-    '제트팩 캣': { 'Ability 1': '생명줄', 'Ability 2': '골골대기', 'Ultimate': '납치한다냥' },
-    '시에라': { 'Ability 1': '앵커 드론', 'Ability 2': '진동 폭약', 'Ultimate': '개척자' },
-};
 
 const getDisplayHeroName = (rawName) => {
     if (!rawName) return "";
@@ -106,11 +50,7 @@ const getDisplayHeroName = (rawName) => {
 
 const getHeroImageSrc = (heroName) => {
   if (!heroName || heroName === 'Unknown') return null;
-  const exactFileNames = {
-    'D.Va': 'dva', '디바': 'dva', 'D.Mon': '디몬', '디몬': '디몬',
-    '솔저: 76': 'soldier76', '솔저 76': 'soldier76', 'Soldier: 76': 'soldier76',
-    '제트팩 캣': 'jetpackcat', 'Jetpack Cat': 'jetpackcat', '시에라': 'sierra'
-  };
+  
   const displayName = getDisplayHeroName(heroName);
   let fileName = exactFileNames[heroName] || exactFileNames[displayName];
   if (!fileName) { fileName = displayName.replace(/[\s.:]/g, ''); }
@@ -119,8 +59,8 @@ const getHeroImageSrc = (heroName) => {
 
 const getRoleInfo = (heroName) => {
     const name = getDisplayHeroName(heroName);
-    const tanks = ['디바', 'D.Va', '둠피스트', 'Doomfist', '정커퀸', 'Junker Queen', '마우가', 'Mauga', '오리사', 'Orisa', '라마트라', 'Ramattra', '라인하르트', 'Reinhardt', '로드호그', 'Roadhog', '시그마', 'Sigma', '윈스턴', 'Winston', '레킹볼', 'Wrecking Ball', '자리야', 'Zarya', '해저드', 'Hazard', '도미나', 'Domina', '디몬', 'D.Mon'];
-    const supports = ['아나', 'Ana', '바티스트', 'Baptiste', '브리기테', 'Brigitte', '일리아리', 'Illari', '키리코', 'Kiriko', '라이프위버', 'Lifeweaver', '루시우', 'Lucio', '메르시', 'Mercy', '모이라', 'Moira', '젠야타', 'Zenyatta', '주노', 'Juno', '미즈키', 'Mizuki', '제트팩 캣', 'Jetpack Cat', '우양', 'Wuyang'];
+    const tanks = TANK_HEROES;
+    const supports = SUPPORT_HEROES;
     
     if (tanks.includes(name) || tanks.includes(heroName)) return { label: 'tank', order: 1 };
     if (supports.includes(name) || supports.includes(heroName)) return { label: 'support', order: 3 };

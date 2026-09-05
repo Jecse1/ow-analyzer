@@ -6,19 +6,14 @@ import {
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
 import { useIsMobile } from "./utils/responsive";
+import { HERO_ALIAS_MAP, exactFileNames } from "./gameData";
 
-const HERO_ALIAS_MAP = {
-    '솔저: 76': '솔저76', '솔저 : 76': '솔저76', 'D.Va': '디바', 'D.Mon': '디몬', 'Widowmaker': '위도우메이커', 'Tracer': '트레이서', 'Sojourn': '소전', 'Sierra': '시에라'
-};
 const getDisplayHeroName = (rawName) => {
     if (!rawName) return "";
     return HERO_ALIAS_MAP[rawName.trim()] || rawName.trim();
 };
 const getHeroImageSrc = (heroName) => {
     if (!heroName || heroName === 'Unknown') return null;
-    const exactFileNames = {
-        'D.Va': 'dva', '디바': 'dva', 'D.Mon': '디몬', '디몬': '디몬', '솔저: 76': 'soldier76', '솔저 76': 'soldier76', '제트팩 캣': 'jetpackcat', '시에라': 'sierra'
-    };
     const displayName = getDisplayHeroName(heroName);
     let fileName = exactFileNames[heroName] || exactFileNames[displayName] || displayName.replace(/[\s.:]/g, '');
     return `/heroes/${fileName}.png`;
