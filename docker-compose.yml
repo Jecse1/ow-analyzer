@@ -5,7 +5,7 @@ services:
     build: ./backend
     container_name: overwatch-backend
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
     volumes:
       - ./backend/data:/app/data
       - ./backend/uploads:/app/uploads
