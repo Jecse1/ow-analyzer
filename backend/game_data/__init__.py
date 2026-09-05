@@ -79,8 +79,16 @@ for _m in MAPS_DATA:
 MODE_EN2KO: dict = dict(_MAPS_DOC["modeEn2ko"])
 
 # ── 밴픽 파생 ───────────────────────────────────────────────────────────────
-BANPICK_HEROES: list = [dict(_h["banpick"]) for _h in HEROES_DATA if _h.get("banpick")]
-BANPICK_MAPS: list = [dict(_m["banpick"]) for _m in MAPS_DATA if _m.get("banpick")]
+# 표시 순서 = banpick.order(STEP 3B 도입)로 정렬. 파생 dict 은 order 를 제외해
+# 기존 구조({id,name,role}/{id,name,type})를 보존한다(덤프 diff-0).
+BANPICK_HEROES: list = [
+    {_k: _v for _k, _v in _h["banpick"].items() if _k != "order"}
+    for _h in sorted((_x for _x in HEROES_DATA if _x.get("banpick")), key=lambda _x: _x["banpick"].get("order", 0))
+]
+BANPICK_MAPS: list = [
+    {_k: _v for _k, _v in _m["banpick"].items() if _k != "order"}
+    for _m in sorted((_x for _x in MAPS_DATA if _x.get("banpick")), key=lambda _x: _x["banpick"].get("order", 0))
+]
 
 # 정리(모듈 네임스페이스 오염 방지)
 del _h, _k, _v, _forms, _role, _m

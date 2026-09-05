@@ -3,6 +3,7 @@ import { Shield, Sword, Heart } from 'lucide-react';
 // [중요] ThemeContext와 LanguageContext 가져오기
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
+import { TANK_HEROES, SUPPORT_HEROES } from "./gameData";
 
 const MatchTable = ({ stats }) => {
   const { theme } = useTheme(); // [테마 훅]
@@ -20,12 +21,13 @@ const MatchTable = ({ stats }) => {
   }
 
   // 역할 구분
+  // [STEP3B] 역할 목록을 gameData(SSOT)에서 파생(역할별 roleForms = 한/영 표기 모두 포함).
+  //   기존 로컬 목록은 영문 위주·일부 누락(도미나/미즈키/제트팩캣)이었으나, SSOT 파생으로 보정된다.
+  //   (주: 이 컴포넌트는 현재 어디에서도 import 되지 않는 미사용 코드 — MatchStats 는 자체 SafeMatchTable 사용.)
   const getRole = (hero) => {
     if (!hero) return 'dps';
-    const tanks = ['D.Va', 'Winston', 'Reinhardt', 'Zarya', 'Sigma', 'Doomfist', 'Junker Queen', 'Mauga', 'Orisa', 'Ramattra', 'Roadhog', 'Wrecking Ball', 'Hazard', 'D.Mon'];
-    const supports = ['Ana', 'Baptiste', 'Brigitte', 'Illari', 'Kiriko', 'Lifeweaver', 'Lucio', 'Mercy', 'Moira', 'Zenyatta', 'Juno', '우양'];
-    if (tanks.includes(hero)) return 'tank';
-    if (supports.includes(hero)) return 'support';
+    if (TANK_HEROES.includes(hero)) return 'tank';
+    if (SUPPORT_HEROES.includes(hero)) return 'support';
     return 'dps';
   };
 

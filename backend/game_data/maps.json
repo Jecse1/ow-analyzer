@@ -27,7 +27,8 @@
       "banpick": {
         "id": "nepal",
         "name": "네팔",
-        "type": "Control"
+        "type": "Control",
+        "order": 1
       }
     },
     {
@@ -51,7 +52,8 @@
       "banpick": {
         "id": "lijiang",
         "name": "리장 타워",
-        "type": "Control"
+        "type": "Control",
+        "order": 2
       }
     },
     {
@@ -75,7 +77,8 @@
       "banpick": {
         "id": "busan",
         "name": "부산",
-        "type": "Control"
+        "type": "Control",
+        "order": 3
       }
     },
     {
@@ -99,7 +102,8 @@
       "banpick": {
         "id": "oasis",
         "name": "오아시스",
-        "type": "Control"
+        "type": "Control",
+        "order": 5
       }
     },
     {
@@ -123,7 +127,8 @@
       "banpick": {
         "id": "ilios",
         "name": "일리오스",
-        "type": "Control"
+        "type": "Control",
+        "order": 6
       }
     },
     {
@@ -147,7 +152,8 @@
       "banpick": {
         "id": "antarctic",
         "name": "남극반도",
-        "type": "Control"
+        "type": "Control",
+        "order": 0
       }
     },
     {
@@ -173,7 +179,8 @@
       "banpick": {
         "id": "samoa",
         "name": "사모아",
-        "type": "Control"
+        "type": "Control",
+        "order": 4
       }
     },
     {
@@ -194,7 +201,8 @@
       "banpick": {
         "id": "dorado",
         "name": "도라도",
-        "type": "Escort"
+        "type": "Escort",
+        "order": 9
       }
     },
     {
@@ -215,7 +223,8 @@
       "banpick": {
         "id": "rialto",
         "name": "리알토",
-        "type": "Escort"
+        "type": "Escort",
+        "order": 10
       }
     },
     {
@@ -236,7 +245,8 @@
       "banpick": {
         "id": "circuit",
         "name": "서킷 로얄",
-        "type": "Escort"
+        "type": "Escort",
+        "order": 12
       }
     },
     {
@@ -257,7 +267,8 @@
       "banpick": {
         "id": "junkertown",
         "name": "쓰레기촌",
-        "type": "Escort"
+        "type": "Escort",
+        "order": 13
       }
     },
     {
@@ -280,7 +291,8 @@
       "banpick": {
         "id": "route66",
         "name": "66번 국도",
-        "type": "Escort"
+        "type": "Escort",
+        "order": 7
       }
     },
     {
@@ -304,7 +316,8 @@
       "banpick": {
         "id": "gibraltar",
         "name": "감시기지 지브롤터",
-        "type": "Escort"
+        "type": "Escort",
+        "order": 8
       }
     },
     {
@@ -325,7 +338,8 @@
       "banpick": {
         "id": "shambali",
         "name": "샴발리 수도원",
-        "type": "Escort"
+        "type": "Escort",
+        "order": 11
       }
     },
     {
@@ -346,7 +360,8 @@
       "banpick": {
         "id": "havana",
         "name": "하바나",
-        "type": "Escort"
+        "type": "Escort",
+        "order": 14
       }
     },
     {
@@ -367,7 +382,8 @@
       "banpick": {
         "id": "numbani",
         "name": "눔바니",
-        "type": "Hybrid"
+        "type": "Hybrid",
+        "order": 15
       }
     },
     {
@@ -388,7 +404,8 @@
       "banpick": {
         "id": "midtown",
         "name": "미드타운",
-        "type": "Hybrid"
+        "type": "Hybrid",
+        "order": 16
       }
     },
     {
@@ -409,7 +426,8 @@
       "banpick": {
         "id": "blizzardworld",
         "name": "블리자드 월드",
-        "type": "Hybrid"
+        "type": "Hybrid",
+        "order": 17
       }
     },
     {
@@ -432,7 +450,8 @@
       "banpick": {
         "id": "eichenwalde",
         "name": "아이헨발데",
-        "type": "Hybrid"
+        "type": "Hybrid",
+        "order": 18
       }
     },
     {
@@ -453,7 +472,8 @@
       "banpick": {
         "id": "kingsrow",
         "name": "왕의 길",
-        "type": "Hybrid"
+        "type": "Hybrid",
+        "order": 19
       }
     },
     {
@@ -477,7 +497,8 @@
       "banpick": {
         "id": "paraiso",
         "name": "파라이수",
-        "type": "Hybrid"
+        "type": "Hybrid",
+        "order": 20
       }
     },
     {
@@ -498,7 +519,8 @@
       "banpick": {
         "id": "hollywood",
         "name": "할리우드",
-        "type": "Hybrid"
+        "type": "Hybrid",
+        "order": 21
       }
     },
     {
@@ -518,7 +540,8 @@
       "banpick": {
         "id": "neoncross",
         "name": "네온 교차로",
-        "type": "Hybrid"
+        "type": "Hybrid",
+        "order": 22
       }
     },
     {
@@ -539,7 +562,8 @@
       "banpick": {
         "id": "newqueenstreet",
         "name": "뉴 퀸 스트리트",
-        "type": "Push"
+        "type": "Push",
+        "order": 23
       }
     },
     {
@@ -560,7 +584,8 @@
       "banpick": {
         "id": "colosseo",
         "name": "콜로세오",
-        "type": "Push"
+        "type": "Push",
+        "order": 25
       }
     },
     {
@@ -586,7 +611,8 @@
       "banpick": {
         "id": "esperanca",
         "name": "이스페란사",
-        "type": "Push"
+        "type": "Push",
+        "order": 24
       }
     },
     {
@@ -610,7 +636,8 @@
       "banpick": {
         "id": "lunasafi",
         "name": "루나사피",
-        "type": "Push"
+        "type": "Push",
+        "order": 26
       }
     },
     {
@@ -631,7 +658,8 @@
       "banpick": {
         "id": "newjunkcity",
         "name": "뉴 정크 시티",
-        "type": "Flashpoint"
+        "type": "Flashpoint",
+        "order": 27
       }
     },
     {
@@ -652,7 +680,8 @@
       "banpick": {
         "id": "suravasa",
         "name": "수라바사",
-        "type": "Flashpoint"
+        "type": "Flashpoint",
+        "order": 28
       }
     },
     {
@@ -675,7 +704,8 @@
       "banpick": {
         "id": "atliss",
         "name": "아틀리스",
-        "type": "Flashpoint"
+        "type": "Flashpoint",
+        "order": 29
       }
     },
     {

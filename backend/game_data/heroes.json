@@ -29,7 +29,8 @@
       "banpick": {
         "id": "dva",
         "name": "디바",
-        "role": "Tank"
+        "role": "Tank",
+        "order": 0
       }
     },
     {
@@ -55,7 +56,8 @@
       "banpick": {
         "id": "doomfist",
         "name": "둠피스트",
-        "role": "Tank"
+        "role": "Tank",
+        "order": 1
       }
     },
     {
@@ -81,7 +83,8 @@
       "banpick": {
         "id": "junker-queen",
         "name": "정커퀸",
-        "role": "Tank"
+        "role": "Tank",
+        "order": 11
       }
     },
     {
@@ -107,7 +110,8 @@
       "banpick": {
         "id": "mauga",
         "name": "마우가",
-        "role": "Tank"
+        "role": "Tank",
+        "order": 6
       }
     },
     {
@@ -133,7 +137,8 @@
       "banpick": {
         "id": "orisa",
         "name": "오리사",
-        "role": "Tank"
+        "role": "Tank",
+        "order": 8
       }
     },
     {
@@ -159,7 +164,8 @@
       "banpick": {
         "id": "ramattra",
         "name": "라마트라",
-        "role": "Tank"
+        "role": "Tank",
+        "order": 2
       }
     },
     {
@@ -185,7 +191,8 @@
       "banpick": {
         "id": "reinhardt",
         "name": "라인하르트",
-        "role": "Tank"
+        "role": "Tank",
+        "order": 3
       }
     },
     {
@@ -211,7 +218,8 @@
       "banpick": {
         "id": "roadhog",
         "name": "로드호그",
-        "role": "Tank"
+        "role": "Tank",
+        "order": 5
       }
     },
     {
@@ -237,7 +245,8 @@
       "banpick": {
         "id": "sigma",
         "name": "시그마",
-        "role": "Tank"
+        "role": "Tank",
+        "order": 7
       }
     },
     {
@@ -263,7 +272,8 @@
       "banpick": {
         "id": "winston",
         "name": "윈스턴",
-        "role": "Tank"
+        "role": "Tank",
+        "order": 9
       }
     },
     {
@@ -289,7 +299,8 @@
       "banpick": {
         "id": "wrecking-ball",
         "name": "레킹볼",
-        "role": "Tank"
+        "role": "Tank",
+        "order": 4
       }
     },
     {
@@ -315,7 +326,8 @@
       "banpick": {
         "id": "zarya",
         "name": "자리야",
-        "role": "Tank"
+        "role": "Tank",
+        "order": 10
       }
     },
     {
@@ -341,7 +353,8 @@
       "banpick": {
         "id": "hazard",
         "name": "해저드",
-        "role": "Tank"
+        "role": "Tank",
+        "order": 12
       }
     },
     {
@@ -367,7 +380,8 @@
       "banpick": {
         "id": "domina",
         "name": "도미나",
-        "role": "Tank"
+        "role": "Tank",
+        "order": 13
       }
     },
     {
@@ -395,7 +409,8 @@
       "banpick": {
         "id": "dmon",
         "name": "디몬",
-        "role": "Tank"
+        "role": "Tank",
+        "order": 14
       }
     },
     {
@@ -421,7 +436,8 @@
       "banpick": {
         "id": "ashe",
         "name": "애쉬",
-        "role": "Damage"
+        "role": "Damage",
+        "order": 24
       }
     },
     {
@@ -447,7 +463,8 @@
       "banpick": {
         "id": "bastion",
         "name": "바스티온",
-        "role": "Damage"
+        "role": "Damage",
+        "order": 18
       }
     },
     {
@@ -473,7 +490,8 @@
       "banpick": {
         "id": "cassidy",
         "name": "캐서디",
-        "role": "Damage"
+        "role": "Damage",
+        "order": 28
       }
     },
     {
@@ -499,7 +517,8 @@
       "banpick": {
         "id": "echo",
         "name": "에코",
-        "role": "Damage"
+        "role": "Damage",
+        "order": 25
       }
     },
     {
@@ -525,7 +544,8 @@
       "banpick": {
         "id": "genji",
         "name": "겐지",
-        "role": "Damage"
+        "role": "Damage",
+        "order": 15
       }
     },
     {
@@ -551,7 +571,8 @@
       "banpick": {
         "id": "hanzo",
         "name": "한조",
-        "role": "Damage"
+        "role": "Damage",
+        "order": 33
       }
     },
     {
@@ -577,7 +598,8 @@
       "banpick": {
         "id": "junkrat",
         "name": "정크랫",
-        "role": "Damage"
+        "role": "Damage",
+        "order": 27
       }
     },
     {
@@ -603,7 +625,8 @@
       "banpick": {
         "id": "mei",
         "name": "메이",
-        "role": "Damage"
+        "role": "Damage",
+        "order": 17
       }
     },
     {
@@ -629,7 +652,8 @@
       "banpick": {
         "id": "pharah",
         "name": "파라",
-        "role": "Damage"
+        "role": "Damage",
+        "order": 31
       }
     },
     {
@@ -655,7 +679,8 @@
       "banpick": {
         "id": "reaper",
         "name": "리퍼",
-        "role": "Damage"
+        "role": "Damage",
+        "order": 16
       }
     },
     {
@@ -681,7 +706,8 @@
       "banpick": {
         "id": "sojourn",
         "name": "소전",
-        "role": "Damage"
+        "role": "Damage",
+        "order": 20
       }
     },
     {
@@ -713,7 +739,8 @@
       "banpick": {
         "id": "soldier-76",
         "name": "솔저 76",
-        "role": "Damage"
+        "role": "Damage",
+        "order": 21
       }
     },
     {
@@ -739,7 +766,8 @@
       "banpick": {
         "id": "sombra",
         "name": "솜브라",
-        "role": "Damage"
+        "role": "Damage",
+        "order": 22
       }
     },
     {
@@ -765,7 +793,8 @@
       "banpick": {
         "id": "symmetra",
         "name": "시메트라",
-        "role": "Damage"
+        "role": "Damage",
+        "order": 23
       }
     },
     {
@@ -794,7 +823,8 @@
       "banpick": {
         "id": "torbjorn",
         "name": "토르비욘",
-        "role": "Damage"
+        "role": "Damage",
+        "order": 29
       }
     },
     {
@@ -820,7 +850,8 @@
       "banpick": {
         "id": "tracer",
         "name": "트레이서",
-        "role": "Damage"
+        "role": "Damage",
+        "order": 30
       }
     },
     {
@@ -846,7 +877,8 @@
       "banpick": {
         "id": "venture",
         "name": "벤처",
-        "role": "Damage"
+        "role": "Damage",
+        "order": 19
       }
     },
     {
@@ -872,7 +904,8 @@
       "banpick": {
         "id": "widowmaker",
         "name": "위도우메이커",
-        "role": "Damage"
+        "role": "Damage",
+        "order": 26
       }
     },
     {
@@ -893,7 +926,8 @@
       "banpick": {
         "id": "anran",
         "name": "안란",
-        "role": "Damage"
+        "role": "Damage",
+        "order": 35
       }
     },
     {
@@ -914,7 +948,8 @@
       "banpick": {
         "id": "emre",
         "name": "엠레",
-        "role": "Damage"
+        "role": "Damage",
+        "order": 36
       }
     },
     {
@@ -939,7 +974,8 @@
       "banpick": {
         "id": "shion",
         "name": "시온",
-        "role": "Damage"
+        "role": "Damage",
+        "order": 37
       }
     },
     {
@@ -965,7 +1001,8 @@
       "banpick": {
         "id": "ana",
         "name": "아나",
-        "role": "Support"
+        "role": "Support",
+        "order": 44
       }
     },
     {
@@ -991,7 +1028,8 @@
       "banpick": {
         "id": "baptiste",
         "name": "바티스트",
-        "role": "Support"
+        "role": "Support",
+        "order": 42
       }
     },
     {
@@ -1017,7 +1055,8 @@
       "banpick": {
         "id": "brigitte",
         "name": "브리기테",
-        "role": "Support"
+        "role": "Support",
+        "order": 43
       }
     },
     {
@@ -1043,7 +1082,8 @@
       "banpick": {
         "id": "illari",
         "name": "일리아리",
-        "role": "Support"
+        "role": "Support",
+        "order": 46
       }
     },
     {
@@ -1069,7 +1109,8 @@
       "banpick": {
         "id": "juno",
         "name": "주노",
-        "role": "Support"
+        "role": "Support",
+        "order": 48
       }
     },
     {
@@ -1095,7 +1136,8 @@
       "banpick": {
         "id": "kiriko",
         "name": "키리코",
-        "role": "Support"
+        "role": "Support",
+        "order": 49
       }
     },
     {
@@ -1121,7 +1163,8 @@
       "banpick": {
         "id": "lifeweaver",
         "name": "라이프위버",
-        "role": "Support"
+        "role": "Support",
+        "order": 38
       }
     },
     {
@@ -1149,7 +1192,8 @@
       "banpick": {
         "id": "lucio",
         "name": "루시우",
-        "role": "Support"
+        "role": "Support",
+        "order": 39
       }
     },
     {
@@ -1175,7 +1219,8 @@
       "banpick": {
         "id": "mercy",
         "name": "메르시",
-        "role": "Support"
+        "role": "Support",
+        "order": 40
       }
     },
     {
@@ -1201,7 +1246,8 @@
       "banpick": {
         "id": "moira",
         "name": "모이라",
-        "role": "Support"
+        "role": "Support",
+        "order": 41
       }
     },
     {
@@ -1227,7 +1273,8 @@
       "banpick": {
         "id": "zenyatta",
         "name": "젠야타",
-        "role": "Support"
+        "role": "Support",
+        "order": 47
       }
     },
     {
@@ -1253,7 +1300,8 @@
       "banpick": {
         "id": "mizuki",
         "name": "미즈키",
-        "role": "Support"
+        "role": "Support",
+        "order": 50
       }
     },
     {
@@ -1279,7 +1327,8 @@
       "banpick": {
         "id": "jetpack-cat",
         "name": "제트팩 캣",
-        "role": "Support"
+        "role": "Support",
+        "order": 51
       }
     },
     {
@@ -1305,7 +1354,8 @@
       "banpick": {
         "id": "sierra",
         "name": "시에라",
-        "role": "Support"
+        "role": "Support",
+        "order": 52
       }
     },
     {
@@ -1325,7 +1375,8 @@
       "banpick": {
         "id": "freja",
         "name": "프레야",
-        "role": "Damage"
+        "role": "Damage",
+        "order": 32
       }
     },
     {
@@ -1349,7 +1400,8 @@
       "banpick": {
         "id": "vendetta",
         "name": "벤데타",
-        "role": "Damage"
+        "role": "Damage",
+        "order": 34
       }
     },
     {
@@ -1373,7 +1425,8 @@
       "banpick": {
         "id": "wuyang",
         "name": "우양",
-        "role": "Support"
+        "role": "Support",
+        "order": 45
       }
     }
   ],

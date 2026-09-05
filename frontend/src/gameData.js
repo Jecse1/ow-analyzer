@@ -16,13 +16,13 @@ import mapsDoc from '@gamedata/maps.json';
 export const HEROES = heroesDoc.heroes;
 export const MAPS = mapsDoc.maps;
 
-// ── 무손실 이름 조회 ─────────────────────────────────────────────────────────
-// 정본 aliases + 파생 필드(logName/ko/en/roleForms/koreanHeroMap 키)를 모두 색인.
-// 어떤 표기(표시명·로그명·별칭)든 해당 영웅 엔트리로 해석한다.
+// ── 이름 조회 ────────────────────────────────────────────────────────────────
+// [STEP3B] 정본(logName/ko/en) + aliases 만으로 색인한다. roleForms/koreanHeroMap 은
+//   백엔드(KHM/_FIGHTLAB_*) 재현용 필드이며, 프론트 조회에는 불필요함이 검증됐다
+//   (aliases 가 전 표기형을 이미 포함 — dump 검증 diff-0). 어떤 표기든 해당 엔트리로 해석.
 const _lookup = new Map();
 for (const h of HEROES) {
-  const forms = [h.logName, h.ko, h.en, ...(h.aliases || []), ...(h.roleForms || [])];
-  for (const k of Object.keys(h.koreanHeroMap || {})) forms.push(k);
+  const forms = [h.logName, h.ko, h.en, ...(h.aliases || [])];
   for (const f of forms) if (f && !_lookup.has(f)) _lookup.set(f, h);
 }
 export const getHeroByName = (name) => (name ? _lookup.get(String(name).trim()) || null : null);
@@ -99,41 +99,16 @@ export const getHeroImageCandidates = (name, id) => {
 };
 
 // ── 밴픽 그리드 데이터(정본 파생) ────────────────────────────────────────────
-// 값(id/name/role·type)은 heroes.json/maps.json 의 banpick 필드에서 파생한다.
-// ⚠ "표시 순서"는 SSOT JSON에 없다(기존 CSV의 한글정렬+신규추가분 말미 순서 = 역사적 산물).
-//   그리드 순서 불변 계약을 지키기 위해 아래 id 순서 목록으로 재현한다.
-//   → SSOT 미완 지점: 향후 heroes.json/maps.json 에 banpick 표시 순서를 넣으면 이 목록 제거 가능.
-const BANPICK_HERO_ORDER = [
-  // Tank
-  'dva', 'doomfist', 'ramattra', 'reinhardt', 'wrecking-ball', 'roadhog', 'mauga', 'sigma',
-  'orisa', 'winston', 'zarya', 'junker-queen', 'hazard', 'domina', 'dmon',
-  // Damage
-  'genji', 'reaper', 'mei', 'bastion', 'venture', 'sojourn', 'soldier-76', 'sombra', 'symmetra',
-  'ashe', 'echo', 'widowmaker', 'junkrat', 'cassidy', 'torbjorn', 'tracer', 'pharah', 'freja',
-  'hanzo', 'vendetta', 'anran', 'emre', 'shion',
-  // Support
-  'lifeweaver', 'lucio', 'mercy', 'moira', 'baptiste', 'brigitte', 'ana', 'wuyang', 'illari',
-  'zenyatta', 'juno', 'kiriko', 'mizuki', 'jetpack-cat', 'sierra',
-];
-const BANPICK_MAP_ORDER = [
-  'antarctic', 'nepal', 'lijiang', 'busan', 'samoa', 'oasis', 'ilios',
-  'route66', 'gibraltar', 'dorado', 'rialto', 'shambali', 'circuit', 'junkertown', 'havana',
-  'numbani', 'midtown', 'blizzardworld', 'eichenwalde', 'kingsrow', 'paraiso', 'hollywood', 'neoncross',
-  'newqueenstreet', 'esperanca', 'colosseo', 'lunasafi',
-  'newjunkcity', 'suravasa', 'atliss',
-];
-
-const _heroByBanpickId = new Map(HEROES.filter((h) => h.banpick).map((h) => [h.banpick.id, h.banpick]));
-const _mapByBanpickId = new Map(MAPS.filter((m) => m.banpick).map((m) => [m.banpick.id, m.banpick]));
-
-// 기존 parseCSV 결과와 형태 동일: [{ id, name, role }] / [{ id, name, type }] (표시 순서 보존).
-export const BANPICK_HEROES = BANPICK_HERO_ORDER.map((id) => {
-  const b = _heroByBanpickId.get(id);
-  if (!b) throw new Error(`gameData: banpick hero id 누락 - ${id}`);
-  return { id: b.id, name: b.name, role: b.role };
-});
-export const BANPICK_MAPS = BANPICK_MAP_ORDER.map((id) => {
-  const b = _mapByBanpickId.get(id);
-  if (!b) throw new Error(`gameData: banpick map id 누락 - ${id}`);
-  return { id: b.id, name: b.name, type: b.type };
-});
+// 값(id/name/role·type)과 "표시 순서"를 모두 heroes.json/maps.json 의 banpick 필드에서 파생한다.
+// [STEP3B] 표시 순서 = banpick.order(정수). STEP 3A의 하드코딩 순서 목록을 제거하고 order 정렬로 대체.
+// 기존 parseCSV 결과와 형태 동일: [{ id, name, role }] / [{ id, name, type }].
+export const BANPICK_HEROES = HEROES
+  .filter((h) => h.banpick)
+  .slice()
+  .sort((a, b) => a.banpick.order - b.banpick.order)
+  .map((h) => ({ id: h.banpick.id, name: h.banpick.name, role: h.banpick.role }));
+export const BANPICK_MAPS = MAPS
+  .filter((m) => m.banpick)
+  .slice()
+  .sort((a, b) => a.banpick.order - b.banpick.order)
+  .map((m) => ({ id: m.banpick.id, name: m.banpick.name, type: m.banpick.type }));
