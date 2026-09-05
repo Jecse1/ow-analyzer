@@ -1214,8 +1214,8 @@ const EventsView = ({ matchData, t1Name, t2Name }) => {
         if (ev.event_type === 'round_end') {
             finalGeneral.push({ ...ev, displayTime, realTimestamp: ev.timestamp, label: t.round, desc: `${t.round} ${ev.round_number || '?'} ${t.matchEnd}` });
         } else if (ev.event_type === 'objective_captured') {
-            const team = ev.capturing_team || ev.player_team || 'Unknown Team';
-            finalGeneral.push({ ...ev, displayTime, realTimestamp: ev.timestamp, label: t.events, desc: `${team}: ${t.events}`, color: resolveTeamColor(team, t1Name, t2Name) });
+            const team = String(ev.capturing_team || ev.player_team || 'Unknown Team').trim();
+            finalGeneral.push({ ...ev, displayTime, realTimestamp: ev.timestamp, label: t.objectiveCaptured || t.events, desc: `${team}: ${t.objectiveCaptured || t.events}`, color: resolveTeamColor(team, t1Name, t2Name) });
         }
         
         if (ev.event_type === 'kill') {

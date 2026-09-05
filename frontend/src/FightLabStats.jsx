@@ -1480,6 +1480,12 @@ export function useFightScope(records, t) {
         () => records.reduce((min, r) => (!min || (r.session_date && r.session_date < min) ? r.session_date : min), null),
         [records]
     );
+    const lastSessionDate = useMemo(
+        () => records.reduce((max, r) => (!max || (r.session_date && r.session_date > max) ? r.session_date : max), null),
+        [records]
+    );
+    // 선택 기간에 레코드가 0건일 때 한 번에 '전체'로 전환(초안+적용 동시)
+    const applyAllPeriod = () => { setDraft(d => ({ ...d, presetA: 'all' })); setPresetA('all'); };
     const presetALabel = presetA === 'all' ? t.flPresetAll : presetA === '1w' ? t.flPreset1w : presetA === '2w' ? t.flPreset2w : presetA === '1m' ? t.flPreset1m : t.flPresetCustom;
     const pastLabel = presetB === 'all_before' ? t.flCmpPastAll
         : presetB === 'prev_same' ? (presetA === 'custom' ? t.flPresetPrevSame : `${t.flCmpPrevPrefix}${presetALabel}`)
@@ -1490,7 +1496,7 @@ export function useFightScope(records, t) {
         compareOn, draft, setD, applyDraft,
         opponentList, mapList, viewRecords,
         rangeA, rangeB, overlap, recsA, recsB, recsNow,
-        firstSessionDate, today, presetA, presetALabel, pastLabel,
+        firstSessionDate, lastSessionDate, applyAllPeriod, today, presetA, presetALabel, pastLabel,
     };
 }
 
@@ -1805,6 +1811,12 @@ export function FightScopeShell({ title, desc, sc, t, captionRight, children, hi
                     <ScopeCaption sc={sc} t={t} right={captionRight} hideMap={hideMap} />
                     {sc.overlap && (
                         <p style={{ color: T.yellow, fontSize: '12px', margin: '0 0 12px' }}>⚠ {t.flOverlapWarn}</p>
+                    )}
+                    {sc.presetA !== 'all' && sc.viewRecords.length > 0 && sc.recsA.length === 0 && (
+                        <p style={{ color: T.yellow, fontSize: '12px', margin: '0 0 12px', display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                            <span>⚠ {(t.flNoDataInPeriod || '').replace('{date}', sc.lastSessionDate || '-')}</span>
+                            <button type="button" onClick={sc.applyAllPeriod} style={{ fontSize: '11px', padding: '2px 8px', background: 'transparent', color: T.text, border: `1px solid ${T.inputBorder}`, borderRadius: '4px', cursor: 'pointer' }}>{t.flShowAllPeriod}</button>
+                        </p>
                     )}
                     {children}
                 </main>

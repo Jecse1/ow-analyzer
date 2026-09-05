@@ -9,7 +9,7 @@ import { tpl } from "./FightLabStats";
 import { computeFights } from './utils/fightAnalysis';
 import { buildMapSummary } from './utils/mapSummary';
 import { buildVideoLink, hasVideo } from './utils/videoLink';
-import { getHeroImageSrc } from './gameData';
+import { getHeroImageSrc, getHeroByName } from './gameData';
 
 const API_BASE = import.meta.env.PROD ? "" : "";
 
@@ -802,7 +802,7 @@ export default function OverallStats({ onBack, onGoSessions }) {
                                 <tbody>
                                     {filteredData.heroStats.map((h, i) => (
                                         <tr key={i} style={{borderBottom:`1px solid ${theme.border}`}}>
-                                            <td style={{padding:'12px', fontWeight:'bold', whiteSpace:'nowrap'}}>{h.name}</td>
+                                            <td style={{padding:'12px', fontWeight:'bold', whiteSpace:'nowrap'}}>{getHeroByName(h.name)?.ko || h.name}</td>
                                             <td style={{padding:'12px'}}>{h.games}</td>
                                             <td style={{padding:'12px', color: h.winRate >= 50 ? theme.success : theme.danger}}>{h.winRate}%</td>
                                             <td style={{padding:'12px'}}>{h.avgDmg.toLocaleString()}</td>

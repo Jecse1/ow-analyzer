@@ -1345,16 +1345,19 @@ async def register_scrim_manual(request: Request):
         processed_pauses.sort(key=lambda x: x["start_sec"])
 
         # 승패 보정: 실제 팀명일 때만 인정(그 외 값은 무시 → 미보정)
+        # 팀명/맵명 앞뒤 공백 제거 — ' FLC'처럼 저장되면 기준팀 필터·팀 목록이 갈라짐(260702-T1 #3 사례)
+        t1_name = (match.team1Name or "").strip() or "1팀"
+        t2_name = (match.team2Name or "").strip() or "2팀"
         wo = (match.winner_override or "").strip()
-        if wo not in (match.team1Name, match.team2Name):
+        if wo not in (t1_name, t2_name):
             wo = ""
 
         processed_matches.append({
             "id": str(uuid.uuid4()),
             "match_index": idx + 1,
-            "map_name": match.map_name,
-            "team1_name": match.team1Name,
-            "team2_name": match.team2Name,
+            "map_name": (match.map_name or "").strip(),
+            "team1_name": t1_name,
+            "team2_name": t2_name,
             "result": match.result,
             "winner_override": wo,
             "video_url": match.video_url or "",
