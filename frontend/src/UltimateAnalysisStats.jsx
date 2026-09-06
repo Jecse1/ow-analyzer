@@ -774,7 +774,7 @@ export default function UltimateAnalysisStats() {
             captionRight={!loading && !error ? <VerdictChip verdict={verdict} t={t} /> : null}>
             <SubTabPills tabs={[['situation', t.flUaTabSituation], ['comboseq', t.flUaTabComboSeq], ['patterns', t.flPatTab], ['init', t.flInitTab]]} active={subTab} onChange={setSubTab} />
 
-            {/* [상황] 상단 요약 숫자 2개 (frame_016의 큰 수치처럼 플랫하게) — 기존 [궁극기] 서브탭 그대로 */}
+            {/* [상황] 상단 요약 숫자 2개 (큰 수치처럼 플랫하게) — 기존 [궁극기] 서브탭 그대로 */}
             {subTab === 'situation' && !loading && (
                 <div style={{ display: 'flex', gap: '40px', marginBottom: '14px', flexWrap: 'wrap' }}>
                     <div>

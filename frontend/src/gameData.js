@@ -99,7 +99,7 @@ export const getHeroImageSrc = (heroName) => {
   if (!heroName || heroName === 'Unknown') return null;
   const h = getHeroByName(heroName);
   if (h) return `/heroes/${h.image}.png`;
-  const displayName = getDisplayHeroName(heroName);
+  const displayName = getDisplayName(heroName);
   return `/heroes/${displayName.replace(/[\s.:]/g, '')}.png`;
 };
 

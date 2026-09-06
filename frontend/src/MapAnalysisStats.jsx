@@ -1,5 +1,5 @@
 // 맵 분석 탭 — 우리 팀이 어떤 맵/맵 타입에 강하고 약한지 (맵 선택·밴픽의 근거).
-// 구성: ① 맵 타입 요약(frame_065) ② 맵별 상세(frame_066, 행 클릭 → 매치 목록) ③ 주별 추이 매트릭스.
+// 구성: ① 맵 타입 요약 ② 맵별 상세(행 클릭 → 매치 목록) ③ 주별 추이 매트릭스.
 // 데이터: /api/fight-records 재사용 — 매치 단위 필드(match_result/our_score/enemy_score)는
 //         이 탭을 위해 응답에 추가된 필드(기존 필드 무변경). 공용 스코프(useFightScope 등)는
 //         FightLabStats에서 재사용하되 상태는 이 탭에서 독립. 맵 필터는 무의미하므로 hideMap.
@@ -314,7 +314,7 @@ export default function MapAnalysisStats({ onGoSession }) {
                 </div>
             )}
 
-            {/* ① 맵 타입 요약 (frame_065) — 행 클릭 → 그 타입의 맵별 드릴다운 */}
+            {/* ① 맵 타입 요약 — 행 클릭 → 그 타입의 맵별 드릴다운 */}
             <h2 style={sectionTitle}>{t.maTypeTitle}</h2>
             <p style={{ color: T.faint, fontSize: '11px', margin: '0 0 8px' }}>{t.maTypeHint}</p>
             <div className="mobile-scroll-hint" style={{ overflowX: 'auto' }}>
@@ -374,7 +374,7 @@ export default function MapAnalysisStats({ onGoSession }) {
                 </table>
             </div>
 
-            {/* ② 맵별 상세 (frame_066) — 행 클릭 → 매치 목록 펼침 */}
+            {/* ② 맵별 상세 — 행 클릭 → 매치 목록 펼침 */}
             <h2 style={sectionTitle}>{t.maMapsTitle}</h2>
             <p style={{ color: T.faint, fontSize: '11px', margin: '0 0 8px' }}>{t.maMapsHint}</p>
             <div className="mobile-scroll-hint" style={{ overflowX: 'auto' }}>

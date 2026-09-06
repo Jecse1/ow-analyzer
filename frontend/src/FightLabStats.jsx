@@ -7,7 +7,7 @@ import { useIsMobile } from "./utils/responsive";
 
 const API_BASE = "";
 
-// ── 디자인 토큰 (Scrimlytics frame_004/005/006/016/018/026/062에서 추출, 이 탭 전용 다크 고정) ──
+// ── 디자인 토큰 (이 탭 전용 다크 고정) ──
 export const T = {
     bg: '#111113',                        // 페이지 배경
     panel: '#17171a',                     // 사이드바·접이식 패널
@@ -282,7 +282,7 @@ function PlayerBreakdown({ pfs, rangeA, rangeB, compareOn, minSample, perspectiv
     const ctlLabel = { fontSize: '11px', fontWeight: 500, color: T.sub, marginBottom: '4px' };
     const ctlSelect = { background: T.inputBg, color: T.text, border: `1px solid ${T.inputBorder}`, borderRadius: '6px', padding: '6px 10px', fontSize: '12px', fontWeight: 400, outline: 'none', cursor: 'pointer', minWidth: '170px' };
 
-    // 사진(frame_016)의 화살표: 변화 없음은 회색 '→', 개선/악화는 방향색 ↑↓ (반전 지표는 색 반전)
+    // 화살표: 변화 없음은 회색 '→', 개선/악화는 방향색 ↑↓ (반전 지표는 색 반전)
     const Arrow = ({ diff, dir }) => {
         if (diff == null) return null;
         const glyph = diff > 0.0005 ? '↑' : diff < -0.0005 ? '↓' : '→';
@@ -300,7 +300,7 @@ function PlayerBreakdown({ pfs, rangeA, rangeB, compareOn, minSample, perspectiv
 
     return (
         <div>
-            {/* 상단 컨트롤: 좌 그룹 기준 + 열 그룹, 우 정렬 기준 (frame_016 배치) */}
+            {/* 상단 컨트롤: 좌 그룹 기준 + 열 그룹, 우 정렬 기준 */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '12px', flexWrap: 'wrap', gap: '10px' }}>
                 <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-end' }}>
                     <div>
@@ -398,7 +398,7 @@ function PlayerBreakdown({ pfs, rangeA, rangeB, compareOn, minSample, perspectiv
                 </table>
             </div>
 
-            {/* 각주 (frame_016 하단 문구 위치) */}
+            {/* 각주 (하단 문구 위치) */}
             <p style={{ color: T.faint, fontSize: '11px', margin: '10px 2px 0' }}>{t.flPbFootnote}</p>
             <p style={{ color: T.faint, fontSize: '11px', margin: '4px 2px 0' }}>{t.flPbPoolWarn}</p>
 
@@ -498,7 +498,7 @@ export const flipRecord = (r) => ({
     enemy_score: r.our_score,
 });
 
-// ── 궁극기 콤보 분석 (frame_033~035: 컨트롤 행 + 상위/하위 콤보 표) ─────────────
+// ── 궁극기 콤보 분석 (컨트롤 행 + 상위/하위 콤보 표) ─────────────
 // "콤보" = 같은 한타에서 우리(현재 시점 팀)가 함께 사용한 궁 조합(ultimate_start 기준).
 // 한타에 궁이 콤보 크기보다 많으면 크기 N의 모든 부분조합을 각각 집계(한 한타가 여러 콤보에 포함).
 const CMB_ROLE_ORDER = { tank: 0, damage: 1, support: 2, other: 3 };
@@ -763,7 +763,7 @@ export function UltimateComboSection({ recsNow, recsPast, compareOn, t, GREEN, R
     return (
         <div style={{ marginTop: '28px' }}>
             <h2 style={{ fontSize: '16px', fontWeight: 600, color: T.text, margin: '0 0 12px' }}>{t.flCmbTitle}</h2>
-            {/* 컨트롤 행 (frame_033 상단 배치) */}
+            {/* 컨트롤 행 (상단 배치) */}
             <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-end', flexWrap: 'wrap', marginBottom: '4px' }}>
                 <div>
                     <div style={ctlLabel}>{t.flCmbRoleFilter}</div>
@@ -820,7 +820,7 @@ export function UltimateComboSection({ recsNow, recsPast, compareOn, t, GREEN, R
     );
 }
 
-// ── 궁극기 시퀀스 분석 (frame_038~047: 첫 궁 선택 → 후속 궁 두 표 → 상호작용) ──
+// ── 궁극기 시퀀스 분석 (첫 궁 선택 → 후속 궁 두 표 → 상호작용) ──
 // "후속" = 선택 궁이 나온 한타에서 그 궁의 첫 사용 timestamp보다 "이후"(초과),
 //          응수 창(RESPONSE_WINDOW_SEC, 기본 3초) 이내에 사용된 궁.
 // timestamp가 같으면(동시 사용) 후속으로 세지 않음 — 동시 콤보는 콤보 분석 영역.
@@ -1051,7 +1051,7 @@ export function UltimateSequenceSection({ recsNow, recsPast, compareOn, t, GREEN
     return (
         <div style={{ marginTop: '28px' }}>
             <h2 style={{ fontSize: '16px', fontWeight: 600, color: T.text, margin: '0 0 4px' }}>{t.flSeqTitle}</h2>
-            {/* 최소 표본 (frame_040의 Minimum sample 자리 — 별도 행) */}
+            {/* 최소 표본 (Minimum sample 자리 — 별도 행) */}
             <div style={{ margin: '10px 0 2px' }}>
                 <div style={ctlLabel}>{t.flMinSample}</div>
                 <input type="number" min="1" value={minS}
@@ -1094,7 +1094,7 @@ export function UltimateSequenceSection({ recsNow, recsPast, compareOn, t, GREEN
                 </button>
             </div>
 
-            {/* Step 1 요약 한 줄 (frame_038 형식) */}
+            {/* Step 1 요약 한 줄 */}
             {p1 && res1 && (
                 res1.empty
                     ? <p style={{ color: T.sub, fontSize: '12px', margin: '10px 2px 0' }}>{t.flSeqNoData}</p>
@@ -1109,7 +1109,7 @@ export function UltimateSequenceSection({ recsNow, recsPast, compareOn, t, GREEN
                     </div>
             )}
 
-            {/* Step 2 — 후속 궁 두 표 (frame_042 좌우 배치) */}
+            {/* Step 2 — 후속 궁 두 표 (좌우 배치) */}
             {p1 && res1 && !res1.empty && (
                 <>
                     <div style={stepTitle}>{t.flSeqStep2}</div>
@@ -1119,7 +1119,7 @@ export function UltimateSequenceSection({ recsNow, recsPast, compareOn, t, GREEN
                     </div>
                     <p style={{ color: T.faint, fontSize: '11px', margin: '10px 2px 0' }}>{t.flSeqNote}</p>
 
-                    {/* Step 3 — 두 번째 궁 (frame_046 프리필 + 수동 선택) */}
+                    {/* Step 3 — 두 번째 궁 (프리필 + 수동 선택) */}
                     <div style={stepTitle}>{t.flSeqStep3}</div>
                     <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-end', flexWrap: 'wrap' }}>
                         <div>
@@ -1164,7 +1164,7 @@ export function UltimateSequenceSection({ recsNow, recsPast, compareOn, t, GREEN
                 </>
             )}
 
-            {/* Step 4 — 상호작용 표 (frame_047 형식 4행) + 요약문 + 각주 */}
+            {/* Step 4 — 상호작용 표 (4행) + 요약문 + 각주 */}
             {p2 && res2 && (
                 <>
                     <div style={stepTitle}>{t.flSeqStep4}</div>
@@ -1500,7 +1500,7 @@ export function useFightScope(records, t) {
     };
 }
 
-// 사이드바 (frame_016 좌측): 초안을 수정하고 '적용'을 눌러야 반영 — 기존 aside JSX 그대로 추출
+// 사이드바 (좌측): 초안을 수정하고 '적용'을 눌러야 반영 — 기존 aside JSX 그대로 추출
 // 옵션(전부 기본 false — 기존 사용처 동작 무변경, 맵 분석 탭 전용):
 //   hideMap: 맵 필터 숨김 · hideMinSample: 최소 표본 입력 숨김(표본 하한 없는 탭)
 //   opponentOnlyForThem: 상대팀 선택을 '상대 시점'일 때만 노출(우리 시점 전환 시 상대 필터 초기화)
@@ -1667,7 +1667,7 @@ export function SituationTable({ rowDefs, statsA, statsB, statsOpp, compareOn, m
     const winColor = (w) => (w == null || Math.abs(w - 0.5) < 0.005) ? T.text : w > 0.5 ? GREEN : RED;
     const fmtDelta = (dPP) => dPP == null ? '—' : `${dPP > 0 ? '+' : '−'}${Math.abs(dPP).toFixed(1)}${t.flUnitPp}`;
 
-    // frame_006 형식 행: 상황 | 발생률 | Δ발생률(vs 상대) | 승률 | Δ승률(vs 상대) | 추세(vs 과거) | 표본 | 안정성 | 상태
+    // 형식 행: 상황 | 발생률 | Δ발생률(vs 상대) | 승률 | Δ승률(vs 상대) | 추세(vs 과거) | 표본 | 안정성 | 상태
     const renderRow = (def, idx) => {
         const a = statsA[def.key];
         const b = statsB ? statsB[def.key] : null;
@@ -1764,7 +1764,7 @@ export function ExplainBox({ lines, t }) {
     );
 }
 
-// 서브탭 필 버튼 줄 (frame_004 필형)
+// 서브탭 필 버튼 줄 (필형)
 export function SubTabPills({ tabs, active, onChange }) {
     return (
         <div style={{ display: 'flex', gap: '6px', marginBottom: '14px' }}>

@@ -277,7 +277,7 @@ async def upload_match_log(scrim_id: str = Form(...), match_index: int = Form(..
 
             parsed = parse_overwatch_log(log_text, custom_t1=c_t1, custom_t2=c_t2)
             target_match: dict = {}
-            calculate_pure_stats(parsed, target_match)
+            calculate_pure_stats(parsed, target_match, match_label=f"{scrim_id} #{match_index}")
 
             db_match.winner = target_match.get("winner", "")
             db_match.score_t1 = target_match.get("score_t1", 0)
@@ -435,7 +435,7 @@ async def rebuild_database():
                     c_t1 = target_match.get("team1_name", "1팀")
                     c_t2 = target_match.get("team2_name", "2팀")
                     parsed = parse_overwatch_log(log_text, custom_t1=c_t1, custom_t2=c_t2)
-                    calculate_pure_stats(parsed, target_match)
+                    calculate_pure_stats(parsed, target_match, match_label=f"{scrim_id} #{match_index}")
                     target_match["video_offset"] = offset_save
                     target_match["pauses"] = pauses_save
                     # setup_complete real_timestamp 추출 (-8 보정 없이)

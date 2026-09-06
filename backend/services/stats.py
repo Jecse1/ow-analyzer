@@ -15,7 +15,7 @@ from services.fight_metrics import (
     build_fight_summaries, compute_fight_metrics, _fightlab_side, _fightlab_hero_role,
 )
 
-def calculate_pure_stats(parsed, target_match):
+def calculate_pure_stats(parsed, target_match, match_label=""):
     rounds_map = parsed["rounds_stats"]
     total_rounds = parsed["total_rounds"]
     round_scores = parsed.get("round_scores", {})
@@ -27,14 +27,6 @@ def calculate_pure_stats(parsed, target_match):
     team2 = parsed["team_2_name"]
     n_team1 = normalize_team_name(team1)
     n_team2 = normalize_team_name(team2)
-
-    # [방어] total_rounds 와 round_start/round_end 최대 라운드 불일치 경고(판정 로직 무변경).
-    # 파싱 카운트가 어긋난 매치(예: 추가 라운드 로그 일부 유실)를 로그로 가시화만 한다.
-    _rs_max = max(round_attackers.keys(), default=0)
-    _re_max = max(round_scores.keys(), default=0)
-    if total_rounds != max(_rs_max, _re_max):
-        print(f"[WARN] 라운드 수 불일치: map={map_name!r} total_rounds={total_rounds} "
-              f"round_start_max={_rs_max} round_end_max={_re_max}")
 
     final_t1_score = 0
     final_t2_score = 0
@@ -72,6 +64,16 @@ def calculate_pure_stats(parsed, target_match):
     is_push = any(k in map_name for k in ["밀기", "Push", "에스페란사", "이스페란사", "뉴 퀸", "콜로세오", "룬아사피", "루나사피"])
     has_payload = any(e.get("event_type") == "payload_progress" for e in parsed["events"])
     is_hybrid_escort = has_payload or any(k in game_mode for k in ["Escort", "화물", "Hybrid", "혼합"])
+
+    # [방어] 혼합·호위에서 round_start(공격 시작)는 있으나 대응 round_end(라운드 종료)가 없는
+    #   라운드를 경고한다(추가 라운드 로그 일부 유실 등). 판정 로직 무변경 — 로그만 남긴다.
+    #   플래시포인트/쟁탈은 라운드 표기 체계가 달라(시작 1 · 종료 6 등) 제외한다.
+    if is_hybrid_escort:
+        _missing_end = sorted(r for r in round_attackers.keys() if r not in round_scores)
+        if _missing_end:
+            _lbl = f"{match_label} " if match_label else ""
+            print(f"[WARN] 라운드 종료 누락 {_lbl}map={map_name!r} teams={team1}/{team2} "
+                  f"round_start_only={_missing_end}")
 
     if is_push:
         final_t1_score = 0

@@ -1671,7 +1671,7 @@ const MatchStats = ({ matchId, onBack, matchData: initialMatchData }) => {
                           : dataSummary.t2Score > dataSummary.t1Score ? dataSummary.t2Name
                           : (fetchedMatchData.winner === dataSummary.t1Name || fetchedMatchData.winner === dataSummary.t2Name) ? fetchedMatchData.winner
                           : null;
-                      if (!w) return 'Draw';
+                      if (!w) return t.draw;
                       const c = w === dataSummary.t1Name ? COLOR_TEAM1 : COLOR_TEAM2;
                       return <span style={{color:c, fontWeight:'bold', background:`${c}20`, padding:'2px 6px', borderRadius:4}}>{w}</span>;
                   })()}
