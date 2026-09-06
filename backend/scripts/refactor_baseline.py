@@ -181,17 +181,33 @@ def _import_side_effects() -> dict:
     }
 
 
+def _canonical_openapi() -> dict:
+    """openapi.json 을 정규화(paths 키 정렬·각 path 내 method 정렬·components.schemas 키 정렬)해
+    sha256 을 낸다. 라우터 분리로 paths '나열 순서'만 바뀌어도 이 값은 불변이어야 한다.
+    반환: {sha256, paths(정렬된 경로 키 리스트)}."""
+    raw = _http_get("/openapi.json")
+    doc = json.loads(raw.decode("utf-8"))
+    paths = doc.get("paths", {})
+    canon_paths = {p: {m: paths[p][m] for m in sorted(paths[p].keys())} for p in sorted(paths.keys())}
+    schemas = (doc.get("components", {}) or {}).get("schemas", {}) or {}
+    canon = {"paths": canon_paths, "schemas": {k: schemas[k] for k in sorted(schemas.keys())}}
+    blob = json.dumps(canon, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return {"sha256": _sha(blob), "paths": sorted(paths.keys())}
+
+
 def capture() -> dict:
     return {
         "api": _api_dumps(),
         "parse": _parse_dumps(),
         "dump_game_data": _dump_game_data_sha(),
+        "openapi_canonical": _canonical_openapi(),
         "side_effects": _import_side_effects(),
     }
 
 
 def _flatten(d: dict, prefix="") -> dict:
-    """비교용 평탄화: {'api.scrims.sha256': ..., 'parse.korean.sha256': ...}. 프로세스별 값(id/path/source)은 제외."""
+    """판정용 평탄화. 원시 openapi(api.openapi.*)는 '경로 나열 순서'로 sha가 바뀌므로 판정 제외(참고용).
+    대신 openapi_canonical.sha256 을 판정에 포함."""
     flat = {}
     for k, v in d.items():
         key = f"{prefix}{k}"
@@ -199,6 +215,9 @@ def _flatten(d: dict, prefix="") -> dict:
             flat.update(_flatten(v, key + "."))
         elif k in ("sha256", "bytes", "row_data_dir_exists", "response_cache_is_dict"):
             flat[key] = v
+    # 원시 openapi 바이트/sha 는 판정에서 제외(순서만 바뀜)
+    flat.pop("api.openapi.sha256", None)
+    flat.pop("api.openapi.bytes", None)
     return flat
 
 
@@ -231,6 +250,18 @@ def main_cli():
         av = str(a)[:18] + ".." if a is not None and len(str(a)) > 20 else str(a)
         bv = str(b)[:18] + ".." if b is not None and len(str(b)) > 20 else str(b)
         print(f"{k:<40} {av:<20} {bv:<20} {'OK' if match else 'DIFF!!!'}")
+    # 참고(판정 제외): 원시 openapi sha — 경로 나열 순서로만 달라질 수 있음
+    rraw = (ref.get("api", {}).get("openapi", {}) or {}).get("sha256")
+    craw = (cur.get("api", {}).get("openapi", {}) or {}).get("sha256")
+    print(f"{'[info] api.openapi.sha256(raw)':<40} {str(rraw)[:18]+'..':<20} {str(craw)[:18]+'..':<20} {'(same)' if rraw==craw else '(order-diff, 판정제외)'}")
+    # 경로 집합 동일 assert (정규화 sha 로 순서무관 내용 동일은 이미 판정됨)
+    ref_paths = set((ref.get("openapi_canonical", {}) or {}).get("paths", []))
+    cur_paths = set((cur.get("openapi_canonical", {}) or {}).get("paths", []))
+    set_ok = (ref_paths == cur_paths)
+    print(f"{'openapi paths set-equal':<40} {str(len(ref_paths)):<20} {str(len(cur_paths)):<20} {'OK' if set_ok else 'DIFF!!!'}")
+    if not set_ok:
+        print("  only-in-baseline:", ref_paths - cur_paths, "| only-in-current:", cur_paths - ref_paths)
+    ok = ok and set_ok
     print("\nRESULT:", "ALL MATCH (OK)" if ok else "MISMATCH - STOP")
     return 0 if ok else 1
 
