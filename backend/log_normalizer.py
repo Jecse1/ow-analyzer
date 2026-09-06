@@ -28,7 +28,7 @@ from collections import Counter
 _THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 if _THIS_DIR not in sys.path:
     sys.path.insert(0, _THIS_DIR)
-from main import KOREAN_HERO_MAP  # noqa: E402  (한국어→영어)
+from game_data import KOREAN_HERO_MAP  # noqa: E402  (한국어→영어; STEP1: main→game_data 직접 참조)
 
 # EN→KR 영웅 역매핑. KOREAN_HERO_MAP 값(영문)이 중복되면 먼저 등장한 한국어를 정본으로 둔다.
 _HERO_EN2KO: dict[str, str] = {}

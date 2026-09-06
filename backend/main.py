@@ -65,78 +65,22 @@ try:
 except Exception as _e:
     print(f"[banpick] router not loaded: {_e}")
 
-DATA_FILE = "scrim_data.json"
-ROW_DATA_DIR = "scrim_rowdata_log"
 _json_lock = threading.Lock()
 
-# ─────────────────────────────────────────────────────────────────────────────
-# 응답 레벨 메모리 캐시 — 무거운 조회 엔드포인트(full-events / fight-records /
-# player-fight-stats)의 "최종 응답"을 통째로 저장. compute_fights 등 내부 로직은
-# 무수정, 엔드포인트 바깥에서만 감싼다. DB 변경 API 성공 시 전체 무효화.
-# 서버 재시작 후 첫 요청이 느린 것은 허용(스펙).
-# ─────────────────────────────────────────────────────────────────────────────
-_RESPONSE_CACHE: dict = {}  # key -> 직렬화된 JSON bytes
+# [split] 응답 캐시 → cache.py (하위호환 re-export; _RESPONSE_CACHE 단일 객체 유지)
+from cache import _RESPONSE_CACHE, _response_cache_get, _response_cache_store, _invalidate_response_cache
 
 
-def _response_cache_get(key: str):
-    """캐시 HIT면 재직렬화 없이 바로 보낼 수 있는 Response, MISS면 None."""
-    body = _RESPONSE_CACHE.get(key)
-    if body is None:
-        return None
-    return Response(content=body, media_type="application/json")
-
-
-def _response_cache_store(key: str, payload) -> Response:
-    """payload를 JSON bytes로 1회 직렬화해 캐시하고 그 bytes로 응답을 만든다.
-    직렬화 옵션은 FastAPI(Starlette) JSONResponse.render와 동일 — 응답 바이트 불변."""
-    body = json.dumps(
-        payload, ensure_ascii=False, allow_nan=False, indent=None, separators=(",", ":")
-    ).encode("utf-8")
-    _RESPONSE_CACHE[key] = body
-    return Response(content=body, media_type="application/json")
-
-
-def _invalidate_response_cache():
-    if _RESPONSE_CACHE:
-        print(f"[CACHE] invalidate: {list(_RESPONSE_CACHE.keys())}")
-    _RESPONSE_CACHE.clear()
-
-if not os.path.exists(ROW_DATA_DIR):
-    os.makedirs(ROW_DATA_DIR)
-
-# --- 상수 및 매핑 데이터 ---
-# 영웅/맵/역할/EN→KO 게임 데이터는 game_data(SSOT: heroes.json, maps.json)에서 파생한다.
-# 아래 변수명·값은 기존과 동일(로더가 재구성). 사용처 무수정.
-from game_data import (
-    KOREAN_HERO_MAP,
-    TANKS,
-    SUPPORTS,
-    MAP_TYPE_DATA,
-    CONTROL_MAP_KEYWORDS,
-    FIGHTLAB_TANKS as _FIGHTLAB_TANKS,
-    FIGHTLAB_SUPPORTS as _FIGHTLAB_SUPPORTS,
-    FIGHTLAB_DAMAGE as _FIGHTLAB_DAMAGE,
+# [split] 상수·경로·게임데이터 파생 → config.py (하위호환 re-export)
+from config import (
+    KOREAN_HERO_MAP, TANKS, SUPPORTS, MAP_TYPE_DATA, CONTROL_MAP_KEYWORDS,
+    _FIGHTLAB_TANKS, _FIGHTLAB_SUPPORTS, _FIGHTLAB_DAMAGE,
+    PLAYER_ROLE_OVERRIDES, NUMERIC_FIELDS, FIGHT_QUIET_GAP_SEC,
+    DATA_FILE, ROW_DATA_DIR,
+    _MAP_TYPE_DATA_NOSPACE, _MATCH_LEVEL_MAP_TYPES,
+    TRADE_WINDOW_SEC, HERO_ROLE_DATA,
+    MIN_SAMPLE_FOR_PERCENTILE_FIGHTS, MIN_SAMPLE_FOR_PERCENTILE_ROUNDS, PERCENTILE_MIN_POOL,
 )
-
-PLAYER_ROLE_OVERRIDES = {
-    "우양": 2,     # support
-    "벤데타": 1,   # dps
-}
-
-# KOREAN_HERO_MAP, MAP_TYPE_DATA 는 game_data 로더에서 파생(위 import 참조).
-
-NUMERIC_FIELDS = [
-    "eliminations", "final_blows", "deaths",
-    "all_damage_dealt", "barrier_damage_dealt", "hero_damage_dealt",
-    "healing_dealt", "healing_received", "self_healing",
-    "damage_taken", "damage_blocked", "defensive_assists", "offensive_assists",
-    "ultimates_earned", "ultimates_used", "multikill_best", "multikills",
-    "solo_kills", "objective_kills", "environmental_kills", "environmental_deaths",
-    "hero_time_played"
-]
-
-FIGHT_QUIET_GAP_SEC = 20
-# CONTROL_MAP_KEYWORDS 는 game_data 로더에서 파생(위 import 참조).
 
 def normalize_team_name(name: str) -> str:
     try:
@@ -151,11 +95,6 @@ def is_control_map(map_name: str) -> bool:
             return True
     return False
 
-# DB에 저장된 맵명은 공백이 없는 경우가 많아(예: "왕의길", "서킷로얄") MAP_TYPE_DATA 키("왕의 길")와
-# 직접 매칭되지 않는다. 공백을 제거한 정규화 lookup 테이블을 한 번만 만들어 둔다. (MAP_TYPE_DATA 자체는 불변)
-_MAP_TYPE_DATA_NOSPACE = {k.replace(" ", ""): v for k, v in MAP_TYPE_DATA.items()}
-# 플래시포인트/밀기 = 매치 단위(첫 한타 1개), 그 외 = 라운드 단위. ko/en 값 모두 포함.
-_MATCH_LEVEL_MAP_TYPES = {"밀기", "Push", "플래시포인트", "Flashpoint"}
 
 def resolve_map_type(map_name: str) -> str:
     """map_name -> map_type(쟁탈/화물/혼합/밀기/플래시포인트/격돌/...). 응답 전용 lookup.
@@ -179,40 +118,8 @@ def safe_float(x: Any, default: float = 0.0) -> float:
     except:
         return default
 
-class PauseInput(BaseModel):
-    start: str
-    end: str
-
-class MatchSegment(BaseModel):
-    map_name: str
-    team1Name: str = Field(default="1팀")
-    team2Name: str = Field(default="2팀")
-    start_time: str = Field(alias="start_time")
-    end_time: str = Field(alias="end_time")
-    result: str
-    video_url: str = Field(default="", alias="videoUrl")
-    has_pause: bool = Field(default=False, alias="hasPause")
-    pauses: List[PauseInput] = []
-    # 밀기맵 수기 승패 보정(팀명, team1Name/team2Name 중 하나). 빈값/None = 미보정.
-    winner_override: Optional[str] = Field(default=None, alias="winnerOverride")
-
-    class Config:
-        populate_by_name = True
-        allow_population_by_field_name = True
-        extra = "ignore" 
-
-class ScrimManualInput(BaseModel):
-    scrim_name: str = Field(alias="scrimName")
-    date: str
-    start_time: str = Field(alias="startHour")
-    end_time: str = Field(alias="endHour")
-    matches: List[MatchSegment]
-    files: Optional[List[Any]] = None 
-
-    class Config:
-        populate_by_name = True
-        allow_population_by_field_name = True
-        extra = "ignore"
+# [split] 요청 Pydantic 모델 → schemas.py (하위호환 re-export)
+from schemas import PauseInput, MatchSegment, ScrimManualInput, BatchDeleteRequest
 
 def time_str_to_seconds(t_str):
     try:
@@ -1133,170 +1040,11 @@ def calculate_pure_stats(parsed, target_match):
 
     return target_match
 
-def _db_event_to_dict(ev: "DBEvent") -> dict:
-    d: dict = {
-        "event_type": ev.event_type,
-        "timestamp": ev.timestamp,
-        "game_timestamp": ev.game_timestamp if ev.game_timestamp is not None else 0,
-    }
-    et = ev.event_type
-    if et in ("kill", "ultimate_start"):
-        d.update({
-            "player_name": ev.player_name or "",
-            "player_team": ev.player_team or "",
-            "player_hero": ev.player_hero or "",
-            "player_hero_img": ev.player_hero_img or "",
-            "ability": ev.ability or "",
-        })
-        if et == "kill":
-            d.update({
-                "target_name": ev.target_name or "",
-                "target_team": ev.target_team or "",
-                "target_hero": ev.target_hero or "",
-                "target_hero_img": ev.target_hero_img or "",
-            })
-    elif et == "round_start":
-        d.update({"round_number": ev.round_number, "attacker": ev.attacker or ""})
-    elif et == "round_end":
-        d.update({"round_number": ev.round_number, "winner": ev.winner or ""})
-    elif et == "match_start":
-        d["desc"] = ev.description or ""  # frontend expects "desc" key
-    elif et == "match_end":
-        d.update({"winner": ev.winner or "", "score_t1": ev.score_t1, "score_t2": ev.score_t2})
-    elif et == "objective_captured":
-        d["capturing_team"] = ev.capturing_team or ""
-    elif et == "objective_updated":
-        d.update({"new_index": ev.new_index, "old_index": ev.old_index})
-    elif et in ("payload_progress", "point_progress"):
-        d["team"] = ev.team or ""
-    return d
-
-
-def _db_player_stat_to_dict(ps: "DBPlayerStat") -> dict:
-    return {
-        "team_name": ps.team_name,
-        "player_name": ps.player_name,
-        "hero_name": ps.hero_name,
-        "hero_image": ps.hero_image or "",
-        "slot_index": ps.slot_index if ps.slot_index is not None else -1,
-        **{f: getattr(ps, f) or 0 for f in NUMERIC_FIELDS},
-    }
-
-
-def _db_round_to_dict(r: "DBRound", t1_name: str = "", t2_name: str = "") -> dict:
-    events = [_db_event_to_dict(ev) for ev in (r.events or [])]
-    round_fights = format_fights_for_api(compute_fights(events, t1_name, t2_name), t1_name, t2_name)
-    return {
-        "round_number": r.round_number,
-        "winner": r.winner or "",
-        "duration_sec": r.duration_sec or 0,
-        "final_blows_t1": r.final_blows_t1 or 0,
-        "final_blows_t2": r.final_blows_t2 or 0,
-        "stats": [_db_player_stat_to_dict(ps) for ps in (r.player_stats or [])],
-        "events": events,
-        "fights": round_fights,
-    }
-
-
-def _aggregate_match_stats(m: "DBMatch") -> list:
-    """(player_name, team_name) 기준으로 매치 전체 PlayerStat 합산.
-    한 선수가 여러 영웅을 플레이해도 한 행. 대표 영웅은 가장 오래 플레이한 영웅."""
-    grouped: dict = {}
-    for rnd in (m.rounds or []):
-        for ps in (rnd.player_stats or []):
-            key = (ps.player_name, ps.team_name)
-            if key not in grouped:
-                grouped[key] = {
-                    "player_name": ps.player_name,
-                    "team_name": ps.team_name,
-                    "slot_index": ps.slot_index if ps.slot_index is not None else -1,
-                    "hero_name": ps.hero_name,
-                    "hero_image": ps.hero_image or "",
-                    "heroes_played": [],
-                    **{f: 0.0 for f in NUMERIC_FIELDS},
-                }
-            for f in NUMERIC_FIELDS:
-                grouped[key][f] += getattr(ps, f) or 0
-            heroes = grouped[key]["heroes_played"]
-            existing = next((h for h in heroes if h["hero_name"] == ps.hero_name), None)
-            if existing:
-                existing["hero_time_played"] += ps.hero_time_played or 0
-            else:
-                heroes.append({
-                    "hero_name": ps.hero_name,
-                    "hero_image": ps.hero_image or "",
-                    "hero_time_played": ps.hero_time_played or 0,
-                })
-
-    for v in grouped.values():
-        if v["heroes_played"]:
-            top = max(v["heroes_played"], key=lambda h: h["hero_time_played"])
-            v["hero_name"] = top["hero_name"]
-            v["hero_image"] = top["hero_image"]
-            v["heroes_played"].sort(key=lambda h: -h["hero_time_played"])
-
-    return list(grouped.values())
-
-
-def _db_match_to_dict(m: "DBMatch", *, full: bool = False) -> dict:
-    """full=False → 경량 (no rounds/stats), /api/scrims list 용.
-    full=True  → 완전 (rounds+stats+events 포함), /api/scrims와 /api/matches/{id} 용."""
-    dur = m.duration_sec or 0
-    base = {
-        "id": m.id,
-        "match_index": m.match_index,
-        "map_name": m.map_name,
-        "team1_name": m.team1_name,
-        "team2_name": m.team2_name,
-        "team_1_name": m.team1_name,
-        "team_2_name": m.team2_name,
-        # winner = 유효 승자(수기 보정 우선). 원본/보정은 별도 필드로 구분 노출.
-        "winner": (m.winner_override or m.winner) or "",
-        "winner_original": m.winner or "",
-        "winner_override": m.winner_override or "",
-        "score_t1": m.score_t1 or 0,
-        "score_t2": m.score_t2 or 0,
-        # result도 유효 승자 기준: 보정이 있으면 "{팀} 승 (a : b)" (calculate_pure_stats와 동일 형식).
-        # 스코어는 원본 그대로 유지(밀기 미기록이면 0 : 0) — DB의 result 원본 문자열은 무변경.
-        "result": (f"{m.winner_override} 승 ({m.score_t1 or 0} : {m.score_t2 or 0})"
-                   if m.winner_override else (m.result or "")),
-        "video_url": m.video_url or "",
-        "video_offset": m.video_offset or 0,
-        "game_setup_sec": m.game_setup_sec,  # None = 기존 매치 (옛날 방식)
-        "duration_sec": dur,
-        "total_final_blows_t1": m.total_final_blows_t1 or 0,
-        "total_final_blows_t2": m.total_final_blows_t2 or 0,
-        "pauses": [{"start_sec": p.start_sec, "end_sec": p.end_sec, "duration": p.duration} for p in (m.pauses or [])],
-        "rounds": [], "stats": [], "fights": [], "fight_metrics": {},
-        "timeline": {"duration_sec": dur},
-    }
-    if full:
-        t1, t2 = m.team1_name, m.team2_name
-        base["rounds"] = [_db_round_to_dict(r, t1, t2) for r in (m.rounds or [])]
-        base["stats"] = _aggregate_match_stats(m)
-        # Compute duration from rounds (DB column may be 0 due to import bug)
-        round_dur = sum(r.duration_sec or 0 for r in (m.rounds or []))
-        if round_dur > 0:
-            base["duration_sec"] = round_dur
-            base["timeline"] = {"duration_sec": round_dur}
-        # Compute match-level fights from all events across rounds
-        all_events = [ev for rnd in (m.rounds or []) for ev in (rnd.events or [])]
-        all_events_dicts = [_db_event_to_dict(ev) for ev in all_events]
-        match_fights_raw = compute_fights(all_events_dicts, t1, t2)
-        base["fights"] = format_fights_for_api(match_fights_raw, t1, t2)
-        base["fight_metrics"] = fa_compute_fight_metrics(base["fights"], t1, t2)
-    return base
-
-
-def _db_session_to_dict(s: "DBSession", *, full: bool = False) -> dict:
-    return {
-        "id": s.id,
-        "scrim_name": s.scrim_name,
-        "date": s.date,
-        "start_time": s.start_time or "",
-        "end_time": s.end_time or "",
-        "matches": [_db_match_to_dict(m, full=full) for m in (s.matches or [])],
-    }
+# [split] DB→dict 직렬화 → serializers.py (하위호환 re-export)
+from serializers import (
+    _db_event_to_dict, _db_player_stat_to_dict, _db_round_to_dict,
+    _aggregate_match_stats, _db_match_to_dict, _db_session_to_dict,
+)
 
 
 @app.post("/api/scrim/manual-register")
@@ -1970,22 +1718,6 @@ async def get_first_fights():
 # compute_fights 재사용(미수정). 한타 1개 = 응답 항목 1개(평탄 리스트).
 # ─────────────────────────────────────────────────────────────────────────────
 
-# 첫 킬 후 이 시간(초) 내 반대편 킬 발생 = "트레이드됨"
-TRADE_WINDOW_SEC = 5
-
-# 영웅 → 역할. 프론트 App.jsx heroRole과 동일 분류 + 신영웅.
-# (신영웅 역할 근거: player_stats 집계 — 도미나 blocked/10≈24.8k→탱커, 미즈키 heal/10≈10k·
-#  제트팩 캣 heal/10≈7.8k→지원, 벤데타/시온/안란/엠레/시에라/벤처/프레야 heal·blocked≈0→딜러)
-# 매핑에 없는 영웅은 "other"로 안전 처리.
-# _FIGHTLAB_TANKS/SUPPORTS/DAMAGE 는 game_data 로더에서 파생(파일 상단 import 참조).
-# HERO_ROLE_DATA 는 아래 루프로 동일하게 구성한다(변경 없음).
-HERO_ROLE_DATA: dict = {}
-for _h in _FIGHTLAB_TANKS:
-    HERO_ROLE_DATA[_h] = "tank"
-for _h in _FIGHTLAB_SUPPORTS:
-    HERO_ROLE_DATA[_h] = "support"
-for _h in _FIGHTLAB_DAMAGE:
-    HERO_ROLE_DATA[_h] = "damage"
 
 
 def _fightlab_hero_role(hero: str) -> str:
@@ -2191,10 +1923,6 @@ async def get_fight_records(base_team: str = "FLC"):
 # compute_fights 재사용(미수정). 기존 엔드포인트/필드 무변경 — 신규 추가만.
 # ─────────────────────────────────────────────────────────────────────────────
 
-# 백분위 풀 포함 최소 표본(프론트 안내용 상수 — 응답 meta로 내려줌)
-MIN_SAMPLE_FOR_PERCENTILE_FIGHTS = 20   # 한타 지표: 최소 20한타
-MIN_SAMPLE_FOR_PERCENTILE_ROUNDS = 10   # 라운드 지표: 최소 10라운드
-PERCENTILE_MIN_POOL = 8                 # 풀 최소 인원
 
 
 @app.get("/api/player-fight-stats")
@@ -2419,9 +2147,6 @@ async def get_match_detail(match_id: str):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"DB error: {e}")
-
-class BatchDeleteRequest(BaseModel):
-    ids: List[str]
 
 # ── 세션 단건 삭제 ─────────────────────────────────────────────
 @app.delete("/api/sessions/{scrim_id}")
