@@ -25,7 +25,7 @@ except Exception as _e:
     _DB_IMPORT_ERROR = f'{type(_e).__name__}: {_e}'
 
 from config import DATA_FILE, ROW_DATA_DIR, NUMERIC_FIELDS
-from schemas import ScrimManualInput, BatchDeleteRequest
+from schemas import ScrimManualInput, BatchDeleteRequest, WinnerOverrideInput
 from cache import _invalidate_response_cache
 from serializers import _db_match_to_dict, _db_session_to_dict
 from parsers.log_parser import parse_overwatch_log, parse_log_timestamp, time_str_to_seconds
@@ -89,6 +89,38 @@ def _delete_match_file(scrim_id: str, match_index: int) -> list[str]:
         except Exception as e:
             warnings.append(f"파일 삭제 실패 ({path}): {e}")
     return warnings
+
+
+def _update_match_wo_in_meta(scrim_id: str, match_id: str, wo_value) -> bool:
+    """meta.json(rebuild 소스)의 해당 매치 winner_override 를 동기화한다.
+    등록 경로(register_scrim_manual)와 동일 필드명·표현("" = 미보정)을 쓴다 —
+    rebuild 복원 코드(_wo_snapshot.get(id) or m.get("winner_override") or None)와 정합.
+    파일/매치가 없으면 False."""
+    meta_path = f"{ROW_DATA_DIR}/{scrim_id}_meta.json"
+    if not os.path.exists(meta_path):
+        return False
+    with _json_lock:
+        with open(meta_path, "r", encoding="utf-8") as f:
+            meta = json.load(f)
+        changed = False
+        for m in meta.get("matches", []):
+            if m.get("id") == match_id:
+                m["winner_override"] = wo_value or ""
+                changed = True
+                break
+        if not changed:
+            return False
+        dir_name = os.path.dirname(os.path.abspath(meta_path))
+        fd, tmp_path = tempfile.mkstemp(dir=dir_name, suffix=".tmp")
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as f:
+                json.dump(meta, f, ensure_ascii=False, indent=4)
+            os.replace(tmp_path, meta_path)
+        except Exception:
+            try: os.unlink(tmp_path)
+            except Exception: pass
+            raise
+    return True
 
 
 @router.post("/api/scrim/manual-register")
@@ -614,6 +646,44 @@ async def get_match_detail(match_id: str):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"DB error: {e}")
+
+
+# ── 사후 승패 보정(winner_override) ─────────────────────────────
+@router.patch("/api/matches/{match_id}/winner-override")
+async def update_match_winner_override(match_id: str, body: WinnerOverrideInput):
+    """이미 등록된 매치의 수기 승패 보정을 갱신한다(무승부/미기록 매치 교정용).
+    검증: 값은 해당 매치의 team1_name/team2_name 중 하나 또는 null(해제)만 허용.
+    원본 winner 컬럼은 무변경 — winner_override 만 갱신하고 meta.json(rebuild 소스)도 동기화."""
+    if not _DB_AVAILABLE:
+        raise HTTPException(status_code=503, detail="Database not available")
+
+    wo = (body.winner_override or "").strip() or None
+
+    try:
+        async with AsyncSessionLocal() as db:
+            result = await db.execute(
+                select(DBMatch).where(DBMatch.id == match_id, DBMatch.deleted_at.is_(None))
+            )
+            m = result.scalars().first()
+            if not m:
+                raise HTTPException(status_code=404, detail="Match not found")
+            if wo is not None and wo not in (m.team1_name, m.team2_name):
+                raise HTTPException(
+                    status_code=422,
+                    detail=f"winner_override must be one of ['{m.team1_name}', '{m.team2_name}'] or null",
+                )
+            m.winner_override = wo  # 원본 winner 무변경
+            scrim_id = m.session_id
+            await db.commit()
+            print(f"[DB] winner_override 갱신: match={match_id} → {wo!r}")
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"DB error: {e}")
+
+    _update_match_wo_in_meta(scrim_id, match_id, wo)
+    _invalidate_response_cache()
+    return {"success": True, "match_id": match_id, "winner_override": wo or ""}
 
 
 # ── 세션 단건 삭제 ─────────────────────────────────────────────

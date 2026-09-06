@@ -44,3 +44,14 @@ class ScrimManualInput(BaseModel):
 
 class BatchDeleteRequest(BaseModel):
     ids: List[str]
+
+class WinnerOverrideInput(BaseModel):
+    # 사후 승패 보정(PATCH /api/matches/{id}/winner-override).
+    # 값 = 해당 매치의 team1_name/team2_name 중 하나(보정) 또는 None/빈값(해제).
+    # 원본 winner 컬럼은 무변경 — 이 필드만 갱신한다.
+    winner_override: Optional[str] = Field(default=None, alias="winnerOverride")
+
+    class Config:
+        populate_by_name = True
+        allow_population_by_field_name = True
+        extra = "ignore"

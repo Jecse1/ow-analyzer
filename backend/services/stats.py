@@ -28,6 +28,14 @@ def calculate_pure_stats(parsed, target_match):
     n_team1 = normalize_team_name(team1)
     n_team2 = normalize_team_name(team2)
 
+    # [방어] total_rounds 와 round_start/round_end 최대 라운드 불일치 경고(판정 로직 무변경).
+    # 파싱 카운트가 어긋난 매치(예: 추가 라운드 로그 일부 유실)를 로그로 가시화만 한다.
+    _rs_max = max(round_attackers.keys(), default=0)
+    _re_max = max(round_scores.keys(), default=0)
+    if total_rounds != max(_rs_max, _re_max):
+        print(f"[WARN] 라운드 수 불일치: map={map_name!r} total_rounds={total_rounds} "
+              f"round_start_max={_rs_max} round_end_max={_re_max}")
+
     final_t1_score = 0
     final_t2_score = 0
     
@@ -125,7 +133,7 @@ def calculate_pure_stats(parsed, target_match):
             if prog1 != prog2:
                 progress_winner = team1 if prog1 > prog2 else team2
                 wp, lp = (prog1, prog2) if prog1 > prog2 else (prog2, prog1)
-                tiebreak_note = f", 진행도 우세: {wp[0]}거점 {wp[1]:.0f}% vs {lp[0]}거점 {lp[1]:.0f}%"
+                tiebreak_note = f", 진행도 우세: {wp[0]}거점 통과 후 {wp[1]:.0f}% vs {lp[0]}거점 통과 후 {lp[1]:.0f}%"
 
     if final_t1_score > final_t2_score:
         match_winner = team1

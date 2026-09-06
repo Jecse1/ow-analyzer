@@ -354,7 +354,13 @@ export const translations = {
     woLabel: "승패 보정",
     woNone: "미보정",
     woWinSuffix: "승",
-    woHint: "밀기맵은 로그에 스코어가 없어 자동 판정이 무승부로 저장됩니다. 실제 승리 팀을 선택하면 맵 분석·통계에 반영됩니다(원본 기록은 유지)."
+    woHint: "밀기맵은 로그에 스코어가 없어 자동 판정이 무승부로 저장됩니다. 실제 승리 팀을 선택하면 맵 분석·통계에 반영됩니다(원본 기록은 유지).",
+    // 사후 승패 보정 배지·인라인 편집(매치 상세·세션 매치 목록)
+    woBadgeDraw: "무승부 · 수기 판정",
+    woBadgeOverridden: "수기 보정됨",
+    woPick: "판정",
+    woSaving: "저장 중…",
+    woSaveFail: "보정 저장 실패"
   },
   en: {
     back: "Back", loading: "Loading data...", noData: "No data available.", add: "Add",
@@ -706,7 +712,13 @@ export const translations = {
     woLabel: "Result correction",
     woNone: "Not corrected",
     woWinSuffix: "win",
-    woHint: "Push maps carry no score in the log, so the automatic result is stored as a draw. Pick the actual winner to reflect it in Map Analysis and stats (the original record is preserved)."
+    woHint: "Push maps carry no score in the log, so the automatic result is stored as a draw. Pick the actual winner to reflect it in Map Analysis and stats (the original record is preserved).",
+    // Post-hoc result correction badge & inline edit (match detail · session match list)
+    woBadgeDraw: "Draw · set winner",
+    woBadgeOverridden: "Overridden",
+    woPick: "Set",
+    woSaving: "Saving…",
+    woSaveFail: "Failed to save override"
   }
 };
 

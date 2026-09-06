@@ -69,7 +69,7 @@
             "team1_name": "FLC",
             "team2_name": "VP",
             "result": "Unknown",
-            "winner_override": "",
+            "winner_override": "FLC",
             "video_url": "https://www.youtube.com/live/xonrCBOPRbw?si=m9dlMPf2cWDLyR4P",
             "video_offset": 2966,
             "pauses": [],

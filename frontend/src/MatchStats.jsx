@@ -13,6 +13,7 @@ import { VOD_LEAD_SEC } from "./FightLabStats"; // 궁극기 타임라인 VOD �
 import { getDisplayName, HERO_SKILL_MAP, getHeroImageSrc, TANK_HEROES, SUPPORT_HEROES } from "./gameData";
 import NoVideoModal from "./NoVideoModal";
 import { computeFights } from './utils/fightAnalysis';
+import WinnerOverrideControl from "./WinnerOverrideControl";
 
 // --- 색상 및 상수 ---
 const COLOR_TEAM1 = '#60a5fa'; 
@@ -1610,6 +1611,13 @@ const MatchStats = ({ matchId, onBack, matchData: initialMatchData }) => {
     }
   }, [matchId, initialMatchData]);
 
+  // 사후 승패 보정 후 서버 최신값 재조회(유효 winner·result 반영)
+  const refetchMatch = () => {
+    const id = matchId || fetchedMatchData?.id;
+    if (!id) return;
+    axios.get(`/api/matches/${id}`).then(res => setFetchedMatchData(res.data)).catch(() => {});
+  };
+
   const dataSummary = useMemo(() => {
     if (!fetchedMatchData) return null;
     const rounds = fetchedMatchData.rounds || [];
@@ -1640,7 +1648,10 @@ const MatchStats = ({ matchId, onBack, matchData: initialMatchData }) => {
   return (
     <div style={{ padding: '24px', maxWidth: '1600px', margin: '0 auto', color: theme.text, boxSizing: 'border-box' }}>
       <button onClick={onBack} style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'none', border: 'none', color: theme.textSub, cursor: 'pointer', marginBottom: '24px', fontWeight:'600' }}><ChevronLeft size={16} /> {t.msBackToOverview}</button>
-      <h1 style={{ fontSize: '36px', fontWeight: '900', marginBottom: '32px', letterSpacing:'-0.5px' }}>{fetchedMatchData.map_name}</h1>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap', marginBottom: '32px' }}>
+        <h1 style={{ fontSize: '36px', fontWeight: '900', margin: 0, letterSpacing:'-0.5px' }}>{fetchedMatchData.map_name}</h1>
+        <WinnerOverrideControl match={fetchedMatchData} onChanged={refetchMatch} />
+      </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '16px', marginBottom: '40px' }}>
           <div style={summaryCardStyle}>
