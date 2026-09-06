@@ -25,7 +25,31 @@ for (const h of HEROES) {
   const forms = [h.logName, h.ko, h.en, ...(h.aliases || [])];
   for (const f of forms) if (f && !_lookup.has(f)) _lookup.set(f, h);
 }
-export const getHeroByName = (name) => (name ? _lookup.get(String(name).trim()) || null : null);
+// 느슨한 조회: 공백·구두점 제거 + 소문자 + 흔한 오타(솔져→솔저) 정규화 후 색인.
+//   1) 정확 일치 → 2) 정규화 일치 → 3) 정규화 접두 일치가 영웅 1명으로 유일할 때만 채택.
+//   예: "d.va"/"D.va" → D.Va, "솔저"/"솔져"/"솔저 : 76"/"솔저76" → 솔저: 76.
+const _TYPO_MAP = [[/솔져/g, '솔저']];
+const _normKey = (s) => {
+  let t = String(s || '').normalize('NFC').toLowerCase().replace(/[\s:.\-_'’]/g, '');
+  for (const [re, rep] of _TYPO_MAP) t = t.replace(re, rep);
+  return t;
+};
+const _lookupNorm = new Map();
+for (const [f, h] of _lookup) { const k = _normKey(f); if (k && !_lookupNorm.has(k)) _lookupNorm.set(k, h); }
+export const getHeroByName = (name) => {
+  if (!name) return null;
+  const raw = String(name).trim();
+  const exact = _lookup.get(raw);
+  if (exact) return exact;
+  const k = _normKey(raw);
+  if (!k) return null;
+  const byNorm = _lookupNorm.get(k);
+  if (byNorm) return byNorm;
+  if (k.length < 2) return null;
+  const hits = new Set();
+  for (const [nk, h] of _lookupNorm) if (nk.startsWith(k)) hits.add(h);
+  return hits.size === 1 ? [...hits][0] : null;
+};
 
 // ── 역할 ─────────────────────────────────────────────────────────────────────
 export const getRole = (name) => {

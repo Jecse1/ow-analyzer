@@ -232,13 +232,20 @@ export default function OverallStats({ onBack, onGoSessions }) {
 
     let type = KEYWORD_TYPES.PLAYER;
     let value = cleanText;
+    let label = cleanText;
 
+    const heroHit = getHeroByName(cleanText);
     if (KNOWN_MAPS.some(m => cleanText.includes(m) || m.includes(cleanText))) type = KEYWORD_TYPES.MAP;
-    else if (getHeroByName(cleanText) || KNOWN_HEROES.some(h => normalize(cleanText) === normalize(h))) type = KEYWORD_TYPES.HERO;
+    else if (heroHit || KNOWN_HEROES.some(h => normalize(cleanText) === normalize(h))) {
+        type = KEYWORD_TYPES.HERO;
+        // 영웅 태그는 정본(logName)으로 저장하고 표시명으로 라벨링 — "솔저"/"d.va" 등 어떤 표기든 같은 태그
+        if (heroHit) { value = heroHit.logName; label = getDisplayName(heroHit.logName); }
+        if (activeTags.some(t => t.type === KEYWORD_TYPES.HERO && isSameHero(t.label, label))) { setInputText(""); return; }
+    }
     else if (EVENT_KEYWORDS[cleanText]) { type = KEYWORD_TYPES.EVENT; value = EVENT_KEYWORDS[cleanText]; }
     else if (RESULT_KEYWORDS[cleanText]) { type = KEYWORD_TYPES.RESULT; value = RESULT_KEYWORDS[cleanText]; }
 
-    setActiveTags([...activeTags, { type, value, label: cleanText }]);
+    setActiveTags([...activeTags, { type, value, label }]);
     setInputText("");
   };
 
